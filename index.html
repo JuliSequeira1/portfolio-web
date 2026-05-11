@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Julián Sequeira — Director</title>
+  <meta name="description" content="Realizador audiovisual integral. Dirección, cinematografía, 3D, IA, fotografía y post producción.">
+  <meta property="og:title" content="Julián Sequeira — Director">
+  <meta property="og:description" content="Realizador audiovisual integral. NBC/Peacock · Konami · DHL · Uber.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Inter:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+
+  <style>
+    /* ─── TOKENS ─────────────────────────────────────────────── */
+    :root {
+      --bg:      #080808;
+      --fg:      #f0ede8;
+      --muted:   #505050;
+      --dim:     rgba(240,237,232,0.55);
+      --accent:  #d4f500;   /* electric lime — Canada Canada energy */
+      --border:  rgba(255,255,255,0.07);
+    }
+
+    /* ─── RESET ──────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html   { scroll-behavior: smooth; }
+    body   {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* ─── CURSOR ─────────────────────────────────────────────── */
+    #cursor {
+      position: fixed;
+      width: 9px; height: 9px;
+      background: var(--accent);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      top: 0; left: 0;
+      transform: translate(-50%, -50%);
+      transition: width .25s, height .25s, background .25s, border .25s;
+    }
+    #cursor.grow {
+      width: 44px; height: 44px;
+      background: transparent;
+      border: 1.5px solid var(--accent);
+    }
+
+    /* ─── NAV ────────────────────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 30px 52px;
+      mix-blend-mode: difference;
+    }
+    .nav-logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 13px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--fg);
+      text-decoration: none;
+    }
+    .nav-links {
+      display: flex;
+      gap: 44px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--dim);
+      text-decoration: none;
+      transition: color .25s;
+    }
+    .nav-links a:hover { color: var(--fg); }
+
+    /* ─── HERO ───────────────────────────────────────────────── */
+    #hero {
+      position: relative;
+      width: 100%;
+      height: 100svh;
+      overflow: hidden;
+      display: flex;
+      align-items: flex-end;
+    }
+
+    /* YouTube full-cover technique */
+    .yt-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+    .yt-bg iframe {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      /* Cover viewport regardless of aspect ratio */
+      width:  max(100vw, 177.78vh);
+      height: max(100vh, 56.25vw);
+      border: none;
+    }
+
+    /* Fallback dark gradient shown when no video id set */
+    .hero-fallback {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      background: linear-gradient(160deg, #0f0f0f 0%, #1a1a1a 60%, #0a0a0a 100%);
+    }
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background: linear-gradient(
+        to top,
+        rgba(8,8,8,.92) 0%,
+        rgba(8,8,8,.35) 55%,
+        rgba(8,8,8,.15) 100%
+      );
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      padding: 0 52px 68px;
+      width: 100%;
+    }
+
+    .hero-eyebrow {
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+      opacity: 0;
+      animation: fadeUp .8s .2s forwards;
+    }
+
+    .hero-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: clamp(64px, 11vw, 152px);
+      line-height: .92;
+      letter-spacing: -.02em;
+      text-transform: uppercase;
+      color: var(--fg);
+      opacity: 0;
+      animation: fadeUp .9s .35s forwards;
+    }
+
+    .hero-sub {
+      margin-top: 24px;
+      font-size: 12px;
+      font-weight: 300;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--dim);
+      opacity: 0;
+      animation: fadeUp .8s .55s forwards;
+    }
+
+    /* Scroll indicator */
+    .hero-scroll {
+      position: absolute;
+      right: 52px;
+      bottom: 68px;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      opacity: 0;
+      animation: fadeUp .8s .8s forwards;
+    }
+    .hero-scroll-lbl {
+      font-size: 9px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      writing-mode: vertical-rl;
+    }
+    .hero-scroll-line {
+      width: 1px;
+      height: 52px;
+      background: rgba(240,237,232,.12);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-scroll-line::after {
+      content: '';
+      position: absolute;
+      top: -100%; left: 0;
+      width: 100%; height: 100%;
+      background: var(--accent);
+      animation: lineDown 1.6s ease-in-out infinite;
+    }
+
+    /* Reel CTA button */
+    .hero-reel-btn {
+      position: absolute;
+      top: 50%; left: 52px;
+      transform: translateY(-50%);
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      text-decoration: none;
+      color: var(--fg);
+      opacity: 0;
+      animation: fadeUp .8s .7s forwards;
+    }
+    .reel-circle {
+      width: 72px; height: 72px;
+      border: 1px solid rgba(240,237,232,.2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: border-color .3s, background .3s;
+    }
+    .hero-reel-btn:hover .reel-circle {
+      border-color: var(--accent);
+      background: var(--accent);
+      color: var(--bg);
+    }
+    .reel-circle svg { margin-left: 4px; }
+    .reel-lbl {
+      font-size: 10px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--dim);
+    }
+
+    /* ─── STATEMENT ──────────────────────────────────────────── */
+    #statement {
+      padding: 120px 52px;
+      border-top: 1px solid var(--border);
+    }
+    .tag-line {
+      font-size: 10px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 44px;
+    }
+    .statement-body {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(26px, 3.6vw, 54px);
+      font-weight: 700;
+      line-height: 1.16;
+      max-width: 920px;
+      color: var(--fg);
+    }
+    .statement-body em {
+      font-style: normal;
+      color: var(--accent);
+    }
+
+    /* ─── DISCIPLINES MARQUEE ────────────────────────────────── */
+    #disciplines {
+      padding: 64px 0;
+      overflow: hidden;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .marquee-row {
+      display: flex;
+      white-space: nowrap;
+      animation: marquee 22s linear infinite;
+    }
+    .marquee-row:hover { animation-play-state: paused; }
+    .mq-item {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(30px, 4.5vw, 60px);
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      padding: 0 32px;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(240,237,232,.22);
+      user-select: none;
+    }
+    .mq-item.solid {
+      color: var(--fg);
+      -webkit-text-stroke: 0;
+    }
+    .mq-dot {
+      font-size: 36px;
+      line-height: 1;
+      color: var(--accent);
+      align-self: center;
+      padding: 0 8px;
+      user-select: none;
+    }
+
+    /* ─── WORK ───────────────────────────────────────────────── */
+    #work {
+      padding: 100px 52px 80px;
+    }
+    .sec-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 56px;
+    }
+    .sec-tag {
+      font-size: 10px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+    .sec-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(36px, 5vw, 64px);
+      font-weight: 800;
+      text-transform: uppercase;
+      line-height: 1;
+    }
+    .sec-count {
+      font-family: 'Syne', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--muted);
+      letter-spacing: .08em;
+      padding-bottom: 4px;
+    }
+
+    /* Carousel */
+    .carousel-outer { position: relative; }
+    .carousel-track {
+      display: flex;
+      gap: 20px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 4px;
+    }
+    .carousel-track::-webkit-scrollbar { display: none; }
+
+    .proj-card {
+      flex: 0 0 38%;
+      scroll-snap-align: start;
+      position: relative;
+      overflow: hidden;
+      aspect-ratio: 16/10;
+      cursor: pointer;
+      background: #111;
+    }
+    @media (max-width: 900px)  { .proj-card { flex: 0 0 70%; } }
+    @media (max-width: 600px)  { .proj-card { flex: 0 0 88%; } }
+
+    .proj-card .card-visual {
+      width: 100%; height: 100%;
+      transition: transform .7s cubic-bezier(.16,1,.3,1);
+    }
+    .proj-card:hover .card-visual { transform: scale(1.05); }
+
+    /* YouTube thumbnail as card image */
+    .proj-card .card-visual.yt-thumb {
+      background-size: cover;
+      background-position: center;
+      filter: brightness(.65);
+    }
+    /* Fallback gradient if no thumb */
+    .card-grad { width: 100%; height: 100%; }
+
+    .proj-meta {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 20px 24px;
+      background: linear-gradient(to top, rgba(8,8,8,.92) 0%, transparent 100%);
+      transform: translateY(6px);
+      transition: transform .4s ease;
+    }
+    .proj-card:hover .proj-meta { transform: translateY(0); }
+
+    .proj-cat {
+      font-size: 9px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 5px;
+    }
+    .proj-name {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(16px, 2vw, 22px);
+      font-weight: 700;
+    }
+    .proj-client {
+      font-size: 11px;
+      color: var(--dim);
+      margin-top: 3px;
+    }
+
+    /* External link badge */
+    .proj-ext {
+      position: absolute;
+      top: 18px; right: 18px;
+      width: 36px; height: 36px;
+      border: 1px solid rgba(255,255,255,.18);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      color: var(--fg);
+      font-size: 14px;
+      opacity: 0;
+      transition: opacity .3s, background .3s, border-color .3s;
+    }
+    .proj-card:hover .proj-ext {
+      opacity: 1;
+    }
+    .proj-ext:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: var(--bg);
+    }
+
+    /* Carousel controls */
+    .carousel-ctrl {
+      display: flex;
+      gap: 12px;
+      margin-top: 28px;
+    }
+    .ctrl-btn {
+      width: 48px; height: 48px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--fg);
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: border-color .25s, background .25s, color .25s;
+    }
+    .ctrl-btn:hover {
+      border-color: var(--accent);
+      background: var(--accent);
+      color: var(--bg);
+    }
+
+    /* ─── ABOUT ──────────────────────────────────────────────── */
+    #about {
+      padding: 100px 52px;
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      gap: 80px;
+      align-items: center;
+      border-top: 1px solid var(--border);
+    }
+    @media (max-width: 900px) {
+      #about { grid-template-columns: 1fr; }
+      .about-portrait { order: -1; max-height: 420px; }
+    }
+
+    .about-tag  { font-size: 10px; letter-spacing: .22em; text-transform: uppercase; color: var(--muted); margin-bottom: 28px; }
+    .about-body {
+      font-size: 17px;
+      font-weight: 300;
+      line-height: 1.75;
+      color: var(--dim);
+      margin-bottom: 24px;
+    }
+    .about-body strong { color: var(--fg); font-weight: 400; }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px 40px;
+      margin-top: 48px;
+    }
+    .stat-n {
+      font-family: 'Syne', sans-serif;
+      font-size: 52px;
+      font-weight: 800;
+      color: var(--fg);
+      line-height: 1;
+    }
+    .stat-l {
+      font-size: 10px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    .about-portrait {
+      position: relative;
+      aspect-ratio: 3/4;
+      background: #111;
+      overflow: hidden;
+    }
+    .about-portrait img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      filter: grayscale(20%);
+    }
+    /* Big monogram watermark */
+    .portrait-mono {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Syne', sans-serif;
+      font-size: 180px;
+      font-weight: 800;
+      color: rgba(212,245,0,.05);
+      pointer-events: none;
+      user-select: none;
+    }
+
+    /* ─── CONTACT ────────────────────────────────────────────── */
+    #contact {
+      padding: 120px 52px;
+      text-align: center;
+      border-top: 1px solid var(--border);
+    }
+    .contact-eyebrow {
+      font-size: 11px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 36px;
+    }
+    .contact-big {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(52px, 10vw, 128px);
+      font-weight: 800;
+      text-transform: uppercase;
+      line-height: .9;
+      letter-spacing: -.02em;
+      margin-bottom: 56px;
+    }
+    .contact-big a {
+      color: var(--fg);
+      text-decoration: none;
+      display: inline-block;
+      transition: color .3s;
+    }
+    .contact-big a:hover { color: var(--accent); }
+
+    .contact-links {
+      display: flex;
+      gap: 40px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .c-link {
+      font-size: 10px;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      padding-bottom: 3px;
+      border-bottom: 1px solid transparent;
+      transition: color .25s, border-color .25s;
+    }
+    .c-link:hover { color: var(--fg); border-color: var(--accent); }
+
+    /* ─── FOOTER ─────────────────────────────────────────────── */
+    footer {
+      padding: 28px 52px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid var(--border);
+    }
+    footer span {
+      font-size: 10px;
+      letter-spacing: .1em;
+      color: var(--muted);
+    }
+
+    /* ─── ANIMATIONS ─────────────────────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes lineDown {
+      0%   { top: -100%; }
+      100% { top:  100%; }
+    }
+    @keyframes marquee {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* Scroll reveal */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity .8s ease, transform .8s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal.d1 { transition-delay: .1s; }
+    .reveal.d2 { transition-delay: .2s; }
+    .reveal.d3 { transition-delay: .3s; }
+    .reveal.d4 { transition-delay: .4s; }
+
+    /* ─── RESPONSIVE ─────────────────────────────────────────── */
+    @media (max-width: 700px) {
+      nav { padding: 22px 24px; }
+      .nav-links { gap: 24px; }
+      #hero .hero-content { padding: 0 24px 48px; }
+      .hero-reel-btn { left: 24px; }
+      .hero-scroll { right: 24px; bottom: 48px; }
+      #statement, #work, #about, #contact { padding-left: 24px; padding-right: 24px; }
+      footer { padding: 24px; flex-direction: column; gap: 8px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- CURSOR -->
+<div id="cursor"></div>
+
+<!-- ── NAV ───────────────────────────────────────────────────── -->
+<nav>
+  <a href="#" class="nav-logo">JS</a>
+  <ul class="nav-links">
+    <li><a href="#work">Work</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- ── HERO ──────────────────────────────────────────────────── -->
+<section id="hero">
+
+  <!--
+    ════ INSTRUCCIONES VIDEO HERO ════
+    Reemplazá YOUR_VIDEO_ID con el ID de tu reel en YouTube.
+    Ejemplo: si tu URL es youtube.com/watch?v=dQw4w9WgXcQ → ID = dQw4w9WgXcQ
+    También podés usar un video de Vimeo cambiando la URL del iframe.
+  -->
+  <div class="yt-bg">
+    <iframe
+      src="https://www.youtube.com/embed/YOUR_VIDEO_ID?autoplay=1&mute=1&loop=1&playlist=YOUR_VIDEO_ID&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1&playsinline=1"
+      allow="autoplay; encrypted-media"
+      allowfullscreen
+      title="Reel Julián Sequeira">
+    </iframe>
+  </div>
+
+  <!-- Fallback visual (se muestra debajo del video) -->
+  <div class="hero-fallback"></div>
+
+  <div class="hero-overlay"></div>
+
+  <!-- Reel play button (top-left) -->
+  <a href="https://www.youtube.com/@YOUR_CHANNEL" target="_blank" class="hero-reel-btn" rel="noopener">
+    <div class="reel-circle">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="currentColor">
+        <polygon points="5,3 15,9 5,15"/>
+      </svg>
+    </div>
+    <span class="reel-lbl">Ver reel</span>
+  </a>
+
+  <!-- Name + role -->
+  <div class="hero-content">
+    <p class="hero-eyebrow">Buenos Aires · Director</p>
+    <h1 class="hero-title">Julián<br>Sequeira</h1>
+    <p class="hero-sub">Realización integral · Cinematografía · IA · 3D · Post</p>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="hero-scroll">
+    <span class="hero-scroll-lbl">Scroll</span>
+    <div class="hero-scroll-line"></div>
+  </div>
+
+</section>
+
+<!-- ── STATEMENT ──────────────────────────────────────────────── -->
+<section id="statement">
+  <p class="tag-line">Manifiesto</p>
+  <h2 class="statement-body reveal">
+    Realizador audiovisual integral. De la dirección a la post, del cine a la inteligencia artificial —
+    <em>todo con la misma obsesión por la imagen.</em>
+    Marcas globales, series de animación, cortos y experimentos. Siempre desde el concepto.
+  </h2>
+</section>
+
+<!-- ── DISCIPLINES MARQUEE ───────────────────────────────────── -->
+<section id="disciplines" aria-label="Disciplinas">
+  <div class="marquee-row">
+    <!-- Duplicated for seamless loop -->
+    <span class="mq-item solid">Dirección</span><span class="mq-dot">·</span>
+    <span class="mq-item">Cinematografía</span><span class="mq-dot">·</span>
+    <span class="mq-item solid">3D &amp; 2D</span><span class="mq-dot">·</span>
+    <span class="mq-item">Post Producción</span><span class="mq-dot">·</span>
+    <span class="mq-item solid">IA Generativa</span><span class="mq-dot">·</span>
+    <span class="mq-item">Fotografía</span><span class="mq-dot">·</span>
+    <span class="mq-item solid">Dirección de Arte</span><span class="mq-dot">·</span>
+    <span class="mq-item">Music Video</span><span class="mq-dot">·</span>
+    <!-- Copy 2 -->
+    <span class="mq-item solid">Dirección</span><span class="mq-dot">·</span>
+    <span class="mq-item">Cinematografía</span><span class="mq-dot">·</span>
+    <span class="mq-item solid">3D &amp; 2D</span><span class="mq-dot">·</span>
+    <span class="mq-item">Post Producción</span><span class="mq-dot">·</span>
+    <span class="mq-item solid">IA Generativa</span><span class="mq-dot">·</span>
+    <span class="mq-item">Fotografía</span><span class="mq-dot">·</span>
+    <span class="mq-item solid">Dirección de Arte</span><span class="mq-dot">·</span>
+    <span class="mq-item">Music Video</span><span class="mq-dot">·</span>
+  </div>
+</section>
+
+<!-- ── WORK ───────────────────────────────────────────────────── -->
+<section id="work">
+  <div class="sec-head">
+    <div>
+      <p class="sec-tag">Selected Work</p>
+      <h2 class="sec-title reveal">Projects</h2>
+    </div>
+    <span class="sec-count">06</span>
+  </div>
+
+  <div class="carousel-outer">
+    <div class="carousel-track" id="carousel">
+
+      <!-- Card 1 ─ Dinopops -->
+      <div class="proj-card reveal">
+        <!--
+          Para agregar thumbnail de YouTube:
+          <div class="card-visual yt-thumb" style="background-image:url('https://img.youtube.com/vi/VIDEO_ID/maxresdefault.jpg')"></div>
+        -->
+        <div class="card-visual card-grad" style="background:linear-gradient(135deg,#0d1b3e 0%,#1a2d5a 100%)"></div>
+        <a class="proj-ext" href="#" target="_blank" rel="noopener" title="Ver proyecto">↗</a>
+        <div class="proj-meta">
+          <p class="proj-cat">Animation Series · NBC / Peacock</p>
+          <h3 class="proj-name">Dinopops — Season 1</h3>
+          <p class="proj-client">Konami × NBC Peacock</p>
+        </div>
+      </div>
+
+      <!-- Card 2 ─ Silent Hill -->
+      <div class="proj-card reveal d1">
+        <div class="card-visual card-grad" style="background:linear-gradient(135deg,#1a0808 0%,#2e1010 100%)"></div>
+        <a class="proj-ext" href="#" target="_blank" rel="noopener" title="Ver proyecto">↗</a>
+        <div class="proj-meta">
+          <p class="proj-cat">Interactive Media · Emmy Associated</p>
+          <h3 class="proj-name">Silent Hill: Ascension</h3>
+          <p class="proj-client">Konami</p>
+        </div>
+      </div>
+
+      <!-- Card 3 ─ La Noche -->
+      <div class="proj-card reveal d2">
+        <div class="card-visual card-grad" style="background:linear-gradient(135deg,#0a0a0a 0%,#181818 100%)"></div>
+        <a class="proj-ext" href="#" target="_blank" rel="noopener" title="Ver proyecto">↗</a>
+        <div class="proj-meta">
+          <p class="proj-cat">Short Film · Dirección &amp; Cinematografía</p>
+          <h3 class="proj-name">La Noche</h3>
+          <p class="proj-client">Proyecto personal</p>
+        </div>
+      </div>
+
+      <!-- Card 4 ─ Flama Sessions -->
+      <div class="proj-card reveal">
+        <div class="card-visual card-grad" style="background:linear-gradient(135deg,#1a1000 0%,#2e1f00 100%)"></div>
+        <a class="proj-ext" href="#" target="_blank" rel="noopener" title="Ver proyecto">↗</a>
+        <div class="proj-meta">
+          <p class="proj-cat">Music Video · Live Performance</p>
+          <h3 class="proj-name">Flama Sessions Vol. 1 &amp; 2</h3>
+          <p class="proj-client">Música independiente</p>
+        </div>
+      </div>
+
+      <!-- Card 5 ─ Branded Content -->
+      <div class="proj-card reveal d1">
+        <div class="card-visual card-grad" style="background:linear-gradient(135deg,#001a0a 0%,#003318 100%)"></div>
+        <a class="proj-ext" href="#" target="_blank" rel="noopener" title="Ver proyecto">↗</a>
+        <div class="proj-meta">
+          <p class="proj-cat">Branded Content · Comercial</p>
+          <h3 class="proj-name">DHL · Uber · John Deere</h3>
+          <p class="proj-client">Contenido de marca global</p>
+        </div>
+      </div>
+
+      <!-- Card 6 ─ GPT Wars / IA -->
+      <div class="proj-card reveal d2">
+        <div class="card-visual card-grad" style="background:linear-gradient(135deg,#08001a 0%,#12003a 100%)"></div>
+        <a class="proj-ext" href="#" target="_blank" rel="noopener" title="Ver proyecto">↗</a>
+        <div class="proj-meta">
+          <p class="proj-cat">IA Generativa · Dirección</p>
+          <h3 class="proj-name">GPT Wars</h3>
+          <p class="proj-client">AI Creative — Proyecto propio</p>
+        </div>
+      </div>
+
+    </div><!-- /carousel-track -->
+
+    <div class="carousel-ctrl">
+      <button class="ctrl-btn" onclick="slide(-1)" aria-label="Anterior">←</button>
+      <button class="ctrl-btn" onclick="slide(1)"  aria-label="Siguiente">→</button>
+    </div>
+  </div>
+</section>
+
+<!-- ── ABOUT ──────────────────────────────────────────────────── -->
+<section id="about">
+  <div class="about-copy">
+    <p class="about-tag">Realizador integral</p>
+    <p class="about-body reveal">
+      Más de una década combinando <strong>dirección, cinematografía, dirección de arte y tecnología</strong>.
+      Proyectos para NBC/Peacock, Konami, DHL, Uber y John Deere.
+      Asociado al Emmy por Silent Hill: Ascension.
+    </p>
+    <p class="about-body reveal d1">
+      Hoy integro producción audiovisual tradicional con <strong>IA generativa, 3D en tiempo real y diseño propio</strong> —
+      para contar historias visuales sin límite de medio.
+    </p>
+    <div class="stats-grid">
+      <div class="reveal">
+        <div class="stat-n">10+</div>
+        <div class="stat-l">Años de experiencia</div>
+      </div>
+      <div class="reveal d1">
+        <div class="stat-n">20+</div>
+        <div class="stat-l">Proyectos</div>
+      </div>
+      <div class="reveal d2">
+        <div class="stat-n">5+</div>
+        <div class="stat-l">Marcas globales</div>
+      </div>
+      <div class="reveal d3">
+        <div class="stat-n">∞</div>
+        <div class="stat-l">Medios explorados</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Portrait placeholder — reemplazá con tu foto -->
+  <div class="about-portrait">
+    <!--
+      Descomentá y agregá tu foto:
+      <img src="assets/julian.jpg" alt="Julián Sequeira">
+    -->
+    <div class="portrait-mono">JS</div>
+  </div>
+</section>
+
+<!-- ── CONTACT ────────────────────────────────────────────────── -->
+<section id="contact">
+  <p class="contact-eyebrow">¿Trabajamos juntos?</p>
+  <div class="contact-big reveal">
+    <a href="mailto:bd.juliansequeira@gmail.com">Let's<br>Talk.</a>
+  </div>
+  <div class="contact-links">
+    <a href="mailto:bd.juliansequeira@gmail.com" class="c-link">Email</a>
+    <!-- Reemplazá los # con tus URLs reales -->
+    <a href="https://www.youtube.com/@YOUR_CHANNEL" class="c-link" target="_blank" rel="noopener">YouTube</a>
+    <a href="https://www.instagram.com/YOUR_IG"     class="c-link" target="_blank" rel="noopener">Instagram</a>
+    <a href="https://www.linkedin.com/in/YOUR_LI"  class="c-link" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="https://vimeo.com/YOUR_VIMEO"         class="c-link" target="_blank" rel="noopener">Vimeo</a>
+  </div>
+</section>
+
+<!-- ── FOOTER ─────────────────────────────────────────────────── -->
+<footer>
+  <span>© 2026 Julián Sequeira</span>
+  <span>Buenos Aires, Argentina</span>
+</footer>
+
+<!-- ── SCRIPTS ────────────────────────────────────────────────── -->
+<script>
+  /* ── Custom cursor ── */
+  const cursor = document.getElementById('cursor');
+  let mx = -100, my = -100;
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cursor.style.left = mx + 'px';
+    cursor.style.top  = my + 'px';
+  });
+  document.querySelectorAll('a, button, .proj-card').forEach(el => {
+    el.addEventListener('mouseenter', () => cursor.classList.add('grow'));
+    el.addEventListener('mouseleave', () => cursor.classList.remove('grow'));
+  });
+
+  /* ── Scroll reveal ── */
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  /* ── Carousel ── */
+  const track = document.getElementById('carousel');
+  function slide(dir) {
+    const card = track.querySelector('.proj-card');
+    if (!card) return;
+    const step = card.offsetWidth + 20;
+    track.scrollBy({ left: dir * step, behavior: 'smooth' });
+  }
+
+  /* ── Keyboard carousel ── */
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight') slide(1);
+    if (e.key === 'ArrowLeft')  slide(-1);
+  });
+</script>
+
+</body>
+</html>
