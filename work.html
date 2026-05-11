@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Work — Julián Sequeira</title>
+  <meta name="description" content="Trabajo seleccionado de Julián Sequeira — Dirección, cinematografía, animación, IA y branded content.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Inter:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg:    #f7f5f2;
+      --ink:   #0e0e0e;
+      --muted: #888;
+      --dim:   rgba(14,14,14,.5);
+      --border:rgba(14,14,14,.1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* ─── CURSOR ─────────────────────────────────────────────── */
+    #cursor {
+      position: fixed; width: 9px; height: 9px;
+      background: var(--ink); border-radius: 50%;
+      pointer-events: none; z-index: 9999;
+      top: 0; left: 0; transform: translate(-50%,-50%);
+      transition: width .25s, height .25s;
+      mix-blend-mode: difference;
+    }
+    #cursor.grow { width: 44px; height: 44px; }
+
+    /* ─── NAV ────────────────────────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 28px 52px;
+      background: rgba(247,245,242,.9);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: 'Syne', sans-serif; font-weight: 800;
+      font-size: 13px; letter-spacing: .14em; text-transform: uppercase;
+      color: var(--ink); text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 44px; list-style: none; }
+    .nav-links a {
+      font-size: 11px; letter-spacing: .12em; text-transform: uppercase;
+      color: var(--dim); text-decoration: none; transition: color .25s;
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--ink); }
+
+    /* ─── PAGE HEADER ────────────────────────────────────────── */
+    #page-header {
+      padding: 160px 52px 60px;
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: flex-end; justify-content: space-between;
+    }
+    .page-title {
+      font-family: 'Syne', sans-serif; font-weight: 800;
+      font-size: clamp(72px, 14vw, 180px); line-height: .88;
+      letter-spacing: -.03em; text-transform: uppercase;
+    }
+    .page-meta { text-align: right; padding-bottom: 10px; }
+    .page-meta p { font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+    .page-meta strong { font-family: 'Syne', sans-serif; font-size: 36px; font-weight: 800; display: block; line-height: 1; color: var(--ink); }
+
+    /* ─── FILTERS ────────────────────────────────────────────── */
+    #filters {
+      padding: 32px 52px;
+      display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+      border-bottom: 1px solid var(--border);
+      position: sticky; top: 77px; z-index: 100;
+      background: rgba(247,245,242,.95); backdrop-filter: blur(10px);
+    }
+    .filter-btn {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px; letter-spacing: .1em; text-transform: uppercase;
+      padding: 7px 18px;
+      border: 1px solid var(--border);
+      background: transparent; color: var(--muted);
+      cursor: pointer; transition: background .2s, color .2s, border-color .2s;
+    }
+    .filter-btn:hover { color: var(--ink); border-color: var(--ink); }
+    .filter-btn.active {
+      background: var(--ink); color: var(--bg); border-color: var(--ink);
+    }
+
+    /* ─── MAIN GRID ──────────────────────────────────────────── */
+    #grid-section { padding: 52px 52px 80px; }
+
+    .work-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    @media (max-width: 1000px) { .work-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 600px)  { .work-grid { grid-template-columns: 1fr; } }
+
+    .work-item {
+      position: relative; overflow: hidden;
+      aspect-ratio: 16/10; background: #e0ddd8;
+      cursor: pointer;
+      transition: opacity .3s;
+    }
+    .work-item.hidden { display: none; }
+
+    .work-item img,
+    .work-item .item-grad {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+      transition: transform .7s cubic-bezier(.16,1,.3,1);
+      filter: brightness(.88);
+    }
+    .work-item:hover img,
+    .work-item:hover .item-grad { transform: scale(1.05); }
+
+    .work-item-meta {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 16px 20px;
+      background: linear-gradient(to top, rgba(14,14,14,.88) 0%, transparent 100%);
+      transform: translateY(4px); transition: transform .4s;
+    }
+    .work-item:hover .work-item-meta { transform: translateY(0); }
+
+    .item-cat  { font-size: 9px; letter-spacing: .16em; text-transform: uppercase; color: rgba(247,245,242,.55); margin-bottom: 3px; }
+    .item-name { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; color: #f7f5f2; }
+    .item-client { font-size: 11px; color: rgba(247,245,242,.45); margin-top: 2px; }
+
+    .item-ext {
+      position: absolute; top: 14px; right: 14px;
+      width: 32px; height: 32px;
+      border: 1px solid rgba(247,245,242,.2); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      text-decoration: none; color: #f7f5f2; font-size: 12px;
+      opacity: 0; transition: opacity .3s;
+    }
+    .work-item:hover .item-ext { opacity: 1; }
+    .item-ext:hover { background: #f7f5f2; color: var(--ink); }
+
+    /* ─── AI VERTICAL SECTION ────────────────────────────────── */
+    #ai-section {
+      padding: 80px 52px;
+      border-top: 1px solid var(--border);
+    }
+    .ai-header { margin-bottom: 52px; }
+    .ai-tag { font-size: 10px; letter-spacing: .22em; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
+    .ai-title {
+      font-family: 'Syne', sans-serif; font-weight: 800;
+      font-size: clamp(36px, 5vw, 64px); text-transform: uppercase; line-height: 1;
+    }
+    .ai-desc { margin-top: 16px; font-size: 15px; font-weight: 300; line-height: 1.7; color: var(--dim); max-width: 520px; }
+
+    /* Vertical grid — 9:16 cards */
+    .ai-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 16px;
+    }
+    @media (max-width: 1000px) { .ai-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 600px)  { .ai-grid { grid-template-columns: repeat(2, 1fr); } }
+
+    .ai-card {
+      position: relative; overflow: hidden;
+      aspect-ratio: 9/16; background: #1a1a1a;
+      cursor: pointer;
+    }
+    .ai-card img,
+    .ai-card video,
+    .ai-card .ai-grad {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+      transition: transform .7s cubic-bezier(.16,1,.3,1);
+    }
+    .ai-card:hover img,
+    .ai-card:hover video,
+    .ai-card:hover .ai-grad { transform: scale(1.06); }
+
+    .ai-card-meta {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 14px 16px;
+      background: linear-gradient(to top, rgba(14,14,14,.9) 0%, transparent 100%);
+    }
+    .ai-card-name { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; color: #f7f5f2; }
+    .ai-card-tool { font-size: 9px; letter-spacing: .12em; text-transform: uppercase; color: rgba(247,245,242,.45); margin-top: 2px; }
+
+    /* YouTube embed on click overlay */
+    .ai-card-play {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(14,14,14,.3);
+      opacity: 0; transition: opacity .3s;
+    }
+    .ai-card:hover .ai-card-play { opacity: 1; }
+    .play-icon {
+      width: 52px; height: 52px;
+      border: 1.5px solid rgba(247,245,242,.7); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      color: #f7f5f2;
+    }
+    .play-icon svg { margin-left: 3px; }
+
+    /* Lightbox for YouTube */
+    #lightbox {
+      display: none; position: fixed; inset: 0; z-index: 900;
+      background: rgba(14,14,14,.95);
+      align-items: center; justify-content: center;
+    }
+    #lightbox.open { display: flex; }
+    .lb-inner {
+      position: relative; width: min(90vw, 540px);
+      aspect-ratio: 9/16;
+    }
+    .lb-inner iframe { width: 100%; height: 100%; border: none; }
+    .lb-close {
+      position: absolute; top: -44px; right: 0;
+      font-size: 24px; color: #f7f5f2; cursor: pointer;
+      background: none; border: none; line-height: 1;
+    }
+
+    /* ─── CONTACT STRIP ──────────────────────────────────────── */
+    #contact-strip {
+      padding: 80px 52px;
+      border-top: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 32px;
+    }
+    .strip-left h2 {
+      font-family: 'Syne', sans-serif; font-weight: 800;
+      font-size: clamp(36px, 6vw, 80px); text-transform: uppercase; line-height: .9;
+    }
+    .strip-left h2 a { color: var(--ink); text-decoration: none; }
+    .strip-left h2 a:hover { opacity: .5; }
+    .strip-right { display: flex; gap: 28px; flex-wrap: wrap; }
+    .s-link {
+      font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
+      color: var(--muted); text-decoration: none;
+      border-bottom: 1px solid var(--border); padding-bottom: 2px;
+      transition: color .25s, border-color .25s;
+    }
+    .s-link:hover { color: var(--ink); border-color: var(--ink); }
+
+    /* ─── FOOTER ─────────────────────────────────────────────── */
+    footer {
+      padding: 24px 52px; border-top: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    footer span { font-size: 10px; letter-spacing: .1em; color: var(--muted); }
+
+    /* ─── UTILS ──────────────────────────────────────────────── */
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity .8s ease, transform .8s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+    .reveal.d1 { transition-delay: .1s; }
+
+    @media (max-width: 700px) {
+      nav, #page-header, #filters, #grid-section, #ai-section, #contact-strip { padding-left: 20px; padding-right: 20px; }
+      nav { padding-top: 18px; padding-bottom: 18px; }
+      .nav-links { gap: 18px; }
+      #page-header { flex-direction: column; align-items: flex-start; gap: 20px; padding-top: 120px; }
+      .page-meta { text-align: left; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="cursor"></div>
+
+<!-- ── NAV ───────────────────────────────────────────────────── -->
+<nav>
+  <a href="index.html" class="nav-logo">JS</a>
+  <ul class="nav-links">
+    <li><a href="work.html" class="active">Work</a></li>
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- ── PAGE HEADER ───────────────────────────────────────────── -->
+<header id="page-header">
+  <h1 class="page-title">Work</h1>
+  <div class="page-meta">
+    <p>Proyectos seleccionados</p>
+    <strong>20+</strong>
+  </div>
+</header>
+
+<!-- ── FILTERS ───────────────────────────────────────────────── -->
+<div id="filters">
+  <button class="filter-btn active" data-filter="all">Todo</button>
+  <button class="filter-btn" data-filter="realizacion">Realización</button>
+  <button class="filter-btn" data-filter="animacion">Animación</button>
+  <button class="filter-btn" data-filter="music">Music Video</button>
+  <button class="filter-btn" data-filter="branded">Branded</button>
+  <button class="filter-btn" data-filter="corto">Cortos</button>
+</div>
+
+<!-- ── WORK GRID ─────────────────────────────────────────────── -->
+<section id="grid-section">
+  <div class="work-grid" id="work-grid">
+
+    <!--
+      ══ INSTRUCCIONES ══
+      Para cada proyecto:
+      1. En data-cat: poné las categorías separadas por espacio (ej: "music realizacion")
+      2. En el <img src="..."> o la URL del GIF (Giphy, etc.) poné el thumbnail del proyecto
+      3. En href del .item-ext poné el link a YouTube/Vimeo del proyecto
+
+      Para usar GIF animado de Giphy como thumbnail:
+      <img src="https://media.giphy.com/media/TU_GIPHY_ID/giphy.gif" alt="Nombre">
+    -->
+
+    <!-- Dinopops -->
+    <div class="work-item reveal" data-cat="animacion">
+      <div class="item-grad" style="background:linear-gradient(135deg,#0d1b3e,#1a2d5a)"></div>
+      <a class="item-ext" href="#" target="_blank">↗</a>
+      <div class="work-item-meta">
+        <p class="item-cat">Animación · NBC / Peacock</p>
+        <p class="item-name">Dinopops — Season 1</p>
+        <p class="item-client">Konami × NBC Peacock</p>
+      </div>
+    </div>
+
+    <!-- Silent Hill -->
+    <div class="work-item reveal d1" data-cat="realizacion">
+      <div class="item-grad" style="background:linear-gradient(135deg,#1a0808,#2e1010)"></div>
+      <a class="item-ext" href="#" target="_blank">↗</a>
+      <div class="work-item-meta">
+        <p class="item-cat">Interactive · Emmy Associated</p>
+        <p class="item-name">Silent Hill: Ascension</p>
+        <p class="item-client">Konami</p>
+      </div>
+    </div>
+
+    <!-- La Noche -->
+    <div class="work-item reveal" data-cat="corto realizacion">
+      <div class="item-grad" style="background:linear-gradient(135deg,#0a0a0a,#1c1c1c)"></div>
+      <a class="item-ext" href="#" target="_blank">↗</a>
+      <div class="work-item-meta">
+        <p class="item-cat">Corto · Dirección &amp; Cinematografía</p>
+        <p class="item-name">La Noche</p>
+        <p class="item-client">Proyecto personal</p>
+      </div>
+    </div>
+
+    <!-- Flama Sessions -->
+    <div class="work-item reveal" data-cat="music realizacion">
+      <div class="item-grad" style="background:linear-gradient(135deg,#1a1000,#2e1f00)"></div>
+      <a class="item-ext" href="https://www.youtube.com/@flama.collective" target="_blank">↗</a>
+      <div class="work-item-meta">
+        <p class="item-cat">Music Video · Live</p>
+        <p class="item-name">Flama Sessions Vol. 1 &amp; 2</p>
+        <p class="item-client">Flama Collective</p>
+      </div>
+    </div>
+
+    <!-- El Loco -->
+    <div class="work-item reveal d1" data-cat="music realizacion">
+      <div class="item-grad" style="background:linear-gradient(135deg,#0d0d0d,#222)"></div>
+      <a class="item-ext" href="#" target="_blank">↗</a>
+      <div class="work-item-meta">
+        <p class="item-cat">Music Video · Cinematografía</p>
+        <p class="item-name">El Loco</p>
+        <p class="item-client">Danest x DLS</p>
+      </div>
+    </div>
+
+    <!-- Salgo a caminar -->
+    <div class="work-item reveal" data-cat="music realizacion">
+      <div class="item-grad" style="background:linear-gradient(135deg,#081a10,#102a1a)"></div>
+      <a class="item-ext" href="#" target="_blank">↗</a>
+      <div class="work-item-meta">
+        <p class="item-cat">Music Video · Dirección</p>
+        <p class="item-name">Salgo a Caminar</p>
+        <p class="item-client">Tortu aka ODDM</p>
+      </div>
+    </div>
+
+    <!-- Barrio de Tango -->
+    <div class="work-item reveal d1" data-cat="corto realizacion">
+      <div class="item-grad" style="background:linear-gradient(135deg,#1a1000,#261800)"></div>
+      <a class="item-ext" href="#" target="_blank">↗</a>
+      <div class="work-item-meta">
+        <p class="item-cat">Corto · Dirección</p>
+        <p class="item-name">Barrio de Tango</p>
+        <p class="item-client">Proyecto personal</p>
+      </div>
+    </div>
+
+    <!-- DHL -->
+    <div class="work-item reveal" data-cat="branded realizacion">
+      <div class="item-grad" style="background:linear-gradient(135deg,#1a0e00,#d4a00044)"></div>
+      <a class="item-ext" href="#" target="_blank">↗</a>
+      <div class="work-item-meta">
+        <p class="item-cat">Branded Content · Comercial</p>
+        <p class="item-name">DHL — Branded</p>
+        <p class="item-client">DHL</p>
+      </div>
+    </div>
+
+    <!-- Uber -->
+    <div class="work-item reveal d1" data-cat="branded realizacion">
+      <div class="item-grad" style="background:linear-gradient(135deg,#0a0a0a,#1f1f1f)"></div>
+      <a class="item-ext" href="#" target="_blank">↗</a>
+      <div class="work-item-meta">
+        <p class="item-cat">Branded Content · Dirección</p>
+        <p class="item-name">Uber</p>
+        <p class="item-client">Uber</p>
+      </div>
+    </div>
+
+    <!-- John Deere VR -->
+    <div class="work-item reveal" data-cat="branded realizacion">
+      <div class="item-grad" style="background:linear-gradient(135deg,#001a00,#003300)"></div>
+      <a class="item-ext" href="#" target="_blank">↗</a>
+      <div class="work-item-meta">
+        <p class="item-cat">VR · Branded Content</p>
+        <p class="item-name">John Deere VR</p>
+        <p class="item-client">John Deere</p>
+      </div>
+    </div>
+
+    <!-- GPT Wars -->
+    <div class="work-item reveal" data-cat="realizacion">
+      <div class="item-grad" style="background:linear-gradient(135deg,#08001a,#12003a)"></div>
+      <a class="item-ext" href="#" target="_blank">↗</a>
+      <div class="work-item-meta">
+        <p class="item-cat">IA · Dirección</p>
+        <p class="item-name">GPT Wars</p>
+        <p class="item-client">AI Creative</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── IA VIDEOS VERTICALES ───────────────────────────────────── -->
+<section id="ai-section">
+  <div class="ai-header">
+    <p class="ai-tag">Nueva sección</p>
+    <h2 class="ai-title reveal">IA<br>Videos</h2>
+    <p class="ai-desc reveal d1">
+      Exploración de narrativa visual con inteligencia artificial generativa.
+      Videos en formato vertical — Sora, Runway, Kling, Seedance y más.
+    </p>
+  </div>
+
+  <div class="ai-grid">
+    <!--
+      ══ INSTRUCCIONES ══
+      Para cada video IA:
+      - data-yt="VIDEO_ID" → ID de YouTube para abrir en lightbox
+      - El <img> puede ser un frame del video, una imagen generada, o GIF
+      - Si el video es de YouTube Shorts, funciona igual con el ID
+
+      Ejemplo con GIF:
+      <img src="https://media.giphy.com/media/TU_ID/giphy.gif" alt="...">
+    -->
+
+    <div class="ai-card reveal" data-yt="">
+      <div class="ai-grad" style="background:linear-gradient(180deg,#1a0a2e,#0a0a1a)"></div>
+      <div class="ai-card-play">
+        <div class="play-icon">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><polygon points="4,2 14,8 4,14"/></svg>
+        </div>
+      </div>
+      <div class="ai-card-meta">
+        <p class="ai-card-name">AI Short 01</p>
+        <p class="ai-card-tool">Sora · Runway</p>
+      </div>
+    </div>
+
+    <div class="ai-card reveal d1" data-yt="">
+      <div class="ai-grad" style="background:linear-gradient(180deg,#0a1a1a,#001a10)"></div>
+      <div class="ai-card-play">
+        <div class="play-icon">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><polygon points="4,2 14,8 4,14"/></svg>
+        </div>
+      </div>
+      <div class="ai-card-meta">
+        <p class="ai-card-name">AI Short 02</p>
+        <p class="ai-card-tool">Kling · Seedance</p>
+      </div>
+    </div>
+
+    <div class="ai-card reveal" data-yt="">
+      <div class="ai-grad" style="background:linear-gradient(180deg,#1a0a0a,#2a1010)"></div>
+      <div class="ai-card-play">
+        <div class="play-icon">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><polygon points="4,2 14,8 4,14"/></svg>
+        </div>
+      </div>
+      <div class="ai-card-meta">
+        <p class="ai-card-name">AI Short 03</p>
+        <p class="ai-card-tool">Midjourney · Gen-3</p>
+      </div>
+    </div>
+
+    <div class="ai-card reveal d1" data-yt="">
+      <div class="ai-grad" style="background:linear-gradient(180deg,#0a0a1a,#101028)"></div>
+      <div class="ai-card-play">
+        <div class="play-icon">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><polygon points="4,2 14,8 4,14"/></svg>
+        </div>
+      </div>
+      <div class="ai-card-meta">
+        <p class="ai-card-name">AI Short 04</p>
+        <p class="ai-card-tool">Runway · Sora</p>
+      </div>
+    </div>
+
+    <div class="ai-card reveal" data-yt="">
+      <div class="ai-grad" style="background:linear-gradient(180deg,#101a10,#0a1a00)"></div>
+      <div class="ai-card-play">
+        <div class="play-icon">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><polygon points="4,2 14,8 4,14"/></svg>
+        </div>
+      </div>
+      <div class="ai-card-meta">
+        <p class="ai-card-name">AI Short 05</p>
+        <p class="ai-card-tool">Kling · Pika</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── CONTACT STRIP ─────────────────────────────────────────── -->
+<section id="contact-strip">
+  <div class="strip-left">
+    <h2><a href="mailto:bd.juliansequeira@gmail.com">Let's<br>Talk.</a></h2>
+  </div>
+  <div class="strip-right">
+    <a href="mailto:bd.juliansequeira@gmail.com"          class="s-link">Email</a>
+    <a href="https://www.youtube.com/@flama.collective"   class="s-link" target="_blank">YouTube</a>
+    <a href="https://www.instagram.com/sequeira_ju/"      class="s-link" target="_blank">Instagram</a>
+    <a href="https://www.linkedin.com/in/sequeirajulian/" class="s-link" target="_blank">LinkedIn</a>
+    <a href="https://vimeo.com/juliansequeira"            class="s-link" target="_blank">Vimeo</a>
+  </div>
+</section>
+
+<!-- ── FOOTER ─────────────────────────────────────────────────── -->
+<footer>
+  <span>© 2026 Julián Sequeira</span>
+  <span>Buenos Aires, Argentina</span>
+</footer>
+
+<!-- ── LIGHTBOX (YouTube vertical) ──────────────────────────── -->
+<div id="lightbox">
+  <div class="lb-inner">
+    <button class="lb-close" id="lb-close">✕</button>
+    <iframe id="lb-iframe" src="" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+  </div>
+</div>
+
+<script>
+  /* ── Cursor ── */
+  const cursor = document.getElementById('cursor');
+  document.addEventListener('mousemove', e => {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top  = e.clientY + 'px';
+  });
+  document.querySelectorAll('a, button, .work-item, .ai-card').forEach(el => {
+    el.addEventListener('mouseenter', () => cursor.classList.add('grow'));
+    el.addEventListener('mouseleave', () => cursor.classList.remove('grow'));
+  });
+
+  /* ── Filters ── */
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const workItems  = document.querySelectorAll('.work-item');
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const f = btn.dataset.filter;
+      workItems.forEach(item => {
+        const cats = item.dataset.cat || '';
+        item.classList.toggle('hidden', f !== 'all' && !cats.includes(f));
+      });
+    });
+  });
+
+  /* ── Scroll reveal ── */
+  const io = new IntersectionObserver(
+    entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
+    { threshold: 0.1 }
+  );
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  /* ── AI Lightbox ── */
+  const lightbox = document.getElementById('lightbox');
+  const lbIframe = document.getElementById('lb-iframe');
+  const lbClose  = document.getElementById('lb-close');
+
+  document.querySelectorAll('.ai-card').forEach(card => {
+    card.addEventListener('click', () => {
+      const ytId = card.dataset.yt;
+      if (!ytId) return;
+      lbIframe.src = `https://www.youtube.com/embed/${ytId}?autoplay=1&rel=0`;
+      lightbox.classList.add('open');
+    });
+  });
+
+  lbClose.addEventListener('click', () => {
+    lightbox.classList.remove('open');
+    lbIframe.src = '';
+  });
+  lightbox.addEventListener('click', e => {
+    if (e.target === lightbox) {
+      lightbox.classList.remove('open');
+      lbIframe.src = '';
+    }
+  });
+</script>
+
+</body>
+</html>
