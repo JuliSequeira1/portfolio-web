@@ -309,8 +309,25 @@
     @media (max-width: 900px) { #about { grid-template-columns: 1fr; } }
 
     .about-tag  { font-size: 10px; letter-spacing: .22em; text-transform: uppercase; color: var(--muted); margin-bottom: 28px; }
-    .about-body { font-size: 17px; font-weight: 300; line-height: 1.75; color: var(--dim); margin-bottom: 20px; }
+    .about-statement {
+      font-size: clamp(20px, 2.4vw, 30px); font-weight: 300; line-height: 1.4;
+      color: var(--ink); margin-bottom: 28px;
+    }
+    .about-statement em { font-style: italic; }
+    .about-body { font-size: 16px; font-weight: 300; line-height: 1.78; color: var(--dim); margin-bottom: 20px; }
     .about-body strong { color: var(--ink); font-weight: 500; }
+
+    .about-emmy {
+      margin-top: 32px; padding: 18px 22px;
+      border-left: 2px solid var(--ink);
+      background: rgba(14,14,14,.04);
+    }
+    .emmy-label {
+      font-size: 9px; letter-spacing: .18em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 6px;
+    }
+    .emmy-text { font-size: 13px; font-weight: 400; line-height: 1.6; color: var(--ink); }
+    .emmy-text strong { font-weight: 600; }
 
     .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px 40px; margin-top: 48px; }
     .stat-n { font-family: 'Syne', sans-serif; font-size: 48px; font-weight: 800; line-height: 1; }
@@ -452,9 +469,9 @@
 <section id="statement">
   <p class="tag-line">Manifiesto</p>
   <h2 class="statement-body reveal">
-    Realizador audiovisual integral. De la dirección a la post, del cine a la inteligencia artificial —
-    <em>todo con la misma obsesión por la imagen.</em>
-    Marcas globales, series de animación, cortos y experimentos. Siempre desde el concepto.
+    Un artista que usa cualquier herramienta para materializar su visión.
+    Del cine a la IA, del storyboard al 3D en tiempo real —
+    <em>la tecnología cambia, la obsesión por contar historias no.</em>
   </h2>
 </section>
 
@@ -569,25 +586,44 @@
 <!-- ── ABOUT ──────────────────────────────────────────────────── -->
 <section id="about">
   <div class="about-copy">
-    <p class="about-tag">Realizador integral</p>
-    <p class="about-body reveal">
-      Más de una década combinando <strong>dirección, cinematografía, dirección de arte y tecnología</strong>.
-      Proyectos para NBC/Peacock, Konami, DHL, Uber y John Deere. Asociado al Emmy por Silent Hill: Ascension.
+    <p class="about-tag">Director · Artista · Realizador integral</p>
+
+    <p class="about-statement reveal">
+      Ante todo soy un artista. <em>Cuento historias, invento mundos y los defino visualmente</em> —
+      con actores, con palabras, con animación, dibujando, en 3D, y hoy también con IA.
+      En 15 años de carrera aprendí que la herramienta importa menos que la visión que la dirige.
     </p>
+
     <p class="about-body reveal d1">
-      Hoy integro producción audiovisual tradicional con <strong>IA generativa, 3D en tiempo real y diseño propio</strong> —
-      para contar historias visuales sin límite de medio.
+      Dirigí series para <strong>NBC/Peacock</strong>, construí mundos cinematográficos en Unreal Engine,
+      lideré equipos de más de <strong>80 artistas internacionales</strong>, e integré IA generativa
+      en pipelines de producción mucho antes de que se pusiera de moda. Mi trabajo abarca horror,
+      animación infantil, branded content para Fortune 500, music videos, cortometrajes y experimentos personales.
     </p>
+
+    <p class="about-body reveal d2">
+      Hoy dirijo proyectos de ficción con la misma convicción con la que hago concept art a mano:
+      <strong>la imagen siempre al servicio de la historia.</strong>
+    </p>
+
+    <div class="about-emmy reveal d2">
+      <div class="emmy-label">Emmy Award — 2024</div>
+      <div class="emmy-text">
+        <strong>Outstanding Innovation in Emerging Media Programming</strong> —
+        Silent Hill: Ascension (Genvid / Senscape / Konami).
+        300+ episodios, más de 10 horas de contenido animado interactivo.
+      </div>
+    </div>
+
     <div class="stats-grid">
-      <div class="reveal"><div class="stat-n">10+</div><div class="stat-l">Años de experiencia</div></div>
-      <div class="reveal d1"><div class="stat-n">20+</div><div class="stat-l">Proyectos</div></div>
-      <div class="reveal d2"><div class="stat-n">5+</div><div class="stat-l">Marcas globales</div></div>
+      <div class="reveal"><div class="stat-n">15+</div><div class="stat-l">Años de experiencia</div></div>
+      <div class="reveal d1"><div class="stat-n">80+</div><div class="stat-l">Artistas liderados</div></div>
+      <div class="reveal d2"><div class="stat-n">Emmy</div><div class="stat-l">Outstanding Innovation</div></div>
       <div class="reveal d3"><div class="stat-n">∞</div><div class="stat-l">Medios explorados</div></div>
     </div>
   </div>
 
   <div class="about-portrait">
-    <!-- Foto de perfil — guardala como assets/julian.jpg -->
     <img src="assets/julian.png" alt="Julián Sequeira" onerror="this.style.display='none'">
   </div>
 </section>
