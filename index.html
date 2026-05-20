@@ -197,6 +197,54 @@
       color: rgba(244,242,238,.4);
     }
 
+    /* New hero copy block */
+    .hero-tagline {
+      font-family: 'Satoshi', sans-serif;
+      font-weight: 700;
+      font-size: clamp(20px, 2.6vw, 34px);
+      line-height: 1.18;
+      letter-spacing: -.01em;
+      color: #F4F2EE;
+      margin-top: 26px;
+      max-width: none;
+      opacity: 0; animation: fadeUp .8s .45s forwards;
+    }
+    .hero-lead {
+      font-size: clamp(14px, 1.4vw, 17px);
+      font-weight: 300;
+      line-height: 1.65;
+      color: rgba(244,242,238,.6);
+      margin-top: 16px;
+      max-width: 52ch;
+      opacity: 0; animation: fadeUp .8s .55s forwards;
+    }
+    .hero-lead em { font-style: normal; color: var(--red); font-weight: 500; }
+
+    .hero-cta {
+      display: flex; align-items: center; gap: 16px;
+      margin-top: 34px;
+      opacity: 0; animation: fadeUp .8s .65s forwards;
+    }
+    .btn {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px; font-weight: 500;
+      letter-spacing: .16em; text-transform: uppercase;
+      padding: 15px 28px;
+      text-decoration: none;
+      display: inline-flex; align-items: center; gap: 10px;
+      transition: background .25s, color .25s, border-color .25s;
+      border: 1px solid transparent;
+      cursor: pointer; background: none;
+    }
+    .btn-primary {
+      background: #F4F2EE; color: var(--ink);
+    }
+    .btn-primary:hover { background: var(--red); color: #F4F2EE; }
+    .btn-ghost {
+      border-color: rgba(244,242,238,.3); color: #F4F2EE;
+    }
+    .btn-ghost:hover { border-color: var(--red); color: var(--red); }
+
     /* Scroll indicator */
     .hero-scroll {
       position: absolute; right: 56px; bottom: 80px; z-index: 2;
@@ -272,12 +320,25 @@
       font-weight: 700;
       color: var(--red);
     }
+    .statement-text {
+      margin-top: 40px;
+      max-width: 760px;
+      display: flex; flex-direction: column; gap: 20px;
+    }
+    .statement-text p {
+      font-size: clamp(15px, 1.5vw, 18px);
+      font-weight: 300;
+      line-height: 1.75;
+      color: var(--dim);
+    }
+    .statement-text p strong { color: var(--ink); font-weight: 600; }
 
     /* ─── DISCIPLINES MARQUEE ────────────────────────────────── */
     #disciplines {
       overflow: hidden;
       border-bottom: 1px solid var(--border);
-      padding: 60px 0;
+      padding: 18px 0;
+      background: #1a1a1a;
     }
     .disc-track {
       display: flex;
@@ -287,18 +348,18 @@
     .disc-track:hover { animation-play-state: paused; }
     .disc-item {
       font-family: 'Satoshi', sans-serif;
-      font-size: clamp(36px, 5.5vw, 72px);
-      font-weight: 900;
+      font-size: 12px;
+      font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: -.01em;
-      padding: 0 36px;
-      color: transparent;
-      -webkit-text-stroke: 1px rgba(10,10,10,.2);
+      letter-spacing: .18em;
+      padding: 0 24px;
+      color: rgba(244,242,238,.4);
       user-select: none;
     }
-    .disc-item.solid { color: var(--ink); -webkit-text-stroke: 0; }
+    .disc-item.solid { color: #F4F2EE; }
+    .disc-item.red { color: var(--red); }
     .disc-dot {
-      font-size: 48px; color: var(--red);
+      font-size: 12px; color: var(--red);
       align-self: center; padding: 0 4px;
       user-select: none; line-height: 1;
     }
@@ -458,6 +519,18 @@
     }
     .about-body strong { color: var(--ink); font-weight: 500; }
 
+    .about-cv {
+      display: inline-flex; align-items: center; gap: 10px;
+      margin-top: 22px;
+      font-size: 11px; font-weight: 500;
+      letter-spacing: .14em; text-transform: uppercase;
+      color: var(--ink); text-decoration: none;
+      border: 1px solid var(--ink);
+      padding: 13px 22px;
+      transition: background .25s, color .25s, border-color .25s;
+    }
+    .about-cv:hover { background: var(--red); color: #F4F2EE; border-color: var(--red); }
+
     /* Emmy box */
     .about-emmy {
       margin-top: 32px; padding: 18px 24px;
@@ -538,18 +611,28 @@
       grid-template-columns: 1fr 1fr;
       gap: 60px;
       align-items: end;
+      background: #0A0A0A;
     }
     @media (max-width: 768px) { #contact { grid-template-columns: 1fr; } }
 
     .contact-eyebrow {
-      font-size: 10px; font-weight: 500;
-      letter-spacing: .22em; text-transform: uppercase;
-      color: var(--muted); margin-bottom: 24px;
-      display: flex; align-items: center; gap: 10px;
+      font-family: 'Satoshi', sans-serif;
+      font-size: clamp(13px, 1.3vw, 16px); font-weight: 700;
+      letter-spacing: .14em; text-transform: uppercase;
+      color: #F4F2EE; margin-bottom: 28px;
+      display: flex; align-items: center; gap: 12px;
     }
     .contact-eyebrow::before {
-      content: ''; width: 20px; height: 1px; background: var(--red);
+      content: ''; width: 36px; height: 2px; background: var(--red);
     }
+    .contact-tags {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px; font-weight: 500;
+      letter-spacing: .18em; text-transform: uppercase;
+      color: rgba(244,242,238,.5);
+      margin-top: 28px;
+    }
+    .contact-tags .sep { color: var(--red); padding: 0 6px; }
     .contact-big {
       font-family: 'Satoshi', sans-serif;
       font-size: clamp(56px, 10vw, 128px);
@@ -559,7 +642,7 @@
       letter-spacing: -.03em;
     }
     .contact-big a {
-      color: var(--ink); text-decoration: none;
+      color: #F4F2EE; text-decoration: none;
       transition: color .25s;
     }
     .contact-big a:hover { color: var(--red); }
@@ -571,14 +654,14 @@
       font-weight: 800;
       text-transform: uppercase;
       letter-spacing: -.01em;
-      color: var(--ink);
+      color: #F4F2EE;
       text-decoration: none;
       display: flex; align-items: center; justify-content: space-between;
-      border-bottom: 1px solid var(--border);
+      border-bottom: 1px solid rgba(244,242,238,.15);
       padding: 18px 0;
       transition: color .25s, border-color .25s;
     }
-    .c-link:first-child { border-top: 1px solid var(--border); }
+    .c-link:first-child { border-top: 1px solid rgba(244,242,238,.15); }
     .c-link:hover { color: var(--red); border-color: var(--red); }
     .c-arrow { font-size: 18px; }
 
@@ -586,9 +669,10 @@
     footer {
       padding: 22px 56px;
       display: flex; align-items: center; justify-content: space-between;
-      border-top: 1px solid var(--border);
+      border-top: 1px solid rgba(244,242,238,.1);
+      background: #0A0A0A;
     }
-    footer span { font-size: 10px; font-weight: 400; letter-spacing: .1em; color: var(--muted); }
+    footer span { font-size: 10px; font-weight: 400; letter-spacing: .1em; color: rgba(244,242,238,.5); }
 
     /* ─── KEYFRAMES ──────────────────────────────────────────── */
     @keyframes fadeUp {
@@ -663,17 +747,15 @@
 
   <div class="hero-content">
     <p class="hero-eyebrow">Buenos Aires · Director · Realizador Integral</p>
-    <h1 class="hero-title">Julián<br><span class="red">Se</span>queira</h1>
-    <div class="hero-bottom">
-      <p class="hero-sub">Cinematografía · Animación · IA · 3D · Post</p>
-      <a href="https://www.youtube.com/@flama.collective" target="_blank" rel="noopener" class="hero-reel-btn">
-        <div class="reel-circle">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-            <polygon points="4,2 14,8 4,14"/>
-          </svg>
-        </div>
-        <span class="reel-lbl">Ver reel</span>
+    <h1 class="hero-title">Julián<br>Sequeira</h1>
+    <p class="hero-tagline">Dirijo historias<br>entre lo humano y lo imposible.</p>
+    <p class="hero-lead">Cine, animación, 3D e IA generativa al servicio de imágenes que no solo impresionan: <em>permanecen.</em></p>
+    <div class="hero-cta">
+      <a href="javascript:void(0)" onclick="openVideo('MEIpjzwSQsc')" class="btn btn-primary">
+        <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor"><polygon points="4,2 14,8 4,14"/></svg>
+        Ver reel
       </a>
+      <a href="#contact" class="btn btn-ghost">Hablemos</a>
     </div>
   </div>
 </section>
@@ -707,29 +789,42 @@
 <section id="statement">
   <p class="statement-label">Manifiesto</p>
   <h2 class="statement-body reveal">
-    Un artista que usa cualquier herramienta para materializar su visión.
-    Del cine a la IA, del storyboard al 3D en tiempo real —
-    <em>la tecnología cambia, la obsesión por contar historias no.</em>
+    Las herramientas cambian. <em>La emoción no.</em>
   </h2>
+  <div class="statement-text">
+    <p class="reveal d1">
+      Del storyboard en papel al render en tiempo real. De dirigir actores en set
+      a diseñar pipelines con IA generativa. La tecnología transforma la manera de producir,
+      pero no cambia la pregunta esencial: qué siente el espectador cuando aparece la imagen.
+    </p>
+    <p class="reveal d2">
+      Trabajo con cine, animación, 3D, postproducción e inteligencia artificial porque cada
+      herramienta abre una posibilidad distinta. Pero ninguna reemplaza la mirada, el ritmo,
+      la tensión dramática ni la intuición narrativa.
+    </p>
+    <p class="reveal d3">
+      No dirijo para las máquinas. <strong>Dirijo para las personas.</strong>
+    </p>
+  </div>
 </section>
 
 <!-- ── DISCIPLINES MARQUEE ───────────────────────────────────── -->
 <section id="disciplines" aria-label="Disciplinas">
   <div class="disc-track">
-    <span class="disc-item solid">Dirección</span><span class="disc-dot">·</span>
+    <span class="disc-item red">Dirección</span><span class="disc-dot">·</span>
     <span class="disc-item">Cinematografía</span><span class="disc-dot">·</span>
     <span class="disc-item solid">3D &amp; 2D</span><span class="disc-dot">·</span>
     <span class="disc-item">Post Producción</span><span class="disc-dot">·</span>
-    <span class="disc-item solid">IA Generativa</span><span class="disc-dot">·</span>
+    <span class="disc-item red">IA Generativa</span><span class="disc-dot">·</span>
     <span class="disc-item">Fotografía</span><span class="disc-dot">·</span>
     <span class="disc-item solid">Dir. de Arte</span><span class="disc-dot">·</span>
     <span class="disc-item">Music Video</span><span class="disc-dot">·</span>
     <!-- copy 2 -->
-    <span class="disc-item solid">Dirección</span><span class="disc-dot">·</span>
+    <span class="disc-item red">Dirección</span><span class="disc-dot">·</span>
     <span class="disc-item">Cinematografía</span><span class="disc-dot">·</span>
     <span class="disc-item solid">3D &amp; 2D</span><span class="disc-dot">·</span>
     <span class="disc-item">Post Producción</span><span class="disc-dot">·</span>
-    <span class="disc-item solid">IA Generativa</span><span class="disc-dot">·</span>
+    <span class="disc-item red">IA Generativa</span><span class="disc-dot">·</span>
     <span class="disc-item">Fotografía</span><span class="disc-dot">·</span>
     <span class="disc-item solid">Dir. de Arte</span><span class="disc-dot">·</span>
     <span class="disc-item">Music Video</span><span class="disc-dot">·</span>
@@ -801,22 +896,30 @@
     <p class="about-lbl">Director · Artista · Realizador integral</p>
 
     <p class="about-statement reveal">
-      Ante todo soy un artista. <em>Cuento historias, invento mundos y los defino visualmente</em> —
-      con actores, con palabras, con animación, dibujando, en 3D, y hoy también con IA.
-      En 15 años de carrera aprendí que la herramienta importa menos que la visión que la dirige.
+      Soy director, artista visual y realizador integral. Durante más de 15 años trabajé en la
+      intersección entre cine, animación, 3D, postproducción e inteligencia artificial, siempre con
+      una idea central: <em>la tecnología solo importa cuando ayuda a contar mejor una historia.</em>
     </p>
 
     <p class="about-body reveal d1">
-      Dirigí series para <strong>NBC/Peacock</strong>, construí mundos cinematográficos en Unreal Engine,
-      lideré equipos de más de <strong>80 artistas internacionales</strong>, e integré IA generativa
-      en pipelines de producción mucho antes de que se pusiera de moda.
-      Mi trabajo abarca horror, animación infantil, branded content, music videos, cortometrajes y experimentos.
+      He dirigido y desarrollado proyectos para <strong>NBC/Peacock</strong>, <strong>Konami</strong>,
+      marcas globales, videoclips, cortometrajes, animación infantil, branded content y experiencias
+      interactivas. También lideré equipos internacionales de más de <strong>80 artistas</strong> y
+      participé en <strong>Silent Hill: Ascension</strong>, producción ganadora del Emmy 2024 a
+      Outstanding Innovation in Emerging Media Programming.
     </p>
 
     <p class="about-body reveal d2">
-      Hoy dirijo proyectos de ficción con la misma convicción con la que hago concept art a mano:
-      <strong>la imagen siempre al servicio de la historia.</strong>
+      Mi trabajo se mueve entre el oficio clásico y las herramientas nuevas: concept art, dirección,
+      cinematografía, mundos virtuales, IA generativa y pipelines de producción. Pero el objetivo sigue
+      siendo el mismo: <strong>crear imágenes con intención, construir mundos con alma y contar historias
+      que no se sientan generadas, sino vividas.</strong>
     </p>
+
+    <a href="https://drive.google.com/drive/folders/15BK901jKmGJIAdM-6Gc61yFYF9kVbzwu" target="_blank" rel="noopener" class="about-cv reveal d2">
+      Ver currículum
+      <span style="font-size:14px;">↗</span>
+    </a>
 
     <div class="about-emmy reveal d3">
       <div class="emmy-label">Emmy Award — 2024</div>
@@ -862,86 +965,4 @@
     <span class="fm-item">3D &amp; 2D</span><span class="fm-sep">—</span>
     <span class="fm-item hi">Branded</span><span class="fm-sep">—</span>
     <span class="fm-item">Music Video</span><span class="fm-sep">—</span>
-    <span class="fm-item hi">Post Producción</span><span class="fm-sep">—</span>
-    <span class="fm-item">Fotografía</span><span class="fm-sep">—</span>
-  </div>
-</section>
-
-<!-- ── CONTACT ────────────────────────────────────────────────── -->
-<section id="contact">
-  <div>
-    <p class="contact-eyebrow">¿Trabajamos juntos?</p>
-    <div class="contact-big reveal">
-      <a href="mailto:bd.juliansequeira@gmail.com">Let's<br>Talk.</a>
-    </div>
-  </div>
-  <div class="contact-links reveal d1">
-    <a href="mailto:bd.juliansequeira@gmail.com"          class="c-link">Email      <span class="c-arrow">↗</span></a>
-    <a href="https://www.youtube.com/@flama.collective"   class="c-link" target="_blank" rel="noopener">YouTube    <span class="c-arrow">↗</span></a>
-    <a href="https://www.instagram.com/sequeira_ju/"      class="c-link" target="_blank" rel="noopener">Instagram  <span class="c-arrow">↗</span></a>
-    <a href="https://www.linkedin.com/in/sequeirajulian/" class="c-link" target="_blank" rel="noopener">LinkedIn   <span class="c-arrow">↗</span></a>
-    <a href="https://vimeo.com/juliansequeira"            class="c-link" target="_blank" rel="noopener">Vimeo      <span class="c-arrow">↗</span></a>
-  </div>
-</section>
-
-<!-- ── FOOTER ─────────────────────────────────────────────────── -->
-<footer>
-  <span>© 2026 Julián Sequeira</span>
-  <span>Buenos Aires, Argentina</span>
-</footer>
-
-<!-- ── VIDEO LIGHTBOX ─────────────────────────────────────────── -->
-<div id="lightbox" style="display:none;position:fixed;inset:0;z-index:900;background:rgba(10,10,10,.96);align-items:center;justify-content:center;">
-  <div style="position:relative;width:min(90vw,960px);aspect-ratio:16/9;">
-    <button onclick="closeVideo()" style="position:absolute;top:-48px;right:0;font-size:22px;color:#F4F2EE;background:none;border:none;cursor:pointer;">✕</button>
-    <iframe id="lb-iframe" src="" allow="autoplay;encrypted-media" allowfullscreen style="width:100%;height:100%;border:none;"></iframe>
-  </div>
-</div>
-
-<script>
-  /* ── Cursor ── */
-  const cursor = document.getElementById('cursor');
-  document.addEventListener('mousemove', e => {
-    cursor.style.left = e.clientX + 'px';
-    cursor.style.top  = e.clientY + 'px';
-  });
-  document.querySelectorAll('a, button, .proj-card').forEach(el => {
-    el.addEventListener('mouseenter', () => cursor.classList.add('grow'));
-    el.addEventListener('mouseleave', () => cursor.classList.remove('grow'));
-  });
-
-  /* ── Nav on scroll ── */
-  const nav = document.getElementById('nav');
-  window.addEventListener('scroll', () => {
-    nav.classList.toggle('solid', window.scrollY > window.innerHeight * 0.85);
-  }, { passive: true });
-
-  /* ── Scroll reveal ── */
-  const io = new IntersectionObserver(
-    entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
-    { threshold: 0.1 }
-  );
-  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
-
-  /* ── Video lightbox ── */
-  const lb = document.getElementById('lightbox');
-  const lbIframe = document.getElementById('lb-iframe');
-
-  function openVideo(id) {
-    lbIframe.src = `https://www.youtube.com/embed/${id}?autoplay=1&rel=0`;
-    lb.style.display = 'flex';
-    document.body.style.overflow = 'hidden';
-  }
-  function closeVideo() {
-    lb.style.display = 'none';
-    lbIframe.src = '';
-    document.body.style.overflow = '';
-  }
-  lb.addEventListener('click', e => { if (e.target === lb) closeVideo(); });
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') closeVideo();
-  });
-</script>
-
-</body>
-</html>
+    <span class="fm-item hi">Post Producción</span><span class

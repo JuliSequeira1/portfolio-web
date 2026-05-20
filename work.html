@@ -233,30 +233,42 @@
     /* ─── CONTACT STRIP ──────────────────────────────────────── */
     #contact-strip {
       padding: 80px 52px;
-      border-top: 1px solid var(--border);
-      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 32px;
+      border-top: 1px solid rgba(247,245,242,.1);
+      background: #0e0e0e;
+      display: flex; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; gap: 32px;
+    }
+    .strip-eyebrow {
+      font-family: 'Syne', sans-serif; font-weight: 700;
+      font-size: clamp(13px, 1.3vw, 16px);
+      letter-spacing: .14em; text-transform: uppercase;
+      color: #f7f5f2; margin-bottom: 22px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .strip-eyebrow::before {
+      content: ''; width: 36px; height: 2px; background: #cc0a2a;
     }
     .strip-left h2 {
       font-family: 'Syne', sans-serif; font-weight: 800;
       font-size: clamp(36px, 6vw, 80px); text-transform: uppercase; line-height: .9;
     }
-    .strip-left h2 a { color: var(--ink); text-decoration: none; }
-    .strip-left h2 a:hover { opacity: .5; }
-    .strip-right { display: flex; gap: 28px; flex-wrap: wrap; }
+    .strip-left h2 a { color: #f7f5f2; text-decoration: none; transition: color .25s; }
+    .strip-left h2 a:hover { color: #cc0a2a; }
+    .strip-right { display: flex; gap: 28px; flex-wrap: wrap; padding-bottom: 10px; }
     .s-link {
       font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
-      color: var(--muted); text-decoration: none;
-      border-bottom: 1px solid var(--border); padding-bottom: 2px;
+      color: rgba(247,245,242,.5); text-decoration: none;
+      border-bottom: 1px solid rgba(247,245,242,.2); padding-bottom: 2px;
       transition: color .25s, border-color .25s;
     }
-    .s-link:hover { color: var(--ink); border-color: var(--ink); }
+    .s-link:hover { color: #cc0a2a; border-color: #cc0a2a; }
 
     /* ─── FOOTER ─────────────────────────────────────────────── */
     footer {
-      padding: 24px 52px; border-top: 1px solid var(--border);
+      padding: 24px 52px; border-top: 1px solid rgba(247,245,242,.1);
+      background: #0e0e0e;
       display: flex; align-items: center; justify-content: space-between;
     }
-    footer span { font-size: 10px; letter-spacing: .1em; color: var(--muted); }
+    footer span { font-size: 10px; letter-spacing: .1em; color: rgba(247,245,242,.5); }
 
     /* ─── UTILS ──────────────────────────────────────────────── */
     .reveal { opacity: 0; transform: translateY(24px); transition: opacity .8s ease, transform .8s ease; }
@@ -430,9 +442,10 @@
       </div>
     </div>
 
-    <!-- Dinopops — sin video público -->
-    <div class="work-item reveal" data-cat="animacion">
+    <!-- Dinopops — IMDB -->
+    <div class="work-item reveal" data-cat="animacion" onclick="window.open('https://www.imdb.com/es-es/video/vi4132946969/?ref_=ext_shr_lnk','_blank')" style="cursor:pointer">
       <div class="item-grad" style="background:linear-gradient(135deg,#0d1b3e,#1a2d5a)"></div>
+      <a class="item-ext" href="https://www.imdb.com/es-es/video/vi4132946969/?ref_=ext_shr_lnk" target="_blank" rel="noopener" onclick="event.stopPropagation()">↗</a>
       <div class="work-item-meta">
         <p class="item-cat">Animation Series · NBC / Peacock</p>
         <p class="item-name">Dinopops — Season 1</p>
@@ -440,23 +453,14 @@
       </div>
     </div>
 
-    <!-- Silent Hill -->
-    <div class="work-item reveal d1" data-cat="animacion realizacion">
-      <div class="item-grad" style="background:linear-gradient(135deg,#1a0808,#2e1010)"></div>
+    <!-- Silent Hill: Ascension -->
+    <div class="work-item reveal d1" data-cat="animacion realizacion" onclick="openVideo('TP6R0bC4LYI')" style="cursor:pointer">
+      <img src="https://img.youtube.com/vi/TP6R0bC4LYI/maxresdefault.jpg" alt="Silent Hill Ascension">
+      <a class="item-ext" href="https://youtu.be/TP6R0bC4LYI" target="_blank" rel="noopener" onclick="event.stopPropagation()">↗</a>
       <div class="work-item-meta">
-        <p class="item-cat">Interactive Media · Emmy Associated</p>
+        <p class="item-cat">Interactive Media · Emmy 2024</p>
         <p class="item-name">Silent Hill: Ascension</p>
-        <p class="item-client">Konami</p>
-      </div>
-    </div>
-
-    <!-- DHL / Branded -->
-    <div class="work-item reveal" data-cat="branded realizacion">
-      <div class="item-grad" style="background:linear-gradient(135deg,#1a0e00,#2e2000)"></div>
-      <div class="work-item-meta">
-        <p class="item-cat">Branded Content</p>
-        <p class="item-name">DHL · Uber · John Deere</p>
-        <p class="item-client">Contenido de marca global</p>
+        <p class="item-client">Konami × Genvid</p>
       </div>
     </div>
 
@@ -466,8 +470,8 @@
 <!-- ── IA VIDEOS VERTICALES ───────────────────────────────────── -->
 <section id="ai-section">
   <div class="ai-header">
-    <p class="ai-tag">Nueva sección</p>
-    <h2 class="ai-title reveal">IA<br>Videos</h2>
+    <p class="ai-tag">Flujo de trabajo con IA generativa</p>
+    <h2 class="ai-title reveal">IA<br>Video</h2>
     <p class="ai-desc reveal d1">
       Exploración de narrativa visual con inteligencia artificial generativa.
       Videos en formato vertical — Sora, Runway, Kling, Seedance y más.
@@ -636,6 +640,7 @@
 <!-- ── CONTACT STRIP ─────────────────────────────────────────── -->
 <section id="contact-strip">
   <div class="strip-left">
+    <p class="strip-eyebrow">¿Trabajamos juntos?</p>
     <h2><a href="mailto:bd.juliansequeira@gmail.com">Let's<br>Talk.</a></h2>
   </div>
   <div class="strip-right">
@@ -711,26 +716,4 @@
       lbInner.style.width = 'min(90vw, 960px)';
     }
     lbIframe.src = `https://www.youtube.com/embed/${id}?autoplay=1&rel=0`;
-    lightbox.classList.add('open');
-    document.body.style.overflow = 'hidden';
-  }
-  function closeVideo() {
-    lightbox.classList.remove('open');
-    lbIframe.src = '';
-    document.body.style.overflow = '';
-  }
-
-  lbClose.addEventListener('click', closeVideo);
-  lightbox.addEventListener('click', e => { if (e.target === lightbox) closeVideo(); });
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeVideo(); });
-
-  document.querySelectorAll('.ai-card').forEach(card => {
-    card.addEventListener('click', () => {
-      const ytId = card.dataset.yt;
-      if (ytId) openVideo(ytId, true); // true = vertical (9:16)
-    });
-  });
-</script>
-
-</body>
-</html>
+    lightbox.classList.a
