@@ -692,12 +692,10 @@
       to   { transform: translateX(0); }
     }
 
-    /* Scroll reveal */
-    .reveal {
-      opacity: 0; transform: translateY(28px);
-      transition: opacity .8s ease, transform .8s ease;
-    }
-    .reveal.visible { opacity: 1; transform: none; }
+    /* Scroll reveal — visible por defecto; solo se esconde/anima si el JS corre */
+    .reveal { transition: opacity .8s ease, transform .8s ease; }
+    html.js-reveal .reveal { opacity: 0; transform: translateY(28px); }
+    html.js-reveal .reveal.visible { opacity: 1; transform: none; }
     .reveal.d1 { transition-delay: .1s; }
     .reveal.d2 { transition-delay: .2s; }
     .reveal.d3 { transition-delay: .3s; }
@@ -964,5 +962,4 @@
     <span class="fm-item hi">Ficción</span><span class="fm-sep">—</span>
     <span class="fm-item">3D &amp; 2D</span><span class="fm-sep">—</span>
     <span class="fm-item hi">Branded</span><span class="fm-sep">—</span>
-    <span class="fm-item">Music Video</span><span class="fm-sep">—</span>
-    <span class="fm-item hi">Post Producción</span><span class
+    <span class="fm-item">Music Video</span><sp
