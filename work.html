@@ -29,19 +29,29 @@
       background: var(--bg);
       color: var(--ink);
       overflow-x: hidden;
-      cursor: none;
     }
 
-    /* ─── CURSOR ─────────────────────────────────────────────── */
-    #cursor {
-      position: fixed; width: 9px; height: 9px;
-      background: var(--ink); border-radius: 50%;
+    /* ─── CURSOR (custom; solo activo si el JS corre) ─────────── */
+    html.js-cursor, html.js-cursor * { cursor: none; }
+    #cursor-dot, #cursor-ring {
+      position: fixed; top: 0; left: 0;
       pointer-events: none; z-index: 9999;
-      top: 0; left: 0; transform: translate(-50%,-50%);
-      transition: width .25s, height .25s;
+      transform: translate(-50%,-50%);
+      border-radius: 50%;
+      opacity: 0;
       mix-blend-mode: difference;
     }
-    #cursor.grow { width: 44px; height: 44px; }
+    #cursor-dot {
+      width: 7px; height: 7px; background: #fff;
+      transition: opacity .3s, transform .15s;
+    }
+    #cursor-ring {
+      width: 34px; height: 34px;
+      border: 1.5px solid #fff;
+      transition: width .25s ease, height .25s ease, opacity .3s;
+    }
+    #cursor-ring.grow { width: 58px; height: 58px; }
+    #cursor-dot.click { transform: translate(-50%,-50%) scale(.6); }
 
     /* ─── NAV ────────────────────────────────────────────────── */
     nav {
@@ -287,7 +297,8 @@
 </head>
 <body>
 
-<div id="cursor"></div>
+<div id="cursor-ring"></div>
+<div id="cursor-dot"></div>
 
 <!-- ── NAV ───────────────────────────────────────────────────── -->
 <nav>
@@ -429,6 +440,72 @@
         <p class="item-cat">Music Video · Dirección</p>
         <p class="item-name">Atrapado</p>
         <p class="item-client">Argentina Tango Rap</p>
+      </div>
+    </div>
+
+    <!-- Linyeras Cru — Cosas del Destino -->
+    <div class="work-item reveal" data-cat="music realizacion" onclick="openVideo('5KN3twZjw3w')" style="cursor:pointer">
+      <img src="https://img.youtube.com/vi/5KN3twZjw3w/maxresdefault.jpg" alt="Linyeras Cru Cosas del Destino">
+      <a class="item-ext" href="https://youtu.be/5KN3twZjw3w" target="_blank" rel="noopener" onclick="event.stopPropagation()">↗</a>
+      <div class="work-item-meta">
+        <p class="item-cat">Music Video · Dirección</p>
+        <p class="item-name">Cosas del Destino</p>
+        <p class="item-client">Linyeras Cru</p>
+      </div>
+    </div>
+
+    <!-- Tortu aka O.d.d.M — Salgo a Caminar -->
+    <div class="work-item reveal d1" data-cat="music realizacion" onclick="openVideo('0dOVfSLxZj8')" style="cursor:pointer">
+      <img src="https://img.youtube.com/vi/0dOVfSLxZj8/maxresdefault.jpg" alt="Tortu Salgo a Caminar">
+      <a class="item-ext" href="https://youtu.be/0dOVfSLxZj8" target="_blank" rel="noopener" onclick="event.stopPropagation()">↗</a>
+      <div class="work-item-meta">
+        <p class="item-cat">Music Video · Dirección &amp; VFX</p>
+        <p class="item-name">Salgo a Caminar</p>
+        <p class="item-client">Tortu aka O.d.d.M</p>
+      </div>
+    </div>
+
+    <!-- Orquesta Típica La Vidú — Sos Vo -->
+    <div class="work-item reveal" data-cat="music realizacion" onclick="openVideo('mYHd8dVEmuU')" style="cursor:pointer">
+      <img src="https://img.youtube.com/vi/mYHd8dVEmuU/maxresdefault.jpg" alt="La Vidu Sos Vo">
+      <a class="item-ext" href="https://youtu.be/mYHd8dVEmuU" target="_blank" rel="noopener" onclick="event.stopPropagation()">↗</a>
+      <div class="work-item-meta">
+        <p class="item-cat">Music Video · Dirección</p>
+        <p class="item-name">Sos Vo</p>
+        <p class="item-client">Orquesta Típica La Vidú</p>
+      </div>
+    </div>
+
+    <!-- Danest × DLS — Geminis (Episodio 1) -->
+    <div class="work-item reveal d1" data-cat="music realizacion" onclick="openVideo('UMC9ClHPBDc')" style="cursor:pointer">
+      <img src="https://img.youtube.com/vi/UMC9ClHPBDc/maxresdefault.jpg" alt="Danest DLS Geminis">
+      <a class="item-ext" href="https://youtu.be/UMC9ClHPBDc" target="_blank" rel="noopener" onclick="event.stopPropagation()">↗</a>
+      <div class="work-item-meta">
+        <p class="item-cat">Music Video · Dirección</p>
+        <p class="item-name">Geminis — Episodio 1</p>
+        <p class="item-client">Danest × DLS</p>
+      </div>
+    </div>
+
+    <!-- Tortu × Devak 24 — Miran para Arriba -->
+    <div class="work-item reveal" data-cat="music realizacion" onclick="openVideo('aY3ymJEwSxk')" style="cursor:pointer">
+      <img src="https://img.youtube.com/vi/aY3ymJEwSxk/maxresdefault.jpg" alt="Miran para Arriba">
+      <a class="item-ext" href="https://youtu.be/aY3ymJEwSxk" target="_blank" rel="noopener" onclick="event.stopPropagation()">↗</a>
+      <div class="work-item-meta">
+        <p class="item-cat">Music Video · Dirección &amp; Montaje</p>
+        <p class="item-name">Miran para Arriba</p>
+        <p class="item-client">Tortu aka O.d.d.M × Devak 24</p>
+      </div>
+    </div>
+
+    <!-- Chaco — Ojo por Ojo -->
+    <div class="work-item reveal d1" data-cat="music realizacion" onclick="openVideo('B864iOuEhRY')" style="cursor:pointer">
+      <img src="https://img.youtube.com/vi/B864iOuEhRY/maxresdefault.jpg" alt="Chaco Ojo por Ojo">
+      <a class="item-ext" href="https://youtu.be/B864iOuEhRY" target="_blank" rel="noopener" onclick="event.stopPropagation()">↗</a>
+      <div class="work-item-meta">
+        <p class="item-cat">Music Video · Dirección &amp; Montaje</p>
+        <p class="item-name">Ojo por Ojo</p>
+        <p class="item-client">Chaco</p>
       </div>
     </div>
 
@@ -667,51 +744,119 @@
   </div>
 </div>
 
+<!-- ── VIDEO LIGHTBOX (global; debe estar disponible para los onclick) ── -->
 <script>
-  /* ── Cursor ── */
-  const cursor = document.getElementById('cursor');
-  document.addEventListener('mousemove', e => {
-    cursor.style.left = e.clientX + 'px';
-    cursor.style.top  = e.clientY + 'px';
-  });
-  document.querySelectorAll('a, button, .work-item, .ai-card').forEach(el => {
-    el.addEventListener('mouseenter', () => cursor.classList.add('grow'));
-    el.addEventListener('mouseleave', () => cursor.classList.remove('grow'));
-  });
-
-  /* ── Filters ── */
-  const filterBtns = document.querySelectorAll('.filter-btn');
-  const workItems  = document.querySelectorAll('.work-item');
-
-  filterBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      filterBtns.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      const f = btn.dataset.filter;
-      workItems.forEach(item => {
-        const cats = item.dataset.cat || '';
-        item.classList.toggle('hidden', f !== 'all' && !cats.includes(f));
+  function openVideo(id, vertical) {
+    var lightbox = document.getElementById('lightbox');
+    var lbIframe = document.getElementById('lb-iframe');
+    var lbInner = document.querySelector('.lb-inner');
+    if (!lightbox || !lbIframe || !lbInner) return;
+    if (vertical) {
+      lbInner.style.aspectRatio = '9/16';
+      lbInner.style.width = 'min(55vw, 380px)';
+    } else {
+      lbInner.style.aspectRatio = '16/9';
+      lbInner.style.width = 'min(90vw, 960px)';
+    }
+    lbIframe.src = 'https://www.youtube.com/embed/' + id + '?autoplay=1&rel=0';
+    lightbox.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeVideo() {
+    var lightbox = document.getElementById('lightbox');
+    var lbIframe = document.getElementById('lb-iframe');
+    if (!lightbox || !lbIframe) return;
+    lightbox.classList.remove('open');
+    lbIframe.src = '';
+    document.body.style.overflow = '';
+  }
+  (function () {
+    var lightbox = document.getElementById('lightbox');
+    var lbClose = document.getElementById('lb-close');
+    if (lbClose) lbClose.addEventListener('click', closeVideo);
+    if (lightbox) lightbox.addEventListener('click', function (e) { if (e.target === lightbox) closeVideo(); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeVideo(); });
+    document.querySelectorAll('.ai-card').forEach(function (card) {
+      card.addEventListener('click', function () {
+        var ytId = card.dataset.yt;
+        if (ytId) openVideo(ytId, true); /* vertical 9:16 */
       });
     });
-  });
+  })();
+</script>
 
-  /* ── Scroll reveal ── */
-  document.documentElement.classList.add('js-reveal');
-  const revealEls = document.querySelectorAll('.reveal');
-  const io = new IntersectionObserver(
-    entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
-    { threshold: 0.08, rootMargin: '0px 0px -5% 0px' }
-  );
-  revealEls.forEach(el => io.observe(el));
-  window.addEventListener('load', () => setTimeout(() => {
-    revealEls.forEach(el => {
-      if (!el.classList.contains('visible') && el.getBoundingClientRect().top < innerHeight) el.classList.add('visible');
+<!-- ── CUSTOM CURSOR (solo en pointer fino; degrada a cursor normal) ── -->
+<script>
+  (function () {
+    try {
+      if (!window.matchMedia || !matchMedia('(pointer:fine)').matches) return;
+      var dot = document.getElementById('cursor-dot');
+      var ring = document.getElementById('cursor-ring');
+      if (!dot || !ring) return;
+      document.documentElement.classList.add('js-cursor');
+      var mx = innerWidth / 2, my = innerHeight / 2, rx = mx, ry = my, shown = false;
+      document.addEventListener('mousemove', function (e) {
+        mx = e.clientX; my = e.clientY;
+        dot.style.left = mx + 'px'; dot.style.top = my + 'px';
+        if (!shown) { dot.style.opacity = 1; ring.style.opacity = 1; shown = true; }
+      });
+      (function loop() {
+        rx += (mx - rx) * 0.18; ry += (my - ry) * 0.18;
+        ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+        requestAnimationFrame(loop);
+      })();
+      document.addEventListener('mouseleave', function () { dot.style.opacity = 0; ring.style.opacity = 0; });
+      document.addEventListener('mouseenter', function () { dot.style.opacity = 1; ring.style.opacity = 1; });
+      document.addEventListener('mousedown', function () { dot.classList.add('click'); ring.classList.add('grow'); });
+      document.addEventListener('mouseup', function () { dot.classList.remove('click'); });
+      var hov = 'a, button, .work-item, .ai-card, .filter-btn, .s-link';
+      document.querySelectorAll(hov).forEach(function (el) {
+        el.addEventListener('mouseenter', function () { ring.classList.add('grow'); });
+        el.addEventListener('mouseleave', function () { ring.classList.remove('grow'); });
+      });
+    } catch (err) { document.documentElement.classList.remove('js-cursor'); }
+  })();
+</script>
+
+<!-- ── FILTERS ── -->
+<script>
+  (function () {
+    var filterBtns = document.querySelectorAll('.filter-btn');
+    var workItems = document.querySelectorAll('.work-item');
+    filterBtns.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        filterBtns.forEach(function (b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        var f = btn.dataset.filter;
+        workItems.forEach(function (item) {
+          var cats = item.dataset.cat || '';
+          item.classList.toggle('hidden', f !== 'all' && !cats.includes(f));
+        });
+      });
     });
-  }, 300));
+  })();
+</script>
 
-  /* ── Lightbox (work items + AI cards) ── */
-  const lightbox = document.getElementById('lightbox');
-  const lbIframe = document.getElementById('lb-iframe');
-  const lbClose  = document.getElementById('lb-close');
+<!-- ── SCROLL REVEAL ── -->
+<script>
+  (function () {
+    document.documentElement.classList.add('js-reveal');
+    var revealEls = document.querySelectorAll('.reveal');
+    function show(el) { el.classList.add('visible'); }
+    if (!('IntersectionObserver' in window)) { revealEls.forEach(show); return; }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { if (e.isIntersecting) show(e.target); });
+    }, { threshold: 0.08, rootMargin: '0px 0px -5% 0px' });
+    revealEls.forEach(function (el) { io.observe(el); });
+    window.addEventListener('load', function () {
+      setTimeout(function () {
+        revealEls.forEach(function (el) {
+          if (!el.classList.contains('visible') && el.getBoundingClientRect().top < innerHeight) show(el);
+        });
+      }, 300);
+    });
+  })();
+</script>
 
-  function openVi
+</body>
+</html>

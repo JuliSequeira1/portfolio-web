@@ -40,27 +40,34 @@
       background: var(--bg);
       color: var(--ink);
       overflow-x: hidden;
-      cursor: none;
     }
 
-    /* ─── CURSOR ─────────────────────────────────────────────── */
-    #cursor {
-      position: fixed;
-      width: 10px; height: 10px;
+    /* ─── CURSOR (custom; solo activo si el JS corre) ─────────── */
+    html.js-cursor, html.js-cursor * { cursor: none; }
+    #cursor-dot, #cursor-ring {
+      position: fixed; top: 0; left: 0;
+      pointer-events: none; z-index: 9999;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      opacity: 0;
+    }
+    #cursor-dot {
+      width: 7px; height: 7px;
       background: var(--red);
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 9999;
-      top: 0; left: 0;
-      transform: translate(-50%,-50%);
-      transition: width .2s, height .2s, border-radius .2s;
+      transition: opacity .3s, transform .15s;
     }
-    #cursor.grow {
-      width: 48px; height: 48px;
-      background: transparent;
-      border: 1.5px solid var(--red);
-      border-radius: 50%;
+    #cursor-ring {
+      width: 34px; height: 34px;
+      border: 1.5px solid rgba(204,10,42,.55);
+      transition: width .25s ease, height .25s ease,
+                  background .25s ease, border-color .25s ease, opacity .3s;
     }
+    #cursor-ring.grow {
+      width: 62px; height: 62px;
+      background: rgba(204,10,42,.10);
+      border-color: var(--red);
+    }
+    #cursor-dot.click { transform: translate(-50%,-50%) scale(.6); }
 
     /* ─── NAV ────────────────────────────────────────────────── */
     nav {
@@ -714,7 +721,8 @@
 </head>
 <body>
 
-<div id="cursor"></div>
+<div id="cursor-ring"></div>
+<div id="cursor-dot"></div>
 
 <!-- ── NAV ───────────────────────────────────────────────────── -->
 <nav id="nav">
@@ -962,4 +970,137 @@
     <span class="fm-item hi">Ficción</span><span class="fm-sep">—</span>
     <span class="fm-item">3D &amp; 2D</span><span class="fm-sep">—</span>
     <span class="fm-item hi">Branded</span><span class="fm-sep">—</span>
-    <span class="fm-item">Music Video</span><sp
+    <span class="fm-item">Music Video</span><span class="fm-sep">—</span>
+    <span class="fm-item hi">Post Producción</span><span class="fm-sep">—</span>
+    <span class="fm-item">Fotografía</span><span class="fm-sep">—</span>
+  </div>
+</section>
+
+<!-- ── CONTACT ────────────────────────────────────────────────── -->
+<section id="contact">
+  <div>
+    <p class="contact-eyebrow">¿Trabajamos juntos?</p>
+    <div class="contact-big reveal">
+      <a href="mailto:bd.juliansequeira@gmail.com">Let's<br>Talk.</a>
+    </div>
+    <p class="contact-tags">
+      Projects <span class="sep">·</span> Film <span class="sep">·</span> 3D
+      <span class="sep">·</span> AI <span class="sep">·</span> Direction
+      <span class="sep">·</span> Production
+    </p>
+  </div>
+  <div class="contact-links reveal d1">
+    <a href="mailto:bd.juliansequeira@gmail.com"          class="c-link">Email      <span class="c-arrow">↗</span></a>
+    <a href="https://www.youtube.com/@flama.collective"   class="c-link" target="_blank" rel="noopener">YouTube    <span class="c-arrow">↗</span></a>
+    <a href="https://www.instagram.com/sequeira_ju/"      class="c-link" target="_blank" rel="noopener">Instagram  <span class="c-arrow">↗</span></a>
+    <a href="https://www.linkedin.com/in/sequeirajulian/" class="c-link" target="_blank" rel="noopener">LinkedIn   <span class="c-arrow">↗</span></a>
+    <a href="https://vimeo.com/juliansequeira"            class="c-link" target="_blank" rel="noopener">Vimeo      <span class="c-arrow">↗</span></a>
+  </div>
+</section>
+
+<!-- ── FOOTER ─────────────────────────────────────────────────── -->
+<footer>
+  <span>© 2026 Julián Sequeira</span>
+  <span>Buenos Aires, Argentina</span>
+</footer>
+
+<!-- ── VIDEO LIGHTBOX ─────────────────────────────────────────── -->
+<div id="lightbox" style="display:none;position:fixed;inset:0;z-index:900;background:rgba(10,10,10,.96);align-items:center;justify-content:center;">
+  <div style="position:relative;width:min(90vw,960px);aspect-ratio:16/9;">
+    <button onclick="closeVideo()" style="position:absolute;top:-48px;right:0;font-size:22px;color:#F4F2EE;background:none;border:none;cursor:pointer;">✕</button>
+    <iframe id="lb-iframe" src="" allow="autoplay;encrypted-media" allowfullscreen style="width:100%;height:100%;border:none;"></iframe>
+  </div>
+</div>
+
+<!-- ── VIDEO LIGHTBOX (global; debe estar disponible para los onclick) ── -->
+<script>
+  function openVideo(id) {
+    var lb = document.getElementById('lightbox');
+    var lbIframe = document.getElementById('lb-iframe');
+    if (!lb || !lbIframe) return;
+    lbIframe.src = 'https://www.youtube.com/embed/' + id + '?autoplay=1&rel=0';
+    lb.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  }
+  function closeVideo() {
+    var lb = document.getElementById('lightbox');
+    var lbIframe = document.getElementById('lb-iframe');
+    if (!lb || !lbIframe) return;
+    lb.style.display = 'none';
+    lbIframe.src = '';
+    document.body.style.overflow = '';
+  }
+  (function () {
+    var lb = document.getElementById('lightbox');
+    if (lb) lb.addEventListener('click', function (e) { if (e.target === lb) closeVideo(); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeVideo(); });
+  })();
+</script>
+
+<!-- ── CUSTOM CURSOR (solo en pointer fino; degrada a cursor normal) ── -->
+<script>
+  (function () {
+    try {
+      if (!window.matchMedia || !matchMedia('(pointer:fine)').matches) return;
+      var dot = document.getElementById('cursor-dot');
+      var ring = document.getElementById('cursor-ring');
+      if (!dot || !ring) return;
+      document.documentElement.classList.add('js-cursor');
+      var mx = innerWidth / 2, my = innerHeight / 2, rx = mx, ry = my, shown = false;
+      document.addEventListener('mousemove', function (e) {
+        mx = e.clientX; my = e.clientY;
+        dot.style.left = mx + 'px'; dot.style.top = my + 'px';
+        if (!shown) { dot.style.opacity = 1; ring.style.opacity = 1; shown = true; }
+      });
+      (function loop() {
+        rx += (mx - rx) * 0.18; ry += (my - ry) * 0.18;
+        ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+        requestAnimationFrame(loop);
+      })();
+      document.addEventListener('mouseleave', function () { dot.style.opacity = 0; ring.style.opacity = 0; });
+      document.addEventListener('mouseenter', function () { dot.style.opacity = 1; ring.style.opacity = 1; });
+      document.addEventListener('mousedown', function () { dot.classList.add('click'); ring.classList.add('grow'); });
+      document.addEventListener('mouseup', function () { dot.classList.remove('click'); });
+      var hov = 'a, button, .proj-card, .btn, .c-link, .view-all, .about-cv';
+      document.querySelectorAll(hov).forEach(function (el) {
+        el.addEventListener('mouseenter', function () { ring.classList.add('grow'); });
+        el.addEventListener('mouseleave', function () { ring.classList.remove('grow'); });
+      });
+    } catch (err) { document.documentElement.classList.remove('js-cursor'); }
+  })();
+</script>
+
+<!-- ── NAV ON SCROLL ── -->
+<script>
+  (function () {
+    var nav = document.getElementById('nav');
+    if (!nav) return;
+    window.addEventListener('scroll', function () {
+      nav.classList.toggle('solid', window.scrollY > window.innerHeight * 0.85);
+    }, { passive: true });
+  })();
+</script>
+
+<!-- ── SCROLL REVEAL ── -->
+<script>
+  (function () {
+    document.documentElement.classList.add('js-reveal');
+    var revealEls = document.querySelectorAll('.reveal');
+    function show(el) { el.classList.add('visible'); }
+    if (!('IntersectionObserver' in window)) { revealEls.forEach(show); return; }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { if (e.isIntersecting) show(e.target); });
+    }, { threshold: 0.08, rootMargin: '0px 0px -5% 0px' });
+    revealEls.forEach(function (el) { io.observe(el); });
+    window.addEventListener('load', function () {
+      setTimeout(function () {
+        revealEls.forEach(function (el) {
+          if (!el.classList.contains('visible') && el.getBoundingClientRect().top < innerHeight) show(el);
+        });
+      }, 300);
+    });
+  })();
+</script>
+
+</body>
+</html>
