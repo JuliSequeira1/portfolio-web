@@ -1081,26 +1081,24 @@
   })();
 </script>
 
-<!-- ── SCROLL REVEAL ── -->
+<!-- ── SCROLL REVEAL (triple-redundante: IO + scroll + load) ── -->
 <script>
   (function () {
     document.documentElement.classList.add('js-reveal');
     var revealEls = document.querySelectorAll('.reveal');
     function show(el) { el.classList.add('visible'); }
-    if (!('IntersectionObserver' in window)) { revealEls.forEach(show); return; }
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) { if (e.isIntersecting) show(e.target); });
-    }, { threshold: 0.08, rootMargin: '0px 0px -5% 0px' });
-    revealEls.forEach(function (el) { io.observe(el); });
-    window.addEventListener('load', function () {
-      setTimeout(function () {
-        revealEls.forEach(function (el) {
-          if (!el.classList.contains('visible') && el.getBoundingClientRect().top < innerHeight) show(el);
-        });
-      }, 300);
-    });
-  })();
-</script>
-
-</body>
-</html>
+    function revealInView() {
+      for (var i = 0; i < revealEls.length; i++) {
+        var el = revealEls[i];
+        if (!el.classList.contains('visible') && el.getBoundingClientRect().top < innerHeight * 0.95) show(el);
+      }
+    }
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) { if (e.isIntersecting) show(e.target); });
+      }, { threshold: 0.08, rootMargin: '0px 0px -5% 0px' });
+      revealEls.forEach(function (el) { io.observe(el); });
+    } else {
+      revealEls.forEach(show);
+    }
+  
