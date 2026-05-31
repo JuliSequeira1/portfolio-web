@@ -68,6 +68,16 @@
       border-color: var(--red);
     }
     #cursor-dot.click { transform: translate(-50%,-50%) scale(.6); }
+    #cursor-label {
+      position: fixed; top: 0; left: 0;
+      pointer-events: none; z-index: 9999;
+      transform: translate(-50%, -50%) scale(.6);
+      font-family: 'Satoshi', sans-serif;
+      font-size: 10px; font-weight: 800; letter-spacing: .14em;
+      text-transform: uppercase; color: #F4F2EE;
+      opacity: 0; transition: opacity .25s, transform .25s;
+    }
+    #cursor-label.show { opacity: 1; transform: translate(-50%, -50%) scale(1); }
 
     /* ─── NAV ────────────────────────────────────────────────── */
     nav {
@@ -159,8 +169,8 @@
     .hero-title {
       font-family: 'Satoshi', sans-serif;
       font-weight: 900;
-      font-size: clamp(72px, 13.5vw, 180px);
-      line-height: .88;
+      font-size: clamp(48px, 9vw, 116px);
+      line-height: .9;
       letter-spacing: -.03em;
       text-transform: uppercase;
       color: #F4F2EE;
@@ -393,7 +403,7 @@
     }
     .sec-title {
       font-family: 'Satoshi', sans-serif;
-      font-size: clamp(44px, 6vw, 80px);
+      font-size: clamp(30px, 4vw, 54px);
       font-weight: 900;
       text-transform: uppercase;
       letter-spacing: -.02em;
@@ -409,6 +419,34 @@
       transition: color .25s, border-color .25s;
     }
     .view-all:hover { color: var(--red); border-color: var(--red); }
+
+    /* Featured project (full width) */
+    .proj-featured {
+      position: relative; overflow: hidden;
+      aspect-ratio: 21/9; background: #0d1b3e;
+      cursor: pointer; margin-bottom: 16px;
+    }
+    @media (max-width: 700px) { .proj-featured { aspect-ratio: 16/10; } }
+    .proj-featured .card-bg {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+      transition: transform .8s cubic-bezier(.16,1,.3,1), filter .4s;
+      filter: brightness(.7) saturate(.95);
+    }
+    .proj-featured:hover .card-bg { transform: scale(1.04); filter: brightness(.55) saturate(1); }
+    .proj-featured::before {
+      content: ''; position: absolute; bottom: 0; left: 0;
+      width: 0; height: 3px; background: var(--red); z-index: 3;
+      transition: width .5s cubic-bezier(.16,1,.3,1);
+    }
+    .proj-featured:hover::before { width: 100%; }
+    .feat-badge {
+      position: absolute; top: 22px; left: 24px; z-index: 3;
+      font-size: 9px; font-weight: 600; letter-spacing: .18em;
+      text-transform: uppercase; color: #F4F2EE;
+      background: var(--red); padding: 6px 12px;
+    }
+    .proj-featured .proj-meta { padding: 32px 32px; }
+    .proj-featured .proj-name { font-size: clamp(26px, 4vw, 48px); }
 
     /* Asymmetric grid */
     .work-grid {
@@ -699,6 +737,17 @@
       to   { transform: translateX(0); }
     }
 
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .001ms !important;
+        scroll-behavior: auto !important;
+      }
+      .press-track, .disc-track, .fm-track { animation: none !important; transform: none !important; }
+      html.js-reveal .reveal { opacity: 1 !important; transform: none !important; }
+    }
+
     /* Scroll reveal — visible por defecto; solo se esconde/anima si el JS corre */
     .reveal { transition: opacity .8s ease, transform .8s ease; }
     html.js-reveal .reveal { opacity: 0; transform: translateY(28px); }
@@ -723,6 +772,7 @@
 
 <div id="cursor-ring"></div>
 <div id="cursor-dot"></div>
+<div id="cursor-label">Play ▶</div>
 
 <!-- ── NAV ───────────────────────────────────────────────────── -->
 <nav id="nav">
@@ -754,8 +804,8 @@
   <div class="hero-content">
     <p class="hero-eyebrow">Buenos Aires · Director · Realizador Integral</p>
     <h1 class="hero-title">Julián<br>Sequeira</h1>
-    <p class="hero-tagline">Dirijo historias<br>entre lo humano y lo imposible.</p>
-    <p class="hero-lead">Cine, animación, 3D e IA generativa al servicio de imágenes que no solo impresionan: <em>permanecen.</em></p>
+    <p class="hero-tagline">Dirijo historias.<br>Construyo mundos.</p>
+    <p class="hero-lead">Uso cada herramienta disponible —cine, animación, 3D e IA generativa— para <em>hacerlos reales.</em></p>
     <div class="hero-cta">
       <a href="javascript:void(0)" onclick="openVideo('MEIpjzwSQsc')" class="btn btn-primary">
         <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor"><polygon points="4,2 14,8 4,14"/></svg>
@@ -848,6 +898,18 @@
   </div>
 
   <div class="work-grid">
+
+    <!-- Big card: Dinopops (trailer Dailymotion) -->
+    <div class="proj-card reveal" onclick="openDailymotion('x8qp5m7')" style="cursor:pointer">
+      <img src="assets/dinopops.jpg" alt="Dinopops"
+           onerror="this.style.display='none'; this.parentNode.style.background='linear-gradient(135deg,#0d1b3e,#1a2d5a)';">
+      <a class="proj-ext" href="https://www.imdb.com/es-es/video/vi4132946969/?ref_=ext_shr_lnk" target="_blank" rel="noopener" onclick="event.stopPropagation()">&#8599;</a>
+      <div class="proj-meta">
+        <p class="proj-cat">Serie de animación · NBC / Peacock</p>
+        <h3 class="proj-name">Dinopops — Season 1</h3>
+        <p class="proj-client">Konami × NBC Peacock</p>
+      </div>
+    </div>
 
     <!-- Big card: La Noche -->
     <div class="proj-card reveal" onclick="openVideo('3pr9iIdRLPI')" style="cursor:pointer">
@@ -1008,7 +1070,7 @@
 <div id="lightbox" style="display:none;position:fixed;inset:0;z-index:900;background:rgba(10,10,10,.96);align-items:center;justify-content:center;">
   <div style="position:relative;width:min(90vw,960px);aspect-ratio:16/9;">
     <button onclick="closeVideo()" style="position:absolute;top:-48px;right:0;font-size:22px;color:#F4F2EE;background:none;border:none;cursor:pointer;">✕</button>
-    <iframe id="lb-iframe" src="" allow="autoplay;encrypted-media" allowfullscreen style="width:100%;height:100%;border:none;"></iframe>
+    <iframe id="lb-iframe" src="" allow="autoplay; encrypted-media; fullscreen; web-share" allowfullscreen style="width:100%;height:100%;border:none;"></iframe>
   </div>
 </div>
 
@@ -1019,6 +1081,14 @@
     var lbIframe = document.getElementById('lb-iframe');
     if (!lb || !lbIframe) return;
     lbIframe.src = 'https://www.youtube.com/embed/' + id + '?autoplay=1&rel=0';
+    lb.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  }
+  function openDailymotion(id) {
+    var lb = document.getElementById('lightbox');
+    var lbIframe = document.getElementById('lb-iframe');
+    if (!lb || !lbIframe) return;
+    lbIframe.src = 'https://geo.dailymotion.com/player.html?video=' + id + '&autoplay=1';
     lb.style.display = 'flex';
     document.body.style.overflow = 'hidden';
   }
@@ -1044,12 +1114,14 @@
       if (!window.matchMedia || !matchMedia('(pointer:fine)').matches) return;
       var dot = document.getElementById('cursor-dot');
       var ring = document.getElementById('cursor-ring');
+      var label = document.getElementById('cursor-label');
       if (!dot || !ring) return;
       document.documentElement.classList.add('js-cursor');
       var mx = innerWidth / 2, my = innerHeight / 2, rx = mx, ry = my, shown = false;
       document.addEventListener('mousemove', function (e) {
         mx = e.clientX; my = e.clientY;
         dot.style.left = mx + 'px'; dot.style.top = my + 'px';
+        if (label) { label.style.left = mx + 'px'; label.style.top = my + 'px'; }
         if (!shown) { dot.style.opacity = 1; ring.style.opacity = 1; shown = true; }
       });
       (function loop() {
@@ -1061,11 +1133,17 @@
       document.addEventListener('mouseenter', function () { dot.style.opacity = 1; ring.style.opacity = 1; });
       document.addEventListener('mousedown', function () { dot.classList.add('click'); ring.classList.add('grow'); });
       document.addEventListener('mouseup', function () { dot.classList.remove('click'); });
-      var hov = 'a, button, .proj-card, .btn, .c-link, .view-all, .about-cv';
+      var hov = 'a, button, .proj-card, .proj-featured, .btn, .c-link, .view-all, .about-cv';
       document.querySelectorAll(hov).forEach(function (el) {
         el.addEventListener('mouseenter', function () { ring.classList.add('grow'); });
         el.addEventListener('mouseleave', function () { ring.classList.remove('grow'); });
       });
+      if (label) {
+        document.querySelectorAll('.proj-card, .proj-featured').forEach(function (el) {
+          el.addEventListener('mouseenter', function () { label.classList.add('show'); });
+          el.addEventListener('mouseleave', function () { label.classList.remove('show'); });
+        });
+      }
     } catch (err) { document.documentElement.classList.remove('js-cursor'); }
   })();
 </script>

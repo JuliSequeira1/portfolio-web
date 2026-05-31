@@ -344,8 +344,19 @@
       <img src="https://media.giphy.com/media/TU_GIPHY_ID/giphy.gif" alt="Nombre">
     -->
 
+    <!-- Dinopops — Trailer (Dailymotion) -->
+    <div class="work-item reveal" data-cat="animacion" onclick="openDailymotion('x8qp5m7')" style="cursor:pointer">
+      <img src="assets/dinopops.jpg" alt="Dinopops" onerror="this.style.display='none'; this.parentNode.style.background='linear-gradient(135deg,#0d1b3e,#1a2d5a)';">
+      <a class="item-ext" href="https://www.imdb.com/es-es/video/vi4132946969/?ref_=ext_shr_lnk" target="_blank" rel="noopener" onclick="event.stopPropagation()">&#8599;</a>
+      <div class="work-item-meta">
+        <p class="item-cat">Animation Series · NBC / Peacock</p>
+        <p class="item-name">Dinopops — Season 1</p>
+        <p class="item-client">Konami × NBC Peacock</p>
+      </div>
+    </div>
+
     <!-- La Noche -->
-    <div class="work-item reveal" data-cat="corto realizacion" onclick="openVideo('3pr9iIdRLPI')" style="cursor:pointer">
+    <div class="work-item reveal d1" data-cat="corto realizacion" onclick="openVideo('3pr9iIdRLPI')" style="cursor:pointer">
       <img src="https://img.youtube.com/vi/3pr9iIdRLPI/maxresdefault.jpg" alt="La Noche">
       <a class="item-ext" href="https://youtu.be/3pr9iIdRLPI" target="_blank" onclick="event.stopPropagation()">↗</a>
       <div class="work-item-meta">
@@ -517,17 +528,6 @@
         <p class="item-cat">Cortometraje · 2015</p>
         <p class="item-name">Blanco</p>
         <p class="item-client">Cortometraje independiente</p>
-      </div>
-    </div>
-
-    <!-- Dinopops — IMDB -->
-    <div class="work-item reveal" data-cat="animacion" onclick="window.open('https://www.imdb.com/es-es/video/vi4132946969/?ref_=ext_shr_lnk','_blank')" style="cursor:pointer">
-      <div class="item-grad" style="background:linear-gradient(135deg,#0d1b3e,#1a2d5a)"></div>
-      <a class="item-ext" href="https://www.imdb.com/es-es/video/vi4132946969/?ref_=ext_shr_lnk" target="_blank" rel="noopener" onclick="event.stopPropagation()">↗</a>
-      <div class="work-item-meta">
-        <p class="item-cat">Animation Series · NBC / Peacock</p>
-        <p class="item-name">Dinopops — Season 1</p>
-        <p class="item-client">Konami × NBC Peacock</p>
       </div>
     </div>
 
@@ -740,7 +740,7 @@
 <div id="lightbox">
   <div class="lb-inner">
     <button class="lb-close" id="lb-close">✕</button>
-    <iframe id="lb-iframe" src="" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    <iframe id="lb-iframe" src="" allow="autoplay; encrypted-media; fullscreen; web-share" allowfullscreen></iframe>
   </div>
 </div>
 
@@ -759,6 +759,17 @@
       lbInner.style.width = 'min(90vw, 960px)';
     }
     lbIframe.src = 'https://www.youtube.com/embed/' + id + '?autoplay=1&rel=0';
+    lightbox.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function openDailymotion(id) {
+    var lightbox = document.getElementById('lightbox');
+    var lbIframe = document.getElementById('lb-iframe');
+    var lbInner = document.querySelector('.lb-inner');
+    if (!lightbox || !lbIframe || !lbInner) return;
+    lbInner.style.aspectRatio = '16/9';
+    lbInner.style.width = 'min(90vw, 960px)';
+    lbIframe.src = 'https://geo.dailymotion.com/player.html?video=' + id + '&autoplay=1';
     lightbox.classList.add('open');
     document.body.style.overflow = 'hidden';
   }
