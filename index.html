@@ -1101,4 +1101,12 @@
     } else {
       revealEls.forEach(show);
     }
-  
+      window.addEventListener('scroll', revealInView, { passive: true });
+    window.addEventListener('resize', revealInView, { passive: true });
+    window.addEventListener('load', function () { setTimeout(revealInView, 200); });
+    revealInView();
+  })();
+</script>
+
+</body>
+</html>
