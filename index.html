@@ -5,9 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Julián Sequeira — Director</title>
   <meta name="description" content="Director. Realizador audiovisual integral. Cinematografía, animación, IA, 3D y post producción. Buenos Aires.">
+  <link rel="canonical" href="https://julisequeira.com/">
+  <meta property="og:type"        content="website">
+  <meta property="og:url"         content="https://julisequeira.com/">
   <meta property="og:title"       content="Julián Sequeira — Director">
-  <meta property="og:description" content="Un artista que usa cualquier herramienta para materializar su visión. NBC/Peacock · Konami · Emmy.">
-  <meta property="og:image"       content="assets/julian.png">
+  <meta property="og:description" content="Dirección, cine, animación, 3D e IA generativa. NBC/Peacock · Konami · Emmy 2024.">
+  <meta property="og:image"       content="https://julisequeira.com/assets/julian-og.jpg">
+  <meta name="twitter:card"       content="summary_large_image">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%230A0A0A'/%3E%3Ctext x='32' y='45' font-family='Arial,sans-serif' font-size='28' font-weight='900' fill='%23F4F2EE' text-anchor='middle'%3EJS%3C/text%3E%3Ccircle cx='52' cy='14' r='5' fill='%23CC0A2A'/%3E%3C/svg%3E">
 
   <!-- Vercel Analytics -->
   <script defer src="/_vercel/insights/script.js"></script>
@@ -477,11 +482,12 @@
     .proj-card img, .proj-card .card-bg {
       width: 100%; height: 100%;
       object-fit: cover; display: block;
+      transform: translateY(var(--py, 0px)) scale(1.06);
       transition: transform .7s cubic-bezier(.16,1,.3,1), filter .4s;
       filter: brightness(.8) saturate(.9);
     }
     .proj-card:hover img,
-    .proj-card:hover .card-bg { transform: scale(1.05); filter: brightness(.6) saturate(1); }
+    .proj-card:hover .card-bg { transform: translateY(var(--py, 0px)) scale(1.12); filter: brightness(.6) saturate(1); }
 
     /* Red line reveal on hover */
     .proj-card::before {
@@ -528,14 +534,10 @@
 
     /* ─── ABOUT ──────────────────────────────────────────────── */
     #about {
-      padding: 100px 56px;
-      display: grid;
-      grid-template-columns: 1fr 360px;
-      gap: 80px;
-      align-items: start;
+      padding: 90px 56px;
       border-top: 1px solid var(--border);
     }
-    @media (max-width: 900px) { #about { grid-template-columns: 1fr; } }
+    #about .about-statement { max-width: 880px; }
 
     .about-lbl {
       font-size: 10px; font-weight: 500;
@@ -680,7 +682,7 @@
     .contact-tags .sep { color: var(--red); padding: 0 6px; }
     .contact-big {
       font-family: 'Satoshi', sans-serif;
-      font-size: clamp(56px, 10vw, 128px);
+      font-size: clamp(44px, 7.5vw, 104px);
       font-weight: 900;
       text-transform: uppercase;
       line-height: .85;
@@ -778,9 +780,9 @@
 <nav id="nav">
   <a href="index.html" class="nav-logo">JS</a>
   <ul class="nav-links">
-    <li><a href="work.html">Work</a></li>
-    <li><a href="#about">About</a></li>
-    <li><a href="#contact">Contact</a></li>
+    <li><a href="work.html">Trabajos</a></li>
+    <li><a href="about.html">Sobre mí</a></li>
+    <li><a href="#contact">Contacto</a></li>
   </ul>
 </nav>
 
@@ -805,7 +807,6 @@
     <p class="hero-eyebrow">Buenos Aires · Director · Realizador Integral</p>
     <h1 class="hero-title">Julián<br>Sequeira</h1>
     <p class="hero-tagline">Dirijo historias.<br>Construyo mundos.</p>
-    <p class="hero-lead">Uso cada herramienta disponible —cine, animación, 3D e IA generativa— para <em>hacerlos reales.</em></p>
     <div class="hero-cta">
       <a href="javascript:void(0)" onclick="openVideo('MEIpjzwSQsc')" class="btn btn-primary">
         <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor"><polygon points="4,2 14,8 4,14"/></svg>
@@ -841,58 +842,12 @@
   </div>
 </section>
 
-<!-- ── STATEMENT ─────────────────────────────────────────────── -->
-<section id="statement">
-  <p class="statement-label">Manifiesto</p>
-  <h2 class="statement-body reveal">
-    Las herramientas cambian. <em>La emoción no.</em>
-  </h2>
-  <div class="statement-text">
-    <p class="reveal d1">
-      Del storyboard en papel al render en tiempo real. De dirigir actores en set
-      a diseñar pipelines con IA generativa. La tecnología transforma la manera de producir,
-      pero no cambia la pregunta esencial: qué siente el espectador cuando aparece la imagen.
-    </p>
-    <p class="reveal d2">
-      Trabajo con cine, animación, 3D, postproducción e inteligencia artificial porque cada
-      herramienta abre una posibilidad distinta. Pero ninguna reemplaza la mirada, el ritmo,
-      la tensión dramática ni la intuición narrativa.
-    </p>
-    <p class="reveal d3">
-      No dirijo para las máquinas. <strong>Dirijo para las personas.</strong>
-    </p>
-  </div>
-</section>
-
-<!-- ── DISCIPLINES MARQUEE ───────────────────────────────────── -->
-<section id="disciplines" aria-label="Disciplinas">
-  <div class="disc-track">
-    <span class="disc-item red">Dirección</span><span class="disc-dot">·</span>
-    <span class="disc-item">Cinematografía</span><span class="disc-dot">·</span>
-    <span class="disc-item solid">3D &amp; 2D</span><span class="disc-dot">·</span>
-    <span class="disc-item">Post Producción</span><span class="disc-dot">·</span>
-    <span class="disc-item red">IA Generativa</span><span class="disc-dot">·</span>
-    <span class="disc-item">Fotografía</span><span class="disc-dot">·</span>
-    <span class="disc-item solid">Dir. de Arte</span><span class="disc-dot">·</span>
-    <span class="disc-item">Music Video</span><span class="disc-dot">·</span>
-    <!-- copy 2 -->
-    <span class="disc-item red">Dirección</span><span class="disc-dot">·</span>
-    <span class="disc-item">Cinematografía</span><span class="disc-dot">·</span>
-    <span class="disc-item solid">3D &amp; 2D</span><span class="disc-dot">·</span>
-    <span class="disc-item">Post Producción</span><span class="disc-dot">·</span>
-    <span class="disc-item red">IA Generativa</span><span class="disc-dot">·</span>
-    <span class="disc-item">Fotografía</span><span class="disc-dot">·</span>
-    <span class="disc-item solid">Dir. de Arte</span><span class="disc-dot">·</span>
-    <span class="disc-item">Music Video</span><span class="disc-dot">·</span>
-  </div>
-</section>
-
 <!-- ── WORK PREVIEW (asymmetric) ─────────────────────────────── -->
 <section id="work-preview">
   <div class="sec-head">
     <div>
-      <p class="sec-label">Selected Work</p>
-      <h2 class="sec-title reveal">Projects</h2>
+      <p class="sec-label">Trabajo seleccionado</p>
+      <h2 class="sec-title reveal">Proyectos</h2>
     </div>
     <a href="work.html" class="view-all">Ver todo ↗</a>
   </div>
@@ -969,83 +924,43 @@
   </div>
 </section>
 
-<!-- ── ABOUT ──────────────────────────────────────────────────── -->
-<section id="about">
-  <div class="about-copy">
-    <p class="about-lbl">Director · Artista · Realizador integral</p>
-
-    <p class="about-statement reveal">
-      Soy director, artista visual y realizador integral. Durante más de 15 años trabajé en la
-      intersección entre cine, animación, 3D, postproducción e inteligencia artificial, siempre con
-      una idea central: <em>la tecnología solo importa cuando ayuda a contar mejor una historia.</em>
-    </p>
-
-    <p class="about-body reveal d1">
-      He dirigido y desarrollado proyectos para <strong>NBC/Peacock</strong>, <strong>Konami</strong>,
-      marcas globales, videoclips, cortometrajes, animación infantil, branded content y experiencias
-      interactivas. También lideré equipos internacionales de más de <strong>80 artistas</strong> y
-      participé en <strong>Silent Hill: Ascension</strong>, producción ganadora del Emmy 2024 a
-      Outstanding Innovation in Emerging Media Programming.
-    </p>
-
-    <p class="about-body reveal d2">
-      Mi trabajo se mueve entre el oficio clásico y las herramientas nuevas: concept art, dirección,
-      cinematografía, mundos virtuales, IA generativa y pipelines de producción. Pero el objetivo sigue
-      siendo el mismo: <strong>crear imágenes con intención, construir mundos con alma y contar historias
-      que no se sientan generadas, sino vividas.</strong>
-    </p>
-
-    <a href="assets/cv-julian-sequeira.pdf" target="_blank" rel="noopener" class="about-cv reveal d2">
-      Ver currículum (PDF)
-      <span style="font-size:14px;">&#8599;</span>
-    </a>
-
-    <div class="about-emmy reveal d3">
-      <div class="emmy-label">Emmy Award — 2024</div>
-      <div class="emmy-text">
-        <strong>Outstanding Innovation in Emerging Media Programming</strong> —
-        Silent Hill: Ascension (Genvid / Senscape / Konami).
-        300+ episodios, más de 10 horas de contenido animado interactivo.
-      </div>
-    </div>
-
-    <div class="stats-grid">
-      <div class="reveal"><div class="stat-n">15+</div><div class="stat-l">Años de experiencia</div></div>
-      <div class="reveal d1"><div class="stat-n">80+</div><div class="stat-l">Artistas liderados</div></div>
-      <div class="reveal d2"><div class="stat-n">Emmy</div><div class="stat-l">Outstanding Innovation</div></div>
-      <div class="reveal d3"><div class="stat-n">∞</div><div class="stat-l">Medios explorados</div></div>
-    </div>
-  </div>
-
-  <div class="about-portrait reveal d1">
-    <img src="assets/julian.png" alt="Julián Sequeira" onerror="this.style.display='none'">
+<!-- ── DISCIPLINES MARQUEE ───────────────────────────────────── -->
+<section id="disciplines" aria-label="Disciplinas">
+  <div class="disc-track">
+    <span class="disc-item red">Dirección</span><span class="disc-dot">·</span>
+    <span class="disc-item">Cinematografía</span><span class="disc-dot">·</span>
+    <span class="disc-item solid">3D &amp; 2D</span><span class="disc-dot">·</span>
+    <span class="disc-item">Post Producción</span><span class="disc-dot">·</span>
+    <span class="disc-item red">IA Generativa</span><span class="disc-dot">·</span>
+    <span class="disc-item">Fotografía</span><span class="disc-dot">·</span>
+    <span class="disc-item solid">Dir. de Arte</span><span class="disc-dot">·</span>
+    <span class="disc-item">Music Video</span><span class="disc-dot">·</span>
+    <!-- copy 2 -->
+    <span class="disc-item red">Dirección</span><span class="disc-dot">·</span>
+    <span class="disc-item">Cinematografía</span><span class="disc-dot">·</span>
+    <span class="disc-item solid">3D &amp; 2D</span><span class="disc-dot">·</span>
+    <span class="disc-item">Post Producción</span><span class="disc-dot">·</span>
+    <span class="disc-item red">IA Generativa</span><span class="disc-dot">·</span>
+    <span class="disc-item">Fotografía</span><span class="disc-dot">·</span>
+    <span class="disc-item solid">Dir. de Arte</span><span class="disc-dot">·</span>
+    <span class="disc-item">Music Video</span><span class="disc-dot">·</span>
   </div>
 </section>
 
-<!-- ── FOOTER MARQUEE BAND ───────────────────────────────────── -->
-<section id="footer-marquee" aria-hidden="true">
-  <div class="fm-track">
-    <span class="fm-item hi">Dirección</span><span class="fm-sep">—</span>
-    <span class="fm-item">Cinematografía</span><span class="fm-sep">—</span>
-    <span class="fm-item hi">Animación</span><span class="fm-sep">—</span>
-    <span class="fm-item">IA Generativa</span><span class="fm-sep">—</span>
-    <span class="fm-item hi">Ficción</span><span class="fm-sep">—</span>
-    <span class="fm-item">3D &amp; 2D</span><span class="fm-sep">—</span>
-    <span class="fm-item hi">Branded</span><span class="fm-sep">—</span>
-    <span class="fm-item">Music Video</span><span class="fm-sep">—</span>
-    <span class="fm-item hi">Post Producción</span><span class="fm-sep">—</span>
-    <span class="fm-item">Fotografía</span><span class="fm-sep">—</span>
-    <!-- copy 2 -->
-    <span class="fm-item hi">Dirección</span><span class="fm-sep">—</span>
-    <span class="fm-item">Cinematografía</span><span class="fm-sep">—</span>
-    <span class="fm-item hi">Animación</span><span class="fm-sep">—</span>
-    <span class="fm-item">IA Generativa</span><span class="fm-sep">—</span>
-    <span class="fm-item hi">Ficción</span><span class="fm-sep">—</span>
-    <span class="fm-item">3D &amp; 2D</span><span class="fm-sep">—</span>
-    <span class="fm-item hi">Branded</span><span class="fm-sep">—</span>
-    <span class="fm-item">Music Video</span><span class="fm-sep">—</span>
-    <span class="fm-item hi">Post Producción</span><span class="fm-sep">—</span>
-    <span class="fm-item">Fotografía</span><span class="fm-sep">—</span>
+<!-- ── MINI BIO ───────────────────────────────────────────────── -->
+<section id="about">
+  <div class="about-copy">
+    <p class="about-lbl">Director · Buenos Aires</p>
+
+    <p class="about-statement reveal">
+      Director y realizador integral. 15 años entre cine, animación, 3D e IA generativa.
+      <em>NBC/Peacock · Konami · Emmy 2024.</em>
+    </p>
+
+    <div class="reveal d1" style="display:flex; flex-wrap:wrap; gap:14px; margin-top:6px;">
+      <a href="about.html" class="about-cv">Sobre mí <span style="font-size:14px;">&#8599;</span></a>
+      <a href="assets/cv-julian-sequeira.pdf" target="_blank" rel="noopener" class="about-cv">CV (PDF) <span style="font-size:14px;">&#8599;</span></a>
+    </div>
   </div>
 </section>
 
@@ -1054,12 +969,12 @@
   <div>
     <p class="contact-eyebrow">¿Trabajamos juntos?</p>
     <div class="contact-big reveal">
-      <a href="mailto:bd.juliansequeira@gmail.com">Let's<br>Talk.</a>
+      <a href="mailto:bd.juliansequeira@gmail.com">Hablemos.</a>
     </div>
     <p class="contact-tags">
-      Projects <span class="sep">·</span> Film <span class="sep">·</span> 3D
-      <span class="sep">·</span> AI <span class="sep">·</span> Direction
-      <span class="sep">·</span> Production
+      Proyectos <span class="sep">·</span> Cine <span class="sep">·</span> 3D
+      <span class="sep">·</span> IA <span class="sep">·</span> Dirección
+      <span class="sep">·</span> Producción
     </p>
   </div>
   <div class="contact-links reveal d1">
@@ -1197,5 +1112,81 @@
   })();
 </script>
 
+<!-- ── FX: magnetic + parallax + decode ── -->
+<script>
+  (function () {
+    try {
+      if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+      /* Botones magnéticos (solo pointer fino) */
+      if (window.matchMedia && matchMedia('(pointer:fine)').matches) {
+        document.querySelectorAll('.btn, .about-cv, .view-all').forEach(function (el) {
+          var str = 8;
+          el.style.transition = 'transform .2s cubic-bezier(.3,1,.7,1), background .25s, color .25s, border-color .25s';
+          el.addEventListener('mousemove', function (e) {
+            var r = el.getBoundingClientRect();
+            var x = (e.clientX - r.left - r.width / 2) / (r.width / 2);
+            var y = (e.clientY - r.top - r.height / 2) / (r.height / 2);
+            el.style.transform = 'translate(' + (x * str).toFixed(1) + 'px,' + (y * str).toFixed(1) + 'px)';
+          });
+          el.addEventListener('mouseleave', function () { el.style.transform = ''; });
+        });
+      }
+
+      /* Decode de labels */
+      var chars = '\u2588\u2593\u2592\u2591<>/|_-+*';
+      function decode(el) {
+        if (el.dataset.decoded) return;
+        el.dataset.decoded = '1';
+        var orig = el.textContent;
+        var frame = 0, total = Math.max(16, orig.length * 2);
+        (function tick() {
+          frame++;
+          var done = Math.floor(orig.length * frame / total);
+          var out = orig.slice(0, done);
+          for (var i = done; i < orig.length; i++) {
+            out += orig[i] === ' ' ? ' ' : chars[Math.floor(Math.random() * chars.length)];
+          }
+          el.textContent = out;
+          if (done < orig.length) requestAnimationFrame(tick);
+          else el.textContent = orig;
+        })();
+      }
+      var labels = document.querySelectorAll('.sec-label, .about-lbl, .contact-eyebrow');
+      if ('IntersectionObserver' in window) {
+        var dio = new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) { if (e.isIntersecting) { decode(e.target); dio.unobserve(e.target); } });
+        }, { threshold: 0.5 });
+        labels.forEach(function (el) { dio.observe(el); });
+      } else {
+        labels.forEach(decode);
+      }
+
+      /* Parallax: hero + cards */
+      var heroContent = document.querySelector('.hero-content');
+      var cardImgs = document.querySelectorAll('.proj-card img');
+      var ticking = false;
+      function parallax() {
+        ticking = false;
+        var sy = window.scrollY;
+        if (heroContent && sy <= innerHeight) {
+          heroContent.style.transform = 'translateY(' + (sy * 0.28).toFixed(1) + 'px)';
+          heroContent.style.opacity = Math.max(0, 1 - sy / (innerHeight * 0.8)).toFixed(2);
+        }
+        for (var i = 0; i < cardImgs.length; i++) {
+          var r = cardImgs[i].parentNode.getBoundingClientRect();
+          if (r.bottom < 0 || r.top > innerHeight) continue;
+          var p = (r.top + r.height / 2 - innerHeight / 2) / innerHeight;
+          cardImgs[i].style.setProperty('--py', (p * -16).toFixed(1) + 'px');
+        }
+      }
+      window.addEventListener('scroll', function () {
+        if (!ticking) { ticking = true; requestAnimationFrame(parallax); }
+      }, { passive: true });
+      window.addEventListener('resize', parallax, { passive: true });
+      parallax();
+    } catch (err) {}
+  })();
+</script>
 </body>
 </html>
