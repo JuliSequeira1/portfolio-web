@@ -137,18 +137,20 @@
     }
 
     /* YouTube cover */
-    .yt-bg {
+    .hero-media {
       position: absolute; inset: 0; z-index: 0;
       overflow: hidden; pointer-events: none;
+      /* El poster vive acá, no en el <video>: así se ve siempre, aunque el
+         video no cargue nunca (móvil, reduced-motion, red lenta). */
+      background: #0a0a0a url('assets/hero-poster.webp') center / cover no-repeat;
     }
-    .yt-bg iframe {
-      position: absolute;
-      top: 50%; left: 50%;
-      transform: translate(-50%,-50%);
-      width: max(100vw, 177.78vh);
-      height: max(100vh, 56.25vw);
-      border: none;
+    /* El poster se pinta como fondo: se ve al instante, sin esperar al video. */
+    .hero-media video {
+      width: 100%; height: 100%;
+      object-fit: cover; display: block;
+      opacity: 0; transition: opacity 1.2s ease;
     }
+    .hero-media video.is-ready { opacity: 1; }
     .hero-overlay {
       position: absolute; inset: 0; z-index: 1;
       background: linear-gradient(to top,
@@ -788,13 +790,13 @@
 
 <!-- ── HERO ──────────────────────────────────────────────────── -->
 <section id="hero">
-  <div class="yt-bg">
-    <iframe
-      src="https://www.youtube.com/embed/MEIpjzwSQsc?autoplay=1&mute=1&loop=1&playlist=MEIpjzwSQsc&controls=0&rel=0&iv_load_policy=3&modestbranding=1&playsinline=1"
-      allow="autoplay; encrypted-media"
-      allowfullscreen
-      title="Reel Julián Sequeira">
-    </iframe>
+  <div class="hero-media">
+    <!-- Sin <source> a propósito: los inyecta hero-loader.js sólo cuando
+         corresponde (no en móvil, no con reduced-motion, no con Save-Data).
+         Hasta entonces sólo pesa el poster. -->
+    <video id="hero-video"
+           muted loop playsinline preload="none"
+           aria-hidden="true" tabindex="-1"></video>
   </div>
   <div class="hero-overlay"></div>
 
@@ -862,7 +864,7 @@
       <div class="proj-meta">
         <p class="proj-cat">Serie de animación · NBC / Peacock</p>
         <h3 class="proj-name">Dinopops — Season 1</h3>
-        <p class="proj-client">Konami × NBC Peacock</p>
+        <p class="proj-client">Art Director &amp; Episode Director · 2020–2023</p>
       </div>
     </div>
 
@@ -884,7 +886,7 @@
       <div class="proj-meta">
         <p class="proj-cat">Interactive Media &#183; Emmy 2024</p>
         <h3 class="proj-name">Silent Hill: Ascension</h3>
-        <p class="proj-client">Konami &#215; Genvid</p>
+        <p class="proj-client">Cinematic Artist · Genvid / Senscape / Konami</p>
       </div>
     </div>
 
@@ -1186,6 +1188,47 @@
       window.addEventListener('resize', parallax, { passive: true });
       parallax();
     } catch (err) {}
+  })();
+</script>
+
+<!-- ── HERO: carga condicional del loop ─────────────────────────── -->
+<script>
+  (function () {
+    var v = document.getElementById('hero-video');
+    if (!v) return;
+
+    var mm = window.matchMedia || function () { return { matches: false }; };
+
+    // Casos en los que el video NUNCA se descarga: queda sólo el poster.
+    var reduced  = mm('(prefers-reduced-motion: reduce)').matches;
+    var isMobile = mm('(max-width: 760px)').matches;
+    var conn     = navigator.connection || {};
+    var saveData = conn.saveData === true;
+    var slowNet  = /^(slow-2g|2g|3g)$/.test(conn.effectiveType || '');
+
+    if (reduced || isMobile || saveData || slowNet) return;
+
+    // Recién acá pedimos los bytes.
+    [['assets/hero.webm', 'video/webm'],
+     ['assets/hero.mp4',  'video/mp4']].forEach(function (s) {
+      var el = document.createElement('source');
+      el.src = s[0]; el.type = s[1];
+      v.appendChild(el);
+    });
+
+    v.preload = 'auto';
+    v.addEventListener('canplay', function () { v.classList.add('is-ready'); }, { once: true });
+    v.load();
+
+    // Safari/iOS pueden rechazar el autoplay: si pasa, el poster queda igual.
+    var p = v.play();
+    if (p && p.catch) p.catch(function () {});
+
+    // No gastar CPU ni batería con la pestaña en segundo plano.
+    document.addEventListener('visibilitychange', function () {
+      if (document.hidden) { v.pause(); }
+      else { var r = v.play(); if (r && r.catch) r.catch(function () {}); }
+    });
   })();
 </script>
 </body>
