@@ -23,15 +23,11 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 
+  <!-- Sistema compartido: color, foco, red de seguridad del cursor -->
+  <link rel="stylesheet" href="assets/tokens.css">
+
   <style>
-    :root {
-      --bg:      #F4F2EE;
-      --ink:     #0A0A0A;
-      --red:     #CC0A2A;
-      --muted:   #787878;
-      --dim:     rgba(10,10,10,.5);
-      --border:  rgba(10,10,10,.1);
-    }
+    /* Tokens en assets/tokens.css — esta página no define color propio. */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body {
@@ -61,7 +57,7 @@
       font-size: 11px; font-weight: 500;
       letter-spacing: .12em; text-transform: uppercase;
       color: var(--muted); text-decoration: none;
-      transition: color .25s;
+      transition: color var(--dur) var(--ease-out);
     }
     .nav-links a:hover, .nav-links a.active { color: var(--red); }
 
@@ -74,9 +70,7 @@
       font-size: 10px; font-weight: 500;
       letter-spacing: .22em; text-transform: uppercase;
       color: var(--muted); margin-bottom: 18px;
-      display: flex; align-items: center; gap: 12px;
     }
-    .head-label::before { content: ''; width: 28px; height: 1px; background: var(--red); }
     h1 {
       font-family: 'Satoshi', sans-serif;
       font-weight: 900;
@@ -105,7 +99,9 @@
       letter-spacing: -.01em;
       margin-bottom: 28px;
     }
-    .bio-statement em { font-style: italic; color: var(--red); font-weight: 700; }
+    /* Sin itálica: el énfasis lo cargan el peso y el color. La itálica dentro
+       de un titular romano es de los tells más reconocibles. */
+    .bio-statement em { font-style: normal; color: var(--red); font-weight: 900; }
     .bio-body {
       font-size: 16px; font-weight: 300;
       line-height: 1.78; color: var(--dim);
@@ -120,7 +116,7 @@
       color: var(--ink); text-decoration: none;
       border: 1px solid var(--ink);
       padding: 13px 22px;
-      transition: background .25s, color .25s, border-color .25s;
+      transition: background var(--dur) var(--ease-out), color var(--dur) var(--ease-out), border-color var(--dur) var(--ease-out);
     }
     .bio-cv:hover { background: var(--red); color: #F4F2EE; border-color: var(--red); }
 
@@ -137,10 +133,13 @@
     .emmy-text { font-size: 13px; line-height: 1.65; }
     .emmy-text strong { font-weight: 600; }
 
+    /* Tres columnas desde que se quitó la métrica "∞": eran cuatro y la cuarta
+       era decorativa, lo que le bajaba el precio a las tres que son reales. */
     .stats-grid {
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 24px 36px; margin-top: 48px;
+      display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 24px 32px; margin-top: 48px;
     }
+    @media (max-width: 560px) { .stats-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
     .stat-n {
       font-family: 'Satoshi', sans-serif;
       font-size: 52px; font-weight: 900; line-height: 1;
@@ -171,9 +170,7 @@
       font-size: 10px; font-weight: 500;
       letter-spacing: .22em; text-transform: uppercase;
       color: var(--muted); margin-bottom: 44px;
-      display: flex; align-items: center; gap: 12px;
     }
-    .mani-label::before { content: ''; width: 28px; height: 1px; background: var(--red); }
     .mani-body {
       font-family: 'Satoshi', sans-serif;
       font-size: clamp(28px, 3.8vw, 58px);
@@ -182,7 +179,7 @@
       max-width: 960px;
       letter-spacing: -.01em;
     }
-    .mani-body em { font-style: italic; font-weight: 700; color: var(--red); }
+    .mani-body em { font-style: normal; font-weight: 900; color: var(--red); }
     .mani-text {
       margin-top: 40px; max-width: 760px;
       display: flex; flex-direction: column; gap: 20px;
@@ -205,7 +202,7 @@
       font-weight: 900; text-transform: uppercase;
       line-height: .85; letter-spacing: -.03em;
     }
-    .contact-big a { color: #F4F2EE; text-decoration: none; transition: color .25s; }
+    .contact-big a { color: #F4F2EE; text-decoration: none; transition: color var(--dur) var(--ease-out); }
     .contact-big a:hover { color: var(--red); }
     .contact-row {
       display: flex; flex-wrap: wrap; gap: 28px;
@@ -214,8 +211,8 @@
     .contact-row a {
       font-size: 11px; font-weight: 500;
       letter-spacing: .14em; text-transform: uppercase;
-      color: rgba(244,242,238,.55); text-decoration: none;
-      transition: color .25s;
+      color: var(--on-dark); text-decoration: none;
+      transition: color var(--dur) var(--ease-out);
     }
     .contact-row a:hover { color: var(--red); }
 
@@ -225,7 +222,7 @@
       border-top: 1px solid rgba(244,242,238,.1);
       background: var(--ink);
     }
-    footer span { font-size: 10px; letter-spacing: .1em; color: rgba(244,242,238,.5); }
+    footer span { font-size: 10px; letter-spacing: .1em; color: var(--on-dark); }
 
     /* ─── REVEAL ─── */
     .reveal { transition: opacity .8s ease, transform .8s ease; }
@@ -312,7 +309,6 @@
       <div class="reveal"><div class="stat-n">15+</div><div class="stat-l">Años de experiencia</div></div>
       <div class="reveal d1"><div class="stat-n">80+</div><div class="stat-l">Artistas liderados</div></div>
       <div class="reveal d2"><div class="stat-n">Emmy</div><div class="stat-l">Outstanding Innovation</div></div>
-      <div class="reveal d3"><div class="stat-n">∞</div><div class="stat-l">Medios explorados</div></div>
     </div>
   </div>
 
@@ -391,73 +387,7 @@
   })();
 </script>
 
-<!-- ── FX: magnetic + parallax + decode ── -->
-<script>
-  (function () {
-    try {
-      if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-      /* Botones magnéticos (solo pointer fino) */
-      if (window.matchMedia && matchMedia('(pointer:fine)').matches) {
-        document.querySelectorAll('.bio-cv').forEach(function (el) {
-          var str = 8;
-          el.style.transition = 'transform .2s cubic-bezier(.3,1,.7,1), background .25s, color .25s, border-color .25s';
-          el.addEventListener('mousemove', function (e) {
-            var r = el.getBoundingClientRect();
-            var x = (e.clientX - r.left - r.width / 2) / (r.width / 2);
-            var y = (e.clientY - r.top - r.height / 2) / (r.height / 2);
-            el.style.transform = 'translate(' + (x * str).toFixed(1) + 'px,' + (y * str).toFixed(1) + 'px)';
-          });
-          el.addEventListener('mouseleave', function () { el.style.transform = ''; });
-        });
-      }
-
-      /* Decode de labels */
-      var chars = '\u2588\u2593\u2592\u2591<>/|_-+*';
-      function decode(el) {
-        if (el.dataset.decoded) return;
-        el.dataset.decoded = '1';
-        var orig = el.textContent;
-        var frame = 0, total = Math.max(16, orig.length * 2);
-        (function tick() {
-          frame++;
-          var done = Math.floor(orig.length * frame / total);
-          var out = orig.slice(0, done);
-          for (var i = done; i < orig.length; i++) {
-            out += orig[i] === ' ' ? ' ' : chars[Math.floor(Math.random() * chars.length)];
-          }
-          el.textContent = out;
-          if (done < orig.length) requestAnimationFrame(tick);
-          else el.textContent = orig;
-        })();
-      }
-      var labels = document.querySelectorAll('.head-label, .mani-label');
-      if ('IntersectionObserver' in window) {
-        var dio = new IntersectionObserver(function (entries) {
-          entries.forEach(function (e) { if (e.isIntersecting) { decode(e.target); dio.unobserve(e.target); } });
-        }, { threshold: 0.5 });
-        labels.forEach(function (el) { dio.observe(el); });
-      } else {
-        labels.forEach(decode);
-      }
-
-      /* Parallax sutil del retrato */
-      var port = document.querySelector('.bio-portrait img');
-      var ticking = false;
-      function parallax() {
-        ticking = false;
-        if (!port) return;
-        var r = port.parentNode.getBoundingClientRect();
-        if (r.bottom < 0 || r.top > innerHeight) return;
-        var p = (r.top + r.height / 2 - innerHeight / 2) / innerHeight;
-        port.style.transform = 'translateY(' + (p * -18).toFixed(1) + 'px) scale(1.08)';
-      }
-      window.addEventListener('scroll', function () {
-        if (!ticking) { ticking = true; requestAnimationFrame(parallax); }
-      }, { passive: true });
-      parallax();
-    } catch (err) {}
-  })();
-</script>
+<!-- Bloque de FX (magnéticos, decode, parallax) quitado el 12/8/2026 por
+     presupuesto de movimiento. Ver index.html. -->
 </body>
 </html>

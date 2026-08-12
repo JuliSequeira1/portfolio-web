@@ -17,19 +17,25 @@
   <!-- Vercel Analytics -->
   <script defer src="/_vercel/insights/script.js"></script>
 
+  <!-- Satoshi + Inter: el mismo par que index y about. Antes esta página
+       cargaba Syne y era, tipográficamente, otro sitio. -->
+  <link rel="preconnect" href="https://api.fontshare.com">
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@700,800,900&display=swap" rel="stylesheet">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Inter:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <!-- Sistema compartido: color, foco, red de seguridad del cursor -->
+  <link rel="stylesheet" href="assets/tokens.css">
 
   <style>
+    /* Tokens en assets/tokens.css — esta página no define color propio. */
     :root {
-      --bg:    #f7f5f2;
-      --ink:   #0e0e0e;
-      --muted: #888;
-      --dim:   rgba(14,14,14,.5);
-      --border:rgba(14,14,14,.1);
+      /* Alto real del nav (padding 28+28 + línea 20 + borde 1). Lo usa el
+         sticky de #filters; si no acompaña al breakpoint, en móvil queda
+         un hueco por el que se ve pasar la grilla. */
+      --nav-h: 77px;
     }
-
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body {
@@ -66,21 +72,23 @@
       position: fixed; top: 0; left: 0; right: 0; z-index: 200;
       display: flex; align-items: center; justify-content: space-between;
       padding: 28px 52px;
-      background: rgba(247,245,242,.9);
+      background: rgba(244,242,238,.9);
       backdrop-filter: blur(14px);
       border-bottom: 1px solid var(--border);
     }
     .nav-logo {
-      font-family: 'Syne', sans-serif; font-weight: 800;
-      font-size: 13px; letter-spacing: .14em; text-transform: uppercase;
+      font-family: 'Satoshi', sans-serif; font-weight: 900;
+      font-size: 14px; letter-spacing: .12em; text-transform: uppercase;
       color: var(--ink); text-decoration: none;
     }
-    .nav-links { display: flex; gap: 44px; list-style: none; }
+    .nav-links { display: flex; gap: 40px; list-style: none; }
     .nav-links a {
-      font-size: 11px; letter-spacing: .12em; text-transform: uppercase;
-      color: var(--dim); text-decoration: none; transition: color .25s;
+      font-size: 11px; font-weight: 500;
+      letter-spacing: .12em; text-transform: uppercase;
+      color: var(--muted); text-decoration: none;
+      transition: color var(--dur) var(--ease-out);
     }
-    .nav-links a:hover, .nav-links a.active { color: var(--ink); }
+    .nav-links a:hover, .nav-links a.active { color: var(--red); }
 
     /* ─── PAGE HEADER ────────────────────────────────────────── */
     #page-header {
@@ -89,21 +97,21 @@
       display: flex; align-items: flex-end; justify-content: space-between;
     }
     .page-title {
-      font-family: 'Syne', sans-serif; font-weight: 800;
+      font-family: 'Satoshi', sans-serif; font-weight: 900;
       font-size: clamp(72px, 14vw, 180px); line-height: .88;
       letter-spacing: -.03em; text-transform: uppercase;
     }
     .page-meta { text-align: right; padding-bottom: 10px; }
     .page-meta p { font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
-    .page-meta strong { font-family: 'Syne', sans-serif; font-size: 36px; font-weight: 800; display: block; line-height: 1; color: var(--ink); }
+    .page-meta strong { font-family: 'Satoshi', sans-serif; font-size: 36px; font-weight: 900; display: block; line-height: 1; color: var(--ink); }
 
     /* ─── FILTERS ────────────────────────────────────────────── */
     #filters {
       padding: 32px 52px;
       display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
       border-bottom: 1px solid var(--border);
-      position: sticky; top: 77px; z-index: 100;
-      background: rgba(247,245,242,.95); backdrop-filter: blur(10px);
+      position: sticky; top: var(--nav-h); z-index: 100;
+      background: rgba(244,242,238,.95); backdrop-filter: blur(10px);
     }
     .filter-btn {
       font-family: 'Inter', sans-serif;
@@ -123,16 +131,16 @@
 
     .work-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 24px;
     }
-    @media (max-width: 1000px) { .work-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 1000px) { .work-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
     @media (max-width: 600px)  { .work-grid { grid-template-columns: 1fr; } }
 
     .work-item {
-      position: relative; overflow: hidden;
+      position: relative; display: block; overflow: hidden;
       aspect-ratio: 16/10; background: #e0ddd8;
-      cursor: pointer;
+      cursor: pointer; text-decoration: none;
       transition: opacity .3s;
     }
     .work-item.hidden { display: none; }
@@ -144,30 +152,33 @@
       filter: brightness(.88);
     }
     .work-item:hover img,
-    .work-item:hover .item-grad { transform: scale(1.05); }
+    .work-item:hover .item-grad { transform: scale(1.06); }
 
     .work-item-meta {
       position: absolute; bottom: 0; left: 0; right: 0;
       padding: 16px 20px;
-      background: linear-gradient(to top, rgba(14,14,14,.88) 0%, transparent 100%);
+      background: linear-gradient(to top, rgba(10,10,10,.88) 0%, transparent 100%);
       transform: translateY(4px); transition: transform .4s;
     }
     .work-item:hover .work-item-meta { transform: translateY(0); }
 
-    .item-cat  { font-size: 9px; letter-spacing: .16em; text-transform: uppercase; color: rgba(247,245,242,.55); margin-bottom: 3px; }
-    .item-name { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; color: #f7f5f2; }
-    .item-client { font-size: 11px; color: rgba(247,245,242,.45); margin-top: 2px; }
+    .item-cat  { font-size: 9px; letter-spacing: .16em; text-transform: uppercase; color: var(--on-dark); margin-bottom: 3px; }
+    .item-name { font-family: 'Satoshi', sans-serif; font-size: 16px; font-weight: 800; color: var(--cream); letter-spacing: -.01em; }
+    .item-client { font-size: 11px; color: var(--on-dark-soft); margin-top: 2px; }
 
     .item-ext {
       position: absolute; top: 14px; right: 14px;
       width: 32px; height: 32px;
-      border: 1px solid rgba(247,245,242,.2); border-radius: 50%;
+      border: 1px solid rgba(244,242,238,.2); border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
-      text-decoration: none; color: #f7f5f2; font-size: 12px;
+      text-decoration: none; color: var(--cream); font-size: 12px;
       opacity: 0; transition: opacity .3s;
     }
-    .work-item:hover .item-ext { opacity: 1; }
-    .item-ext:hover { background: #f7f5f2; color: var(--ink); }
+    /* No puede vivir sólo en hover: con teclado el foco quedaría invisible. */
+    .work-item:hover .item-ext,
+    .work-item:focus-within .item-ext,
+    .work-item:focus-visible .item-ext { opacity: 1; }
+    .item-ext:hover { background: var(--cream); color: var(--ink); }
 
     /* ─── AI VERTICAL SECTION ────────────────────────────────── */
     #ai-section {
@@ -177,24 +188,25 @@
     .ai-header { margin-bottom: 52px; }
     .ai-tag { font-size: 10px; letter-spacing: .22em; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
     .ai-title {
-      font-family: 'Syne', sans-serif; font-weight: 800;
+      font-family: 'Satoshi', sans-serif; font-weight: 900;
       font-size: clamp(36px, 5vw, 64px); text-transform: uppercase; line-height: 1;
+      letter-spacing: -.02em;
     }
     .ai-desc { margin-top: 16px; font-size: 15px; font-weight: 300; line-height: 1.7; color: var(--dim); max-width: 520px; }
 
     /* Vertical grid — 9:16 cards */
     .ai-grid {
       display: grid;
-      grid-template-columns: repeat(5, 1fr);
+      grid-template-columns: repeat(5, minmax(0, 1fr));
       gap: 16px;
     }
-    @media (max-width: 1000px) { .ai-grid { grid-template-columns: repeat(3, 1fr); } }
-    @media (max-width: 600px)  { .ai-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 1000px) { .ai-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+    @media (max-width: 600px)  { .ai-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 
     .ai-card {
-      position: relative; overflow: hidden;
+      position: relative; display: block; overflow: hidden;
       aspect-ratio: 9/16; background: #1a1a1a;
-      cursor: pointer;
+      cursor: pointer; text-decoration: none;
     }
     .ai-card img,
     .ai-card video,
@@ -209,31 +221,32 @@
     .ai-card-meta {
       position: absolute; bottom: 0; left: 0; right: 0;
       padding: 14px 16px;
-      background: linear-gradient(to top, rgba(14,14,14,.9) 0%, transparent 100%);
+      background: linear-gradient(to top, rgba(10,10,10,.9) 0%, transparent 100%);
     }
-    .ai-card-name { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; color: #f7f5f2; }
-    .ai-card-tool { font-size: 9px; letter-spacing: .12em; text-transform: uppercase; color: rgba(247,245,242,.45); margin-top: 2px; }
+    .ai-card-name { font-family: 'Satoshi', sans-serif; font-size: 13px; font-weight: 800; color: var(--cream); letter-spacing: -.01em; }
+    .ai-card-tool { font-size: 9px; letter-spacing: .12em; text-transform: uppercase; color: var(--on-dark-soft); margin-top: 2px; }
 
     /* YouTube embed on click overlay */
     .ai-card-play {
       position: absolute; inset: 0;
       display: flex; align-items: center; justify-content: center;
-      background: rgba(14,14,14,.3);
+      background: rgba(10,10,10,.3);
       opacity: 0; transition: opacity .3s;
     }
-    .ai-card:hover .ai-card-play { opacity: 1; }
+    .ai-card:hover .ai-card-play,
+    .ai-card:focus-visible .ai-card-play { opacity: 1; }
     .play-icon {
       width: 52px; height: 52px;
-      border: 1.5px solid rgba(247,245,242,.7); border-radius: 50%;
+      border: 1.5px solid rgba(244,242,238,.7); border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
-      color: #f7f5f2;
+      color: var(--cream);
     }
     .play-icon svg { margin-left: 3px; }
 
     /* Lightbox for YouTube */
     #lightbox {
       display: none; position: fixed; inset: 0; z-index: 900;
-      background: rgba(14,14,14,.95);
+      background: rgba(10,10,10,.95);
       align-items: center; justify-content: center;
     }
     #lightbox.open { display: flex; }
@@ -244,49 +257,50 @@
     .lb-inner iframe { width: 100%; height: 100%; border: none; }
     .lb-close {
       position: absolute; top: -44px; right: 0;
-      font-size: 24px; color: #f7f5f2; cursor: pointer;
+      font-size: 24px; color: var(--cream); cursor: pointer;
       background: none; border: none; line-height: 1;
     }
 
     /* ─── CONTACT STRIP ──────────────────────────────────────── */
     #contact-strip {
       padding: 80px 52px;
-      border-top: 1px solid rgba(247,245,242,.1);
-      background: #0e0e0e;
+      border-top: 1px solid rgba(244,242,238,.1);
+      background: var(--ink);
       display: flex; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; gap: 32px;
     }
     .strip-eyebrow {
-      font-family: 'Syne', sans-serif; font-weight: 700;
+      font-family: 'Satoshi', sans-serif; font-weight: 700;
       font-size: clamp(13px, 1.3vw, 16px);
       letter-spacing: .14em; text-transform: uppercase;
-      color: #f7f5f2; margin-bottom: 22px;
+      color: var(--cream); margin-bottom: 22px;
       display: flex; align-items: center; gap: 12px;
     }
     .strip-eyebrow::before {
-      content: ''; width: 36px; height: 2px; background: #cc0a2a;
+      content: ''; width: 36px; height: 2px; background: var(--red);
     }
     .strip-left h2 {
-      font-family: 'Syne', sans-serif; font-weight: 800;
+      font-family: 'Satoshi', sans-serif; font-weight: 900;
       font-size: clamp(36px, 6vw, 80px); text-transform: uppercase; line-height: .9;
+      letter-spacing: -.03em;
     }
-    .strip-left h2 a { color: #f7f5f2; text-decoration: none; transition: color .25s; }
-    .strip-left h2 a:hover { color: #cc0a2a; }
+    .strip-left h2 a { color: var(--cream); text-decoration: none; transition: color var(--dur) var(--ease-out); }
+    .strip-left h2 a:hover { color: var(--red); }
     .strip-right { display: flex; gap: 28px; flex-wrap: wrap; padding-bottom: 10px; }
     .s-link {
       font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
-      color: rgba(247,245,242,.5); text-decoration: none;
-      border-bottom: 1px solid rgba(247,245,242,.2); padding-bottom: 2px;
-      transition: color .25s, border-color .25s;
+      color: var(--on-dark); text-decoration: none;
+      border-bottom: 1px solid rgba(244,242,238,.28); padding-bottom: 2px;
+      transition: color var(--dur) var(--ease-out), border-color var(--dur) var(--ease-out);
     }
-    .s-link:hover { color: #cc0a2a; border-color: #cc0a2a; }
+    .s-link:hover { color: var(--red); border-color: var(--red); }
 
     /* ─── FOOTER ─────────────────────────────────────────────── */
     footer {
-      padding: 24px 52px; border-top: 1px solid rgba(247,245,242,.1);
-      background: #0e0e0e;
+      padding: 24px 52px; border-top: 1px solid rgba(244,242,238,.1);
+      background: var(--ink);
       display: flex; align-items: center; justify-content: space-between;
     }
-    footer span { font-size: 10px; letter-spacing: .1em; color: rgba(247,245,242,.5); }
+    footer span { font-size: 10px; letter-spacing: .1em; color: var(--on-dark); }
 
     /* ─── UTILS ──────────────────────────────────────────────── */
     .reveal { transition: opacity .8s ease, transform .8s ease; }
@@ -295,6 +309,7 @@
     .reveal.d1 { transition-delay: .1s; }
 
     @media (max-width: 700px) {
+      :root { --nav-h: 57px; }  /* padding 18+18 + línea 20 + borde 1 */
       nav, #page-header, #filters, #grid-section, #ai-section, #contact-strip { padding-left: 20px; padding-right: 20px; }
       nav { padding-top: 18px; padding-bottom: 18px; }
       .nav-links { gap: 18px; }
@@ -335,27 +350,28 @@
   <button class="filter-btn" data-filter="music">Music Video</button>
   <button class="filter-btn" data-filter="branded">Branded</button>
   <button class="filter-btn" data-filter="corto">Cortos</button>
+  <p id="filtro-estado" class="u-sr-only" role="status" aria-live="polite"></p>
 </div>
 
 <!-- ── WORK GRID ─────────────────────────────────────────────── -->
 <section id="grid-section">
   <div class="work-grid" id="work-grid">
 
-    <!--
-      ══ INSTRUCCIONES ══
-      Para cada proyecto:
-      1. En data-cat: poné las categorías separadas por espacio (ej: "music realizacion")
-      2. En el <img src="..."> o la URL del GIF (Giphy, etc.) poné el thumbnail del proyecto
-      3. En href del .item-ext poné el link a YouTube/Vimeo del proyecto
-
-      Para usar GIF animado de Giphy como thumbnail:
-      <img src="https://media.giphy.com/media/TU_GIPHY_ID/giphy.gif" alt="Nombre">
-    -->
+    <!-- Flama Squad — lleva a la ficha del proyecto, no al lightbox -->
+    <a class="work-item reveal" href="flama-squad.html" data-cat="realizacion"
+       aria-label="Ver la ficha del proyecto Flama Squad">
+      <img src="assets/flama/card.webp" alt="Flama Squad" loading="lazy" decoding="async" width="900" height="562">
+      <div class="work-item-meta">
+        <p class="item-cat">Serie · En desarrollo</p>
+        <p class="item-name">Flama Squad</p>
+        <p class="item-client">Creador, guionista y director · 9 episodios</p>
+      </div>
+    </a>
 
     <!-- Dinopops — Trailer (Dailymotion) -->
-    <div class="work-item reveal" data-cat="animacion" onclick="openDailymotion('x8qp5m7')" style="cursor:pointer">
-      <img src="assets/dinopops.jpg" alt="Dinopops" onerror="this.style.display='none'; this.parentNode.style.background='linear-gradient(135deg,#0d1b3e,#1a2d5a)';">
-      <a class="item-ext" href="https://www.imdb.com/es-es/video/vi4132946969/?ref_=ext_shr_lnk" target="_blank" rel="noopener" onclick="event.stopPropagation()">&#8599;</a>
+    <div class="work-item reveal" role="button" tabindex="0" data-cat="animacion" onclick="openDailymotion('x8qp5m7')" style="cursor:pointer">
+      <img src="assets/dinopops.jpg" alt="Dinopops" loading="lazy" decoding="async" onerror="this.style.display='none'; this.parentNode.style.background='linear-gradient(135deg,#0d1b3e,#1a2d5a)';">
+      <a class="item-ext" aria-label="Abrir en IMDb" href="https://www.imdb.com/es-es/video/vi4132946969/?ref_=ext_shr_lnk" target="_blank" rel="noopener" onclick="event.stopPropagation()">&#8599;</a>
       <div class="work-item-meta">
         <p class="item-cat">Serie de animación · NBC / Peacock</p>
         <p class="item-name">Dinopops — Season 1</p>
@@ -364,9 +380,9 @@
     </div>
 
     <!-- Silent Hill: Ascension -->
-    <div class="work-item reveal" data-cat="animacion realizacion" onclick="openVideo('TP6R0bC4LYI')" style="cursor:pointer">
-      <img src="https://img.youtube.com/vi/TP6R0bC4LYI/maxresdefault.jpg" alt="Silent Hill Ascension">
-      <a class="item-ext" href="https://youtu.be/TP6R0bC4LYI" target="_blank" rel="noopener" onclick="event.stopPropagation()">&#8599;</a>
+    <div class="work-item reveal" role="button" tabindex="0" data-cat="animacion realizacion" onclick="openVideo('TP6R0bC4LYI')" style="cursor:pointer">
+      <img src="https://img.youtube.com/vi/TP6R0bC4LYI/maxresdefault.jpg" alt="Silent Hill Ascension" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/TP6R0bC4LYI/hqdefault.jpg';">
+      <a class="item-ext" aria-label="Abrir en YouTube" href="https://youtu.be/TP6R0bC4LYI" target="_blank" rel="noopener" onclick="event.stopPropagation()">&#8599;</a>
       <div class="work-item-meta">
         <p class="item-cat">Media interactiva &#183; Emmy 2024</p>
         <p class="item-name">Silent Hill: Ascension</p>
@@ -375,9 +391,9 @@
     </div>
 
     <!-- Orquesta Típica La Vidú — Sos Vos -->
-    <div class="work-item reveal d1" data-cat="music realizacion" onclick="openVideo('mYHd8dVEmuU')" style="cursor:pointer">
-      <img src="https://img.youtube.com/vi/mYHd8dVEmuU/maxresdefault.jpg" alt="La Vidú — Sos Vos">
-      <a class="item-ext" href="https://youtu.be/mYHd8dVEmuU" target="_blank" rel="noopener" onclick="event.stopPropagation()">&#8599;</a>
+    <div class="work-item reveal d1" role="button" tabindex="0" data-cat="music realizacion" onclick="openVideo('mYHd8dVEmuU')" style="cursor:pointer">
+      <img src="https://img.youtube.com/vi/mYHd8dVEmuU/maxresdefault.jpg" alt="La Vidú — Sos Vos" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/mYHd8dVEmuU/hqdefault.jpg';">
+      <a class="item-ext" aria-label="Abrir en YouTube" href="https://youtu.be/mYHd8dVEmuU" target="_blank" rel="noopener" onclick="event.stopPropagation()">&#8599;</a>
       <div class="work-item-meta">
         <p class="item-cat">Music Video &#183; Dirección</p>
         <p class="item-name">Sos Vos</p>
@@ -386,9 +402,9 @@
     </div>
 
     <!-- Blanco (cortometraje) -->
-    <div class="work-item reveal" data-cat="corto realizacion" onclick="openVideo('uikDazoPnsQ')" style="cursor:pointer">
-      <img src="https://img.youtube.com/vi/uikDazoPnsQ/maxresdefault.jpg" alt="Blanco">
-      <a class="item-ext" href="https://youtu.be/uikDazoPnsQ" target="_blank" onclick="event.stopPropagation()">&#8599;</a>
+    <div class="work-item reveal" role="button" tabindex="0" data-cat="corto realizacion" onclick="openVideo('uikDazoPnsQ')" style="cursor:pointer">
+      <img src="https://img.youtube.com/vi/uikDazoPnsQ/maxresdefault.jpg" alt="Blanco" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/uikDazoPnsQ/hqdefault.jpg';">
+      <a class="item-ext" aria-label="Abrir en YouTube" href="https://youtu.be/uikDazoPnsQ" target="_blank" onclick="event.stopPropagation()">&#8599;</a>
       <div class="work-item-meta">
         <p class="item-cat">Cortometraje &#183; 2015</p>
         <p class="item-name">Blanco</p>
@@ -397,9 +413,9 @@
     </div>
 
     <!-- Tortu aka O.d.d.M — Salgo a Caminar -->
-    <div class="work-item reveal d1" data-cat="music realizacion" onclick="openVideo('0dOVfSLxZj8')" style="cursor:pointer">
-      <img src="https://img.youtube.com/vi/0dOVfSLxZj8/maxresdefault.jpg" alt="Tortu Salgo a Caminar">
-      <a class="item-ext" href="https://youtu.be/0dOVfSLxZj8" target="_blank" rel="noopener" onclick="event.stopPropagation()">&#8599;</a>
+    <div class="work-item reveal d1" role="button" tabindex="0" data-cat="music realizacion" onclick="openVideo('0dOVfSLxZj8')" style="cursor:pointer">
+      <img src="https://img.youtube.com/vi/0dOVfSLxZj8/maxresdefault.jpg" alt="Tortu Salgo a Caminar" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/0dOVfSLxZj8/hqdefault.jpg';">
+      <a class="item-ext" aria-label="Abrir en YouTube" href="https://youtu.be/0dOVfSLxZj8" target="_blank" rel="noopener" onclick="event.stopPropagation()">&#8599;</a>
       <div class="work-item-meta">
         <p class="item-cat">Music Video &#183; Dirección &amp; VFX</p>
         <p class="item-name">Salgo a Caminar</p>
@@ -408,9 +424,9 @@
     </div>
 
     <!-- La Noche -->
-    <div class="work-item reveal d1" data-cat="corto realizacion" onclick="openVideo('3pr9iIdRLPI')" style="cursor:pointer">
-      <img src="https://img.youtube.com/vi/3pr9iIdRLPI/maxresdefault.jpg" alt="La Noche">
-      <a class="item-ext" href="https://youtu.be/3pr9iIdRLPI" target="_blank" onclick="event.stopPropagation()">↗</a>
+    <div class="work-item reveal d1" role="button" tabindex="0" data-cat="corto realizacion" onclick="openVideo('3pr9iIdRLPI')" style="cursor:pointer">
+      <img src="https://img.youtube.com/vi/3pr9iIdRLPI/maxresdefault.jpg" alt="La Noche" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/3pr9iIdRLPI/hqdefault.jpg';">
+      <a class="item-ext" aria-label="Abrir en YouTube" href="https://youtu.be/3pr9iIdRLPI" target="_blank" onclick="event.stopPropagation()">↗</a>
       <div class="work-item-meta">
         <p class="item-cat">Cortometraje · Dirección &amp; Cinematografía</p>
         <p class="item-name">La Noche</p>
@@ -419,9 +435,9 @@
     </div>
 
     <!-- DANEST - Ataraxia -->
-    <div class="work-item reveal d1" data-cat="music realizacion" onclick="openVideo('6ePPkhRv6hU')" style="cursor:pointer">
-      <img src="https://img.youtube.com/vi/6ePPkhRv6hU/maxresdefault.jpg" alt="DANEST Ataraxia">
-      <a class="item-ext" href="https://youtu.be/6ePPkhRv6hU" target="_blank" onclick="event.stopPropagation()">↗</a>
+    <div class="work-item reveal d1" role="button" tabindex="0" data-cat="music realizacion" onclick="openVideo('6ePPkhRv6hU')" style="cursor:pointer">
+      <img src="https://img.youtube.com/vi/6ePPkhRv6hU/maxresdefault.jpg" alt="DANEST Ataraxia" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/6ePPkhRv6hU/hqdefault.jpg';">
+      <a class="item-ext" aria-label="Abrir en YouTube" href="https://youtu.be/6ePPkhRv6hU" target="_blank" onclick="event.stopPropagation()">↗</a>
       <div class="work-item-meta">
         <p class="item-cat">Music Video · Dirección</p>
         <p class="item-name">DANEST — Ataraxia</p>
@@ -430,9 +446,9 @@
     </div>
 
     <!-- Flama Session #2 -->
-    <div class="work-item reveal" data-cat="music realizacion" onclick="openVideo('Geq9oHiW6Ew')" style="cursor:pointer">
-      <img src="https://img.youtube.com/vi/Geq9oHiW6Ew/maxresdefault.jpg" alt="Flama Session 2">
-      <a class="item-ext" href="https://youtu.be/Geq9oHiW6Ew" target="_blank" onclick="event.stopPropagation()">↗</a>
+    <div class="work-item reveal" role="button" tabindex="0" data-cat="music realizacion" onclick="openVideo('Geq9oHiW6Ew')" style="cursor:pointer">
+      <img src="https://img.youtube.com/vi/Geq9oHiW6Ew/maxresdefault.jpg" alt="Flama Session 2" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/Geq9oHiW6Ew/hqdefault.jpg';">
+      <a class="item-ext" aria-label="Abrir en YouTube" href="https://youtu.be/Geq9oHiW6Ew" target="_blank" onclick="event.stopPropagation()">↗</a>
       <div class="work-item-meta">
         <p class="item-cat">Music Video · Live Session</p>
         <p class="item-name">Flama Session #2 — El Llamado</p>
@@ -441,9 +457,9 @@
     </div>
 
     <!-- El Loco -->
-    <div class="work-item reveal d1" data-cat="music realizacion" onclick="openVideo('jPyB0l5RumI')" style="cursor:pointer">
-      <img src="https://img.youtube.com/vi/jPyB0l5RumI/maxresdefault.jpg" alt="El Loco">
-      <a class="item-ext" href="https://youtu.be/jPyB0l5RumI" target="_blank" onclick="event.stopPropagation()">↗</a>
+    <div class="work-item reveal d1" role="button" tabindex="0" data-cat="music realizacion" onclick="openVideo('jPyB0l5RumI')" style="cursor:pointer">
+      <img src="https://img.youtube.com/vi/jPyB0l5RumI/maxresdefault.jpg" alt="El Loco" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/jPyB0l5RumI/hqdefault.jpg';">
+      <a class="item-ext" aria-label="Abrir en YouTube" href="https://youtu.be/jPyB0l5RumI" target="_blank" onclick="event.stopPropagation()">↗</a>
       <div class="work-item-meta">
         <p class="item-cat">Music Video · Dirección</p>
         <p class="item-name">El Loco</p>
@@ -452,9 +468,9 @@
     </div>
 
     <!-- Flama Session #1 -->
-    <div class="work-item reveal" data-cat="music realizacion" onclick="openVideo('4-27j0gQU7M')" style="cursor:pointer">
-      <img src="https://img.youtube.com/vi/4-27j0gQU7M/maxresdefault.jpg" alt="Flama Sessions 1">
-      <a class="item-ext" href="https://youtu.be/4-27j0gQU7M" target="_blank" onclick="event.stopPropagation()">↗</a>
+    <div class="work-item reveal" role="button" tabindex="0" data-cat="music realizacion" onclick="openVideo('4-27j0gQU7M')" style="cursor:pointer">
+      <img src="https://img.youtube.com/vi/4-27j0gQU7M/maxresdefault.jpg" alt="Flama Sessions 1" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/4-27j0gQU7M/hqdefault.jpg';">
+      <a class="item-ext" aria-label="Abrir en YouTube" href="https://youtu.be/4-27j0gQU7M" target="_blank" onclick="event.stopPropagation()">↗</a>
       <div class="work-item-meta">
         <p class="item-cat">Music Video · Live Session</p>
         <p class="item-name">Flama Sessions #1 — Luz</p>
@@ -463,9 +479,9 @@
     </div>
 
     <!-- Ekiz Tono - Luz (clip) -->
-    <div class="work-item reveal d1" data-cat="music realizacion" onclick="openVideo('BVOOO6w-Fd0')" style="cursor:pointer">
-      <img src="https://img.youtube.com/vi/BVOOO6w-Fd0/maxresdefault.jpg" alt="Luz">
-      <a class="item-ext" href="https://youtu.be/BVOOO6w-Fd0" target="_blank" onclick="event.stopPropagation()">↗</a>
+    <div class="work-item reveal d1" role="button" tabindex="0" data-cat="music realizacion" onclick="openVideo('BVOOO6w-Fd0')" style="cursor:pointer">
+      <img src="https://img.youtube.com/vi/BVOOO6w-Fd0/maxresdefault.jpg" alt="Luz" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/BVOOO6w-Fd0/hqdefault.jpg';">
+      <a class="item-ext" aria-label="Abrir en YouTube" href="https://youtu.be/BVOOO6w-Fd0" target="_blank" onclick="event.stopPropagation()">↗</a>
       <div class="work-item-meta">
         <p class="item-cat">Music Video · Dirección</p>
         <p class="item-name">Luz</p>
@@ -475,9 +491,9 @@
 
 
     <!-- Argentina Tango Rap - Blin Blin -->
-    <div class="work-item reveal d1" data-cat="music realizacion" onclick="openVideo('lkylingO3Zk')" style="cursor:pointer">
-      <img src="https://img.youtube.com/vi/lkylingO3Zk/maxresdefault.jpg" alt="Blin Blin Caja">
-      <a class="item-ext" href="https://youtu.be/lkylingO3Zk" target="_blank" onclick="event.stopPropagation()">↗</a>
+    <div class="work-item reveal d1" role="button" tabindex="0" data-cat="music realizacion" onclick="openVideo('lkylingO3Zk')" style="cursor:pointer">
+      <img src="https://img.youtube.com/vi/lkylingO3Zk/maxresdefault.jpg" alt="Blin Blin Caja" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/lkylingO3Zk/hqdefault.jpg';">
+      <a class="item-ext" aria-label="Abrir en YouTube" href="https://youtu.be/lkylingO3Zk" target="_blank" onclick="event.stopPropagation()">↗</a>
       <div class="work-item-meta">
         <p class="item-cat">Music Video · Dirección</p>
         <p class="item-name">Blin Blin Caja</p>
@@ -486,9 +502,9 @@
     </div>
 
     <!-- Atrapado -->
-    <div class="work-item reveal" data-cat="music realizacion" onclick="openVideo('YOj04CEXjJI')" style="cursor:pointer">
-      <img src="https://img.youtube.com/vi/YOj04CEXjJI/maxresdefault.jpg" alt="Atrapado">
-      <a class="item-ext" href="https://youtu.be/YOj04CEXjJI" target="_blank" onclick="event.stopPropagation()">↗</a>
+    <div class="work-item reveal" role="button" tabindex="0" data-cat="music realizacion" onclick="openVideo('YOj04CEXjJI')" style="cursor:pointer">
+      <img src="https://img.youtube.com/vi/YOj04CEXjJI/maxresdefault.jpg" alt="Atrapado" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/YOj04CEXjJI/hqdefault.jpg';">
+      <a class="item-ext" aria-label="Abrir en YouTube" href="https://youtu.be/YOj04CEXjJI" target="_blank" onclick="event.stopPropagation()">↗</a>
       <div class="work-item-meta">
         <p class="item-cat">Music Video · Dirección</p>
         <p class="item-name">Atrapado</p>
@@ -497,9 +513,9 @@
     </div>
 
     <!-- Linyeras Cru — Cosas del Destino -->
-    <div class="work-item reveal" data-cat="music realizacion" onclick="openVideo('5KN3twZjw3w')" style="cursor:pointer">
-      <img src="https://img.youtube.com/vi/5KN3twZjw3w/maxresdefault.jpg" alt="Linyeras Cru Cosas del Destino">
-      <a class="item-ext" href="https://youtu.be/5KN3twZjw3w" target="_blank" rel="noopener" onclick="event.stopPropagation()">↗</a>
+    <div class="work-item reveal" role="button" tabindex="0" data-cat="music realizacion" onclick="openVideo('5KN3twZjw3w')" style="cursor:pointer">
+      <img src="https://img.youtube.com/vi/5KN3twZjw3w/maxresdefault.jpg" alt="Linyeras Cru Cosas del Destino" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/5KN3twZjw3w/hqdefault.jpg';">
+      <a class="item-ext" aria-label="Abrir en YouTube" href="https://youtu.be/5KN3twZjw3w" target="_blank" rel="noopener" onclick="event.stopPropagation()">↗</a>
       <div class="work-item-meta">
         <p class="item-cat">Music Video · Dirección</p>
         <p class="item-name">Cosas del Destino</p>
@@ -510,9 +526,9 @@
 
 
     <!-- Danest × DLS — Geminis (Episodio 1) -->
-    <div class="work-item reveal d1" data-cat="music realizacion" onclick="openVideo('UMC9ClHPBDc')" style="cursor:pointer">
-      <img src="https://img.youtube.com/vi/UMC9ClHPBDc/maxresdefault.jpg" alt="Danest x DLS — Géminis">
-      <a class="item-ext" href="https://youtu.be/UMC9ClHPBDc" target="_blank" rel="noopener" onclick="event.stopPropagation()">↗</a>
+    <div class="work-item reveal d1" role="button" tabindex="0" data-cat="music realizacion" onclick="openVideo('UMC9ClHPBDc')" style="cursor:pointer">
+      <img src="https://img.youtube.com/vi/UMC9ClHPBDc/maxresdefault.jpg" alt="Danest x DLS — Géminis" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/UMC9ClHPBDc/hqdefault.jpg';">
+      <a class="item-ext" aria-label="Abrir en YouTube" href="https://youtu.be/UMC9ClHPBDc" target="_blank" rel="noopener" onclick="event.stopPropagation()">↗</a>
       <div class="work-item-meta">
         <p class="item-cat">Music Video · Dirección</p>
         <p class="item-name">Géminis — Episodio 1</p>
@@ -521,9 +537,9 @@
     </div>
 
     <!-- Tortu × Devak 24 — Miran para Arriba -->
-    <div class="work-item reveal" data-cat="music realizacion" onclick="openVideo('aY3ymJEwSxk')" style="cursor:pointer">
-      <img src="https://img.youtube.com/vi/aY3ymJEwSxk/maxresdefault.jpg" alt="Miran para Arriba">
-      <a class="item-ext" href="https://youtu.be/aY3ymJEwSxk" target="_blank" rel="noopener" onclick="event.stopPropagation()">↗</a>
+    <div class="work-item reveal" role="button" tabindex="0" data-cat="music realizacion" onclick="openVideo('aY3ymJEwSxk')" style="cursor:pointer">
+      <img src="https://img.youtube.com/vi/aY3ymJEwSxk/maxresdefault.jpg" alt="Miran para Arriba" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/aY3ymJEwSxk/hqdefault.jpg';">
+      <a class="item-ext" aria-label="Abrir en YouTube" href="https://youtu.be/aY3ymJEwSxk" target="_blank" rel="noopener" onclick="event.stopPropagation()">↗</a>
       <div class="work-item-meta">
         <p class="item-cat">Music Video · Dirección &amp; Montaje</p>
         <p class="item-name">Miran para Arriba</p>
@@ -532,9 +548,9 @@
     </div>
 
     <!-- Chaco — Ojo por Ojo -->
-    <div class="work-item reveal d1" data-cat="music realizacion" onclick="openVideo('B864iOuEhRY')" style="cursor:pointer">
-      <img src="https://img.youtube.com/vi/B864iOuEhRY/maxresdefault.jpg" alt="Chaco Ojo por Ojo">
-      <a class="item-ext" href="https://youtu.be/B864iOuEhRY" target="_blank" rel="noopener" onclick="event.stopPropagation()">↗</a>
+    <div class="work-item reveal d1" role="button" tabindex="0" data-cat="music realizacion" onclick="openVideo('B864iOuEhRY')" style="cursor:pointer">
+      <img src="https://img.youtube.com/vi/B864iOuEhRY/maxresdefault.jpg" alt="Chaco Ojo por Ojo" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/B864iOuEhRY/hqdefault.jpg';">
+      <a class="item-ext" aria-label="Abrir en YouTube" href="https://youtu.be/B864iOuEhRY" target="_blank" rel="noopener" onclick="event.stopPropagation()">↗</a>
       <div class="work-item-meta">
         <p class="item-cat">Music Video · Dirección &amp; Montaje</p>
         <p class="item-name">Ojo por Ojo</p>
@@ -561,23 +577,25 @@
   <div class="ai-grid">
 
     <!-- CRÓNICAS DEL BARRO INFINITO — trailer ↑ primero -->
-    <div class="ai-card reveal" data-yt="HgpCC7Lzq_Q">
-      <img src="https://img.youtube.com/vi/HgpCC7Lzq_Q/maxresdefault.jpg" alt="Crónicas del Barro Infinito — Trailer"
+    <!-- Única tarjeta que no abre el lightbox: lleva a la ficha del proyecto. -->
+    <a class="ai-card reveal" href="cdbi.html" aria-label="Ver la ficha del proyecto Crónicas del Barro Infinito">
+      <img src="https://img.youtube.com/vi/HgpCC7Lzq_Q/maxresdefault.jpg" alt="Crónicas del Barro Infinito"
+           loading="lazy" decoding="async"
            onerror="this.onerror=null;this.src='https://img.youtube.com/vi/HgpCC7Lzq_Q/hqdefault.jpg';">
       <div class="ai-card-play">
         <div class="play-icon">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><polygon points="4,2 14,8 4,14"/></svg>
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><polygon points="4,2 14,8 4,14"/></svg>
         </div>
       </div>
       <div class="ai-card-meta">
-        <p class="ai-card-name">Crónicas del Barro Infinito — Trailer</p>
-        <p class="ai-card-tool">IA Generativa · Serie</p>
+        <p class="ai-card-name">Crónicas del Barro Infinito</p>
+        <p class="ai-card-tool">IA Generativa · Ficha del proyecto</p>
       </div>
-    </div>
+    </a>
 
     <!-- ETERNITY ↑ prioritario -->
-    <div class="ai-card reveal" data-yt="jpPh71q5s7Q">
-      <img src="https://img.youtube.com/vi/jpPh71q5s7Q/maxresdefault.jpg" alt="Eternity">
+    <div class="ai-card reveal" role="button" tabindex="0" data-yt="jpPh71q5s7Q">
+      <img src="https://img.youtube.com/vi/jpPh71q5s7Q/maxresdefault.jpg" alt="Eternity" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/jpPh71q5s7Q/hqdefault.jpg';">
       <div class="ai-card-play">
         <div class="play-icon">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><polygon points="4,2 14,8 4,14"/></svg>
@@ -590,8 +608,8 @@
     </div>
 
     <!-- DHL Project Reel ↑ prioritario -->
-    <div class="ai-card reveal d1" data-yt="lBcllgcqayI">
-      <img src="https://img.youtube.com/vi/lBcllgcqayI/maxresdefault.jpg" alt="DHL Project Reel">
+    <div class="ai-card reveal d1" role="button" tabindex="0" data-yt="lBcllgcqayI">
+      <img src="https://img.youtube.com/vi/lBcllgcqayI/maxresdefault.jpg" alt="DHL Project Reel" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/lBcllgcqayI/hqdefault.jpg';">
       <div class="ai-card-play">
         <div class="play-icon">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><polygon points="4,2 14,8 4,14"/></svg>
@@ -604,8 +622,8 @@
     </div>
 
     <!-- Introducing Percent B ↑ prioritario -->
-    <div class="ai-card reveal" data-yt="ASxJ6vqDy7Q">
-      <img src="https://img.youtube.com/vi/ASxJ6vqDy7Q/maxresdefault.jpg" alt="Introducing Percent B">
+    <div class="ai-card reveal" role="button" tabindex="0" data-yt="ASxJ6vqDy7Q">
+      <img src="https://img.youtube.com/vi/ASxJ6vqDy7Q/maxresdefault.jpg" alt="Introducing Percent B" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/ASxJ6vqDy7Q/hqdefault.jpg';">
       <div class="ai-card-play">
         <div class="play-icon">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><polygon points="4,2 14,8 4,14"/></svg>
@@ -618,8 +636,8 @@
     </div>
 
     <!-- Introducing Percent — Instituciones ↑ prioritario -->
-    <div class="ai-card reveal d1" data-yt="UOStWaDhcik">
-      <img src="https://img.youtube.com/vi/UOStWaDhcik/maxresdefault.jpg" alt="Introducing Percent Instituciones">
+    <div class="ai-card reveal d1" role="button" tabindex="0" data-yt="UOStWaDhcik">
+      <img src="https://img.youtube.com/vi/UOStWaDhcik/maxresdefault.jpg" alt="Introducing Percent Instituciones" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/UOStWaDhcik/hqdefault.jpg';">
       <div class="ai-card-play">
         <div class="play-icon">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><polygon points="4,2 14,8 4,14"/></svg>
@@ -632,8 +650,8 @@
     </div>
 
     <!-- Achalay — tu imperio ↑ prioritario -->
-    <div class="ai-card reveal" data-yt="6KLo_sjpYJ8">
-      <img src="https://img.youtube.com/vi/6KLo_sjpYJ8/maxresdefault.jpg" alt="Achalay tu imperio">
+    <div class="ai-card reveal" role="button" tabindex="0" data-yt="6KLo_sjpYJ8">
+      <img src="https://img.youtube.com/vi/6KLo_sjpYJ8/maxresdefault.jpg" alt="Achalay tu imperio" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/6KLo_sjpYJ8/hqdefault.jpg';">
       <div class="ai-card-play">
         <div class="play-icon">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><polygon points="4,2 14,8 4,14"/></svg>
@@ -646,8 +664,8 @@
     </div>
 
     <!-- Achalay Labs series ↑ prioritario -->
-    <div class="ai-card reveal d1" data-yt="_v_7rTlpJy4">
-      <img src="https://img.youtube.com/vi/_v_7rTlpJy4/maxresdefault.jpg" alt="Achalay Labs">
+    <div class="ai-card reveal d1" role="button" tabindex="0" data-yt="_v_7rTlpJy4">
+      <img src="https://img.youtube.com/vi/_v_7rTlpJy4/maxresdefault.jpg" alt="Achalay Labs" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/_v_7rTlpJy4/hqdefault.jpg';">
       <div class="ai-card-play">
         <div class="play-icon">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><polygon points="4,2 14,8 4,14"/></svg>
@@ -660,8 +678,8 @@
     </div>
 
     <!-- Lumilagro Pampa -->
-    <div class="ai-card reveal" data-yt="M6V-uaWOLlA">
-      <img src="https://img.youtube.com/vi/M6V-uaWOLlA/maxresdefault.jpg" alt="Lumilagro Pampa">
+    <div class="ai-card reveal" role="button" tabindex="0" data-yt="M6V-uaWOLlA">
+      <img src="https://img.youtube.com/vi/M6V-uaWOLlA/maxresdefault.jpg" alt="Lumilagro Pampa" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/M6V-uaWOLlA/hqdefault.jpg';">
       <div class="ai-card-play">
         <div class="play-icon">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><polygon points="4,2 14,8 4,14"/></svg>
@@ -674,8 +692,8 @@
     </div>
 
     <!-- Robin Hood — Mercado Libre -->
-    <div class="ai-card reveal d1" data-yt="AYmWwgo5JMI">
-      <img src="https://img.youtube.com/vi/AYmWwgo5JMI/maxresdefault.jpg" alt="Robin Hood Mercado Libre">
+    <div class="ai-card reveal d1" role="button" tabindex="0" data-yt="AYmWwgo5JMI">
+      <img src="https://img.youtube.com/vi/AYmWwgo5JMI/maxresdefault.jpg" alt="Robin Hood Mercado Libre" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/AYmWwgo5JMI/hqdefault.jpg';">
       <div class="ai-card-play">
         <div class="play-icon">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><polygon points="4,2 14,8 4,14"/></svg>
@@ -688,8 +706,8 @@
     </div>
 
     <!-- Beza Reel -->
-    <div class="ai-card reveal" data-yt="TFvCVGJ1y9Q">
-      <img src="https://img.youtube.com/vi/TFvCVGJ1y9Q/maxresdefault.jpg" alt="Beza Reel">
+    <div class="ai-card reveal" role="button" tabindex="0" data-yt="TFvCVGJ1y9Q">
+      <img src="https://img.youtube.com/vi/TFvCVGJ1y9Q/maxresdefault.jpg" alt="Beza Reel" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/TFvCVGJ1y9Q/hqdefault.jpg';">
       <div class="ai-card-play">
         <div class="play-icon">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><polygon points="4,2 14,8 4,14"/></svg>
@@ -702,8 +720,8 @@
     </div>
 
     <!-- Lucky Energy Drink AD#2 -->
-    <div class="ai-card reveal d1" data-yt="DYBKDHaaN6o">
-      <img src="https://img.youtube.com/vi/DYBKDHaaN6o/maxresdefault.jpg" alt="Lucky Energy Drink AD2">
+    <div class="ai-card reveal d1" role="button" tabindex="0" data-yt="DYBKDHaaN6o">
+      <img src="https://img.youtube.com/vi/DYBKDHaaN6o/maxresdefault.jpg" alt="Lucky Energy Drink AD2" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/DYBKDHaaN6o/hqdefault.jpg';">
       <div class="ai-card-play">
         <div class="play-icon">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><polygon points="4,2 14,8 4,14"/></svg>
@@ -716,8 +734,8 @@
     </div>
 
     <!-- Lucky Energy Drink AD#1 -->
-    <div class="ai-card reveal" data-yt="DsoQZRnMCAk">
-      <img src="https://img.youtube.com/vi/DsoQZRnMCAk/maxresdefault.jpg" alt="Lucky Energy Drink AD1">
+    <div class="ai-card reveal" role="button" tabindex="0" data-yt="DsoQZRnMCAk">
+      <img src="https://img.youtube.com/vi/DsoQZRnMCAk/maxresdefault.jpg" alt="Lucky Energy Drink AD1" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/DsoQZRnMCAk/hqdefault.jpg';">
       <div class="ai-card-play">
         <div class="play-icon">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><polygon points="4,2 14,8 4,14"/></svg>
@@ -754,20 +772,24 @@
 </footer>
 
 <!-- ── LIGHTBOX (YouTube vertical) ──────────────────────────── -->
-<div id="lightbox">
+<div id="lightbox" role="dialog" aria-modal="true" aria-label="Reproductor de video">
   <div class="lb-inner">
-    <button class="lb-close" id="lb-close">✕</button>
-    <iframe id="lb-iframe" src="" allow="autoplay; encrypted-media; fullscreen; web-share" allowfullscreen></iframe>
+    <button class="lb-close" id="lb-close" aria-label="Cerrar el video">✕</button>
+    <iframe id="lb-iframe" src="" title="Reproductor de video" allow="autoplay; encrypted-media; fullscreen; web-share" allowfullscreen></iframe>
   </div>
 </div>
 
 <!-- ── VIDEO LIGHTBOX (global; debe estar disponible para los onclick) ── -->
 <script>
+  /* Quién tenía el foco antes de abrir: al cerrar hay que devolvérselo. */
+  var lbVuelveEl = null;
+
   function openVideo(id, vertical) {
     var lightbox = document.getElementById('lightbox');
     var lbIframe = document.getElementById('lb-iframe');
     var lbInner = document.querySelector('.lb-inner');
     if (!lightbox || !lbIframe || !lbInner) return;
+    lbVuelveEl = document.activeElement;
     if (vertical) {
       lbInner.style.aspectRatio = '9/16';
       lbInner.style.width = 'min(55vw, 380px)';
@@ -778,17 +800,22 @@
     lbIframe.src = 'https://www.youtube.com/embed/' + id + '?autoplay=1&rel=0';
     lightbox.classList.add('open');
     document.body.style.overflow = 'hidden';
+    var cerrar = document.getElementById('lb-close');
+    if (cerrar) cerrar.focus();
   }
   function openDailymotion(id) {
     var lightbox = document.getElementById('lightbox');
     var lbIframe = document.getElementById('lb-iframe');
     var lbInner = document.querySelector('.lb-inner');
     if (!lightbox || !lbIframe || !lbInner) return;
+    lbVuelveEl = document.activeElement;
     lbInner.style.aspectRatio = '16/9';
     lbInner.style.width = 'min(90vw, 960px)';
     lbIframe.src = 'https://geo.dailymotion.com/player.html?video=' + id + '&autoplay=1';
     lightbox.classList.add('open');
     document.body.style.overflow = 'hidden';
+    var cerrar = document.getElementById('lb-close');
+    if (cerrar) cerrar.focus();
   }
   function closeVideo() {
     var lightbox = document.getElementById('lightbox');
@@ -797,6 +824,8 @@
     lightbox.classList.remove('open');
     lbIframe.src = '';
     document.body.style.overflow = '';
+    if (lbVuelveEl && lbVuelveEl.focus) lbVuelveEl.focus();
+    lbVuelveEl = null;
   }
   (function () {
     var lightbox = document.getElementById('lightbox');
@@ -810,6 +839,16 @@
         if (ytId) openVideo(ytId, true); /* vertical 9:16 */
       });
     });
+
+    /* Las tarjetas son <div role="button">: el teclado no las activa solo.
+       Delegado, así vale para las que se agreguen después. */
+    document.addEventListener('keydown', function (e) {
+      if (e.key !== 'Enter' && e.key !== ' ' && e.key !== 'Spacebar') return;
+      var el = e.target.closest && e.target.closest('[role="button"][tabindex="0"]');
+      if (!el) return;
+      e.preventDefault();
+      el.click();
+    });
   })();
 </script>
 
@@ -822,17 +861,14 @@
       var ring = document.getElementById('cursor-ring');
       if (!dot || !ring) return;
       document.documentElement.classList.add('js-cursor');
-      var mx = innerWidth / 2, my = innerHeight / 2, rx = mx, ry = my, shown = false;
+      var shown = false;
+      /* El aro sigue al puntero sin retraso — ver index.html. */
       document.addEventListener('mousemove', function (e) {
-        mx = e.clientX; my = e.clientY;
-        dot.style.left = mx + 'px'; dot.style.top = my + 'px';
+        var mx = e.clientX, my = e.clientY;
+        dot.style.left = mx + 'px';  dot.style.top = my + 'px';
+        ring.style.left = mx + 'px'; ring.style.top = my + 'px';
         if (!shown) { dot.style.opacity = 1; ring.style.opacity = 1; shown = true; }
       });
-      (function loop() {
-        rx += (mx - rx) * 0.18; ry += (my - ry) * 0.18;
-        ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
-        requestAnimationFrame(loop);
-      })();
       document.addEventListener('mouseleave', function () { dot.style.opacity = 0; ring.style.opacity = 0; });
       document.addEventListener('mouseenter', function () { dot.style.opacity = 1; ring.style.opacity = 1; });
       document.addEventListener('mousedown', function () { dot.classList.add('click'); ring.classList.add('grow'); });
@@ -852,14 +888,25 @@
     var filterBtns = document.querySelectorAll('.filter-btn');
     var workItems = document.querySelectorAll('.work-item');
     filterBtns.forEach(function (btn) {
+      btn.setAttribute('aria-pressed', btn.classList.contains('active') ? 'true' : 'false');
       btn.addEventListener('click', function () {
-        filterBtns.forEach(function (b) { b.classList.remove('active'); });
+        filterBtns.forEach(function (b) {
+          b.classList.remove('active');
+          b.setAttribute('aria-pressed', 'false');
+        });
         btn.classList.add('active');
+        btn.setAttribute('aria-pressed', 'true');
         var f = btn.dataset.filter;
+        var visibles = 0;
         workItems.forEach(function (item) {
           var cats = item.dataset.cat || '';
-          item.classList.toggle('hidden', f !== 'all' && !cats.includes(f));
+          var oculto = f !== 'all' && !cats.includes(f);
+          item.classList.toggle('hidden', oculto);
+          if (!oculto) visibles++;
         });
+        /* Con display:none el lector de pantalla no anuncia nada por su cuenta. */
+        var avisa = document.getElementById('filtro-estado');
+        if (avisa) avisa.textContent = visibles + ' proyectos visibles';
       });
     });
   })();
@@ -892,57 +939,7 @@
   })();
 </script>
 
-<!-- ── FX: magnetic + parallax + decode ── -->
-<script>
-  (function () {
-    try {
-      if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-      /* Botones magnéticos (solo pointer fino) */
-      if (window.matchMedia && matchMedia('(pointer:fine)').matches) {
-        document.querySelectorAll('.filter-btn').forEach(function (el) {
-          var str = 5;
-          el.style.transition = 'transform .2s cubic-bezier(.3,1,.7,1), background .25s, color .25s, border-color .25s';
-          el.addEventListener('mousemove', function (e) {
-            var r = el.getBoundingClientRect();
-            var x = (e.clientX - r.left - r.width / 2) / (r.width / 2);
-            var y = (e.clientY - r.top - r.height / 2) / (r.height / 2);
-            el.style.transform = 'translate(' + (x * str).toFixed(1) + 'px,' + (y * str).toFixed(1) + 'px)';
-          });
-          el.addEventListener('mouseleave', function () { el.style.transform = ''; });
-        });
-      }
-
-      /* Decode de labels */
-      var chars = '\u2588\u2593\u2592\u2591<>/|_-+*';
-      function decode(el) {
-        if (el.dataset.decoded) return;
-        el.dataset.decoded = '1';
-        var orig = el.textContent;
-        var frame = 0, total = Math.max(16, orig.length * 2);
-        (function tick() {
-          frame++;
-          var done = Math.floor(orig.length * frame / total);
-          var out = orig.slice(0, done);
-          for (var i = done; i < orig.length; i++) {
-            out += orig[i] === ' ' ? ' ' : chars[Math.floor(Math.random() * chars.length)];
-          }
-          el.textContent = out;
-          if (done < orig.length) requestAnimationFrame(tick);
-          else el.textContent = orig;
-        })();
-      }
-      var labels = document.querySelectorAll('.ai-tag');
-      if ('IntersectionObserver' in window) {
-        var dio = new IntersectionObserver(function (entries) {
-          entries.forEach(function (e) { if (e.isIntersecting) { decode(e.target); dio.unobserve(e.target); } });
-        }, { threshold: 0.5 });
-        labels.forEach(function (el) { dio.observe(el); });
-      } else {
-        labels.forEach(decode);
-      }
-    } catch (err) {}
-  })();
-</script>
+<!-- Bloque de FX (magnéticos, decode, parallax) quitado el 12/8/2026 por
+     presupuesto de movimiento. Ver index.html. -->
 </body>
 </html>

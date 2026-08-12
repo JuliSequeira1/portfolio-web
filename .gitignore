@@ -1,0 +1,4 @@
+# Material fuente, no assets del sitio.
+# Está dentro del web root, así que sin esto se publicaría en
+# julisequeira.com/assets/hero-candidatas/ al deployar.
+assets/hero-candidatas/

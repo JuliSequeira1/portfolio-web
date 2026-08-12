@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flama Squad — Julián Sequeira</title>
+  <meta name="description" content="Serie de comedia dramática urbana. 9 episodios, guiones terminados, piloto filmado. Becas del Fondo Nacional de las Artes y el Fondo Metropolitano de las Artes, 2022.">
+  <link rel="canonical" href="https://julisequeira.com/flama-squad.html">
+  <meta property="og:type"        content="video.tv_show">
+  <meta property="og:url"         content="https://julisequeira.com/flama-squad.html">
+  <meta property="og:title"       content="Flama Squad">
+  <meta property="og:description" content="Tres treintañeros bonaerenses intentan resucitar su banda de rap adolescente y descubren que los sueños que no se cierran bien siempre vuelven.">
+  <meta property="og:image"       content="https://julisequeira.com/assets/flama/hero.webp">
+  <meta name="twitter:card"       content="summary_large_image">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%230A0A0A'/%3E%3Ctext x='32' y='45' font-family='Arial,sans-serif' font-size='28' font-weight='900' fill='%23F4F2EE' text-anchor='middle'%3EJS%3C/text%3E%3Ccircle cx='52' cy='14' r='5' fill='%23CC0A2A'/%3E%3C/svg%3E">
+
+  <!-- Vercel Analytics -->
+  <script defer src="/_vercel/insights/script.js"></script>
+
+  <link rel="preload" as="image" href="assets/flama/hero.webp" fetchpriority="high">
+
+  <link rel="preconnect" href="https://api.fontshare.com">
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@700,800,900&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="assets/tokens.css">
+
+  <style>
+    :root { --nav-h: 77px; }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      overflow-x: hidden;
+    }
+
+    /* ─── NAV ────────────────────────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 28px 52px;
+      background: rgba(244,242,238,.92);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: 'Satoshi', sans-serif; font-weight: 900;
+      font-size: 14px; letter-spacing: .12em; text-transform: uppercase;
+      color: var(--ink); text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 40px; list-style: none; }
+    .nav-links a {
+      font-size: 11px; font-weight: 500;
+      letter-spacing: .12em; text-transform: uppercase;
+      color: var(--muted); text-decoration: none;
+      transition: color var(--dur) var(--ease-out);
+    }
+    .nav-links a:hover { color: var(--red); }
+
+    .miga {
+      padding: calc(var(--nav-h) + 40px) 52px 0;
+      font-size: 11px; font-weight: 500;
+      letter-spacing: .14em; text-transform: uppercase;
+      color: var(--muted);
+    }
+    .miga a { color: var(--muted); text-decoration: none; }
+    .miga a:hover { color: var(--red); }
+    .miga span { color: var(--red); padding: 0 8px; }
+
+    /* ─── ENCABEZADO ─────────────────────────────────────────── */
+    header { padding: 26px 52px 44px; }
+    .kicker {
+      font-size: 11px; font-weight: 500;
+      letter-spacing: .2em; text-transform: uppercase;
+      color: var(--red); margin-bottom: 18px;
+    }
+    h1 {
+      font-family: 'Satoshi', sans-serif; font-weight: 900;
+      font-size: clamp(56px, 13vw, 190px);
+      line-height: .84; letter-spacing: -.045em;
+      text-transform: uppercase;
+      overflow-wrap: anywhere;
+    }
+    .logline {
+      font-family: 'Satoshi', sans-serif; font-weight: 700;
+      font-size: clamp(19px, 2.2vw, 30px);
+      line-height: 1.32; letter-spacing: -.01em;
+      max-width: 34ch; margin-top: 32px;
+    }
+
+    /* ─── IMAGEN PRINCIPAL ───────────────────────────────────── */
+    .foto-zona { padding: 0 52px; }
+    .foto {
+      width: 100%; display: block;
+      aspect-ratio: 21/9; object-fit: cover; object-position: center 35%;
+      background: #d8d4cc;
+    }
+    @media (max-width: 700px) { .foto { aspect-ratio: 16/10; } }
+    .pie {
+      font-size: 11px; color: var(--muted);
+      margin-top: 12px; letter-spacing: .02em;
+    }
+
+    /* ─── BECAS (la prueba, arriba de todo) ──────────────────── */
+    #becas {
+      margin-top: 76px; padding: 54px 52px;
+      background: var(--ink); color: var(--cream);
+    }
+    .becas-k {
+      font-size: 10px; font-weight: 500;
+      letter-spacing: .22em; text-transform: uppercase;
+      color: var(--on-dark-soft); margin-bottom: 30px;
+    }
+    .becas-grid {
+      display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 32px;
+    }
+    @media (max-width: 760px) { .becas-grid { grid-template-columns: minmax(0, 1fr); } }
+    .beca {
+      border-top: 2px solid var(--red);
+      padding-top: 20px;
+    }
+    .beca-n {
+      font-family: 'Satoshi', sans-serif; font-weight: 900;
+      font-size: clamp(19px, 2.1vw, 27px); line-height: 1.16;
+      letter-spacing: -.015em;
+    }
+    .beca-d {
+      font-size: 13px; color: var(--on-dark);
+      margin-top: 9px; font-variant-numeric: tabular-nums;
+    }
+
+    /* ─── FICHA ──────────────────────────────────────────────── */
+    #ficha { padding: 60px 52px; border-bottom: 1px solid var(--border); }
+    .ficha-grid {
+      display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 36px 30px;
+    }
+    @media (max-width: 900px) { .ficha-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (max-width: 460px) { .ficha-grid { grid-template-columns: minmax(0, 1fr); } }
+    .ficha-k {
+      font-size: 10px; font-weight: 500;
+      letter-spacing: .18em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 8px;
+    }
+    .ficha-v {
+      font-family: 'Satoshi', sans-serif; font-weight: 700;
+      font-size: 17px; line-height: 1.34;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* ─── SECCIONES ──────────────────────────────────────────── */
+    .sec { padding: 84px 52px; border-bottom: 1px solid var(--border); }
+    .sec-k {
+      font-size: 10px; font-weight: 500;
+      letter-spacing: .22em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 28px;
+    }
+    .sec h2 {
+      font-family: 'Satoshi', sans-serif; font-weight: 900;
+      font-size: clamp(28px, 4.2vw, 56px);
+      line-height: 1.04; letter-spacing: -.028em;
+      text-transform: uppercase; max-width: 22ch;
+    }
+    .prosa { margin-top: 32px; max-width: 64ch; display: flex; flex-direction: column; gap: 19px; }
+    .prosa p {
+      font-size: clamp(15px, 1.5vw, 18px);
+      font-weight: 300; line-height: 1.78; color: var(--dim);
+    }
+    .prosa strong { color: var(--ink); font-weight: 500; }
+
+    /* ─── BOTÓN DOSSIER ──────────────────────────────────────── */
+    .btn-dossier {
+      display: inline-flex; align-items: center; gap: 10px;
+      margin-top: 34px;
+      font-size: 11px; font-weight: 500;
+      letter-spacing: .16em; text-transform: uppercase;
+      color: var(--ink); text-decoration: none;
+      border: 1px solid var(--ink);
+      padding: 15px 26px;
+      white-space: nowrap;
+      transition: background var(--dur) var(--ease-out),
+                  color var(--dur) var(--ease-out),
+                  border-color var(--dur) var(--ease-out);
+    }
+    .btn-dossier:hover { background: var(--red); color: var(--cream); border-color: var(--red); }
+
+    /* ─── LISTA SIMPLE (elenco / equipo) ─────────────────────── */
+    .lista { margin-top: 34px; display: flex; flex-direction: column; }
+    .li {
+      display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
+      gap: 24px; padding: 16px 0;
+      border-top: 1px solid var(--border);
+      align-items: baseline;
+    }
+    .lista .li:last-child { border-bottom: 1px solid var(--border); }
+    @media (max-width: 640px) { .li { grid-template-columns: minmax(0, 1fr); gap: 4px; } }
+    .li-n { font-family: 'Satoshi', sans-serif; font-weight: 800; font-size: 16px; }
+    .li-r { font-size: 14px; font-weight: 300; color: var(--dim); }
+
+    /* ─── FOTO ANCHA ─────────────────────────────────────────── */
+    .banda { padding: 0; }
+    .banda img {
+      width: 100%; display: block;
+      aspect-ratio: 3/1; object-fit: cover;
+      background: #d8d4cc;
+    }
+    @media (max-width: 700px) { .banda img { aspect-ratio: 16/9; } }
+
+    /* ─── ESTADO / PEDIDO ────────────────────────────────────── */
+    /* scroll-margin: si no, el nav fijo tapa el título al saltar desde el botón */
+    #pedido {
+      background: var(--ink); color: var(--cream); padding: 90px 52px;
+      scroll-margin-top: var(--nav-h);
+    }
+    #pedido .sec-k { color: var(--on-dark-soft); }
+    #pedido h2 {
+      font-family: 'Satoshi', sans-serif; font-weight: 900;
+      font-size: clamp(30px, 4.6vw, 62px);
+      line-height: 1.02; letter-spacing: -.03em;
+      text-transform: uppercase; max-width: 20ch;
+    }
+    .pedido-grid {
+      display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 34px; margin-top: 46px;
+    }
+    @media (max-width: 820px) { .pedido-grid { grid-template-columns: minmax(0, 1fr); } }
+    .pedido-item { border-top: 1px solid rgba(244,242,238,.24); padding-top: 18px; }
+    .pedido-t {
+      font-family: 'Satoshi', sans-serif; font-weight: 800;
+      font-size: 16px; text-transform: uppercase; letter-spacing: .02em;
+      margin-bottom: 9px;
+    }
+    .pedido-d { font-size: 14px; font-weight: 300; line-height: 1.7; color: var(--on-dark-strong); }
+
+    .cierre-big {
+      font-family: 'Satoshi', sans-serif; font-weight: 900;
+      font-size: clamp(42px, 7.5vw, 100px);
+      text-transform: uppercase; line-height: .86; letter-spacing: -.035em;
+      margin-top: 64px;
+    }
+    .cierre-big a { color: var(--cream); text-decoration: none; transition: color var(--dur) var(--ease-out); }
+    .cierre-big a:hover { color: var(--red); }
+    .cierre-row { display: flex; flex-wrap: wrap; gap: 26px; margin-top: 34px; }
+    .cierre-row a {
+      font-size: 11px; font-weight: 500;
+      letter-spacing: .14em; text-transform: uppercase;
+      color: var(--on-dark); text-decoration: none;
+      border-bottom: 1px solid rgba(244,242,238,.28); padding-bottom: 3px;
+      white-space: nowrap;
+      transition: color var(--dur) var(--ease-out), border-color var(--dur) var(--ease-out);
+    }
+    .cierre-row a:hover { color: var(--red); border-color: var(--red); }
+
+    footer {
+      padding: 22px 52px; background: var(--ink);
+      display: flex; align-items: center; justify-content: space-between;
+      border-top: 1px solid rgba(244,242,238,.12);
+    }
+    footer span { font-size: 10px; letter-spacing: .1em; color: var(--on-dark); }
+
+    /* ─── REVEAL ─────────────────────────────────────────────── */
+    .reveal { transition: opacity .8s ease, transform .8s ease; }
+    html.js-reveal .reveal { opacity: 0; transform: translateY(24px); }
+    html.js-reveal .reveal.visible { opacity: 1; transform: none; }
+    .reveal.d1 { transition-delay: .1s; }
+    .reveal.d2 { transition-delay: .2s; }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .001ms !important;
+        transition-duration: .001ms !important;
+        scroll-behavior: auto !important;
+      }
+      html.js-reveal .reveal { opacity: 1 !important; transform: none !important; }
+    }
+
+    @media (max-width: 700px) {
+      :root { --nav-h: 57px; }
+      nav { padding: 18px 22px; }
+      .nav-links { gap: 18px; }
+      .miga, header, .foto-zona, #becas, #ficha, .sec, #pedido, footer {
+        padding-left: 22px; padding-right: 22px;
+      }
+      header { padding-top: 24px; padding-bottom: 34px; }
+      .sec { padding-top: 60px; padding-bottom: 60px; }
+      #becas { margin-top: 56px; }
+      footer { flex-direction: column; gap: 6px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">JS</a>
+  <ul class="nav-links">
+    <li><a href="work.html">Trabajos</a></li>
+    <li><a href="about.html">Sobre mí</a></li>
+    <li><a href="index.html#contact">Contacto</a></li>
+  </ul>
+</nav>
+
+<p class="miga"><a href="work.html">Trabajos</a><span>/</span>Flama Squad</p>
+
+<header>
+  <p class="kicker">Serie de comedia dramática · En busca de financiación</p>
+  <h1>Flama Squad</h1>
+  <p class="logline">
+    Tres treintañeros bonaerenses intentan resucitar su banda de rap adolescente y descubren
+    que los sueños que no se cierran bien siempre vuelven, más grandes y más ridículos que antes.
+  </p>
+</header>
+
+<div class="foto-zona">
+  <img class="foto" src="assets/flama/hero.webp" alt="Salvatore, León y Gaspar, los tres protagonistas de Flama Squad" fetchpriority="high" decoding="async">
+  <p class="pie">Salvatore, León y Gaspar. Fotograma del piloto.</p>
+</div>
+
+<!-- ── BECAS: la prueba va arriba ─────────────────────────────── -->
+<section id="becas">
+  <p class="becas-k">Desarrollo financiado por</p>
+  <div class="becas-grid">
+    <div class="beca">
+      <p class="beca-n">Beca Creación<br>Fondo Nacional de las Artes</p>
+      <p class="beca-d">2022</p>
+    </div>
+    <div class="beca">
+      <p class="beca-n">Fondo Metropolitano<br>de las Artes</p>
+      <p class="beca-d">2022 · Línea Creación · Gobierno de la Ciudad de Buenos Aires</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── FICHA ──────────────────────────────────────────────────── -->
+<section id="ficha" aria-label="Ficha técnica">
+  <div class="ficha-grid">
+    <div><p class="ficha-k">Formato</p><p class="ficha-v">9 episodios · temporada 1</p></div>
+    <div><p class="ficha-k">Duración</p><p class="ficha-v">25 min · el primero es doble, 50–55</p></div>
+    <div><p class="ficha-k">Género</p><p class="ficha-v">Comedia dramática · arte urbano y rap</p></div>
+    <div><p class="ficha-k">Rol</p><p class="ficha-v">Creador · Guionista · Director</p></div>
+    <div><p class="ficha-k">Origen</p><p class="ficha-v">Buenos Aires, Argentina</p></div>
+    <div><p class="ficha-k">Idioma</p><p class="ficha-v">Español · lunfardo porteño</p></div>
+    <div><p class="ficha-k">Registro</p><p class="ficha-v">DNDA, 2024</p></div>
+    <div><p class="ficha-k">Música original</p><p class="ficha-v">Smoler Bazz</p></div>
+  </div>
+</section>
+
+<!-- ── QUÉ ES ─────────────────────────────────────────────────── -->
+<section class="sec">
+  <p class="sec-k">La serie</p>
+  <h2 class="reveal">El ridículo de soñar en grande cuando ya no sos chico</h2>
+  <div class="prosa">
+    <p class="reveal d1">
+      Salvatore, León y Gaspar fueron la Flama Squad: una banda de rap de barrio que nunca llegó a
+      ninguna parte. Pasaron quince años. <strong>Salvatore</strong> trabaja para su Tío Charly y vive
+      en una pensión con su hermana; <strong>León</strong> da talleres en comedores y carga con una
+      deuda que lo persigue; <strong>Gaspar</strong> miente, manipula y sonríe. Ninguno de los tres
+      esperaba volver a juntarse.
+    </p>
+    <p class="reveal d1">
+      Una batalla de gallos en un bar de mala muerte los reúne por azar, y un video de esa noche se
+      vuelve viral por las razones más equivocadas. De pronto son famosos. Pero la fama que
+      consiguieron no es la que querían: <strong>son un meme.</strong>
+    </p>
+    <p class="reveal d2">
+      Lo que sigue es una serie de situaciones cada vez más absurdas mientras los tres intentan
+      convertir ese accidente en algo real. En el camino chocan con sus propios fracasos, sus
+      vínculos rotos y una pregunta que ninguno se anima a responder en voz alta: ¿para qué siguen
+      intentando?
+    </p>
+  </div>
+</section>
+
+<div class="banda">
+  <img src="assets/flama/costanera.webp" alt="Locación de rodaje sobre la costanera de Buenos Aires" loading="lazy" decoding="async">
+</div>
+
+<!-- ── TEMPORADA 1 ────────────────────────────────────────────── -->
+<section class="sec">
+  <p class="sec-k">Temporada 1</p>
+  <h2 class="reveal">Nueve episodios, todos escritos</h2>
+  <div class="prosa">
+    <p class="reveal d1">
+      La primera temporada está guionada de punta a punta y registrada en la Dirección Nacional de
+      Derecho de Autor. Hay biblia de serie, mapa de episodios y arcos cerrados.
+    </p>
+  </div>
+  <a class="btn-dossier reveal d1" href="#pedido">
+    Pedime el dossier <span aria-hidden="true">↓</span>
+  </a>
+</section>
+
+<!-- ── ELENCO Y EQUIPO ────────────────────────────────────────── -->
+<section class="sec">
+  <p class="sec-k">Quiénes</p>
+  <h2 class="reveal">Elenco y equipo</h2>
+  <div class="lista reveal d1">
+    <div class="li"><p class="li-n">Ekiz Tono <span style="font-weight:300;color:var(--muted)">(Facundo Iglesias)</span></p><p class="li-r">Actor y músico</p></div>
+    <div class="li"><p class="li-n">Darío Baez</p><p class="li-r">Actor, músico y asistente de dirección</p></div>
+    <div class="li"><p class="li-n">Devak</p><p class="li-r">Actor y productor musical</p></div>
+    <div class="li"><p class="li-n">Leopoldo Davis</p><p class="li-r">Actor</p></div>
+    <div class="li"><p class="li-n">Smoler Bazz</p><p class="li-r">Música original. Grammy Latino 2001 con el Sindicato Argentino del Hip Hop</p></div>
+    <div class="li"><p class="li-n">Julián Sequeira</p><p class="li-r">Creador, guionista, director y montajista</p></div>
+  </div>
+</section>
+
+<!-- ── ESTADO Y PEDIDO ────────────────────────────────────────── -->
+<section id="pedido">
+  <p class="sec-k">Dónde está el proyecto</p>
+  <h2 class="reveal">Escrito, registrado y filmado a medias</h2>
+  <div class="pedido-grid">
+    <div class="pedido-item reveal">
+      <p class="pedido-t">Lo que ya existe</p>
+      <p class="pedido-d">
+        Los 9 guiones terminados y registrados en DNDA. Biblia de serie. Más del 50 % del piloto
+        filmado con fondos propios. Trailer, opening y banda sonora original en desarrollo.
+      </p>
+    </div>
+    <div class="pedido-item reveal d1">
+      <p class="pedido-t">Cómo se produce</p>
+      <p class="pedido-d">
+        Rodaje con actores y locaciones reales en Buenos Aires. La postproducción y los VFX se apoyan
+        en herramientas de IA para llegar a una terminación competitiva con un equipo chico.
+      </p>
+    </div>
+    <div class="pedido-item reveal d2">
+      <p class="pedido-t">Qué falta</p>
+      <p class="pedido-d">
+        Financiación para cerrar postproducción, música y distribución. Y contactos: productoras,
+        plataformas y distribuidores que puedan llevar la temporada 1 a estreno.
+      </p>
+    </div>
+  </div>
+
+  <div class="cierre-big reveal">
+    <a href="mailto:bd.juliansequeira@gmail.com?subject=Flama%20Squad">Hablemos.</a>
+  </div>
+  <div class="cierre-row reveal d1">
+    <a href="mailto:bd.juliansequeira@gmail.com?subject=Flama%20Squad">Email ↗</a>
+    <a href="https://www.behance.net/gallery/196026795/Flama-Squad" target="_blank" rel="noopener">Galería en Behance ↗</a>
+    <a href="work.html">Más trabajos ↗</a>
+  </div>
+</section>
+
+<footer>
+  <span>© 2026 Julián Sequeira</span>
+  <span>Buenos Aires, Argentina</span>
+</footer>
+
+<script>
+  (function () {
+    document.documentElement.classList.add('js-reveal');
+    var els = document.querySelectorAll('.reveal');
+    function mostrar(el) { el.classList.add('visible'); }
+    function enVista() {
+      for (var i = 0; i < els.length; i++) {
+        var el = els[i];
+        if (!el.classList.contains('visible') && el.getBoundingClientRect().top < innerHeight * 0.95) mostrar(el);
+      }
+    }
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) { if (e.isIntersecting) mostrar(e.target); });
+      }, { threshold: 0.08, rootMargin: '0px 0px -5% 0px' });
+      els.forEach(function (el) { io.observe(el); });
+    } else {
+      els.forEach(mostrar);
+    }
+    window.addEventListener('scroll', enVista, { passive: true });
+    window.addEventListener('resize', enVista, { passive: true });
+    window.addEventListener('load', function () { setTimeout(enVista, 200); });
+    enVista();
+  })();
+</script>
+</body>
+</html>

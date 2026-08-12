@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crónicas del Barro Infinito — Julián Sequeira</title>
+  <meta name="description" content="Miniserie animada vertical. Aventura conurbana con humor negro y horror de proyección, en un Lanús estilo Satoshi Kon. Creador y director: Julián Sequeira.">
+  <link rel="canonical" href="https://julisequeira.com/cdbi.html">
+  <meta property="og:type"        content="video.tv_show">
+  <meta property="og:url"         content="https://julisequeira.com/cdbi.html">
+  <meta property="og:title"       content="Crónicas del Barro Infinito">
+  <meta property="og:description" content="Dos hermanos huérfanos y su tío trucho salen a buscar un tesoro que no existe, persiguiendo a un monstruo que nadie vio nunca.">
+  <meta property="og:image"       content="https://img.youtube.com/vi/HgpCC7Lzq_Q/maxresdefault.jpg">
+  <meta name="twitter:card"       content="summary_large_image">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%230A0A0A'/%3E%3Ctext x='32' y='45' font-family='Arial,sans-serif' font-size='28' font-weight='900' fill='%23F4F2EE' text-anchor='middle'%3EJS%3C/text%3E%3Ccircle cx='52' cy='14' r='5' fill='%23CC0A2A'/%3E%3C/svg%3E">
+
+  <!-- Vercel Analytics -->
+  <script defer src="/_vercel/insights/script.js"></script>
+
+  <link rel="preconnect" href="https://api.fontshare.com">
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@700,800,900&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <!-- Sistema compartido: color, foco, red de seguridad del cursor -->
+  <link rel="stylesheet" href="assets/tokens.css">
+
+  <style>
+    /* Página de proyecto en papel oscuro. Los tokens vienen de tokens.css;
+       acá sólo se invierten los roles papel/tinta. */
+    :root {
+      --paper: var(--ink);
+      --nav-h: 77px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--paper);
+      color: var(--cream);
+      overflow-x: hidden;
+    }
+
+    /* ─── NAV ────────────────────────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 28px 52px;
+      background: rgba(10,10,10,.86);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(244,242,238,.12);
+    }
+    .nav-logo {
+      font-family: 'Satoshi', sans-serif; font-weight: 900;
+      font-size: 14px; letter-spacing: .12em; text-transform: uppercase;
+      color: var(--cream); text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 40px; list-style: none; }
+    .nav-links a {
+      font-size: 11px; font-weight: 500;
+      letter-spacing: .12em; text-transform: uppercase;
+      color: var(--on-dark); text-decoration: none;
+      transition: color var(--dur) var(--ease-out);
+    }
+    .nav-links a:hover { color: var(--red); }
+
+    /* ─── MIGA ───────────────────────────────────────────────── */
+    .miga {
+      padding: calc(var(--nav-h) + 46px) 52px 0;
+      font-size: 11px; font-weight: 500;
+      letter-spacing: .14em; text-transform: uppercase;
+      color: var(--on-dark-soft);
+    }
+    .miga a { color: var(--on-dark); text-decoration: none; }
+    .miga a:hover { color: var(--red); }
+    .miga span { color: var(--red); padding: 0 8px; }
+
+    /* ─── ENCABEZADO ─────────────────────────────────────────── */
+    header { padding: 30px 52px 70px; }
+    .kicker {
+      font-size: 11px; font-weight: 500;
+      letter-spacing: .2em; text-transform: uppercase;
+      color: var(--red); margin-bottom: 20px;
+    }
+    h1 {
+      font-family: 'Satoshi', sans-serif; font-weight: 900;
+      font-size: clamp(42px, 8.4vw, 128px);
+      line-height: .88; letter-spacing: -.035em;
+      text-transform: uppercase;
+      max-width: 15ch;
+      overflow-wrap: anywhere;
+    }
+    .logline {
+      font-family: 'Satoshi', sans-serif; font-weight: 700;
+      font-size: clamp(19px, 2.3vw, 30px);
+      line-height: 1.32; letter-spacing: -.01em;
+      color: var(--cream);
+      max-width: 30ch;
+      margin-top: 34px;
+    }
+
+    /* ─── TRAILER ────────────────────────────────────────────── */
+    .trailer-zona { padding: 0 52px 80px; }
+    .trailer {
+      position: relative; overflow: hidden;
+      aspect-ratio: 21/9; background: #141414;
+      cursor: pointer; width: 100%;
+      border: 0;
+    }
+    @media (max-width: 700px) { .trailer { aspect-ratio: 16/10; } }
+    /* El frame del trailer ya es una escena nocturna: si se oscurece más,
+       queda un rectángulo negro. Se sube en vez de bajar. */
+    .trailer img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+      filter: brightness(1.06) saturate(1.05);
+      transform: scale(1.02);
+      transition: transform .8s var(--ease-out), filter .4s var(--ease-out);
+    }
+    .trailer:hover img { transform: scale(1.06); filter: brightness(.9) saturate(1.15); }
+    .trailer::after {
+      content: ''; position: absolute; bottom: 0; left: 0;
+      width: 0; height: 3px; background: var(--red); z-index: 3;
+      transition: width .5s var(--ease-out);
+    }
+    .trailer:hover::after, .trailer:focus-visible::after { width: 100%; }
+    .trailer-play {
+      position: absolute; inset: 0; z-index: 2;
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column; gap: 16px;
+    }
+    .play-aro {
+      width: 78px; height: 78px; border-radius: 50%;
+      border: 1.5px solid var(--cream);
+      background: rgba(10,10,10,.42);
+      backdrop-filter: blur(2px);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--cream);
+      transition: background var(--dur) var(--ease-out), border-color var(--dur) var(--ease-out);
+    }
+    .trailer:hover .play-aro { background: var(--red); border-color: var(--red); }
+    .play-aro svg { margin-left: 4px; }
+    .play-lbl {
+      font-size: 10px; font-weight: 500;
+      letter-spacing: .18em; text-transform: uppercase;
+      color: var(--cream);
+      text-shadow: 0 1px 8px rgba(10,10,10,.9);
+    }
+
+    /* ─── FICHA ──────────────────────────────────────────────── */
+    #ficha {
+      padding: 60px 52px;
+      border-top: 1px solid rgba(244,242,238,.12);
+      border-bottom: 1px solid rgba(244,242,238,.12);
+    }
+    .ficha-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 40px 32px;
+    }
+    @media (max-width: 900px) { .ficha-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (max-width: 480px) { .ficha-grid { grid-template-columns: minmax(0, 1fr); } }
+    .ficha-k {
+      font-size: 10px; font-weight: 500;
+      letter-spacing: .18em; text-transform: uppercase;
+      color: var(--on-dark-soft); margin-bottom: 9px;
+    }
+    .ficha-v {
+      font-family: 'Satoshi', sans-serif; font-weight: 700;
+      font-size: 17px; line-height: 1.35;
+      color: var(--cream);
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* ─── SECCIONES DE TEXTO ─────────────────────────────────── */
+    .sec { padding: 90px 52px; border-bottom: 1px solid rgba(244,242,238,.12); }
+    .sec-k {
+      font-size: 10px; font-weight: 500;
+      letter-spacing: .22em; text-transform: uppercase;
+      color: var(--on-dark-soft); margin-bottom: 30px;
+    }
+    .sec h2 {
+      font-family: 'Satoshi', sans-serif; font-weight: 900;
+      font-size: clamp(28px, 4.2vw, 58px);
+      line-height: 1.04; letter-spacing: -.025em;
+      text-transform: uppercase;
+      max-width: 22ch;
+    }
+    .prosa { margin-top: 34px; max-width: 66ch; display: flex; flex-direction: column; gap: 20px; }
+    .prosa p {
+      font-size: clamp(15px, 1.5vw, 18px);
+      font-weight: 300; line-height: 1.78;
+      color: var(--on-dark-strong);
+    }
+    .prosa strong { color: var(--cream); font-weight: 500; }
+
+    /* ─── REFERENCIAS ────────────────────────────────────────── */
+    .refs { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 36px; }
+    .ref {
+      font-size: 11px; font-weight: 500;
+      letter-spacing: .12em; text-transform: uppercase;
+      color: var(--on-dark);
+      border: 1px solid rgba(244,242,238,.22);
+      padding: 9px 16px;
+    }
+
+    /* ─── PIPELINE ───────────────────────────────────────────── */
+    .pipe { margin-top: 40px; display: flex; flex-direction: column; }
+    .pipe-fila {
+      display: grid;
+      grid-template-columns: 190px minmax(0, 1fr);
+      gap: 28px;
+      padding: 22px 0;
+      border-top: 1px solid rgba(244,242,238,.12);
+      align-items: baseline;
+    }
+    .pipe-fila:last-child { border-bottom: 1px solid rgba(244,242,238,.12); }
+    @media (max-width: 700px) {
+      .pipe-fila { grid-template-columns: minmax(0, 1fr); gap: 7px; }
+    }
+    .pipe-etapa {
+      font-family: 'Satoshi', sans-serif; font-weight: 800;
+      font-size: 14px; letter-spacing: .04em; text-transform: uppercase;
+      color: var(--cream);
+    }
+    .pipe-det { font-size: 15px; font-weight: 300; line-height: 1.7; color: var(--on-dark-strong); }
+    .pipe-det em { font-style: normal; color: var(--red); font-weight: 500; }
+
+    /* ─── ESTADO (números reales) ────────────────────────────── */
+    #estado { background: #131313; }
+    .nums {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 44px 32px; margin-top: 44px;
+    }
+    @media (max-width: 900px) { .nums { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    .num {
+      font-family: 'Satoshi', sans-serif; font-weight: 900;
+      font-size: clamp(38px, 5vw, 62px); line-height: 1;
+      letter-spacing: -.03em; color: var(--cream);
+      font-variant-numeric: tabular-nums;
+    }
+    .num-l {
+      font-size: 10px; font-weight: 500;
+      letter-spacing: .16em; text-transform: uppercase;
+      color: var(--on-dark-soft); margin-top: 10px;
+    }
+    .nota-pie {
+      margin-top: 44px; max-width: 62ch;
+      font-size: 13px; font-weight: 300; line-height: 1.7;
+      color: var(--on-dark-soft);
+      padding-left: 16px; border-left: 2px solid var(--red);
+    }
+
+    /* ─── CIERRE ─────────────────────────────────────────────── */
+    #cierre { padding: 100px 52px; }
+    .cierre-k {
+      font-family: 'Satoshi', sans-serif; font-weight: 700;
+      font-size: clamp(13px, 1.3vw, 16px);
+      letter-spacing: .14em; text-transform: uppercase;
+      color: var(--cream); margin-bottom: 26px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .cierre-k::before { content: ''; width: 36px; height: 2px; background: var(--red); }
+    .cierre-big {
+      font-family: 'Satoshi', sans-serif; font-weight: 900;
+      font-size: clamp(42px, 7.5vw, 104px);
+      text-transform: uppercase; line-height: .85; letter-spacing: -.03em;
+    }
+    .cierre-big a { color: var(--cream); text-decoration: none; transition: color var(--dur) var(--ease-out); }
+    .cierre-big a:hover { color: var(--red); }
+    .cierre-row { display: flex; flex-wrap: wrap; gap: 26px; margin-top: 40px; }
+    .cierre-row a {
+      font-size: 11px; font-weight: 500;
+      letter-spacing: .14em; text-transform: uppercase;
+      color: var(--on-dark); text-decoration: none;
+      border-bottom: 1px solid rgba(244,242,238,.28); padding-bottom: 3px;
+      white-space: nowrap;
+      transition: color var(--dur) var(--ease-out), border-color var(--dur) var(--ease-out);
+    }
+    .cierre-row a:hover { color: var(--red); border-color: var(--red); }
+
+    footer {
+      padding: 22px 52px;
+      display: flex; align-items: center; justify-content: space-between;
+      border-top: 1px solid rgba(244,242,238,.12);
+    }
+    footer span { font-size: 10px; letter-spacing: .1em; color: var(--on-dark); }
+
+    /* ─── LIGHTBOX (9:16 — la serie es vertical) ─────────────── */
+    #lightbox {
+      display: none; position: fixed; inset: 0; z-index: 900;
+      background: rgba(10,10,10,.96);
+      align-items: center; justify-content: center;
+    }
+    #lightbox.open { display: flex; }
+    .lb-inner { position: relative; width: min(88vw, 420px); aspect-ratio: 9/16; }
+    .lb-inner iframe { width: 100%; height: 100%; border: none; }
+    .lb-close {
+      position: absolute; top: -44px; right: 0;
+      font-size: 24px; color: var(--cream); cursor: pointer;
+      background: none; border: none; line-height: 1;
+    }
+
+    /* ─── REVEAL ─────────────────────────────────────────────── */
+    .reveal { transition: opacity .8s ease, transform .8s ease; }
+    html.js-reveal .reveal { opacity: 0; transform: translateY(24px); }
+    html.js-reveal .reveal.visible { opacity: 1; transform: none; }
+    .reveal.d1 { transition-delay: .1s; }
+    .reveal.d2 { transition-delay: .2s; }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .001ms !important;
+        transition-duration: .001ms !important;
+        scroll-behavior: auto !important;
+      }
+      html.js-reveal .reveal { opacity: 1 !important; transform: none !important; }
+    }
+
+    @media (max-width: 700px) {
+      :root { --nav-h: 57px; }
+      nav { padding: 18px 22px; }
+      .nav-links { gap: 18px; }
+      .miga, header, .trailer-zona, #ficha, .sec, #cierre, footer {
+        padding-left: 22px; padding-right: 22px;
+      }
+      header { padding-top: 26px; padding-bottom: 48px; }
+      .sec { padding-top: 64px; padding-bottom: 64px; }
+      footer { flex-direction: column; gap: 6px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAV ───────────────────────────────────────────────────── -->
+<nav>
+  <a href="index.html" class="nav-logo">JS</a>
+  <ul class="nav-links">
+    <li><a href="work.html">Trabajos</a></li>
+    <li><a href="about.html">Sobre mí</a></li>
+    <li><a href="index.html#contact">Contacto</a></li>
+  </ul>
+</nav>
+
+<p class="miga">
+  <a href="work.html">Trabajos</a><span>/</span>Crónicas del Barro Infinito
+</p>
+
+<!-- ── ENCABEZADO ────────────────────────────────────────────── -->
+<header>
+  <p class="kicker">Miniserie animada vertical · Creador &amp; Director</p>
+  <h1>Crónicas del Barro Infinito</h1>
+  <p class="logline">
+    Dos hermanos huérfanos y su tío trucho salen a buscar un tesoro que no existe,
+    persiguiendo a un monstruo que nadie vio nunca, por un Lanús donde el barro
+    no se lleva nada del todo.
+  </p>
+</header>
+
+<!-- ── TRAILER ───────────────────────────────────────────────── -->
+<div class="trailer-zona">
+  <button class="trailer" type="button" data-yt="HgpCC7Lzq_Q" aria-label="Reproducir el trailer de Crónicas del Barro Infinito">
+    <img src="https://img.youtube.com/vi/HgpCC7Lzq_Q/maxresdefault.jpg"
+         alt="Fotograma del trailer de Crónicas del Barro Infinito"
+         decoding="async" fetchpriority="high"
+         onerror="this.onerror=null;this.src='https://img.youtube.com/vi/HgpCC7Lzq_Q/hqdefault.jpg';">
+    <span class="trailer-play">
+      <span class="play-aro">
+        <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><polygon points="4,2 14,8 4,14"/></svg>
+      </span>
+      <span class="play-lbl">Ver trailer</span>
+    </span>
+  </button>
+</div>
+
+<!-- ── FICHA ─────────────────────────────────────────────────── -->
+<section id="ficha" aria-label="Ficha técnica">
+  <div class="ficha-grid">
+    <div><p class="ficha-k">Formato</p><p class="ficha-v">EP00 doble + 10 episodios</p></div>
+    <div><p class="ficha-k">Duración</p><p class="ficha-v">90–140 s por episodio</p></div>
+    <div><p class="ficha-k">Relación de aspecto</p><p class="ficha-v">Vertical 9:16</p></div>
+    <div><p class="ficha-k">Rol</p><p class="ficha-v">Creador &amp; Director</p></div>
+    <div><p class="ficha-k">Género</p><p class="ficha-v">Aventura · humor negro · horror de proyección</p></div>
+    <div><p class="ficha-k">Locación</p><p class="ficha-v">Lanús, conurbano bonaerense</p></div>
+    <div><p class="ficha-k">Audiencia</p><p class="ficha-v">18–35 · anime, horror, comedia negra</p></div>
+    <div><p class="ficha-k">Plataformas</p><p class="ficha-v">YouTube Shorts · Reels · TikTok</p></div>
+  </div>
+</section>
+
+<!-- ── SINOPSIS ──────────────────────────────────────────────── -->
+<section class="sec">
+  <p class="sec-k">Sinopsis</p>
+  <h2 class="reveal">El Sapo siempre fue un cuento</h2>
+  <div class="prosa">
+    <p class="reveal d1">
+      Joel (12), con TOC numérico y camiseta de Boca, y su hermana Pili (13), que habla con animales
+      y con cosas, sobreviven junto a su tío <strong>El Cóndor</strong> (40), un cumbiero que los
+      arrastra a robos que siempre salen truchos. Cuando Pili saca un mapa del Riachuelo, lo que era
+      comedia se vuelve expedición: el mapa lleva al <strong>Sapo</strong>, la bestia que el barrio
+      le teme desde hace treinta años.
+    </p>
+    <p class="reveal d1">
+      Con Pepe, La Madrina y un gato cruzan la zona muerta de Lanús, una camioneta turbia y un
+      cazarrecompensas tuerto. Y en la cueva descubren que no hay monstruo ni tesoro: sólo sapos de
+      verdad, chatarra, y los murales de una infancia perdida.
+    </p>
+    <p class="reveal d2">
+      El Sapo fue siempre una proyección — el cuento con que el barrio tapó una culpa vieja y una
+      madre que se fue. <strong>La aventura nunca fue el tesoro: era la excusa para no soltarse la
+      mano.</strong>
+    </p>
+  </div>
+</section>
+
+<!-- ── TONO ──────────────────────────────────────────────────── -->
+<section class="sec">
+  <p class="sec-k">Tono</p>
+  <h2 class="reveal">Como si Paranoia Agent se emitiera a las 3 AM en Lanús</h2>
+  <div class="prosa">
+    <p class="reveal d1">
+      El monstruo es lo que cada uno proyecta, y abajo siempre hay algo más chico y más triste.
+      La serie toma la fractura perceptual de Satoshi Kon, la trama-señuelo de Paranoia Agent y la
+      melancolía de Cowboy Bebop, y las baja al conurbano bonaerense.
+    </p>
+  </div>
+  <div class="refs reveal d2">
+    <span class="ref">Satoshi Kon</span>
+    <span class="ref">Paranoia Agent</span>
+    <span class="ref">Cowboy Bebop</span>
+    <span class="ref">Lo-fi cumbia</span>
+  </div>
+</section>
+
+<!-- ── PIPELINE ──────────────────────────────────────────────── -->
+<section class="sec">
+  <p class="sec-k">Cómo está hecha</p>
+  <h2 class="reveal">Pipeline</h2>
+  <div class="prosa">
+    <p class="reveal d1">
+      La serie se produce con un pipeline de IA generativa dirigido plano por plano: cada episodio
+      pasa por guion, shotlist con prompts, generación, y una maqueta de audio completa antes de
+      tocar el montaje.
+    </p>
+  </div>
+  <div class="pipe reveal d2">
+    <div class="pipe-fila">
+      <p class="pipe-etapa">Guion</p>
+      <p class="pipe-det">Biblia, escaleta y arcos escritos a mano. Canon cerrado antes de generar un solo frame.</p>
+    </div>
+    <div class="pipe-fila">
+      <p class="pipe-etapa">Shotlist</p>
+      <p class="pipe-det">Un shotlist de producción por episodio, con prompts, blocking por escena y <em>@tags</em> de personajes y locaciones que mantienen el diseño consistente entre planos.</p>
+    </div>
+    <div class="pipe-fila">
+      <p class="pipe-etapa">Imagen</p>
+      <p class="pipe-det">Seedance y Runway sobre diseño de personaje fijo. Estética anime, referencia Kon.</p>
+    </div>
+    <div class="pipe-fila">
+      <p class="pipe-etapa">Voces</p>
+      <p class="pipe-det">ElevenLabs con voz clonada, dirigidas toma por toma en rioplatense.</p>
+    </div>
+    <div class="pipe-fila">
+      <p class="pipe-etapa">Música y SFX</p>
+      <p class="pipe-det">Seed Audio para música y efectos independientes. Sistema musical serializado: el tema de un personaje se deforma y se recompone a lo largo de la temporada.</p>
+    </div>
+    <div class="pipe-fila">
+      <p class="pipe-etapa">Maqueta</p>
+      <p class="pipe-det">Radioteatro completo antes del montaje. Escuchar la temporada entera expone los problemas de ritmo que el texto esconde.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── ESTADO ────────────────────────────────────────────────── -->
+<section class="sec" id="estado">
+  <p class="sec-k">Estado de producción</p>
+  <h2 class="reveal">La temporada ya existe como audio</h2>
+  <div class="nums">
+    <div class="reveal"><p class="num">11</p><p class="num-l">Episodios</p></div>
+    <div class="reveal d1"><p class="num">160</p><p class="num-l">Tomas de voz</p></div>
+    <div class="reveal d1"><p class="num">204</p><p class="num-l">Música y SFX</p></div>
+    <div class="reveal d2"><p class="num">23:28</p><p class="num-l">Minutos maquetados</p></div>
+  </div>
+  <p class="nota-pie reveal d2">
+    727 clips repartidos en 8 pistas por episodio. La maqueta de audio se cerró en agosto de 2026 y
+    es la base sobre la que se monta la imagen.
+  </p>
+</section>
+
+<!-- ── CIERRE ────────────────────────────────────────────────── -->
+<section id="cierre">
+  <p class="cierre-k">¿Te interesa el proyecto?</p>
+  <div class="cierre-big reveal">
+    <a href="mailto:bd.juliansequeira@gmail.com">Hablemos.</a>
+  </div>
+  <div class="cierre-row reveal d1">
+    <a href="mailto:bd.juliansequeira@gmail.com">Email ↗</a>
+    <a href="work.html">Ver más trabajos ↗</a>
+    <a href="https://www.youtube.com/@flama.collective" target="_blank" rel="noopener">YouTube ↗</a>
+  </div>
+</section>
+
+<footer>
+  <span>© 2026 Julián Sequeira</span>
+  <span>Buenos Aires, Argentina</span>
+</footer>
+
+<!-- ── LIGHTBOX ──────────────────────────────────────────────── -->
+<div id="lightbox" role="dialog" aria-modal="true" aria-label="Reproductor de video">
+  <div class="lb-inner">
+    <button class="lb-close" id="lb-close" aria-label="Cerrar el video">✕</button>
+    <iframe id="lb-iframe" src="" title="Trailer de Crónicas del Barro Infinito"
+            allow="autoplay; encrypted-media; fullscreen; web-share" allowfullscreen></iframe>
+  </div>
+</div>
+
+<script>
+  (function () {
+    var lb = document.getElementById('lightbox');
+    var ifr = document.getElementById('lb-iframe');
+    var cerrar = document.getElementById('lb-close');
+    var vuelveA = null;
+
+    function abrir(id) {
+      vuelveA = document.activeElement;
+      ifr.src = 'https://www.youtube.com/embed/' + id + '?autoplay=1&rel=0';
+      lb.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      cerrar.focus();
+    }
+    function cerrarLb() {
+      lb.classList.remove('open');
+      ifr.src = '';
+      document.body.style.overflow = '';
+      if (vuelveA && vuelveA.focus) vuelveA.focus();
+      vuelveA = null;
+    }
+
+    document.querySelectorAll('[data-yt]').forEach(function (el) {
+      el.addEventListener('click', function () { abrir(el.dataset.yt); });
+    });
+    cerrar.addEventListener('click', cerrarLb);
+    lb.addEventListener('click', function (e) { if (e.target === lb) cerrarLb(); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') cerrarLb(); });
+  })();
+</script>
+
+<script>
+  (function () {
+    document.documentElement.classList.add('js-reveal');
+    var els = document.querySelectorAll('.reveal');
+    function mostrar(el) { el.classList.add('visible'); }
+    function enVista() {
+      for (var i = 0; i < els.length; i++) {
+        var el = els[i];
+        if (!el.classList.contains('visible') && el.getBoundingClientRect().top < innerHeight * 0.95) mostrar(el);
+      }
+    }
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) { if (e.isIntersecting) mostrar(e.target); });
+      }, { threshold: 0.08, rootMargin: '0px 0px -5% 0px' });
+      els.forEach(function (el) { io.observe(el); });
+    } else {
+      els.forEach(mostrar);
+    }
+    window.addEventListener('scroll', enVista, { passive: true });
+    window.addEventListener('resize', enVista, { passive: true });
+    window.addEventListener('load', function () { setTimeout(enVista, 200); });
+    enVista();
+  })();
+</script>
+</body>
+</html>

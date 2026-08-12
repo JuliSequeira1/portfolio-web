@@ -25,16 +25,21 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 
+  <!-- El hero es el LCP y vive en un background CSS: sin preload el navegador
+       lo descubre tarde. -->
+  <link rel="preload" as="image" href="assets/hero-poster.webp" fetchpriority="high">
+
+  <!-- Sistema compartido: color, foco, red de seguridad del cursor -->
+  <link rel="stylesheet" href="assets/tokens.css">
+
   <style>
-    /* ─── DESIGN TOKENS ──────────────────────────────────────── */
+    /* Tokens propios de esta página. El resto vive en assets/tokens.css */
     :root {
-      --bg:      #F4F2EE;   /* warm off-white */
-      --ink:     #0A0A0A;
-      --red:     #CC0A2A;   /* signature crimson */
-      --muted:   #787878;
-      --dim:     rgba(10,10,10,.5);
-      --border:  rgba(10,10,10,.1);
       --hero-bg: #0A0A0A;
+      /* Primer frame del loop del hero: se ve al instante mientras el video
+         carga, y queda de fondo si el video no carga nunca (móvil,
+         reduced-motion, Save-Data, red lenta). Se cambia SOLO acá. */
+      --hero-poster: url('assets/hero-poster.webp');
     }
 
     /* ─── RESET ──────────────────────────────────────────────── */
@@ -118,9 +123,9 @@
       font-weight: 500;
       letter-spacing: .12em;
       text-transform: uppercase;
-      color: rgba(244,242,238,.55);
+      color: var(--on-dark);
       text-decoration: none;
-      transition: color .25s;
+      transition: color var(--dur) var(--ease-out);
     }
     nav.solid .nav-links a { color: var(--muted); }
     .nav-links a:hover { color: var(--red) !important; }
@@ -142,7 +147,7 @@
       overflow: hidden; pointer-events: none;
       /* El poster vive acá, no en el <video>: así se ve siempre, aunque el
          video no cargue nunca (móvil, reduced-motion, red lenta). */
-      background: #0a0a0a url('assets/hero-poster.webp') center / cover no-repeat;
+      background: var(--hero-bg) var(--hero-poster, none) center / cover no-repeat;
     }
     /* El poster se pinta como fondo: se ve al instante, sin esperar al video. */
     .hero-media video {
@@ -151,12 +156,20 @@
       opacity: 0; transition: opacity 1.2s ease;
     }
     .hero-media video.is-ready { opacity: 1; }
+    /* Scrim en dos ejes: vertical para el bloque de texto de abajo, horizontal
+       para que el eyebrow rojo no caiga sobre la zona clara de la foto. */
     .hero-overlay {
       position: absolute; inset: 0; z-index: 1;
-      background: linear-gradient(to top,
-        rgba(10,10,10,.88) 0%,
-        rgba(10,10,10,.25) 55%,
-        rgba(10,10,10,.1) 100%);
+      background:
+        linear-gradient(to right,
+          rgba(10,10,10,.78) 0%,
+          rgba(10,10,10,.35) 42%,
+          rgba(10,10,10,0) 72%),
+        linear-gradient(to top,
+          rgba(10,10,10,.92) 0%,
+          rgba(10,10,10,.72) 28%,
+          rgba(10,10,10,.28) 58%,
+          rgba(10,10,10,.12) 100%);
     }
 
     .hero-content {
@@ -185,42 +198,6 @@
     }
     .hero-title .red { color: var(--red); }
 
-    .hero-bottom {
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
-      margin-top: 28px;
-      opacity: 0; animation: fadeUp .8s .5s forwards;
-    }
-
-    .hero-sub {
-      font-size: 12px; font-weight: 400;
-      letter-spacing: .16em; text-transform: uppercase;
-      color: rgba(244,242,238,.4);
-    }
-
-    .hero-reel-btn {
-      display: flex; align-items: center; gap: 14px;
-      text-decoration: none; color: #F4F2EE;
-    }
-    .reel-circle {
-      width: 64px; height: 64px;
-      border: 1px solid rgba(244,242,238,.25);
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      transition: background .3s, border-color .3s;
-      flex-shrink: 0;
-    }
-    .hero-reel-btn:hover .reel-circle {
-      background: var(--red); border-color: var(--red);
-    }
-    .reel-circle svg { margin-left: 3px; }
-    .reel-lbl {
-      font-size: 10px; font-weight: 500;
-      letter-spacing: .16em; text-transform: uppercase;
-      color: rgba(244,242,238,.4);
-    }
-
     /* New hero copy block */
     .hero-tagline {
       font-family: 'Satoshi', sans-serif;
@@ -233,16 +210,6 @@
       max-width: none;
       opacity: 0; animation: fadeUp .8s .45s forwards;
     }
-    .hero-lead {
-      font-size: clamp(14px, 1.4vw, 17px);
-      font-weight: 300;
-      line-height: 1.65;
-      color: rgba(244,242,238,.6);
-      margin-top: 16px;
-      max-width: 52ch;
-      opacity: 0; animation: fadeUp .8s .55s forwards;
-    }
-    .hero-lead em { font-style: normal; color: var(--red); font-weight: 500; }
 
     .hero-cta {
       display: flex; align-items: center; gap: 16px;
@@ -256,7 +223,7 @@
       padding: 15px 28px;
       text-decoration: none;
       display: inline-flex; align-items: center; gap: 10px;
-      transition: background .25s, color .25s, border-color .25s;
+      transition: background var(--dur) var(--ease-out), color var(--dur) var(--ease-out), border-color var(--dur) var(--ease-out);
       border: 1px solid transparent;
       cursor: pointer; background: none;
     }
@@ -277,7 +244,7 @@
     }
     .hero-scroll span {
       font-size: 9px; letter-spacing: .18em; text-transform: uppercase;
-      color: rgba(244,242,238,.3); writing-mode: vertical-rl;
+      color: var(--on-dark-soft); writing-mode: vertical-rl;
     }
     .scroll-line {
       width: 1px; height: 48px;
@@ -319,44 +286,6 @@
       user-select: none;
     }
 
-    /* ─── STATEMENT ──────────────────────────────────────────── */
-    #statement { padding: 110px 56px; border-bottom: 1px solid var(--border); }
-    .statement-label {
-      font-size: 10px; font-weight: 500;
-      letter-spacing: .22em; text-transform: uppercase;
-      color: var(--muted); margin-bottom: 44px;
-      display: flex; align-items: center; gap: 12px;
-    }
-    .statement-label::before {
-      content: ''; display: block;
-      width: 28px; height: 1px; background: var(--red);
-    }
-    .statement-body {
-      font-family: 'Satoshi', sans-serif;
-      font-size: clamp(28px, 3.8vw, 58px);
-      font-weight: 700;
-      line-height: 1.12;
-      max-width: 960px;
-      letter-spacing: -.01em;
-    }
-    .statement-body em {
-      font-style: italic;
-      font-weight: 700;
-      color: var(--red);
-    }
-    .statement-text {
-      margin-top: 40px;
-      max-width: 760px;
-      display: flex; flex-direction: column; gap: 20px;
-    }
-    .statement-text p {
-      font-size: clamp(15px, 1.5vw, 18px);
-      font-weight: 300;
-      line-height: 1.75;
-      color: var(--dim);
-    }
-    .statement-text p strong { color: var(--ink); font-weight: 600; }
-
     /* ─── DISCIPLINES MARQUEE ────────────────────────────────── */
     #disciplines {
       overflow: hidden;
@@ -377,7 +306,7 @@
       text-transform: uppercase;
       letter-spacing: .18em;
       padding: 0 24px;
-      color: rgba(244,242,238,.4);
+      color: var(--on-dark-soft);
       user-select: none;
     }
     .disc-item.solid { color: #F4F2EE; }
@@ -402,11 +331,6 @@
       font-size: 10px; font-weight: 500;
       letter-spacing: .22em; text-transform: uppercase;
       color: var(--muted); margin-bottom: 10px;
-      display: flex; align-items: center; gap: 10px;
-    }
-    .sec-label::before {
-      content: ''; display: block;
-      width: 20px; height: 1px; background: var(--red);
     }
     .sec-title {
       font-family: 'Satoshi', sans-serif;
@@ -423,35 +347,10 @@
       border-bottom: 1px solid var(--ink);
       padding-bottom: 2px;
       white-space: nowrap;
-      transition: color .25s, border-color .25s;
+      transition: color var(--dur) var(--ease-out), border-color var(--dur) var(--ease-out);
     }
     .view-all:hover { color: var(--red); border-color: var(--red); }
-
-    /* Featured project (full width) */
-    .proj-featured {
-      position: relative; overflow: hidden;
-      aspect-ratio: 21/9; background: #0d1b3e;
-      cursor: pointer; margin-bottom: 16px;
-    }
     @media (max-width: 700px) { .proj-featured { aspect-ratio: 16/10; } }
-    .proj-featured .card-bg {
-      width: 100%; height: 100%; object-fit: cover; display: block;
-      transition: transform .8s cubic-bezier(.16,1,.3,1), filter .4s;
-      filter: brightness(.7) saturate(.95);
-    }
-    .proj-featured:hover .card-bg { transform: scale(1.04); filter: brightness(.55) saturate(1); }
-    .proj-featured::before {
-      content: ''; position: absolute; bottom: 0; left: 0;
-      width: 0; height: 3px; background: var(--red); z-index: 3;
-      transition: width .5s cubic-bezier(.16,1,.3,1);
-    }
-    .proj-featured:hover::before { width: 100%; }
-    .feat-badge {
-      position: absolute; top: 22px; left: 24px; z-index: 3;
-      font-size: 9px; font-weight: 600; letter-spacing: .18em;
-      text-transform: uppercase; color: #F4F2EE;
-      background: var(--red); padding: 6px 12px;
-    }
     .proj-featured .proj-meta { padding: 32px 32px; }
     .proj-featured .proj-name { font-size: clamp(26px, 4vw, 48px); }
 
@@ -484,12 +383,12 @@
     .proj-card img, .proj-card .card-bg {
       width: 100%; height: 100%;
       object-fit: cover; display: block;
-      transform: translateY(var(--py, 0px)) scale(1.06);
+      transform: scale(1.02);
       transition: transform .7s cubic-bezier(.16,1,.3,1), filter .4s;
       filter: brightness(.8) saturate(.9);
     }
     .proj-card:hover img,
-    .proj-card:hover .card-bg { transform: translateY(var(--py, 0px)) scale(1.12); filter: brightness(.6) saturate(1); }
+    .proj-card:hover .card-bg { transform: scale(1.06); filter: brightness(.6) saturate(1); }
 
     /* Red line reveal on hover */
     .proj-card::before {
@@ -511,7 +410,7 @@
     .proj-cat {
       font-size: 9px; font-weight: 500;
       letter-spacing: .16em; text-transform: uppercase;
-      color: rgba(244,242,238,.55); margin-bottom: 5px;
+      color: var(--on-dark); margin-bottom: 5px;
     }
     .proj-name {
       font-family: 'Satoshi', sans-serif;
@@ -520,7 +419,7 @@
       color: #F4F2EE;
       letter-spacing: -.01em;
     }
-    .proj-client { font-size: 11px; color: rgba(244,242,238,.4); margin-top: 3px; }
+    .proj-client { font-size: 11px; color: var(--on-dark-soft); margin-top: 3px; }
 
     .proj-ext {
       position: absolute; top: 18px; right: 18px; z-index: 3;
@@ -531,7 +430,11 @@
       text-decoration: none; color: #F4F2EE; font-size: 14px;
       opacity: 0; transition: opacity .3s, background .3s, border-color .3s;
     }
-    .proj-card:hover .proj-ext { opacity: 1; }
+    /* No puede vivir sólo en hover: sin :focus-within el foco de teclado
+       queda invisible, y en táctil no aparece nunca. */
+    .proj-card:hover .proj-ext,
+    .proj-card:focus-within .proj-ext,
+    .proj-card:focus-visible .proj-ext { opacity: 1; }
     .proj-ext:hover { background: var(--red); border-color: var(--red); }
 
     /* ─── ABOUT ──────────────────────────────────────────────── */
@@ -545,12 +448,7 @@
       font-size: 10px; font-weight: 500;
       letter-spacing: .22em; text-transform: uppercase;
       color: var(--muted); margin-bottom: 28px;
-      display: flex; align-items: center; gap: 10px;
     }
-    .about-lbl::before {
-      content: ''; width: 20px; height: 1px; background: var(--red);
-    }
-
     .about-statement {
       font-family: 'Satoshi', sans-serif;
       font-size: clamp(22px, 2.8vw, 36px);
@@ -559,14 +457,8 @@
       letter-spacing: -.01em;
       margin-bottom: 28px;
     }
-    .about-statement em { font-style: italic; color: var(--red); font-weight: 700; }
-
-    .about-body {
-      font-size: 16px; font-weight: 300;
-      line-height: 1.78; color: var(--dim);
-      margin-bottom: 18px;
-    }
-    .about-body strong { color: var(--ink); font-weight: 500; }
+    /* Sin itálica: el énfasis va por peso y color. Ver about.html. */
+    .about-statement em { font-style: normal; color: var(--red); font-weight: 900; }
 
     .about-cv {
       display: inline-flex; align-items: center; gap: 10px;
@@ -576,81 +468,10 @@
       color: var(--ink); text-decoration: none;
       border: 1px solid var(--ink);
       padding: 13px 22px;
-      transition: background .25s, color .25s, border-color .25s;
+      transition: background var(--dur) var(--ease-out), color var(--dur) var(--ease-out), border-color var(--dur) var(--ease-out);
     }
     .about-cv:hover { background: var(--red); color: #F4F2EE; border-color: var(--red); }
-
-    /* Emmy box */
-    .about-emmy {
-      margin-top: 32px; padding: 18px 24px;
-      border-left: 2px solid var(--red);
-      background: rgba(204,10,42,.04);
-    }
-    .emmy-label {
-      font-size: 9px; font-weight: 500;
-      letter-spacing: .18em; text-transform: uppercase;
-      color: var(--red); margin-bottom: 6px;
-    }
-    .emmy-text { font-size: 13px; line-height: 1.65; }
-    .emmy-text strong { font-weight: 600; }
-
-    .stats-grid {
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 24px 36px; margin-top: 48px;
-    }
-    .stat-n {
-      font-family: 'Satoshi', sans-serif;
-      font-size: 52px; font-weight: 900; line-height: 1;
-      letter-spacing: -.02em;
-    }
-    .stat-l {
-      font-size: 10px; font-weight: 500;
-      letter-spacing: .14em; text-transform: uppercase;
-      color: var(--muted); margin-top: 4px;
-    }
-
-    /* Portrait */
-    .about-portrait {
-      position: relative; aspect-ratio: 3/4;
-      background: #d8d4cc; overflow: hidden;
-    }
-    .about-portrait img {
-      width: 100%; height: 100%;
-      object-fit: cover; object-position: center top;
-    }
-    /* Red corner accent */
-    .about-portrait::after {
-      content: ''; position: absolute;
-      top: 0; left: 0;
-      width: 40px; height: 3px;
-      background: var(--red);
-    }
-
-    /* ─── FOOTER MARQUEE BAND ────────────────────────────────── */
-    #footer-marquee {
-      background: var(--ink);
-      overflow: hidden;
-      padding: 28px 0;
-      border-top: 1px solid var(--border);
-    }
-    .fm-track {
-      display: flex;
-      white-space: nowrap;
-      animation: marqueeReverse 30s linear infinite;
-    }
-    .fm-track:hover { animation-play-state: paused; }
-    .fm-item {
-      font-family: 'Satoshi', sans-serif;
-      font-size: clamp(18px, 2.5vw, 30px);
-      font-weight: 900;
-      text-transform: uppercase;
-      letter-spacing: .06em;
-      padding: 0 36px;
-      color: rgba(244,242,238,.15);
-      user-select: none;
-    }
     .fm-item.hi { color: #F4F2EE; }
-    .fm-sep { color: var(--red); padding: 0 8px; align-self: center; }
 
     /* ─── CONTACT ────────────────────────────────────────────── */
     #contact {
@@ -678,7 +499,7 @@
       font-family: 'Inter', sans-serif;
       font-size: 11px; font-weight: 500;
       letter-spacing: .18em; text-transform: uppercase;
-      color: rgba(244,242,238,.5);
+      color: var(--on-dark);
       margin-top: 28px;
     }
     .contact-tags .sep { color: var(--red); padding: 0 6px; }
@@ -692,7 +513,7 @@
     }
     .contact-big a {
       color: #F4F2EE; text-decoration: none;
-      transition: color .25s;
+      transition: color var(--dur) var(--ease-out);
     }
     .contact-big a:hover { color: var(--red); }
 
@@ -708,7 +529,7 @@
       display: flex; align-items: center; justify-content: space-between;
       border-bottom: 1px solid rgba(244,242,238,.15);
       padding: 18px 0;
-      transition: color .25s, border-color .25s;
+      transition: color var(--dur) var(--ease-out), border-color var(--dur) var(--ease-out);
     }
     .c-link:first-child { border-top: 1px solid rgba(244,242,238,.15); }
     .c-link:hover { color: var(--red); border-color: var(--red); }
@@ -721,7 +542,7 @@
       border-top: 1px solid rgba(244,242,238,.1);
       background: #0A0A0A;
     }
-    footer span { font-size: 10px; font-weight: 400; letter-spacing: .1em; color: rgba(244,242,238,.5); }
+    footer span { font-size: 10px; font-weight: 400; letter-spacing: .1em; color: var(--on-dark); }
 
     /* ─── KEYFRAMES ──────────────────────────────────────────── */
     @keyframes fadeUp {
@@ -735,10 +556,6 @@
     @keyframes marquee {
       from { transform: translateX(0); }
       to   { transform: translateX(-50%); }
-    }
-    @keyframes marqueeReverse {
-      from { transform: translateX(-50%); }
-      to   { transform: translateX(0); }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -769,8 +586,7 @@
       .hero-scroll { right: 24px; bottom: 52px; }
       #statement, #work-preview, #about, #contact { padding-left: 24px; padding-right: 24px; }
       footer { padding: 20px 24px; flex-direction: column; gap: 6px; }
-    }
-  </style>
+    }</style>
 </head>
 <body>
 
@@ -791,10 +607,13 @@
 <!-- ── HERO ──────────────────────────────────────────────────── -->
 <section id="hero">
   <div class="hero-media">
-    <!-- Sin <source> a propósito: los inyecta hero-loader.js sólo cuando
+    <!-- Sin <source> a propósito: los inyecta el loader de abajo sólo cuando
          corresponde (no en móvil, no con reduced-motion, no con Save-Data).
-         Hasta entonces sólo pesa el poster. -->
-    <video id="hero-video"
+         Hasta entonces sólo pesa el poster.
+
+         data-loop-listo: sacá este atributo (o ponelo en "no") mientras
+         assets/hero.mp4 no exista, para no pedir un archivo que da 404. -->
+    <video id="hero-video" data-loop-listo="si"
            muted loop playsinline preload="none"
            aria-hidden="true" tabindex="-1"></video>
   </div>
@@ -857,8 +676,10 @@
   <div class="work-grid">
 
     <!-- Big card: Dinopops (trailer Dailymotion) -->
-    <div class="proj-card reveal" onclick="openDailymotion('x8qp5m7')" style="cursor:pointer">
-      <img src="assets/dinopops.jpg" alt="Dinopops"
+    <div class="proj-card reveal" role="button" tabindex="0"
+         aria-label="Ver el trailer de Dinopops — Season 1"
+         onclick="openDailymotion('x8qp5m7')" style="cursor:pointer">
+      <img src="assets/dinopops.jpg" alt="Dinopops" loading="lazy" decoding="async"
            onerror="this.style.display='none'; this.parentNode.style.background='linear-gradient(135deg,#0d1b3e,#1a2d5a)';">
       <a class="proj-ext" href="https://www.imdb.com/es-es/video/vi4132946969/?ref_=ext_shr_lnk" target="_blank" rel="noopener" onclick="event.stopPropagation()">&#8599;</a>
       <div class="proj-meta">
@@ -869,8 +690,12 @@
     </div>
 
     <!-- Big card: La Noche -->
-    <div class="proj-card reveal" onclick="openVideo('3pr9iIdRLPI')" style="cursor:pointer">
-      <img src="https://img.youtube.com/vi/3pr9iIdRLPI/maxresdefault.jpg" alt="La Noche">
+    <div class="proj-card reveal" role="button" tabindex="0"
+         aria-label="Ver el cortometraje La Noche"
+         onclick="openVideo('3pr9iIdRLPI')" style="cursor:pointer">
+      <img src="https://img.youtube.com/vi/3pr9iIdRLPI/maxresdefault.jpg" alt="La Noche"
+           loading="lazy" decoding="async"
+           onerror="this.onerror=null;this.src='https://img.youtube.com/vi/3pr9iIdRLPI/hqdefault.jpg';">
       <a class="proj-ext" href="https://youtu.be/3pr9iIdRLPI" target="_blank" onclick="event.stopPropagation()">↗</a>
       <div class="proj-meta">
         <p class="proj-cat">Cortometraje · Dirección &amp; Cinematografía</p>
@@ -880,19 +705,27 @@
     </div>
 
     <!-- Card: Silent Hill -->
-    <div class="proj-card reveal d2" onclick="openVideo('TP6R0bC4LYI')" style="cursor:pointer">
-      <img src="https://img.youtube.com/vi/TP6R0bC4LYI/maxresdefault.jpg" alt="Silent Hill Ascension">
+    <div class="proj-card reveal d2" role="button" tabindex="0"
+         aria-label="Ver Silent Hill: Ascension"
+         onclick="openVideo('TP6R0bC4LYI')" style="cursor:pointer">
+      <img src="https://img.youtube.com/vi/TP6R0bC4LYI/maxresdefault.jpg" alt="Silent Hill Ascension"
+           loading="lazy" decoding="async"
+           onerror="this.onerror=null;this.src='https://img.youtube.com/vi/TP6R0bC4LYI/hqdefault.jpg';">
       <a class="proj-ext" href="https://youtu.be/TP6R0bC4LYI" target="_blank" rel="noopener" onclick="event.stopPropagation()">&#8599;</a>
       <div class="proj-meta">
-        <p class="proj-cat">Interactive Media &#183; Emmy 2024</p>
+        <p class="proj-cat">Media interactiva &#183; Emmy 2024</p>
         <h3 class="proj-name">Silent Hill: Ascension</h3>
         <p class="proj-client">Cinematic Artist · Genvid / Senscape / Konami</p>
       </div>
     </div>
 
     <!-- Small card: Ataraxia -->
-    <div class="proj-card reveal d1" onclick="openVideo('6ePPkhRv6hU')" style="cursor:pointer">
-      <img src="https://img.youtube.com/vi/6ePPkhRv6hU/maxresdefault.jpg" alt="DANEST Ataraxia">
+    <div class="proj-card reveal d1" role="button" tabindex="0"
+         aria-label="Ver el videoclip DANEST — Ataraxia"
+         onclick="openVideo('6ePPkhRv6hU')" style="cursor:pointer">
+      <img src="https://img.youtube.com/vi/6ePPkhRv6hU/maxresdefault.jpg" alt="DANEST Ataraxia"
+           loading="lazy" decoding="async"
+           onerror="this.onerror=null;this.src='https://img.youtube.com/vi/6ePPkhRv6hU/hqdefault.jpg';">
       <a class="proj-ext" href="https://youtu.be/6ePPkhRv6hU" target="_blank" onclick="event.stopPropagation()">↗</a>
       <div class="proj-meta">
         <p class="proj-cat">Music Video · Dirección</p>
@@ -902,8 +735,12 @@
     </div>
 
     <!-- Small card: El Loco -->
-    <div class="proj-card reveal d2" onclick="openVideo('jPyB0l5RumI')" style="cursor:pointer">
-      <img src="https://img.youtube.com/vi/jPyB0l5RumI/maxresdefault.jpg" alt="El Loco">
+    <div class="proj-card reveal d2" role="button" tabindex="0"
+         aria-label="Ver el videoclip El Loco"
+         onclick="openVideo('jPyB0l5RumI')" style="cursor:pointer">
+      <img src="https://img.youtube.com/vi/jPyB0l5RumI/maxresdefault.jpg" alt="El Loco"
+           loading="lazy" decoding="async"
+           onerror="this.onerror=null;this.src='https://img.youtube.com/vi/jPyB0l5RumI/hqdefault.jpg';">
       <a class="proj-ext" href="https://youtu.be/jPyB0l5RumI" target="_blank" onclick="event.stopPropagation()">↗</a>
       <div class="proj-meta">
         <p class="proj-cat">Music Video · Dirección</p>
@@ -913,8 +750,12 @@
     </div>
 
     <!-- Card: Blanco -->
-    <div class="proj-card reveal d1" onclick="openVideo('uikDazoPnsQ')" style="cursor:pointer">
-      <img src="https://img.youtube.com/vi/uikDazoPnsQ/maxresdefault.jpg" alt="Blanco">
+    <div class="proj-card reveal d1" role="button" tabindex="0"
+         aria-label="Ver el cortometraje Blanco"
+         onclick="openVideo('uikDazoPnsQ')" style="cursor:pointer">
+      <img src="https://img.youtube.com/vi/uikDazoPnsQ/maxresdefault.jpg" alt="Blanco"
+           loading="lazy" decoding="async"
+           onerror="this.onerror=null;this.src='https://img.youtube.com/vi/uikDazoPnsQ/hqdefault.jpg';">
       <a class="proj-ext" href="https://youtu.be/uikDazoPnsQ" target="_blank" onclick="event.stopPropagation()">&#8599;</a>
       <div class="proj-meta">
         <p class="proj-cat">Cortometraje &#183; 2015</p>
@@ -995,30 +836,36 @@
 </footer>
 
 <!-- ── VIDEO LIGHTBOX ─────────────────────────────────────────── -->
-<div id="lightbox" style="display:none;position:fixed;inset:0;z-index:900;background:rgba(10,10,10,.96);align-items:center;justify-content:center;">
+<div id="lightbox" role="dialog" aria-modal="true" aria-label="Reproductor de video"
+     style="display:none;position:fixed;inset:0;z-index:900;background:rgba(10,10,10,.96);align-items:center;justify-content:center;">
   <div style="position:relative;width:min(90vw,960px);aspect-ratio:16/9;">
-    <button onclick="closeVideo()" style="position:absolute;top:-48px;right:0;font-size:22px;color:#F4F2EE;background:none;border:none;cursor:pointer;">✕</button>
-    <iframe id="lb-iframe" src="" allow="autoplay; encrypted-media; fullscreen; web-share" allowfullscreen style="width:100%;height:100%;border:none;"></iframe>
+    <button id="lb-close" onclick="closeVideo()" aria-label="Cerrar el video"
+            style="position:absolute;top:-48px;right:0;font-size:22px;color:#F4F2EE;background:none;border:none;cursor:pointer;">✕</button>
+    <iframe id="lb-iframe" src="" title="Reproductor de video" allow="autoplay; encrypted-media; fullscreen; web-share" allowfullscreen style="width:100%;height:100%;border:none;"></iframe>
   </div>
 </div>
 
 <!-- ── VIDEO LIGHTBOX (global; debe estar disponible para los onclick) ── -->
 <script>
-  function openVideo(id) {
+  /* Quién tenía el foco antes de abrir: al cerrar hay que devolvérselo. */
+  var lbVuelveEl = null;
+
+  function abrirLightbox(src) {
     var lb = document.getElementById('lightbox');
     var lbIframe = document.getElementById('lb-iframe');
     if (!lb || !lbIframe) return;
-    lbIframe.src = 'https://www.youtube.com/embed/' + id + '?autoplay=1&rel=0';
+    lbVuelveEl = document.activeElement;
+    lbIframe.src = src;
     lb.style.display = 'flex';
     document.body.style.overflow = 'hidden';
+    var cerrar = document.getElementById('lb-close');
+    if (cerrar) cerrar.focus();
+  }
+  function openVideo(id) {
+    abrirLightbox('https://www.youtube.com/embed/' + id + '?autoplay=1&rel=0');
   }
   function openDailymotion(id) {
-    var lb = document.getElementById('lightbox');
-    var lbIframe = document.getElementById('lb-iframe');
-    if (!lb || !lbIframe) return;
-    lbIframe.src = 'https://geo.dailymotion.com/player.html?video=' + id + '&autoplay=1';
-    lb.style.display = 'flex';
-    document.body.style.overflow = 'hidden';
+    abrirLightbox('https://geo.dailymotion.com/player.html?video=' + id + '&autoplay=1');
   }
   function closeVideo() {
     var lb = document.getElementById('lightbox');
@@ -1027,11 +874,23 @@
     lb.style.display = 'none';
     lbIframe.src = '';
     document.body.style.overflow = '';
+    if (lbVuelveEl && lbVuelveEl.focus) lbVuelveEl.focus();
+    lbVuelveEl = null;
   }
   (function () {
     var lb = document.getElementById('lightbox');
     if (lb) lb.addEventListener('click', function (e) { if (e.target === lb) closeVideo(); });
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeVideo(); });
+
+    /* Las tarjetas son <div role="button">: el teclado no las activa solo.
+       Delegado, así vale para las que se agreguen después. */
+    document.addEventListener('keydown', function (e) {
+      if (e.key !== 'Enter' && e.key !== ' ' && e.key !== 'Spacebar') return;
+      var el = e.target.closest && e.target.closest('[role="button"][tabindex="0"]');
+      if (!el) return;
+      e.preventDefault();
+      el.click();
+    });
   })();
 </script>
 
@@ -1045,18 +904,16 @@
       var label = document.getElementById('cursor-label');
       if (!dot || !ring) return;
       document.documentElement.classList.add('js-cursor');
-      var mx = innerWidth / 2, my = innerHeight / 2, rx = mx, ry = my, shown = false;
+      var shown = false;
+      /* El anillo sigue al puntero sin retraso. El "cursor que persigue" con
+         lerp es de los tells más reconocibles; el aro sin lag no lo es. */
       document.addEventListener('mousemove', function (e) {
-        mx = e.clientX; my = e.clientY;
-        dot.style.left = mx + 'px'; dot.style.top = my + 'px';
+        var mx = e.clientX, my = e.clientY;
+        dot.style.left = mx + 'px';  dot.style.top = my + 'px';
+        ring.style.left = mx + 'px'; ring.style.top = my + 'px';
         if (label) { label.style.left = mx + 'px'; label.style.top = my + 'px'; }
         if (!shown) { dot.style.opacity = 1; ring.style.opacity = 1; shown = true; }
       });
-      (function loop() {
-        rx += (mx - rx) * 0.18; ry += (my - ry) * 0.18;
-        ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
-        requestAnimationFrame(loop);
-      })();
       document.addEventListener('mouseleave', function () { dot.style.opacity = 0; ring.style.opacity = 0; });
       document.addEventListener('mouseenter', function () { dot.style.opacity = 1; ring.style.opacity = 1; });
       document.addEventListener('mousedown', function () { dot.classList.add('click'); ring.classList.add('grow'); });
@@ -1114,88 +971,19 @@
   })();
 </script>
 
-<!-- ── FX: magnetic + parallax + decode ── -->
-<script>
-  (function () {
-    try {
-      if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-      /* Botones magnéticos (solo pointer fino) */
-      if (window.matchMedia && matchMedia('(pointer:fine)').matches) {
-        document.querySelectorAll('.btn, .about-cv, .view-all').forEach(function (el) {
-          var str = 8;
-          el.style.transition = 'transform .2s cubic-bezier(.3,1,.7,1), background .25s, color .25s, border-color .25s';
-          el.addEventListener('mousemove', function (e) {
-            var r = el.getBoundingClientRect();
-            var x = (e.clientX - r.left - r.width / 2) / (r.width / 2);
-            var y = (e.clientY - r.top - r.height / 2) / (r.height / 2);
-            el.style.transform = 'translate(' + (x * str).toFixed(1) + 'px,' + (y * str).toFixed(1) + 'px)';
-          });
-          el.addEventListener('mouseleave', function () { el.style.transform = ''; });
-        });
-      }
-
-      /* Decode de labels */
-      var chars = '\u2588\u2593\u2592\u2591<>/|_-+*';
-      function decode(el) {
-        if (el.dataset.decoded) return;
-        el.dataset.decoded = '1';
-        var orig = el.textContent;
-        var frame = 0, total = Math.max(16, orig.length * 2);
-        (function tick() {
-          frame++;
-          var done = Math.floor(orig.length * frame / total);
-          var out = orig.slice(0, done);
-          for (var i = done; i < orig.length; i++) {
-            out += orig[i] === ' ' ? ' ' : chars[Math.floor(Math.random() * chars.length)];
-          }
-          el.textContent = out;
-          if (done < orig.length) requestAnimationFrame(tick);
-          else el.textContent = orig;
-        })();
-      }
-      var labels = document.querySelectorAll('.sec-label, .about-lbl, .contact-eyebrow');
-      if ('IntersectionObserver' in window) {
-        var dio = new IntersectionObserver(function (entries) {
-          entries.forEach(function (e) { if (e.isIntersecting) { decode(e.target); dio.unobserve(e.target); } });
-        }, { threshold: 0.5 });
-        labels.forEach(function (el) { dio.observe(el); });
-      } else {
-        labels.forEach(decode);
-      }
-
-      /* Parallax: hero + cards */
-      var heroContent = document.querySelector('.hero-content');
-      var cardImgs = document.querySelectorAll('.proj-card img');
-      var ticking = false;
-      function parallax() {
-        ticking = false;
-        var sy = window.scrollY;
-        if (heroContent && sy <= innerHeight) {
-          heroContent.style.transform = 'translateY(' + (sy * 0.28).toFixed(1) + 'px)';
-          heroContent.style.opacity = Math.max(0, 1 - sy / (innerHeight * 0.8)).toFixed(2);
-        }
-        for (var i = 0; i < cardImgs.length; i++) {
-          var r = cardImgs[i].parentNode.getBoundingClientRect();
-          if (r.bottom < 0 || r.top > innerHeight) continue;
-          var p = (r.top + r.height / 2 - innerHeight / 2) / innerHeight;
-          cardImgs[i].style.setProperty('--py', (p * -16).toFixed(1) + 'px');
-        }
-      }
-      window.addEventListener('scroll', function () {
-        if (!ticking) { ticking = true; requestAnimationFrame(parallax); }
-      }, { passive: true });
-      window.addEventListener('resize', parallax, { passive: true });
-      parallax();
-    } catch (err) {}
-  })();
-</script>
+<!-- Acá vivían botones magnéticos, decode de labels y parallax de hero y
+     tarjetas. Se quitaron el 12/8/2026: la página corría diez sistemas de
+     movimiento a la vez. Quedan tres — entrada al hacer scroll, marquesinas
+     y el hover de las tarjetas. -->
 
 <!-- ── HERO: carga condicional del loop ─────────────────────────── -->
 <script>
   (function () {
     var v = document.getElementById('hero-video');
     if (!v) return;
+
+    // Si el loop todavía no existe en /assets, ni pedimos los bytes.
+    if (v.dataset.loopListo !== 'si') return;
 
     var mm = window.matchMedia || function () { return { matches: false }; };
 

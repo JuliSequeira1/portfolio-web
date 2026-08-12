@@ -1,0 +1,79 @@
+/* ═══════════════════════════════════════════════════════════════
+   julisequeira.com — sistema compartido
+   Fuente única de color, tipografía y foco para index / work / about.
+   Si un valor no está acá, no debería existir en las páginas.
+   ═══════════════════════════════════════════════════════════════ */
+
+:root {
+  /* ── Papel y tinta ─────────────────────────────────────────── */
+  --bg:      #F4F2EE;   /* off-white cálido */
+  --ink:     #0A0A0A;
+  --cream:   #F4F2EE;   /* texto sobre fondo oscuro */
+  --red:     #CC0A2A;   /* carmesí de marca */
+
+  /* ── Grises (verificados contra AA sobre --bg) ─────────────── */
+  --muted:   #6B6B6B;              /* 4.8:1 — labels de 10-11px */
+  --dim:     rgba(10,10,10,.62);   /* 5.4:1 — copy de cuerpo */
+  --border:  rgba(10,10,10,.1);
+
+  /* ── Texto sobre oscuro (verificado sobre --ink) ───────────── */
+  --on-dark-strong: rgba(244,242,238,.86);
+  --on-dark:        rgba(244,242,238,.72);
+  --on-dark-soft:   rgba(244,242,238,.62);
+
+  /* ── Motion ────────────────────────────────────────────────── */
+  --ease-out: cubic-bezier(.16, 1, .3, 1);
+  --dur:      .25s;
+}
+
+/* ─── FOCO ──────────────────────────────────────────────────────
+   Nunca se anima: el usuario de teclado necesita verlo al instante.
+   Rojo sobre papel = 5.2:1 · rojo sobre tinta = 3.4:1 · ambos pasan.
+   ─────────────────────────────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--red);
+  outline-offset: 3px;
+  transition: none !important;
+}
+
+/* Tarjetas de proyecto: el anillo va por dentro, si no lo come el overflow */
+.proj-card:focus-visible,
+.work-item:focus-visible,
+.ai-card:focus-visible {
+  outline-offset: -3px;
+}
+
+/* ─── CURSOR CUSTOM: red de seguridad ───────────────────────────
+   El cursor dibujado es decorativo. Si el usuario pidió menos
+   movimiento, o el puntero es grueso, vuelve el del sistema.
+   ─────────────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce), (pointer: coarse) {
+  html.js-cursor,
+  html.js-cursor * { cursor: auto !important; }
+  #cursor-dot, #cursor-ring, #cursor-label { display: none !important; }
+}
+
+/* Con el teclado no hay puntero que mirar: el cursor dibujado estorba. */
+html.js-cursor:has(:focus-visible),
+html.js-cursor:has(:focus-visible) * { cursor: auto; }
+
+/* ─── AFFORDANCES QUE NO PUEDEN VIVIR SOLO EN HOVER ─────────────
+   En táctil no hay hover, y con teclado el foco sería invisible.
+   ─────────────────────────────────────────────────────────────── */
+@media (hover: none) {
+  .proj-ext, .item-ext { opacity: 1 !important; }
+}
+
+/* ─── UTILIDAD ──────────────────────────────────────────────────*/
+.u-nowrap { white-space: nowrap; }
+
+/* Visible sólo para lectores de pantalla. */
+.u-sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
