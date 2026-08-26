@@ -1,0 +1,60 @@
+# julisequeira.com
+
+# Buscadores tradicionales
+User-agent: *
+Allow: /
+
+# ─────────────────────────────────────────────────────────────
+# Crawlers de modelos de lenguaje — PERMITIDOS a propósito.
+# El objetivo acá es GEO: que estos modelos puedan leer la ficha
+# y citar a Julián Sequeira correctamente. Bloquearlos sería
+# exactamente lo contrario de lo que busca este sitio.
+# Si algún día se decide lo opuesto, se cambia acá y se anota
+# la fecha y el motivo.
+# ─────────────────────────────────────────────────────────────
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Amazonbot
+Allow: /
+
+User-agent: meta-externalagent
+Allow: /
+
+User-agent: cohere-ai
+Allow: /
+
+Sitemap: https://julisequeira.com/sitemap.xml
