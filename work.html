@@ -610,18 +610,44 @@
         "@id": "https://julisequeira.com/#cdbi",
         "name": "Crónicas del Barro Infinito",
         "url": "https://julisequeira.com/cdbi.html",
-        "description": "Miniserie animada vertical. Aventura conurbana con humor negro y horror de proyección, ambientada en un Lanús de estética Satoshi Kon.",
+        "description": "Miniserie animada vertical de 11 episodios (EP00 doble + 10 de 90 a 140 segundos, 9:16). Aventura conurbana con humor negro y horror de proyección, ambientada en un Lanús de estética Satoshi Kon. Producida con un pipeline de IA generativa dirigido plano por plano: lámina de diseño, blockout 3D de proxies y generación de video.",
+        "alternateName": "CDBI",
+        "genre": [
+          "Animación",
+          "Aventura",
+          "Comedia negra",
+          "Horror psicológico"
+        ],
+        "numberOfEpisodes": 11,
+        "numberOfSeasons": 1,
         "inLanguage": "es",
         "countryOfOrigin": {
           "@type": "Country",
           "name": "Argentina"
         },
+        "contentLocation": {
+          "@type": "Place",
+          "name": "Lanús, Buenos Aires, Argentina"
+        },
+        "image": "https://julisequeira.com/assets/cdbi/og.jpg",
         "creator": {
           "@id": "https://julisequeira.com/#julian"
         },
         "director": {
           "@id": "https://julisequeira.com/#julian"
         },
+        "author": {
+          "@id": "https://julisequeira.com/#julian"
+        },
+        "productionCompany": {
+          "@type": "Organization",
+          "@id": "https://julisequeira.com/#flama-collective",
+          "name": "Flama Collective"
+        },
+        "trailer": {
+          "@id": "https://julisequeira.com/#cdbi-trailer"
+        },
+        "keywords": "animación vertical, serie vertical, anime argentino, Lanús, conurbano, Satoshi Kon, IA generativa, Seedance, blockout 3D, previs",
         "creativeWorkStatus": "En producción"
       },
       {
@@ -629,7 +655,7 @@
         "@id": "https://julisequeira.com/#la-noche",
         "name": "La Noche",
         "description": "Cortometraje. Dirección y cinematografía.",
-        "datePublished": "2020",
+        "datePublished": "2021",
         "director": {
           "@id": "https://julisequeira.com/#julian"
         },
@@ -935,11 +961,13 @@
   <div class="ai-grid">
 
     <!-- CRÓNICAS DEL BARRO INFINITO — trailer ↑ primero -->
-    <!-- Única tarjeta que no abre el lightbox: lleva a la ficha del proyecto. -->
-    <a class="ai-card reveal" href="cdbi.html" aria-label="Ver la ficha del proyecto Crónicas del Barro Infinito">
-      <img src="https://img.youtube.com/vi/HgpCC7Lzq_Q/maxresdefault.jpg" alt="Crónicas del Barro Infinito"
-           loading="lazy" decoding="async"
-           onerror="this.onerror=null;this.src='https://img.youtube.com/vi/HgpCC7Lzq_Q/hqdefault.jpg';">
+    <!-- Única tarjeta que no abre el lightbox: lleva a la página de caso.
+         El thumbnail es local y 9:16 — el de YouTube es 16:9 y la tarjeta,
+         que recorta a vertical, se quedaba con una franja del medio. -->
+    <a class="ai-card reveal" href="cdbi.html" aria-label="Ver el caso de Crónicas del Barro Infinito">
+      <img src="assets/cdbi/hero-play.webp"
+           alt="Joel, Pili y el gato Ranx sobre una fórmula de tiza encendida en el asfalto mojado"
+           width="900" height="1600" loading="lazy" decoding="async">
       <div class="ai-card-play">
         <div class="play-icon">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><polygon points="4,2 14,8 4,14"/></svg>
@@ -947,7 +975,7 @@
       </div>
       <div class="ai-card-meta">
         <p class="ai-card-name">Crónicas del Barro Infinito</p>
-        <p class="ai-card-tool">IA Generativa · Ficha del proyecto</p>
+        <p class="ai-card-tool">IA Generativa · Caso completo</p>
       </div>
     </a>
 

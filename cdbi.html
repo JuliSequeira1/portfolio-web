@@ -4,13 +4,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Crónicas del Barro Infinito — Julián Sequeira</title>
-  <meta name="description" content="Miniserie animada vertical. Aventura conurbana con humor negro y horror de proyección, en un Lanús estilo Satoshi Kon. Creador y director: Julián Sequeira.">
+  <meta name="description" content="Miniserie animada vertical: 11 episodios de aventura conurbana con humor negro, en un Lanús estilo Satoshi Kon. El proceso completo — lámina de diseño, blocking 3D y plano generado. Creador y director: Julián Sequeira.">
   <link rel="canonical" href="https://julisequeira.com/cdbi.html">
   <meta property="og:type"        content="video.tv_show">
   <meta property="og:url"         content="https://julisequeira.com/cdbi.html">
   <meta property="og:title"       content="Crónicas del Barro Infinito">
   <meta property="og:description" content="Dos hermanos huérfanos y su tío trucho salen a buscar un tesoro que no existe, persiguiendo a un monstruo que nadie vio nunca.">
-  <meta property="og:image"       content="https://img.youtube.com/vi/HgpCC7Lzq_Q/maxresdefault.jpg">
+  <meta property="og:image"       content="https://julisequeira.com/assets/cdbi/og.jpg">
+  <meta property="og:image:width"  content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale"      content="es_AR">
   <meta name="twitter:card"       content="summary_large_image">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%230A0A0A'/%3E%3Ctext x='32' y='45' font-family='Arial,sans-serif' font-size='28' font-weight='900' fill='%23F4F2EE' text-anchor='middle'%3EJS%3C/text%3E%3Ccircle cx='52' cy='14' r='5' fill='%23CC0A2A'/%3E%3C/svg%3E">
 
@@ -31,6 +34,7 @@
        acá sólo se invierten los roles papel/tinta. */
     :root {
       --paper: var(--ink);
+      --linea: rgba(244,242,238,.12);
       --nav-h: 77px;
     }
 
@@ -42,6 +46,10 @@
       color: var(--cream);
       overflow-x: hidden;
     }
+    /* height:auto es obligatorio: los <img> llevan width/height como atributo
+       para reservar el espacio, y sin esto el atributo gana sobre aspect-ratio
+       y estira la caja. Las que necesitan height:100% lo declaran aparte. */
+    img { max-width: 100%; height: auto; }
 
     /* ─── NAV ────────────────────────────────────────────────── */
     nav {
@@ -50,7 +58,7 @@
       padding: 28px 52px;
       background: rgba(10,10,10,.86);
       backdrop-filter: blur(14px);
-      border-bottom: 1px solid rgba(244,242,238,.12);
+      border-bottom: 1px solid var(--linea);
     }
     .nav-logo {
       font-family: 'Satoshi', sans-serif; font-weight: 900;
@@ -78,7 +86,7 @@
     .miga span { color: var(--red); padding: 0 8px; }
 
     /* ─── ENCABEZADO ─────────────────────────────────────────── */
-    header { padding: 30px 52px 70px; }
+    header { padding: 30px 52px 52px; }
     .kicker {
       font-size: 11px; font-weight: 500;
       letter-spacing: .2em; text-transform: uppercase;
@@ -101,24 +109,40 @@
       margin-top: 34px;
     }
 
-    /* ─── TRAILER ────────────────────────────────────────────── */
-    .trailer-zona { padding: 0 52px 80px; }
+    /* ─── HERO: tríptico vertical ────────────────────────────────
+       La serie es 9:16. Un póster apaisado la desmiente en el primer
+       scroll, así que el hero son tres verticales y el del medio abre
+       el trailer. En pantalla chica quedan sólo el del medio.
+       ─────────────────────────────────────────────────────────── */
+    .hero {
+      padding: 0 52px 14px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr) minmax(0, 1fr);
+      gap: 14px;
+      align-items: stretch;
+    }
+    .hero > * { min-height: 0; }
+    .hero-lado { position: relative; overflow: hidden; background: #141414; }
+    .hero-lado img {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%; object-fit: cover;
+      filter: brightness(.66) saturate(.9);
+      transition: filter .5s var(--ease-out);
+    }
+    .hero-lado:hover img { filter: brightness(.9) saturate(1); }
+
     .trailer {
       position: relative; overflow: hidden;
-      aspect-ratio: 21/9; background: #141414;
+      aspect-ratio: 9/16; background: #141414;
       cursor: pointer; width: 100%;
-      border: 0;
+      border: 0; padding: 0; display: block;
     }
-    @media (max-width: 700px) { .trailer { aspect-ratio: 16/10; } }
-    /* El frame del trailer ya es una escena nocturna: si se oscurece más,
-       queda un rectángulo negro. Se sube en vez de bajar. */
     .trailer img {
       width: 100%; height: 100%; object-fit: cover; display: block;
-      filter: brightness(1.06) saturate(1.05);
       transform: scale(1.02);
       transition: transform .8s var(--ease-out), filter .4s var(--ease-out);
     }
-    .trailer:hover img { transform: scale(1.06); filter: brightness(.9) saturate(1.15); }
+    .trailer:hover img { transform: scale(1.06); filter: brightness(.82); }
     .trailer::after {
       content: ''; position: absolute; bottom: 0; left: 0;
       width: 0; height: 3px; background: var(--red); z-index: 3;
@@ -147,12 +171,18 @@
       color: var(--cream);
       text-shadow: 0 1px 8px rgba(10,10,10,.9);
     }
+    .hero-pie {
+      padding: 0 52px 70px;
+      font-size: 11px; font-weight: 500;
+      letter-spacing: .14em; text-transform: uppercase;
+      color: var(--on-dark-soft);
+    }
 
     /* ─── FICHA ──────────────────────────────────────────────── */
     #ficha {
       padding: 60px 52px;
-      border-top: 1px solid rgba(244,242,238,.12);
-      border-bottom: 1px solid rgba(244,242,238,.12);
+      border-top: 1px solid var(--linea);
+      border-bottom: 1px solid var(--linea);
     }
     .ficha-grid {
       display: grid;
@@ -174,7 +204,7 @@
     }
 
     /* ─── SECCIONES DE TEXTO ─────────────────────────────────── */
-    .sec { padding: 90px 52px; border-bottom: 1px solid rgba(244,242,238,.12); }
+    .sec { padding: 90px 52px; border-bottom: 1px solid var(--linea); }
     .sec-k {
       font-size: 10px; font-weight: 500;
       letter-spacing: .22em; text-transform: uppercase;
@@ -205,6 +235,111 @@
       padding: 9px 16px;
     }
 
+    /* ─── BANDA ANCHA ────────────────────────────────────────── */
+    .banda { padding: 0; position: relative; }
+    .banda img {
+      width: 100%; display: block;
+      aspect-ratio: 26/10; object-fit: cover;
+      background: #141414;
+    }
+    @media (max-width: 700px) { .banda img { aspect-ratio: 4/3; } }
+    .banda figcaption {
+      position: absolute; left: 52px; bottom: 20px;
+      font-size: 10px; font-weight: 500;
+      letter-spacing: .16em; text-transform: uppercase;
+      color: var(--on-dark);
+      text-shadow: 0 1px 10px rgba(10,10,10,.95);
+    }
+
+    /* ─── PERSONAJES ─────────────────────────────────────────── */
+    .per-grid {
+      display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 30px 22px; margin-top: 46px;
+    }
+    @media (max-width: 900px) { .per-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    .per img {
+      width: 100%; display: block;
+      aspect-ratio: 9/16; object-fit: cover;
+      background: #141414;
+    }
+    .per-n {
+      font-family: 'Satoshi', sans-serif; font-weight: 800;
+      font-size: 15px; letter-spacing: .02em; text-transform: uppercase;
+      margin-top: 15px;
+      display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;
+    }
+    .per-tag {
+      font-family: ui-monospace, Consolas, monospace;
+      font-size: 10.5px; font-weight: 400; letter-spacing: .04em;
+      text-transform: none; color: var(--red);
+    }
+    .per-d {
+      font-size: 13.5px; font-weight: 300; line-height: 1.62;
+      color: var(--on-dark); margin-top: 7px;
+    }
+
+    /* ─── PROCESO: lámina → proxy → plano ────────────────────── */
+    .proc-fila { margin-top: 56px; padding-top: 34px; border-top: 1px solid var(--linea); }
+    .proc-head { display: flex; align-items: baseline; gap: 18px; flex-wrap: wrap; margin-bottom: 24px; }
+    .proc-head h3 {
+      font-family: 'Satoshi', sans-serif; font-weight: 900;
+      font-size: clamp(20px, 2.3vw, 30px);
+      letter-spacing: -.02em; text-transform: uppercase;
+    }
+    .proc-head p { font-size: 13.5px; font-weight: 300; color: var(--on-dark); line-height: 1.6; max-width: 54ch; }
+    .proc-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, .52fr);
+      grid-template-rows: auto auto;
+      gap: 16px;
+    }
+    .pl-lamina { grid-area: 1 / 1 / 2 / 2; }
+    .pl-proxy  { grid-area: 2 / 1 / 3 / 2; }
+    /* El plano ocupa las dos filas. El marco es absoluto por dentro para que
+       NO empuje la altura de la grilla: la manda la columna de la izquierda
+       (lamina + proxy) y el plano recorta lo que sobra. */
+    .pl-plano  { grid-area: 1 / 2 / 3 / 3; display: flex; flex-direction: column; }
+    .pl-plano .marco {
+      position: relative; flex: 1 1 auto; min-height: 0;
+      overflow: hidden; background: #141414;
+    }
+    .pl-plano .marco img { position: absolute; inset: 0; }
+    .proc-k {
+      font-size: 10px; font-weight: 500;
+      letter-spacing: .18em; text-transform: uppercase;
+      color: var(--on-dark-soft); margin-bottom: 10px;
+    }
+    .proc-k b { color: var(--red); font-weight: 500; margin-right: 8px; }
+    .pl-lamina img, .pl-proxy img { width: 100%; display: block; }
+    .pl-plano img {
+      width: 100%; height: 100%;
+      object-fit: cover; display: block;
+    }
+    .proc-pie {
+      margin-top: 34px; max-width: 64ch;
+      font-size: 13px; font-weight: 300; line-height: 1.7;
+      color: var(--on-dark-soft);
+    }
+
+    /* ─── LOCACIONES ─────────────────────────────────────────── */
+    .locs {
+      display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 28px 20px; margin-top: 46px;
+    }
+    @media (max-width: 900px) { .locs { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (max-width: 560px) { .locs { grid-template-columns: minmax(0, 1fr); } }
+    .loc img {
+      width: 100%; display: block;
+      aspect-ratio: 16/9; object-fit: cover; background: #141414;
+    }
+    .loc-n {
+      font-family: 'Satoshi', sans-serif; font-weight: 700;
+      font-size: 14px; text-transform: uppercase; letter-spacing: .02em;
+      margin-top: 13px;
+      display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;
+    }
+    .loc-d { font-size: 13px; font-weight: 300; line-height: 1.6; color: var(--on-dark); margin-top: 5px; }
+
     /* ─── PIPELINE ───────────────────────────────────────────── */
     .pipe { margin-top: 40px; display: flex; flex-direction: column; }
     .pipe-fila {
@@ -212,10 +347,10 @@
       grid-template-columns: 190px minmax(0, 1fr);
       gap: 28px;
       padding: 22px 0;
-      border-top: 1px solid rgba(244,242,238,.12);
+      border-top: 1px solid var(--linea);
       align-items: baseline;
     }
-    .pipe-fila:last-child { border-bottom: 1px solid rgba(244,242,238,.12); }
+    .pipe-fila:last-child { border-bottom: 1px solid var(--linea); }
     @media (max-width: 700px) {
       .pipe-fila { grid-template-columns: minmax(0, 1fr); gap: 7px; }
     }
@@ -229,15 +364,20 @@
 
     /* ─── ESTADO (números reales) ────────────────────────────── */
     #estado { background: #131313; }
+    .nums-k {
+      font-size: 10px; font-weight: 500;
+      letter-spacing: .18em; text-transform: uppercase;
+      color: var(--red); margin-top: 46px;
+    }
     .nums {
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 44px 32px; margin-top: 44px;
+      gap: 40px 32px; margin-top: 24px;
     }
     @media (max-width: 900px) { .nums { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
     .num {
       font-family: 'Satoshi', sans-serif; font-weight: 900;
-      font-size: clamp(38px, 5vw, 62px); line-height: 1;
+      font-size: clamp(34px, 4.4vw, 56px); line-height: 1;
       letter-spacing: -.03em; color: var(--cream);
       font-variant-numeric: tabular-nums;
     }
@@ -247,7 +387,7 @@
       color: var(--on-dark-soft); margin-top: 10px;
     }
     .nota-pie {
-      margin-top: 44px; max-width: 62ch;
+      margin-top: 46px; max-width: 64ch;
       font-size: 13px; font-weight: 300; line-height: 1.7;
       color: var(--on-dark-soft);
       padding-left: 16px; border-left: 2px solid var(--red);
@@ -284,7 +424,7 @@
     footer {
       padding: 22px 52px;
       display: flex; align-items: center; justify-content: space-between;
-      border-top: 1px solid rgba(244,242,238,.12);
+      border-top: 1px solid var(--linea);
     }
     footer span { font-size: 10px; letter-spacing: .1em; color: var(--on-dark); }
 
@@ -319,14 +459,25 @@
       html.js-reveal .reveal { opacity: 1 !important; transform: none !important; }
     }
 
+    @media (max-width: 860px) {
+      .hero { grid-template-columns: minmax(0, 1fr); }
+      .hero-lado { display: none; }
+      .trailer { aspect-ratio: 3/4; }
+      /* Apilado: el plano vuelve a su relación nativa en vez de estirarse. */
+      .proc-grid { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto; }
+      .pl-lamina, .pl-proxy, .pl-plano { grid-area: auto; }
+      .pl-plano .marco { flex: none; aspect-ratio: 9/16; }
+    }
+
     @media (max-width: 700px) {
       :root { --nav-h: 57px; }
       nav { padding: 18px 22px; }
       .nav-links { gap: 18px; }
-      .miga, header, .trailer-zona, #ficha, .sec, #cierre, footer {
+      .miga, header, .hero, .hero-pie, #ficha, .sec, #cierre, footer {
         padding-left: 22px; padding-right: 22px;
       }
-      header { padding-top: 26px; padding-bottom: 48px; }
+      .banda figcaption { left: 22px; }
+      header { padding-top: 26px; padding-bottom: 36px; }
       .sec { padding-top: 64px; padding-bottom: 64px; }
       footer { flex-direction: column; gap: 6px; }
     }
@@ -466,7 +617,7 @@
         "@id": "https://julisequeira.com/cdbi.html#page",
         "url": "https://julisequeira.com/cdbi.html",
         "name": "Crónicas del Barro Infinito — Julián Sequeira",
-        "description": "Miniserie animada vertical. Creador y director: Julián Sequeira.",
+        "description": "Miniserie animada vertical: 11 episodios de aventura conurbana en un Lanús estilo Satoshi Kon. El proceso completo — lámina de diseño, blocking 3D y plano generado. Creador y director: Julián Sequeira.",
         "isPartOf": {
           "@id": "https://julisequeira.com/#website"
         },
@@ -476,26 +627,76 @@
         "inLanguage": "es-AR",
         "mainEntity": {
           "@id": "https://julisequeira.com/#cdbi"
-        }
+        },
+        "primaryImageOfPage": "https://julisequeira.com/assets/cdbi/og.jpg"
       },
       {
         "@type": "TVSeries",
         "@id": "https://julisequeira.com/#cdbi",
         "name": "Crónicas del Barro Infinito",
         "url": "https://julisequeira.com/cdbi.html",
-        "description": "Miniserie animada vertical. Aventura conurbana con humor negro y horror de proyección, ambientada en un Lanús de estética Satoshi Kon.",
+        "description": "Miniserie animada vertical de 11 episodios (EP00 doble + 10 de 90 a 140 segundos, 9:16). Aventura conurbana con humor negro y horror de proyección, ambientada en un Lanús de estética Satoshi Kon. Producida con un pipeline de IA generativa dirigido plano por plano: lámina de diseño, blockout 3D de proxies y generación de video.",
+        "alternateName": "CDBI",
+        "genre": [
+          "Animación",
+          "Aventura",
+          "Comedia negra",
+          "Horror psicológico"
+        ],
+        "numberOfEpisodes": 11,
+        "numberOfSeasons": 1,
         "inLanguage": "es",
         "countryOfOrigin": {
           "@type": "Country",
           "name": "Argentina"
         },
+        "contentLocation": {
+          "@type": "Place",
+          "name": "Lanús, Buenos Aires, Argentina"
+        },
+        "image": "https://julisequeira.com/assets/cdbi/og.jpg",
         "creator": {
           "@id": "https://julisequeira.com/#julian"
         },
         "director": {
           "@id": "https://julisequeira.com/#julian"
         },
+        "author": {
+          "@id": "https://julisequeira.com/#julian"
+        },
+        "productionCompany": {
+          "@type": "Organization",
+          "@id": "https://julisequeira.com/#flama-collective",
+          "name": "Flama Collective"
+        },
+        "trailer": {
+          "@id": "https://julisequeira.com/#cdbi-trailer"
+        },
+        "keywords": "animación vertical, serie vertical, anime argentino, Lanús, conurbano, Satoshi Kon, IA generativa, Seedance, blockout 3D, previs",
         "creativeWorkStatus": "En producción"
+      },
+      {
+        "@type": "VideoObject",
+        "@id": "https://julisequeira.com/#cdbi-trailer",
+        "name": "Crónicas del Barro Infinito — Trailer",
+        "description": "Trailer de la miniserie animada vertical Crónicas del Barro Infinito.",
+        "thumbnailUrl": "https://julisequeira.com/assets/cdbi/og.jpg",
+        "uploadDate": "2026-06-03",
+        "duration": "PT2M6S",
+        "embedUrl": "https://www.youtube.com/embed/HgpCC7Lzq_Q",
+        "contentUrl": "https://www.youtube.com/watch?v=HgpCC7Lzq_Q",
+        "inLanguage": "es",
+        "creator": {
+          "@id": "https://julisequeira.com/#julian"
+        },
+        "director": {
+          "@id": "https://julisequeira.com/#julian"
+        }
+      },
+      {
+        "@type": "Organization",
+        "@id": "https://julisequeira.com/#flama-collective",
+        "name": "Flama Collective"
       }
     ]
   }
@@ -529,13 +730,18 @@
   </p>
 </header>
 
-<!-- ── TRAILER ───────────────────────────────────────────────── -->
-<div class="trailer-zona">
+<!-- ── HERO / TRAILER ────────────────────────────────────────── -->
+<div class="hero">
+  <figure class="hero-lado">
+    <img src="assets/cdbi/hero-izq.webp"
+         alt="El Riachuelo de noche con un tornado sobre el agua y una figura sola en la baranda"
+         width="720" height="1280" decoding="async">
+  </figure>
+
   <button class="trailer" type="button" data-yt="HgpCC7Lzq_Q" aria-label="Reproducir el trailer de Crónicas del Barro Infinito">
-    <img src="https://img.youtube.com/vi/HgpCC7Lzq_Q/maxresdefault.jpg"
-         alt="Fotograma del trailer de Crónicas del Barro Infinito"
-         decoding="async" fetchpriority="high"
-         onerror="this.onerror=null;this.src='https://img.youtube.com/vi/HgpCC7Lzq_Q/hqdefault.jpg';">
+    <img src="assets/cdbi/hero-play.webp"
+         alt="Joel, Pili y el gato Ranx en cuclillas sobre una fórmula de tiza encendida en el asfalto mojado, bajo el puente"
+         width="900" height="1600" fetchpriority="high" decoding="async">
     <span class="trailer-play">
       <span class="play-aro">
         <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><polygon points="4,2 14,8 4,14"/></svg>
@@ -543,7 +749,14 @@
       <span class="play-lbl">Ver trailer</span>
     </span>
   </button>
+
+  <figure class="hero-lado">
+    <img src="assets/cdbi/hero-der.webp"
+         alt="El Hincha, criatura enorme con camiseta de Bingo Royal, parada en el medio de una avenida mojada"
+         width="720" height="1280" decoding="async">
+  </figure>
 </div>
+<p class="hero-pie">Fotogramas de la serie · 9:16 nativo</p>
 
 <!-- ── FICHA ─────────────────────────────────────────────────── -->
 <section id="ficha" aria-label="Ficha técnica">
@@ -556,6 +769,10 @@
     <div><p class="ficha-k">Locación</p><p class="ficha-v">Lanús, conurbano bonaerense</p></div>
     <div><p class="ficha-k">Audiencia</p><p class="ficha-v">18–35 · anime, horror, comedia negra</p></div>
     <div><p class="ficha-k">Plataformas</p><p class="ficha-v">YouTube Shorts · Reels · TikTok</p></div>
+    <div><p class="ficha-k">Estado</p><p class="ficha-v">Temporada maquetada en audio · ago 2026</p></div>
+    <div><p class="ficha-k">Canon</p><p class="ficha-v">Biblia V5.1 + Escaleta V5</p></div>
+    <div><p class="ficha-k">Registro</p><p class="ficha-v">DNDA, Argentina</p></div>
+    <div><p class="ficha-k">Herramientas</p><p class="ficha-v">Seedance · Runway · ElevenLabs · Seed Audio · Premiere · Remotion</p></div>
   </div>
 </section>
 
@@ -582,19 +799,6 @@
       mano.</strong>
     </p>
   </div>
-</section>
-
-<!-- ── TONO ──────────────────────────────────────────────────── -->
-<section class="sec">
-  <p class="sec-k">Tono</p>
-  <h2 class="reveal">Como si Paranoia Agent se emitiera a las 3 AM en Lanús</h2>
-  <div class="prosa">
-    <p class="reveal d1">
-      El monstruo es lo que cada uno proyecta, y abajo siempre hay algo más chico y más triste.
-      La serie toma la fractura perceptual de Satoshi Kon, la trama-señuelo de Paranoia Agent y la
-      melancolía de Cowboy Bebop, y las baja al conurbano bonaerense.
-    </p>
-  </div>
   <div class="refs reveal d2">
     <span class="ref">Satoshi Kon</span>
     <span class="ref">Paranoia Agent</span>
@@ -603,18 +807,229 @@
   </div>
 </section>
 
-<!-- ── PIPELINE ──────────────────────────────────────────────── -->
+<!-- ── BANDA ─────────────────────────────────────────────────── -->
+<figure class="banda">
+  <img src="assets/cdbi/banda-fogon.webp"
+       alt="Fogón entre carrocerías de colectivos abandonados en la zona muerta de Lanús"
+       width="1800" height="692" loading="lazy" decoding="async">
+  <figcaption>El fogón, entre los bondis muertos · EP07</figcaption>
+</figure>
+
+<!-- ── PERSONAJES ────────────────────────────────────────────── -->
 <section class="sec">
-  <p class="sec-k">Cómo está hecha</p>
-  <h2 class="reveal">Pipeline</h2>
+  <p class="sec-k">Quiénes</p>
+  <h2 class="reveal">Nueve de los dieciocho</h2>
   <div class="prosa">
     <p class="reveal d1">
-      La serie se produce con un pipeline de IA generativa dirigido plano por plano: cada episodio
-      pasa por guion, shotlist con prompts, generación, y una maqueta de audio completa antes de
-      tocar el montaje.
+      El canon tiene dieciocho personajes con lámina de diseño y prompt maestro. Cada uno entra a
+      generación por su <strong>@tag</strong>: es lo que mantiene la cara igual entre un plano y el
+      siguiente, que es donde casi todo lo generado se cae.
     </p>
   </div>
-  <div class="pipe reveal d2">
+
+  <div class="per-grid">
+    <figure class="per reveal">
+      <img src="assets/cdbi/per-condor.webp" alt="El Cóndor, hombre mayor de campera Adidas azul, cadena de oro y anteojos oscuros" width="560" height="996" loading="lazy" decoding="async">
+      <figcaption>
+        <p class="per-n">El Cóndor <span class="per-tag">@CONDOR</span></p>
+        <p class="per-d">El testigo cobarde. Adidas azul y cadena de oro. Sus datos son siempre truchos.</p>
+      </figcaption>
+    </figure>
+
+    <figure class="per reveal d1">
+      <img src="assets/cdbi/per-pili.webp" alt="Pili, chica de 13 años, pelo rubio largo y pecas, buzo verde oscuro" width="560" height="996" loading="lazy" decoding="async">
+      <figcaption>
+        <p class="per-n">Pili, 13 <span class="per-tag">@pili</span></p>
+        <p class="per-d">La única que no proyecta al Sapo. Su quietud es lo más aterrador del plano.</p>
+      </figcaption>
+    </figure>
+
+    <figure class="per reveal d2">
+      <img src="assets/cdbi/per-joel.webp" alt="Joel, chico de 12 años con camiseta de Boca, frenando de rodillas sobre el piso mojado del bingo" width="560" height="996" loading="lazy" decoding="async">
+      <figcaption>
+        <p class="per-n">Joel, 12 <span class="per-tag">@Joel</span></p>
+        <p class="per-d">El auditor. Cuenta faltas con los dedos. Camiseta Parmalat del 98.</p>
+      </figcaption>
+    </figure>
+
+    <figure class="per reveal">
+      <img src="assets/cdbi/per-pepe.webp" alt="Pepe, hombre mayor de pulóver verde, expresión de sorpresa, en la pizzería" width="560" height="996" loading="lazy" decoding="async">
+      <figcaption>
+        <p class="per-n">Pepe <span class="per-tag">@pepe</span></p>
+        <p class="per-d">El que pateó primero. Cincuenta y cuatro y aparenta más: la culpa envejece. Su sombra está incompleta y él no lo nota.</p>
+      </figcaption>
+    </figure>
+
+    <figure class="per reveal d1">
+      <img src="assets/cdbi/per-madrina.webp" alt="La Madrina, mujer trans de pelo rubio voluminoso y campera rosa con piel" width="560" height="996" loading="lazy" decoding="async">
+      <figcaption>
+        <p class="per-n">La Madrina <span class="per-tag">@trans</span></p>
+        <p class="per-d">La que cuida. Peluquería del barrio, bate con púas, cero miedo.</p>
+      </figcaption>
+    </figure>
+
+    <figure class="per reveal d2">
+      <img src="assets/cdbi/per-beto.webp" alt="El comisario Beto, bigote y gorra, bajo la lluvia" width="560" height="996" loading="lazy" decoding="async">
+      <figcaption>
+        <p class="per-n">Comisario Beto <span class="per-tag">@BETO</span></p>
+        <p class="per-d">El que archiva. La mancha de pizza en la camisa lo define.</p>
+      </figcaption>
+    </figure>
+
+    <figure class="per reveal">
+      <img src="assets/cdbi/per-negro.webp" alt="El Viejo de perfil, gorra de paño, junto al Riachuelo de noche" width="560" height="996" loading="lazy" decoding="async">
+      <figcaption>
+        <p class="per-n">El Viejo <span class="per-tag">@negro</span></p>
+        <p class="per-d">El soplón. Anda con la bici al lado y nunca se sube.</p>
+      </figcaption>
+    </figure>
+
+    <figure class="per reveal d1">
+      <img src="assets/cdbi/per-ranx.webp" alt="Ranx, gato atigrado, parado sobre un buzón en la calle de noche" width="560" height="996" loading="lazy" decoding="async">
+      <figcaption>
+        <p class="per-n">Ranx <span class="per-tag">@ranx</span></p>
+        <p class="per-d">El compañero de Pili. Oreja derecha rota, ojos chartreuse. Eco del gato del 94.</p>
+      </figcaption>
+    </figure>
+
+    <figure class="per reveal d2">
+      <img src="assets/cdbi/per-sapo.webp" alt="El Sapo, criatura anfibia con implantes mecánicos, emergiendo del agua del Riachuelo" width="560" height="996" loading="lazy" decoding="async">
+      <figcaption>
+        <p class="per-n">El Sapo <span class="per-tag">@sapo</span></p>
+        <p class="per-d">La proyección. No se muestra entero ni se confirma nunca: es lo que cada uno ve.</p>
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ── PROCESO ───────────────────────────────────────────────── -->
+<section class="sec" id="proceso">
+  <p class="sec-k">Proceso</p>
+  <h2 class="reveal">De la lámina al plano</h2>
+  <div class="prosa">
+    <p class="reveal d1">
+      Cada personaje pasa por tres estados antes de existir en pantalla. La
+      <strong>lámina de diseño</strong> fija cómo es: turnaround, paleta, prendas, expresiones. De
+      esa misma lámina sale el <strong>proxy de blocking</strong>, una malla 3D que no sirve para
+      renderizar pero sí para bloquear cámara y medir alturas. Y el <strong>plano</strong> se genera
+      con la lámina como referencia y el proxy como layout.
+    </p>
+    <p class="reveal d1">
+      Las tres capas cuelgan del mismo archivo. Si la lámina cambia, se rehace el proxy y se
+      regeneran los planos: no hay una versión del personaje viviendo en la cabeza del modelo.
+    </p>
+  </div>
+
+  <article class="proc-fila reveal">
+    <div class="proc-head">
+      <h3>El Cóndor</h3>
+      <p>Uniforme Adidas y cadena: la lámina lo blinda para que no mute entre planos.</p>
+    </div>
+    <div class="proc-grid">
+      <figure class="pl-lamina">
+        <p class="proc-k"><b>01</b>Lámina de diseño</p>
+        <img src="assets/cdbi/pro-condor-lamina.webp" alt="Lámina de diseño de personaje de El Cóndor: vistas de frente, perfil y espalda, paleta de color, expresiones y desglose de vestuario" width="1040" height="585" loading="lazy" decoding="async">
+      </figure>
+      <figure class="pl-proxy">
+        <p class="proc-k"><b>02</b>Proxy de blocking · 4 vistas</p>
+        <img src="assets/cdbi/pro-condor-proxy.webp" alt="Malla 3D de proxy de El Cóndor vista desde cuatro ángulos sobre fondo negro" width="1240" height="310" loading="lazy" decoding="async">
+      </figure>
+      <figure class="pl-plano">
+        <p class="proc-k"><b>03</b>Plano generado</p>
+        <div class="marco"><img src="assets/cdbi/per-condor.webp" alt="Plano final de El Cóndor en un pasillo de noche, con anteojos oscuros y cadena de oro" width="560" height="996" loading="lazy" decoding="async"></div>
+      </figure>
+    </div>
+  </article>
+
+  <article class="proc-fila reveal">
+    <div class="proc-head">
+      <h3>Pili</h3>
+      <p>El buzo talle adulto y la marca en el cuello izquierdo son constantes de canon: si se pierden, no es ella.</p>
+    </div>
+    <div class="proc-grid">
+      <figure class="pl-lamina">
+        <p class="proc-k"><b>01</b>Lámina de diseño</p>
+        <img src="assets/cdbi/pro-pili-lamina.webp" alt="Lámina de diseño de personaje de Pili: turnaround de frente, perfil y espalda, ficha, paleta y estudios de cabeza" width="1040" height="585" loading="lazy" decoding="async">
+      </figure>
+      <figure class="pl-proxy">
+        <p class="proc-k"><b>02</b>Proxy de blocking · 4 vistas</p>
+        <img src="assets/cdbi/pro-pili-proxy.webp" alt="Malla 3D de proxy de Pili vista desde cuatro ángulos sobre fondo negro" width="1240" height="310" loading="lazy" decoding="async">
+      </figure>
+      <figure class="pl-plano">
+        <p class="proc-k"><b>03</b>Plano generado</p>
+        <div class="marco"><img src="assets/cdbi/per-pili.webp" alt="Primer plano de Pili con la cara mojada, mirando fuera de cuadro" width="560" height="996" loading="lazy" decoding="async"></div>
+      </figure>
+    </div>
+  </article>
+
+  <article class="proc-fila reveal">
+    <div class="proc-head">
+      <h3>Ranx</h3>
+      <p>El gato salió mejor de perfil: la lámina lateral da más superficie que la frontal, y de ahí salió la malla.</p>
+    </div>
+    <div class="proc-grid">
+      <figure class="pl-lamina">
+        <p class="proc-k"><b>01</b>Lámina de diseño</p>
+        <img src="assets/cdbi/pro-ranx-lamina.webp" alt="Lámina de diseño del gato Ranx: vistas de frente, perfil y espalda, expresiones, marcas y referencia de escala" width="1040" height="585" loading="lazy" decoding="async">
+      </figure>
+      <figure class="pl-proxy">
+        <p class="proc-k"><b>02</b>Proxy de blocking · 4 vistas</p>
+        <img src="assets/cdbi/pro-ranx-proxy.webp" alt="Malla 3D de proxy del gato Ranx vista desde cuatro ángulos sobre fondo negro" width="1240" height="310" loading="lazy" decoding="async">
+      </figure>
+      <figure class="pl-plano">
+        <p class="proc-k"><b>03</b>Plano generado</p>
+        <div class="marco"><img src="assets/cdbi/per-ranx.webp" alt="Plano final de Ranx parado sobre un buzón, en la calle mojada de noche" width="560" height="996" loading="lazy" decoding="async"></div>
+      </figure>
+    </div>
+  </article>
+
+  <p class="proc-pie reveal">
+    Once mallas de proxy hasta ahora: siete personajes, el gato, la caja del robo, la bici del Viejo
+    y la paloma renga. Salieron de las mismas láminas, con image-to-3D local. No están texturizadas
+    para render ni riggeadas — son volumen para encuadrar.
+  </p>
+</section>
+
+<!-- ── EL PROBLEMA ───────────────────────────────────────────── -->
+<section class="sec" id="problema">
+  <p class="sec-k">Un problema de producción</p>
+  <h2 class="reveal">El plano que tiene que repetirse igual</h2>
+  <div class="prosa">
+    <p class="reveal d1">
+      El segundo plano de EP01 calca al primero de EP00: misma cámara, mismo blocking, mismos cuerpos
+      en el mismo lugar. <strong>La precisión de la repetición es el chiste.</strong> Si el encuadre
+      se corre veinte centímetros no hay gag, hay un error de continuidad.
+    </p>
+    <p class="reveal d1">
+      Con un prompt de texto eso es una apuesta. Un modelo de video no tiene memoria de dónde estaba
+      la cámara hace tres semanas, y describirlo en palabras — plano medio, ligeramente picado, el
+      chico a un tercio de cuadro — devuelve cada vez algo parecido y nunca lo mismo.
+    </p>
+    <p class="reveal d1">
+      El otro problema es la escala. Pili y Joel tienen 13 y 12 años; los adultos les sacan una cabeza
+      y media. Cada vez que aparecen juntos hay que volver a aclarárselo al modelo, y cada tanto se lo
+      saltea: en un plano el tío mide dos metros, en el siguiente son todos de la misma altura.
+    </p>
+    <p class="reveal d1">
+      Las dos cosas son geometría, no descripción. Así que la geometría se resuelve antes de generar.
+    </p>
+    <p class="reveal d1">
+      En agosto empecé el blockout 3D: once mallas de proxy generadas desde las mismas láminas
+      con las que después se generan los planos. En la escena va además un cilindro de
+      <strong>1,75 m</strong> como vara de medir — todo se mide contra eso y las alturas dejan de
+      discutirse. Repetir un plano deja de ser una apuesta: se abre el archivo, se recarga la cámara y
+      se vuelve a renderizar el pass. El layout entra a Seedance 2.5 como referencia de blocking y el
+      modelo genera encima respetando la estructura.
+    </p>
+    <p class="reveal d2">
+      <strong>Lo que todavía no sé:</strong> si el binding por color de proxy aguanta con cinco
+      personajes en cuadro. Está construido sobre comportamiento documentado, no sobre una función
+      declarada. El test es un plano de cinco segundos con dos proxies y dos referencias — hasta que
+      no lo corra, el camino está armado y no probado.
+    </p>
+  </div>
+
+  <div class="pipe reveal d1">
     <div class="pipe-fila">
       <p class="pipe-etapa">Guion</p>
       <p class="pipe-det">Biblia, escaleta y arcos escritos a mano. Canon cerrado antes de generar un solo frame.</p>
@@ -622,6 +1037,10 @@
     <div class="pipe-fila">
       <p class="pipe-etapa">Shotlist</p>
       <p class="pipe-det">Un shotlist de producción por episodio, con prompts, blocking por escena y <em>@tags</em> de personajes y locaciones que mantienen el diseño consistente entre planos.</p>
+    </div>
+    <div class="pipe-fila">
+      <p class="pipe-etapa">Blockout</p>
+      <p class="pipe-det">Proxies 3D para fijar <em>escala, cámara y repetición exacta</em>. Etapa nueva, agosto 2026.</p>
     </div>
     <div class="pipe-fila">
       <p class="pipe-etapa">Imagen</p>
@@ -642,19 +1061,94 @@
   </div>
 </section>
 
+<!-- ── LOCACIONES ────────────────────────────────────────────── -->
+<section class="sec">
+  <p class="sec-k">Dónde pasa</p>
+  <h2 class="reveal">Veinte locaciones de un Lanús que no existe</h2>
+  <div class="prosa">
+    <p class="reveal d1">
+      El mapa de la temporada son veinte locaciones y dieciséis props, cada uno con su lámina y su
+      <strong>@tag</strong>. Están hechas sobre scouting real de Lanús — la plaza, la parroquia, la
+      orilla del Riachuelo — y después corridas un paso hacia el lado del sueño.
+    </p>
+  </div>
+
+  <div class="locs">
+    <figure class="loc reveal">
+      <img src="assets/cdbi/loc-estacion.webp" alt="Vista cenital nocturna de la estación de Lanús y los puestos del mercado bajo la lluvia" width="960" height="540" loading="lazy" decoding="async">
+      <figcaption>
+        <p class="loc-n">Estación Lanús <span class="per-tag">@estacion</span></p>
+        <p class="loc-d">Puestos, luz de sodio y el andén. Punto de partida de la expedición.</p>
+      </figcaption>
+    </figure>
+
+    <figure class="loc reveal d1">
+      <img src="assets/cdbi/loc-pizzeria.webp" alt="Exterior de una pizzería de esquina con cartel de neón rojo, en una calle mojada" width="960" height="540" loading="lazy" decoding="async">
+      <figcaption>
+        <p class="loc-n">La pizzería <span class="per-tag">@pizzeria</span></p>
+        <p class="loc-d">Donde el Cóndor pasa los datos truchos. Neón rojo, servilleta y mapa.</p>
+      </figcaption>
+    </figure>
+
+    <figure class="loc reveal d2">
+      <img src="assets/cdbi/loc-casagatos.webp" alt="Habitación con decenas de gatos sentados frente a sus platos, luz de ventana" width="960" height="540" loading="lazy" decoding="async">
+      <figcaption>
+        <p class="loc-n">La casa de los gatos <span class="per-tag">@casagatos</span></p>
+        <p class="loc-d">El PH de Esther. Cuarenta platos servidos y ningún ruido.</p>
+      </figcaption>
+    </figure>
+
+    <figure class="loc reveal">
+      <img src="assets/cdbi/loc-666.webp" alt="Parada de colectivo con cartel luminoso 666 y un bondi detenido en la niebla" width="960" height="540" loading="lazy" decoding="async">
+      <figcaption>
+        <p class="loc-n">El 666 <span class="per-tag">@666</span></p>
+        <p class="loc-d">La línea que sale cuando no debería. El cartel LED de donde sale todo el paquete gráfico.</p>
+      </figcaption>
+    </figure>
+
+    <figure class="loc reveal d1">
+      <img src="assets/cdbi/loc-riachuelo.webp" alt="El Riachuelo de noche con un tornado, glifos naranjas flotando y una silueta anfibia en el agua" width="960" height="540" loading="lazy" decoding="async">
+      <figcaption>
+        <p class="loc-n">El Riachuelo <span class="per-tag">@RIACHUELO</span></p>
+        <p class="loc-d">La frontera. Del otro lado empieza lo que el barrio decidió no mirar.</p>
+      </figcaption>
+    </figure>
+
+    <figure class="loc reveal d2">
+      <img src="assets/cdbi/loc-cueva.webp" alt="Fondo de una cueva húmeda con murales de sapos pintados, televisores rotos, chatarra y sapos reales" width="960" height="540" loading="lazy" decoding="async">
+      <figcaption>
+        <p class="loc-n">La cueva <span class="per-tag">@cueva</span></p>
+        <p class="loc-d">El final del mapa. Décadas de murales de monstruos distintos, y abajo sapos comunes.</p>
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
 <!-- ── ESTADO ────────────────────────────────────────────────── -->
 <section class="sec" id="estado">
   <p class="sec-k">Estado de producción</p>
   <h2 class="reveal">La temporada ya existe como audio</h2>
+
+  <p class="nums-k reveal">Escritura y diseño</p>
   <div class="nums">
-    <div class="reveal"><p class="num">11</p><p class="num-l">Episodios</p></div>
-    <div class="reveal d1"><p class="num">160</p><p class="num-l">Tomas de voz</p></div>
-    <div class="reveal d1"><p class="num">204</p><p class="num-l">Música y SFX</p></div>
-    <div class="reveal d2"><p class="num">23:28</p><p class="num-l">Minutos maquetados</p></div>
+    <div class="reveal"><p class="num">11</p><p class="num-l">Episodios escritos</p></div>
+    <div class="reveal d1"><p class="num">107</p><p class="num-l">Planos con prompt</p></div>
+    <div class="reveal d1"><p class="num">31</p><p class="num-l">Láminas de storyboard</p></div>
+    <div class="reveal d2"><p class="num">18</p><p class="num-l">Personajes con lámina</p></div>
   </div>
+
+  <p class="nums-k reveal">Audio</p>
+  <div class="nums">
+    <div class="reveal"><p class="num">160</p><p class="num-l">Tomas de voz</p></div>
+    <div class="reveal d1"><p class="num">204</p><p class="num-l">Música y SFX</p></div>
+    <div class="reveal d1"><p class="num">23:28</p><p class="num-l">Minutos maquetados</p></div>
+    <div class="reveal d2"><p class="num">727</p><p class="num-l">Clips en 8 pistas</p></div>
+  </div>
+
   <p class="nota-pie reveal d2">
-    727 clips repartidos en 8 pistas por episodio. La maqueta de audio se cerró en agosto de 2026 y
-    es la base sobre la que se monta la imagen.
+    La maqueta de audio se cerró en agosto de 2026 y es la base sobre la que se monta la imagen:
+    los once episodios existen como radioteatro completo, con un XML de ocho pistas por episodio
+    listo para Premiere. Falta montar imagen.
   </p>
 </section>
 
