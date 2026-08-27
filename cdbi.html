@@ -253,7 +253,7 @@
 
     /* ─── PERSONAJES ─────────────────────────────────────────── */
     .per-grid {
-      display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+      display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 30px 22px; margin-top: 46px;
     }
     @media (max-width: 900px) { .per-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
@@ -321,58 +321,12 @@
       color: var(--on-dark-soft);
     }
 
-    /* ─── LOCACIONES ─────────────────────────────────────────── */
-    .locs {
-      display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 28px 20px; margin-top: 46px;
-    }
-    @media (max-width: 900px) { .locs { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-    @media (max-width: 560px) { .locs { grid-template-columns: minmax(0, 1fr); } }
-    .loc img {
-      width: 100%; display: block;
-      aspect-ratio: 16/9; object-fit: cover; background: #141414;
-    }
-    .loc-n {
-      font-family: 'Satoshi', sans-serif; font-weight: 700;
-      font-size: 14px; text-transform: uppercase; letter-spacing: .02em;
-      margin-top: 13px;
-      display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;
-    }
-    .loc-d { font-size: 13px; font-weight: 300; line-height: 1.6; color: var(--on-dark); margin-top: 5px; }
-
-    /* ─── PIPELINE ───────────────────────────────────────────── */
-    .pipe { margin-top: 40px; display: flex; flex-direction: column; }
-    .pipe-fila {
-      display: grid;
-      grid-template-columns: 190px minmax(0, 1fr);
-      gap: 28px;
-      padding: 22px 0;
-      border-top: 1px solid var(--linea);
-      align-items: baseline;
-    }
-    .pipe-fila:last-child { border-bottom: 1px solid var(--linea); }
-    @media (max-width: 700px) {
-      .pipe-fila { grid-template-columns: minmax(0, 1fr); gap: 7px; }
-    }
-    .pipe-etapa {
-      font-family: 'Satoshi', sans-serif; font-weight: 800;
-      font-size: 14px; letter-spacing: .04em; text-transform: uppercase;
-      color: var(--cream);
-    }
-    .pipe-det { font-size: 15px; font-weight: 300; line-height: 1.7; color: var(--on-dark-strong); }
-    .pipe-det em { font-style: normal; color: var(--red); font-weight: 500; }
-
     /* ─── ESTADO (números reales) ────────────────────────────── */
     #estado { background: #131313; }
-    .nums-k {
-      font-size: 10px; font-weight: 500;
-      letter-spacing: .18em; text-transform: uppercase;
-      color: var(--red); margin-top: 46px;
-    }
     .nums {
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 40px 32px; margin-top: 24px;
+      gap: 40px 32px; margin-top: 48px;
     }
     @media (max-width: 900px) { .nums { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
     .num {
@@ -761,16 +715,12 @@
 <!-- ── FICHA ─────────────────────────────────────────────────── -->
 <section id="ficha" aria-label="Ficha técnica">
   <div class="ficha-grid">
-    <div><p class="ficha-k">Formato</p><p class="ficha-v">EP00 doble + 10 episodios</p></div>
+    <div><p class="ficha-k">Formato</p><p class="ficha-v">EP00 doble + 10 episodios · 9:16</p></div>
     <div><p class="ficha-k">Duración</p><p class="ficha-v">90–140 s por episodio</p></div>
-    <div><p class="ficha-k">Relación de aspecto</p><p class="ficha-v">Vertical 9:16</p></div>
     <div><p class="ficha-k">Rol</p><p class="ficha-v">Creador &amp; Director</p></div>
     <div><p class="ficha-k">Género</p><p class="ficha-v">Aventura · humor negro · horror de proyección</p></div>
     <div><p class="ficha-k">Locación</p><p class="ficha-v">Lanús, conurbano bonaerense</p></div>
-    <div><p class="ficha-k">Audiencia</p><p class="ficha-v">18–35 · anime, horror, comedia negra</p></div>
-    <div><p class="ficha-k">Plataformas</p><p class="ficha-v">YouTube Shorts · Reels · TikTok</p></div>
     <div><p class="ficha-k">Estado</p><p class="ficha-v">Temporada maquetada en audio · ago 2026</p></div>
-    <div><p class="ficha-k">Canon</p><p class="ficha-v">Biblia V5.1 + Escaleta V5</p></div>
     <div><p class="ficha-k">Registro</p><p class="ficha-v">DNDA, Argentina</p></div>
     <div><p class="ficha-k">Herramientas</p><p class="ficha-v">Seedance · Runway · ElevenLabs · Seed Audio · Premiere · Remotion</p></div>
   </div>
@@ -779,24 +729,18 @@
 <!-- ── SINOPSIS ──────────────────────────────────────────────── -->
 <section class="sec">
   <p class="sec-k">Sinopsis</p>
-  <h2 class="reveal">El Sapo siempre fue un cuento</h2>
+  <h2 class="reveal">Nadie vio nunca al Sapo</h2>
   <div class="prosa">
     <p class="reveal d1">
-      Joel (12), con TOC numérico y camiseta de Boca, y su hermana Pili (13), que habla con animales
-      y con cosas, sobreviven junto a su tío <strong>El Cóndor</strong> (40), un cumbiero que los
-      arrastra a robos que siempre salen truchos. Cuando Pili saca un mapa del Riachuelo, lo que era
-      comedia se vuelve expedición: el mapa lleva al <strong>Sapo</strong>, la bestia que el barrio
-      le teme desde hace treinta años.
+      Joel tiene 12 años y cuenta todo con los dedos. Pili tiene 13 y le habla a los animales.
+      Sobreviven con su tío <strong>El Cóndor</strong>, un cumbiero que los arrastra a robos que
+      siempre salen truchos.
     </p>
     <p class="reveal d1">
-      Con Pepe, La Madrina y un gato cruzan la zona muerta de Lanús, una camioneta turbia y un
-      cazarrecompensas tuerto. Y en la cueva descubren que no hay monstruo ni tesoro: sólo sapos de
-      verdad, chatarra, y los murales de una infancia perdida.
-    </p>
-    <p class="reveal d2">
-      El Sapo fue siempre una proyección — el cuento con que el barrio tapó una culpa vieja y una
-      madre que se fue. <strong>La aventura nunca fue el tesoro: era la excusa para no soltarse la
-      mano.</strong>
+      Cuando Pili saca un mapa del Riachuelo, la comedia se vuelve expedición: el mapa lleva al
+      <strong>Sapo</strong>, la bestia que el barrio le teme hace treinta años. Cruzan la zona
+      muerta de Lanús, una camioneta turbia y un cazarrecompensas tuerto.
+      <strong>Todos en el barrio saben cómo es el Sapo. Nadie lo vio nunca.</strong>
     </p>
   </div>
   <div class="refs reveal d2">
@@ -818,7 +762,7 @@
 <!-- ── PERSONAJES ────────────────────────────────────────────── -->
 <section class="sec">
   <p class="sec-k">Quiénes</p>
-  <h2 class="reveal">Nueve de los dieciocho</h2>
+  <h2 class="reveal">Cuatro de dieciocho</h2>
   <div class="prosa">
     <p class="reveal d1">
       El canon tiene dieciocho personajes con lámina de diseño y prompt maestro. Cada uno entra a
@@ -852,45 +796,15 @@
       </figcaption>
     </figure>
 
-    <figure class="per reveal">
-      <img src="assets/cdbi/per-pepe.webp" alt="Pepe, hombre mayor de pulóver verde, expresión de sorpresa, en la pizzería" width="560" height="996" loading="lazy" decoding="async">
-      <figcaption>
-        <p class="per-n">Pepe <span class="per-tag">@pepe</span></p>
-        <p class="per-d">El que pateó primero. Cincuenta y cuatro y aparenta más: la culpa envejece. Su sombra está incompleta y él no lo nota.</p>
-      </figcaption>
-    </figure>
+    
 
-    <figure class="per reveal d1">
-      <img src="assets/cdbi/per-madrina.webp" alt="La Madrina, mujer trans de pelo rubio voluminoso y campera rosa con piel" width="560" height="996" loading="lazy" decoding="async">
-      <figcaption>
-        <p class="per-n">La Madrina <span class="per-tag">@trans</span></p>
-        <p class="per-d">La que cuida. Peluquería del barrio, bate con púas, cero miedo.</p>
-      </figcaption>
-    </figure>
+    
 
-    <figure class="per reveal d2">
-      <img src="assets/cdbi/per-beto.webp" alt="El comisario Beto, bigote y gorra, bajo la lluvia" width="560" height="996" loading="lazy" decoding="async">
-      <figcaption>
-        <p class="per-n">Comisario Beto <span class="per-tag">@BETO</span></p>
-        <p class="per-d">El que archiva. La mancha de pizza en la camisa lo define.</p>
-      </figcaption>
-    </figure>
+    
 
-    <figure class="per reveal">
-      <img src="assets/cdbi/per-negro.webp" alt="El Viejo de perfil, gorra de paño, junto al Riachuelo de noche" width="560" height="996" loading="lazy" decoding="async">
-      <figcaption>
-        <p class="per-n">El Viejo <span class="per-tag">@negro</span></p>
-        <p class="per-d">El soplón. Anda con la bici al lado y nunca se sube.</p>
-      </figcaption>
-    </figure>
+    
 
-    <figure class="per reveal d1">
-      <img src="assets/cdbi/per-ranx.webp" alt="Ranx, gato atigrado, parado sobre un buzón en la calle de noche" width="560" height="996" loading="lazy" decoding="async">
-      <figcaption>
-        <p class="per-n">Ranx <span class="per-tag">@ranx</span></p>
-        <p class="per-d">El compañero de Pili. Oreja derecha rota, ojos chartreuse. Eco del gato del 94.</p>
-      </figcaption>
-    </figure>
+    
 
     <figure class="per reveal d2">
       <img src="assets/cdbi/per-sapo.webp" alt="El Sapo, criatura anfibia con implantes mecánicos, emergiendo del agua del Riachuelo" width="560" height="996" loading="lazy" decoding="async">
@@ -913,10 +827,6 @@
       esa misma lámina sale el <strong>proxy de blocking</strong>, una malla 3D que no sirve para
       renderizar pero sí para bloquear cámara y medir alturas. Y el <strong>plano</strong> se genera
       con la lámina como referencia y el proxy como layout.
-    </p>
-    <p class="reveal d1">
-      Las tres capas cuelgan del mismo archivo. Si la lámina cambia, se rehace el proxy y se
-      regeneran los planos: no hay una versión del personaje viviendo en la cabeza del modelo.
     </p>
   </div>
 
@@ -962,28 +872,7 @@
     </div>
   </article>
 
-  <article class="proc-fila reveal">
-    <div class="proc-head">
-      <h3>Ranx</h3>
-      <p>El gato salió mejor de perfil: la lámina lateral da más superficie que la frontal, y de ahí salió la malla.</p>
-    </div>
-    <div class="proc-grid">
-      <figure class="pl-lamina">
-        <p class="proc-k"><b>01</b>Lámina de diseño</p>
-        <img src="assets/cdbi/pro-ranx-lamina.webp" alt="Lámina de diseño del gato Ranx: vistas de frente, perfil y espalda, expresiones, marcas y referencia de escala" width="1040" height="585" loading="lazy" decoding="async">
-      </figure>
-      <figure class="pl-proxy">
-        <p class="proc-k"><b>02</b>Proxy de blocking · 4 vistas</p>
-        <img src="assets/cdbi/pro-ranx-proxy.webp" alt="Malla 3D de proxy del gato Ranx vista desde cuatro ángulos sobre fondo negro" width="1240" height="310" loading="lazy" decoding="async">
-      </figure>
-      <figure class="pl-plano">
-        <p class="proc-k"><b>03</b>Plano generado</p>
-        <div class="marco"><img src="assets/cdbi/per-ranx.webp" alt="Plano final de Ranx parado sobre un buzón, en la calle mojada de noche" width="560" height="996" loading="lazy" decoding="async"></div>
-      </figure>
-    </div>
-  </article>
-
-  <p class="proc-pie reveal">
+    <p class="proc-pie reveal">
     Once mallas de proxy hasta ahora: siete personajes, el gato, la caja del robo, la bici del Viejo
     y la paloma renga. Salieron de las mismas láminas, con image-to-3D local. No están texturizadas
     para render ni riggeadas — son volumen para encuadrar.
@@ -1029,120 +918,26 @@
     </p>
   </div>
 
-  <div class="pipe reveal d1">
-    <div class="pipe-fila">
-      <p class="pipe-etapa">Guion</p>
-      <p class="pipe-det">Biblia, escaleta y arcos escritos a mano. Canon cerrado antes de generar un solo frame.</p>
-    </div>
-    <div class="pipe-fila">
-      <p class="pipe-etapa">Shotlist</p>
-      <p class="pipe-det">Un shotlist de producción por episodio, con prompts, blocking por escena y <em>@tags</em> de personajes y locaciones que mantienen el diseño consistente entre planos.</p>
-    </div>
-    <div class="pipe-fila">
-      <p class="pipe-etapa">Blockout</p>
-      <p class="pipe-det">Proxies 3D para fijar <em>escala, cámara y repetición exacta</em>. Etapa nueva, agosto 2026.</p>
-    </div>
-    <div class="pipe-fila">
-      <p class="pipe-etapa">Imagen</p>
-      <p class="pipe-det">Seedance y Runway sobre diseño de personaje fijo. Estética anime, referencia Kon.</p>
-    </div>
-    <div class="pipe-fila">
-      <p class="pipe-etapa">Voces</p>
-      <p class="pipe-det">ElevenLabs con voz clonada, dirigidas toma por toma en rioplatense.</p>
-    </div>
-    <div class="pipe-fila">
-      <p class="pipe-etapa">Música y SFX</p>
-      <p class="pipe-det">Seed Audio para música y efectos independientes. Sistema musical serializado: el tema de un personaje se deforma y se recompone a lo largo de la temporada.</p>
-    </div>
-    <div class="pipe-fila">
-      <p class="pipe-etapa">Maqueta</p>
-      <p class="pipe-det">Radioteatro completo antes del montaje. Escuchar la temporada entera expone los problemas de ritmo que el texto esconde.</p>
-    </div>
-  </div>
 </section>
 
-<!-- ── LOCACIONES ────────────────────────────────────────────── -->
-<section class="sec">
-  <p class="sec-k">Dónde pasa</p>
-  <h2 class="reveal">Veinte locaciones de un Lanús que no existe</h2>
-  <div class="prosa">
-    <p class="reveal d1">
-      El mapa de la temporada son veinte locaciones y dieciséis props, cada uno con su lámina y su
-      <strong>@tag</strong>. Están hechas sobre scouting real de Lanús — la plaza, la parroquia, la
-      orilla del Riachuelo — y después corridas un paso hacia el lado del sueño.
-    </p>
-  </div>
-
-  <div class="locs">
-    <figure class="loc reveal">
-      <img src="assets/cdbi/loc-estacion.webp" alt="Vista cenital nocturna de la estación de Lanús y los puestos del mercado bajo la lluvia" width="960" height="540" loading="lazy" decoding="async">
-      <figcaption>
-        <p class="loc-n">Estación Lanús <span class="per-tag">@estacion</span></p>
-        <p class="loc-d">Puestos, luz de sodio y el andén. Punto de partida de la expedición.</p>
-      </figcaption>
-    </figure>
-
-    <figure class="loc reveal d1">
-      <img src="assets/cdbi/loc-pizzeria.webp" alt="Exterior de una pizzería de esquina con cartel de neón rojo, en una calle mojada" width="960" height="540" loading="lazy" decoding="async">
-      <figcaption>
-        <p class="loc-n">La pizzería <span class="per-tag">@pizzeria</span></p>
-        <p class="loc-d">Donde el Cóndor pasa los datos truchos. Neón rojo, servilleta y mapa.</p>
-      </figcaption>
-    </figure>
-
-    <figure class="loc reveal d2">
-      <img src="assets/cdbi/loc-casagatos.webp" alt="Habitación con decenas de gatos sentados frente a sus platos, luz de ventana" width="960" height="540" loading="lazy" decoding="async">
-      <figcaption>
-        <p class="loc-n">La casa de los gatos <span class="per-tag">@casagatos</span></p>
-        <p class="loc-d">El PH de Esther. Cuarenta platos servidos y ningún ruido.</p>
-      </figcaption>
-    </figure>
-
-    <figure class="loc reveal">
-      <img src="assets/cdbi/loc-666.webp" alt="Parada de colectivo con cartel luminoso 666 y un bondi detenido en la niebla" width="960" height="540" loading="lazy" decoding="async">
-      <figcaption>
-        <p class="loc-n">El 666 <span class="per-tag">@666</span></p>
-        <p class="loc-d">La línea que sale cuando no debería. El cartel LED de donde sale todo el paquete gráfico.</p>
-      </figcaption>
-    </figure>
-
-    <figure class="loc reveal d1">
-      <img src="assets/cdbi/loc-riachuelo.webp" alt="El Riachuelo de noche con un tornado, glifos naranjas flotando y una silueta anfibia en el agua" width="960" height="540" loading="lazy" decoding="async">
-      <figcaption>
-        <p class="loc-n">El Riachuelo <span class="per-tag">@RIACHUELO</span></p>
-        <p class="loc-d">La frontera. Del otro lado empieza lo que el barrio decidió no mirar.</p>
-      </figcaption>
-    </figure>
-
-    <figure class="loc reveal d2">
-      <img src="assets/cdbi/loc-cueva.webp" alt="Fondo de una cueva húmeda con murales de sapos pintados, televisores rotos, chatarra y sapos reales" width="960" height="540" loading="lazy" decoding="async">
-      <figcaption>
-        <p class="loc-n">La cueva <span class="per-tag">@cueva</span></p>
-        <p class="loc-d">El final del mapa. Décadas de murales de monstruos distintos, y abajo sapos comunes.</p>
-      </figcaption>
-    </figure>
-  </div>
-</section>
+<!-- ── BANDA ─────────────────────────────────────────────────── -->
+<figure class="banda">
+  <img src="assets/cdbi/banda-estacion.webp"
+       alt="Vista cenital nocturna de la estación de Lanús y los puestos del mercado bajo la lluvia"
+       width="1800" height="692" loading="lazy" decoding="async">
+  <figcaption>Estación Lanús · lámina de locación</figcaption>
+</figure>
 
 <!-- ── ESTADO ────────────────────────────────────────────────── -->
 <section class="sec" id="estado">
   <p class="sec-k">Estado de producción</p>
   <h2 class="reveal">La temporada ya existe como audio</h2>
 
-  <p class="nums-k reveal">Escritura y diseño</p>
   <div class="nums">
     <div class="reveal"><p class="num">11</p><p class="num-l">Episodios escritos</p></div>
-    <div class="reveal d1"><p class="num">107</p><p class="num-l">Planos con prompt</p></div>
-    <div class="reveal d1"><p class="num">31</p><p class="num-l">Láminas de storyboard</p></div>
-    <div class="reveal d2"><p class="num">18</p><p class="num-l">Personajes con lámina</p></div>
-  </div>
-
-  <p class="nums-k reveal">Audio</p>
-  <div class="nums">
-    <div class="reveal"><p class="num">160</p><p class="num-l">Tomas de voz</p></div>
+    <div class="reveal d1"><p class="num">160</p><p class="num-l">Tomas de voz</p></div>
     <div class="reveal d1"><p class="num">204</p><p class="num-l">Música y SFX</p></div>
-    <div class="reveal d1"><p class="num">23:28</p><p class="num-l">Minutos maquetados</p></div>
-    <div class="reveal d2"><p class="num">727</p><p class="num-l">Clips en 8 pistas</p></div>
+    <div class="reveal d2"><p class="num">23:28</p><p class="num-l">Minutos maquetados</p></div>
   </div>
 
   <p class="nota-pie reveal d2">
