@@ -171,13 +171,6 @@
       color: var(--cream);
       text-shadow: 0 1px 8px rgba(10,10,10,.9);
     }
-    .hero-pie {
-      padding: 0 52px 70px;
-      font-size: 11px; font-weight: 500;
-      letter-spacing: .14em; text-transform: uppercase;
-      color: var(--on-dark-soft);
-    }
-
     /* ─── FICHA ──────────────────────────────────────────────── */
     #ficha {
       padding: 60px 52px;
@@ -224,16 +217,6 @@
       color: var(--on-dark-strong);
     }
     .prosa strong { color: var(--cream); font-weight: 500; }
-
-    /* ─── REFERENCIAS ────────────────────────────────────────── */
-    .refs { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 36px; }
-    .ref {
-      font-size: 11px; font-weight: 500;
-      letter-spacing: .12em; text-transform: uppercase;
-      color: var(--on-dark);
-      border: 1px solid rgba(244,242,238,.22);
-      padding: 9px 16px;
-    }
 
     /* ─── BANDA ANCHA ────────────────────────────────────────── */
     .banda { padding: 0; position: relative; }
@@ -325,7 +308,7 @@
     #estado { background: #131313; }
     .nums {
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 40px 32px; margin-top: 48px;
     }
     @media (max-width: 900px) { .nums { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
@@ -427,7 +410,7 @@
       :root { --nav-h: 57px; }
       nav { padding: 18px 22px; }
       .nav-links { gap: 18px; }
-      .miga, header, .hero, .hero-pie, #ficha, .sec, #cierre, footer {
+      .miga, header, .hero, #ficha, .sec, #cierre, footer {
         padding-left: 22px; padding-right: 22px;
       }
       .banda figcaption { left: 22px; }
@@ -675,7 +658,7 @@
 
 <!-- ── ENCABEZADO ────────────────────────────────────────────── -->
 <header>
-  <p class="kicker">Miniserie animada vertical · Creador &amp; Director</p>
+  <p class="kicker">Miniserie animada · Creador &amp; Director</p>
   <h1>Crónicas del Barro Infinito</h1>
   <p class="logline">
     Dos hermanos huérfanos y su tío trucho salen a buscar un tesoro que no existe,
@@ -710,19 +693,13 @@
          width="720" height="1280" decoding="async">
   </figure>
 </div>
-<p class="hero-pie">Fotogramas de la serie · 9:16 nativo</p>
-
 <!-- ── FICHA ─────────────────────────────────────────────────── -->
 <section id="ficha" aria-label="Ficha técnica">
   <div class="ficha-grid">
-    <div><p class="ficha-k">Formato</p><p class="ficha-v">EP00 doble + 10 episodios · 9:16</p></div>
-    <div><p class="ficha-k">Duración</p><p class="ficha-v">90–140 s por episodio</p></div>
-    <div><p class="ficha-k">Rol</p><p class="ficha-v">Creador &amp; Director</p></div>
+    <div><p class="ficha-k">Formato</p><p class="ficha-v">11 episodios + short pieces</p></div>
+    <div><p class="ficha-k">Duración</p><p class="ficha-v">~6 min por episodio · shorts de 90–140 s</p></div>
     <div><p class="ficha-k">Género</p><p class="ficha-v">Aventura · humor negro · horror de proyección</p></div>
     <div><p class="ficha-k">Locación</p><p class="ficha-v">Lanús, conurbano bonaerense</p></div>
-    <div><p class="ficha-k">Estado</p><p class="ficha-v">Temporada maquetada en audio · ago 2026</p></div>
-    <div><p class="ficha-k">Registro</p><p class="ficha-v">DNDA, Argentina</p></div>
-    <div><p class="ficha-k">Herramientas</p><p class="ficha-v">Seedance · Runway · ElevenLabs · Seed Audio · Premiere · Remotion</p></div>
   </div>
 </section>
 
@@ -743,12 +720,6 @@
       <strong>Todos en el barrio saben cómo es el Sapo. Nadie lo vio nunca.</strong>
     </p>
   </div>
-  <div class="refs reveal d2">
-    <span class="ref">Satoshi Kon</span>
-    <span class="ref">Paranoia Agent</span>
-    <span class="ref">Cowboy Bebop</span>
-    <span class="ref">Lo-fi cumbia</span>
-  </div>
 </section>
 
 <!-- ── BANDA ─────────────────────────────────────────────────── -->
@@ -761,16 +732,7 @@
 
 <!-- ── PERSONAJES ────────────────────────────────────────────── -->
 <section class="sec">
-  <p class="sec-k">Quiénes</p>
-  <h2 class="reveal">Cuatro de dieciocho</h2>
-  <div class="prosa">
-    <p class="reveal d1">
-      El canon tiene dieciocho personajes con lámina de diseño y prompt maestro. Cada uno entra a
-      generación por su <strong>@tag</strong>: es lo que mantiene la cara igual entre un plano y el
-      siguiente, que es donde casi todo lo generado se cae.
-    </p>
-  </div>
-
+  <p class="sec-k">Personajes</p>
   <div class="per-grid">
     <figure class="per reveal">
       <img src="assets/cdbi/per-condor.webp" alt="El Cóndor, hombre mayor de campera Adidas azul, cadena de oro y anteojos oscuros" width="560" height="996" loading="lazy" decoding="async">
@@ -819,7 +781,7 @@
 <!-- ── PROCESO ───────────────────────────────────────────────── -->
 <section class="sec" id="proceso">
   <p class="sec-k">Proceso</p>
-  <h2 class="reveal">De la lámina al plano</h2>
+  <h2 class="reveal">De la animación tradicional al blockout 3D y la IA generativa</h2>
   <div class="prosa">
     <p class="reveal d1">
       Cada personaje pasa por tres estados antes de existir en pantalla. La
@@ -879,47 +841,6 @@
   </p>
 </section>
 
-<!-- ── EL PROBLEMA ───────────────────────────────────────────── -->
-<section class="sec" id="problema">
-  <p class="sec-k">Un problema de producción</p>
-  <h2 class="reveal">El plano que tiene que repetirse igual</h2>
-  <div class="prosa">
-    <p class="reveal d1">
-      El segundo plano de EP01 calca al primero de EP00: misma cámara, mismo blocking, mismos cuerpos
-      en el mismo lugar. <strong>La precisión de la repetición es el chiste.</strong> Si el encuadre
-      se corre veinte centímetros no hay gag, hay un error de continuidad.
-    </p>
-    <p class="reveal d1">
-      Con un prompt de texto eso es una apuesta. Un modelo de video no tiene memoria de dónde estaba
-      la cámara hace tres semanas, y describirlo en palabras — plano medio, ligeramente picado, el
-      chico a un tercio de cuadro — devuelve cada vez algo parecido y nunca lo mismo.
-    </p>
-    <p class="reveal d1">
-      El otro problema es la escala. Pili y Joel tienen 13 y 12 años; los adultos les sacan una cabeza
-      y media. Cada vez que aparecen juntos hay que volver a aclarárselo al modelo, y cada tanto se lo
-      saltea: en un plano el tío mide dos metros, en el siguiente son todos de la misma altura.
-    </p>
-    <p class="reveal d1">
-      Las dos cosas son geometría, no descripción. Así que la geometría se resuelve antes de generar.
-    </p>
-    <p class="reveal d1">
-      En agosto empecé el blockout 3D: once mallas de proxy generadas desde las mismas láminas
-      con las que después se generan los planos. En la escena va además un cilindro de
-      <strong>1,75 m</strong> como vara de medir — todo se mide contra eso y las alturas dejan de
-      discutirse. Repetir un plano deja de ser una apuesta: se abre el archivo, se recarga la cámara y
-      se vuelve a renderizar el pass. El layout entra a Seedance 2.5 como referencia de blocking y el
-      modelo genera encima respetando la estructura.
-    </p>
-    <p class="reveal d2">
-      <strong>Lo que todavía no sé:</strong> si el binding por color de proxy aguanta con cinco
-      personajes en cuadro. Está construido sobre comportamiento documentado, no sobre una función
-      declarada. El test es un plano de cinco segundos con dos proxies y dos referencias — hasta que
-      no lo corra, el camino está armado y no probado.
-    </p>
-  </div>
-
-</section>
-
 <!-- ── BANDA ─────────────────────────────────────────────────── -->
 <figure class="banda">
   <img src="assets/cdbi/banda-estacion.webp"
@@ -931,19 +852,17 @@
 <!-- ── ESTADO ────────────────────────────────────────────────── -->
 <section class="sec" id="estado">
   <p class="sec-k">Estado de producción</p>
-  <h2 class="reveal">La temporada ya existe como audio</h2>
+  <h2 class="reveal">En desarrollo: el piloto del episodio 1</h2>
 
   <div class="nums">
     <div class="reveal"><p class="num">11</p><p class="num-l">Episodios escritos</p></div>
-    <div class="reveal d1"><p class="num">160</p><p class="num-l">Tomas de voz</p></div>
-    <div class="reveal d1"><p class="num">204</p><p class="num-l">Música y SFX</p></div>
-    <div class="reveal d2"><p class="num">23:28</p><p class="num-l">Minutos maquetados</p></div>
+    <div class="reveal d1"><p class="num">347</p><p class="num-l">Tomas de voz</p></div>
+    <div class="reveal d2"><p class="num">269</p><p class="num-l">Música y SFX originales</p></div>
   </div>
 
   <p class="nota-pie reveal d2">
-    La maqueta de audio se cerró en agosto de 2026 y es la base sobre la que se monta la imagen:
-    los once episodios existen como radioteatro completo, con un XML de ocho pistas por episodio
-    listo para Premiere. Falta montar imagen.
+    La biblia y los storyboards de la temporada están cerrados. Hoy el trabajo está en el piloto
+    del episodio 1.
   </p>
 </section>
 
