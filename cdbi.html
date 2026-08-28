@@ -4,12 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Crónicas del Barro Infinito — Julián Sequeira</title>
-  <meta name="description" content="Miniserie animada vertical: 11 episodios de aventura conurbana con humor negro, en un Lanús estilo Satoshi Kon. El proceso completo — lámina de diseño, blocking 3D y plano generado. Creador y director: Julián Sequeira.">
+  <meta name="description" content="Miniserie animada de 11 episodios: una aventura conurbana con humor negro en Lanús, detrás del Sapo del Riachuelo. Proceso de producción y estado del piloto. Creador y director: Julián Sequeira.">
   <link rel="canonical" href="https://julisequeira.com/cdbi.html">
   <meta property="og:type"        content="video.tv_show">
   <meta property="og:url"         content="https://julisequeira.com/cdbi.html">
   <meta property="og:title"       content="Crónicas del Barro Infinito">
-  <meta property="og:description" content="Dos hermanos huérfanos y su tío trucho salen a buscar un tesoro que no existe, persiguiendo a un monstruo que nadie vio nunca.">
+  <meta property="og:description" content="Dos hermanos huérfanos y su tío chanta bajan al fondo del Riachuelo detrás de un mapa dibujado a mano, buscando al Sapo — la bestia con la que Lanús se asusta desde 1994.">
   <meta property="og:image"       content="https://julisequeira.com/assets/cdbi/og.jpg">
   <meta property="og:image:width"  content="1200">
   <meta property="og:image:height" content="630">
@@ -149,10 +149,13 @@
       transition: width .5s var(--ease-out);
     }
     .trailer:hover::after, .trailer:focus-visible::after { width: 100%; }
+    /* El play va abajo, no al centro: al centro le tapa el logo a la carátula.
+       En columna, justify-content es el eje vertical. */
     .trailer-play {
       position: absolute; inset: 0; z-index: 2;
-      display: flex; align-items: center; justify-content: center;
-      flex-direction: column; gap: 16px;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: flex-end;
+      gap: 14px; padding-bottom: 9%;
     }
     .play-aro {
       width: 78px; height: 78px; border-radius: 50%;
@@ -661,9 +664,8 @@
   <p class="kicker">Miniserie animada · Creador &amp; Director</p>
   <h1>Crónicas del Barro Infinito</h1>
   <p class="logline">
-    Dos hermanos huérfanos y su tío trucho salen a buscar un tesoro que no existe,
-    persiguiendo a un monstruo que nadie vio nunca, por un Lanús donde el barro
-    no se lleva nada del todo.
+    Dos hermanos huérfanos y su tío chanta bajan al fondo del Riachuelo detrás de un mapa
+    dibujado a mano, buscando al Sapo — la bestia con la que Lanús se asusta desde 1994.
   </p>
 </header>
 
@@ -676,8 +678,8 @@
   </figure>
 
   <button class="trailer" type="button" data-yt="HgpCC7Lzq_Q" aria-label="Reproducir el trailer de Crónicas del Barro Infinito">
-    <img src="assets/cdbi/hero-play.webp"
-         alt="Joel, Pili y el gato Ranx en cuclillas sobre una fórmula de tiza encendida en el asfalto mojado, bajo el puente"
+    <img src="assets/cdbi/hero-caratula.webp"
+         alt="Carátula de Crónicas del Barro Infinito: el logo pincelado sobre una vista aérea nocturna de Lanús"
          width="900" height="1600" fetchpriority="high" decoding="async">
     <span class="trailer-play">
       <span class="play-aro">
@@ -706,18 +708,17 @@
 <!-- ── SINOPSIS ──────────────────────────────────────────────── -->
 <section class="sec">
   <p class="sec-k">Sinopsis</p>
-  <h2 class="reveal">Nadie vio nunca al Sapo</h2>
+  <h2 class="reveal">Todos saben cómo es el Sapo</h2>
   <div class="prosa">
     <p class="reveal d1">
-      Joel tiene 12 años y cuenta todo con los dedos. Pili tiene 13 y le habla a los animales.
-      Sobreviven con su tío <strong>El Cóndor</strong>, un cumbiero que los arrastra a robos que
-      siempre salen truchos.
+      En Lanús las deudas no prescriben. Hace treinta años el barrio contrajo una y nunca la pagó;
+      desde entonces cuenta que en el fondo del Riachuelo vive un sapo del tamaño de una casa.
+      <strong>Todos saben cómo es. Nadie lo vio nunca.</strong>
     </p>
     <p class="reveal d1">
-      Cuando Pili saca un mapa del Riachuelo, la comedia se vuelve expedición: el mapa lleva al
-      <strong>Sapo</strong>, la bestia que el barrio le teme hace treinta años. Cruzan la zona
-      muerta de Lanús, una camioneta turbia y un cazarrecompensas tuerto.
-      <strong>Todos en el barrio saben cómo es el Sapo. Nadie lo vio nunca.</strong>
+      Joel tiene 12 años y cuenta lo que falta. Pili tiene 13 y le habla a los animales. Cuando sacan
+      del barro un mapa dibujado a mano, el tío —un chanta cuyos datos son siempre truchos— decide
+      que esta vez sí. Bajan a buscarlo.
     </p>
   </div>
 </section>
