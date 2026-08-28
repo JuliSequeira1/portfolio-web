@@ -254,58 +254,57 @@
       margin-top: 15px;
       display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;
     }
-    .per-tag {
-      font-family: ui-monospace, Consolas, monospace;
-      font-size: 10.5px; font-weight: 400; letter-spacing: .04em;
-      text-transform: none; color: var(--red);
-    }
     .per-d {
       font-size: 13.5px; font-weight: 300; line-height: 1.62;
       color: var(--on-dark); margin-top: 7px;
     }
 
-    /* ─── PROCESO: lámina → proxy → plano ────────────────────── */
-    .proc-fila { margin-top: 56px; padding-top: 34px; border-top: 1px solid var(--linea); }
-    .proc-head { display: flex; align-items: baseline; gap: 18px; flex-wrap: wrap; margin-bottom: 24px; }
-    .proc-head h3 {
-      font-family: 'Satoshi', sans-serif; font-weight: 900;
-      font-size: clamp(20px, 2.3vw, 30px);
-      letter-spacing: -.02em; text-transform: uppercase;
+    /* ─── PROCESO: piezas del pipeline ─────────────────
+       Columnas CSS en vez de grid: cada pieza tiene su propia relación
+       (lámina 16:9, storyboard 9:16) y recortarlas para emparejarlas
+       arruinaría justo lo que hay que mostrar. Así fluyen y conservan
+       su forma.
+       ───────────────────────────────────────────── */
+    .piezas { columns: 3; column-gap: 20px; margin-top: 46px; }
+    @media (max-width: 900px) { .piezas { columns: 2; } }
+    @media (max-width: 560px) { .piezas { columns: 1; } }
+    .pieza {
+      break-inside: avoid; -webkit-column-break-inside: avoid;
+      margin: 0 0 30px;
     }
-    .proc-head p { font-size: 13.5px; font-weight: 300; color: var(--on-dark); line-height: 1.6; max-width: 54ch; }
-    .proc-grid {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(0, .52fr);
-      grid-template-rows: auto auto;
-      gap: 16px;
-    }
-    .pl-lamina { grid-area: 1 / 1 / 2 / 2; }
-    .pl-proxy  { grid-area: 2 / 1 / 3 / 2; }
-    /* El plano ocupa las dos filas. El marco es absoluto por dentro para que
-       NO empuje la altura de la grilla: la manda la columna de la izquierda
-       (lamina + proxy) y el plano recorta lo que sobra. */
-    .pl-plano  { grid-area: 1 / 2 / 3 / 3; display: flex; flex-direction: column; }
-    .pl-plano .marco {
-      position: relative; flex: 1 1 auto; min-height: 0;
-      overflow: hidden; background: #141414;
-    }
-    .pl-plano .marco img { position: absolute; inset: 0; }
-    .proc-k {
+    .pieza img { width: 100%; display: block; background: #141414; }
+    .pieza-k {
       font-size: 10px; font-weight: 500;
       letter-spacing: .18em; text-transform: uppercase;
       color: var(--on-dark-soft); margin-bottom: 10px;
     }
-    .proc-k b { color: var(--red); font-weight: 500; margin-right: 8px; }
-    .pl-lamina img, .pl-proxy img { width: 100%; display: block; }
-    .pl-plano img {
-      width: 100%; height: 100%;
-      object-fit: cover; display: block;
+    .pieza-k b { color: var(--red); font-weight: 500; margin-right: 8px; }
+    .pieza-d {
+      font-size: 12.5px; font-weight: 300; line-height: 1.6;
+      color: var(--on-dark); margin-top: 9px;
     }
-    .proc-pie {
-      margin-top: 34px; max-width: 64ch;
-      font-size: 13px; font-weight: 300; line-height: 1.7;
+
+    /* ─── FRASE ────────────────────────────────── */
+    .frase {
+      padding: 120px 52px;
+      border-bottom: 1px solid var(--linea);
+    }
+    .frase p {
+      font-family: 'Satoshi', sans-serif; font-weight: 900;
+      font-size: clamp(38px, 7.4vw, 108px);
+      line-height: .92; letter-spacing: -.035em;
+      text-transform: uppercase;
+      max-width: 16ch;
+    }
+    .frase span { color: var(--red); }
+    .frase cite {
+      display: block; margin-top: 30px;
+      font-family: 'Inter', sans-serif; font-style: normal;
+      font-size: 11px; font-weight: 500;
+      letter-spacing: .18em; text-transform: uppercase;
       color: var(--on-dark-soft);
     }
+    @media (max-width: 700px) { .frase { padding: 76px 22px; } }
 
     /* ─── ESTADO (números reales) ────────────────────────────── */
     #estado { background: #131313; }
@@ -723,6 +722,12 @@
   </div>
 </section>
 
+<!-- ── FRASE ─────────────────────────────────────── -->
+<section class="frase">
+  <p class="reveal">El conurbano es<br>un <span>estado mental</span>.</p>
+  <cite class="reveal d1">Tagline de la serie</cite>
+</section>
+
 <!-- ── BANDA ─────────────────────────────────────────────────── -->
 <figure class="banda">
   <img src="assets/cdbi/banda-fogon.webp"
@@ -738,7 +743,7 @@
     <figure class="per reveal">
       <img src="assets/cdbi/per-condor.webp" alt="El Cóndor, hombre mayor de campera Adidas azul, cadena de oro y anteojos oscuros" width="560" height="996" loading="lazy" decoding="async">
       <figcaption>
-        <p class="per-n">El Cóndor <span class="per-tag">@CONDOR</span></p>
+        <p class="per-n">El Cóndor</p>
         <p class="per-d">El testigo cobarde. Adidas azul y cadena de oro. Sus datos son siempre truchos.</p>
       </figcaption>
     </figure>
@@ -746,7 +751,7 @@
     <figure class="per reveal d1">
       <img src="assets/cdbi/per-pili.webp" alt="Pili, chica de 13 años, pelo rubio largo y pecas, buzo verde oscuro" width="560" height="996" loading="lazy" decoding="async">
       <figcaption>
-        <p class="per-n">Pili, 13 <span class="per-tag">@pili</span></p>
+        <p class="per-n">Pili, 13</p>
         <p class="per-d">La única que no proyecta al Sapo. Su quietud es lo más aterrador del plano.</p>
       </figcaption>
     </figure>
@@ -754,7 +759,7 @@
     <figure class="per reveal d2">
       <img src="assets/cdbi/per-joel.webp" alt="Joel, chico de 12 años con camiseta de Boca, frenando de rodillas sobre el piso mojado del bingo" width="560" height="996" loading="lazy" decoding="async">
       <figcaption>
-        <p class="per-n">Joel, 12 <span class="per-tag">@Joel</span></p>
+        <p class="per-n">Joel, 12</p>
         <p class="per-d">El auditor. Cuenta faltas con los dedos. Camiseta Parmalat del 98.</p>
       </figcaption>
     </figure>
@@ -772,7 +777,7 @@
     <figure class="per reveal d2">
       <img src="assets/cdbi/per-sapo.webp" alt="El Sapo, criatura anfibia con implantes mecánicos, emergiendo del agua del Riachuelo" width="560" height="996" loading="lazy" decoding="async">
       <figcaption>
-        <p class="per-n">El Sapo <span class="per-tag">@sapo</span></p>
+        <p class="per-n">El Sapo</p>
         <p class="per-d">La proyección. No se muestra entero ni se confirma nunca: es lo que cada uno ve.</p>
       </figcaption>
     </figure>
@@ -785,61 +790,48 @@
   <h2 class="reveal">De la animación tradicional al blockout 3D y la IA generativa</h2>
   <div class="prosa">
     <p class="reveal d1">
-      Cada personaje pasa por tres estados antes de existir en pantalla. La
-      <strong>lámina de diseño</strong> fija cómo es: turnaround, paleta, prendas, expresiones. De
-      esa misma lámina sale el <strong>proxy de blocking</strong>, una malla 3D que no sirve para
-      renderizar pero sí para bloquear cámara y medir alturas. Y el <strong>plano</strong> se genera
-      con la lámina como referencia y el proxy como layout.
+      Una pieza por etapa. Cada plano de la serie pasa por todas: se diseña a mano, se bloquea en
+      3D para fijar escala y cámara, se dibuja en storyboard y recién después se genera.
     </p>
   </div>
 
-  <article class="proc-fila reveal">
-    <div class="proc-head">
-      <h3>El Cóndor</h3>
-      <p>Uniforme Adidas y cadena: la lámina lo blinda para que no mute entre planos.</p>
-    </div>
-    <div class="proc-grid">
-      <figure class="pl-lamina">
-        <p class="proc-k"><b>01</b>Lámina de diseño</p>
-        <img src="assets/cdbi/pro-condor-lamina.webp" alt="Lámina de diseño de personaje de El Cóndor: vistas de frente, perfil y espalda, paleta de color, expresiones y desglose de vestuario" width="1040" height="585" loading="lazy" decoding="async">
-      </figure>
-      <figure class="pl-proxy">
-        <p class="proc-k"><b>02</b>Proxy de blocking · 4 vistas</p>
-        <img src="assets/cdbi/pro-condor-proxy.webp" alt="Malla 3D de proxy de El Cóndor vista desde cuatro ángulos sobre fondo negro" width="1240" height="310" loading="lazy" decoding="async">
-      </figure>
-      <figure class="pl-plano">
-        <p class="proc-k"><b>03</b>Plano generado</p>
-        <div class="marco"><img src="assets/cdbi/per-condor.webp" alt="Plano final de El Cóndor en un pasillo de noche, con anteojos oscuros y cadena de oro" width="560" height="996" loading="lazy" decoding="async"></div>
-      </figure>
-    </div>
-  </article>
+  <div class="piezas">
+    <figure class="pieza reveal">
+      <p class="pieza-k"><b>01</b>Diseño de personaje</p>
+      <img src="assets/cdbi/pro-condor-lamina.webp" alt="Lámina de diseño de El Cóndor: vistas de frente, perfil y espalda, paleta, expresiones y desglose de vestuario" width="1040" height="585" loading="lazy" decoding="async">
+      <p class="pieza-d">Turnaround, paleta, prendas y expresiones. Es la referencia que después entra a generación.</p>
+    </figure>
 
-  <article class="proc-fila reveal">
-    <div class="proc-head">
-      <h3>Pili</h3>
-      <p>El buzo talle adulto y la marca en el cuello izquierdo son constantes de canon: si se pierden, no es ella.</p>
-    </div>
-    <div class="proc-grid">
-      <figure class="pl-lamina">
-        <p class="proc-k"><b>01</b>Lámina de diseño</p>
-        <img src="assets/cdbi/pro-pili-lamina.webp" alt="Lámina de diseño de personaje de Pili: turnaround de frente, perfil y espalda, ficha, paleta y estudios de cabeza" width="1040" height="585" loading="lazy" decoding="async">
-      </figure>
-      <figure class="pl-proxy">
-        <p class="proc-k"><b>02</b>Proxy de blocking · 4 vistas</p>
-        <img src="assets/cdbi/pro-pili-proxy.webp" alt="Malla 3D de proxy de Pili vista desde cuatro ángulos sobre fondo negro" width="1240" height="310" loading="lazy" decoding="async">
-      </figure>
-      <figure class="pl-plano">
-        <p class="proc-k"><b>03</b>Plano generado</p>
-        <div class="marco"><img src="assets/cdbi/per-pili.webp" alt="Primer plano de Pili con la cara mojada, mirando fuera de cuadro" width="560" height="996" loading="lazy" decoding="async"></div>
-      </figure>
-    </div>
-  </article>
+    <figure class="pieza reveal d1">
+      <p class="pieza-k"><b>02</b>Diseño de prop</p>
+      <img src="assets/cdbi/proc-prop.webp" alt="Lámina de diseño de la caja del robo, en varias vistas y con desglose de materiales" width="900" height="506" loading="lazy" decoding="async">
+      <p class="pieza-d">La caja del robo. Los objetos que vuelven episodio a episodio tienen su lámina igual que los personajes.</p>
+    </figure>
 
-    <p class="proc-pie reveal">
-    Once mallas de proxy hasta ahora: siete personajes, el gato, la caja del robo, la bici del Viejo
-    y la paloma renga. Salieron de las mismas láminas, con image-to-3D local. No están texturizadas
-    para render ni riggeadas — son volumen para encuadrar.
-  </p>
+    <figure class="pieza reveal d2">
+      <p class="pieza-k"><b>03</b>Locación</p>
+      <img src="assets/cdbi/loc-pizzeria.webp" alt="Exterior de la pizzería de esquina con cartel de neón rojo, en una calle mojada de noche" width="960" height="540" loading="lazy" decoding="async">
+      <p class="pieza-d">La pizzería. Veinte locaciones con lámina propia sostienen la continuidad del barrio.</p>
+    </figure>
+
+    <figure class="pieza reveal">
+      <p class="pieza-k"><b>04</b>Blockout 3D</p>
+      <img src="assets/cdbi/proc-3d.webp" alt="Turnaround 3D de Joel en A-pose con vistas de frente, izquierda, derecha y espalda, más estudios de cabeza" width="900" height="502" loading="lazy" decoding="async">
+      <p class="pieza-d">A-pose y cuatro vistas. Sirve para fijar altura y cámara antes de generar: la escala deja de discutirse.</p>
+    </figure>
+
+    <figure class="pieza reveal d1">
+      <p class="pieza-k"><b>05</b>Storyboard</p>
+      <img src="assets/cdbi/proc-storyboard.webp" alt="Lámina de storyboard de cuatro paneles renderizados en vertical" width="620" height="1094" loading="lazy" decoding="async">
+      <p class="pieza-d">Cuatro paneles por lámina. Acá se resuelve el tono y la luz, que el blockout no resuelve.</p>
+    </figure>
+
+    <figure class="pieza reveal d2">
+      <p class="pieza-k"><b>06</b>Plano generado</p>
+      <img src="assets/cdbi/per-condor.webp" alt="Plano final de El Cóndor en un pasillo de noche, con anteojos oscuros y cadena de oro" width="560" height="996" loading="lazy" decoding="async">
+      <p class="pieza-d">El resultado. Con el diseño como referencia y el layout como guía, el modelo genera encima.</p>
+    </figure>
+  </div>
 </section>
 
 <!-- ── BANDA ─────────────────────────────────────────────────── -->
