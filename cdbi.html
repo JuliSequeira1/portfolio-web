@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Crónicas del Barro Infinito — Julián Sequeira</title>
-  <meta name="description" content="Miniserie animada de 11 episodios: una aventura conurbana con humor negro en Lanús, detrás del Sapo del Riachuelo. Proceso de producción y estado del piloto. Creador y director: Julián Sequeira.">
+  <meta name="description" content="Serie animada para YouTube: una aventura conurbana con humor negro en Lanús, detrás del Sapo del Riachuelo. Proceso de producción y estado del piloto EP00. Creador y director: Julián Sequeira.">
   <link rel="canonical" href="https://julisequeira.com/cdbi.html">
   <meta property="og:type"        content="video.tv_show">
   <meta property="og:url"         content="https://julisequeira.com/cdbi.html">
@@ -109,31 +109,17 @@
       margin-top: 34px;
     }
 
-    /* ─── HERO: tríptico vertical ────────────────────────────────
-       La serie es 9:16. Un póster apaisado la desmiente en el primer
-       scroll, así que el hero son tres verticales y el del medio abre
-       el trailer. En pantalla chica quedan sólo el del medio.
+    /* ─── HERO ───────────────────────────────────────────────────
+       La serie es 16:9 para YouTube, así que el hero abre apaisado.
+       Antes era un tríptico de tres verticales porque el formato
+       previsto era 9:16. El trailer que hay grabado sí es vertical y
+       el reproductor lo respeta: se abre en 9:16.
        ─────────────────────────────────────────────────────────── */
-    .hero {
-      padding: 0 52px 14px;
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr) minmax(0, 1fr);
-      gap: 14px;
-      align-items: stretch;
-    }
-    .hero > * { min-height: 0; }
-    .hero-lado { position: relative; overflow: hidden; background: #141414; }
-    .hero-lado img {
-      position: absolute; inset: 0;
-      width: 100%; height: 100%; object-fit: cover;
-      filter: brightness(.66) saturate(.9);
-      transition: filter .5s var(--ease-out);
-    }
-    .hero-lado:hover img { filter: brightness(.9) saturate(1); }
+    .hero { padding: 0 52px 14px; }
 
     .trailer {
       position: relative; overflow: hidden;
-      aspect-ratio: 9/16; background: #141414;
+      aspect-ratio: 16/9; background: #141414;
       cursor: pointer; width: 100%;
       border: 0; padding: 0; display: block;
     }
@@ -149,13 +135,11 @@
       transition: width .5s var(--ease-out);
     }
     .trailer:hover::after, .trailer:focus-visible::after { width: 100%; }
-    /* El play va abajo, no al centro: al centro le tapa el logo a la carátula.
-       En columna, justify-content es el eje vertical. */
     .trailer-play {
       position: absolute; inset: 0; z-index: 2;
       display: flex; flex-direction: column;
-      align-items: center; justify-content: flex-end;
-      gap: 14px; padding-bottom: 9%;
+      align-items: center; justify-content: center;
+      gap: 14px;
     }
     .play-aro {
       width: 78px; height: 78px; border-radius: 50%;
@@ -399,9 +383,7 @@
     }
 
     @media (max-width: 860px) {
-      .hero { grid-template-columns: minmax(0, 1fr); }
-      .hero-lado { display: none; }
-      .trailer { aspect-ratio: 3/4; }
+      .trailer { aspect-ratio: 4/3; }
       /* Apilado: el plano vuelve a su relación nativa en vez de estirarse. */
       .proc-grid { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto; }
       .pl-lamina, .pl-proxy, .pl-plano { grid-area: auto; }
@@ -556,7 +538,7 @@
         "@id": "https://julisequeira.com/cdbi.html#page",
         "url": "https://julisequeira.com/cdbi.html",
         "name": "Crónicas del Barro Infinito — Julián Sequeira",
-        "description": "Miniserie animada vertical: 11 episodios de aventura conurbana en un Lanús estilo Satoshi Kon. El proceso completo — lámina de diseño, blocking 3D y plano generado. Creador y director: Julián Sequeira.",
+        "description": "Serie animada para YouTube: una aventura conurbana en un Lanús estilo Satoshi Kon. El proceso completo — lámina de diseño, blocking 3D y plano generado. Creador y director: Julián Sequeira.",
         "isPartOf": {
           "@id": "https://julisequeira.com/#website"
         },
@@ -574,7 +556,7 @@
         "@id": "https://julisequeira.com/#cdbi",
         "name": "Crónicas del Barro Infinito",
         "url": "https://julisequeira.com/cdbi.html",
-        "description": "Miniserie animada vertical de 11 episodios (EP00 doble + 10 de 90 a 140 segundos, 9:16). Aventura conurbana con humor negro y horror de proyección, ambientada en un Lanús de estética Satoshi Kon. Producida con un pipeline de IA generativa dirigido plano por plano: lámina de diseño, blockout 3D de proxies y generación de video.",
+        "description": "Serie animada para YouTube en 16:9, de duración flexible. Aventura conurbana con humor negro y horror de proyección, ambientada en un Lanús de estética Satoshi Kon. Piloto EP00 en desarrollo, producido con un pipeline de IA generativa dirigido plano por plano: lámina de diseño, blockout 3D de proxies y generación de video.",
         "alternateName": "CDBI",
         "genre": [
           "Animación",
@@ -582,8 +564,6 @@
           "Comedia negra",
           "Horror psicológico"
         ],
-        "numberOfEpisodes": 11,
-        "numberOfSeasons": 1,
         "inLanguage": "es",
         "countryOfOrigin": {
           "@type": "Country",
@@ -611,14 +591,14 @@
         "trailer": {
           "@id": "https://julisequeira.com/#cdbi-trailer"
         },
-        "keywords": "animación vertical, serie vertical, anime argentino, Lanús, conurbano, Satoshi Kon, IA generativa, Seedance, blockout 3D, previs",
+        "keywords": "animación argentina, anime argentino, Lanús, conurbano, Satoshi Kon, IA generativa, Seedance, blockout 3D, previs",
         "creativeWorkStatus": "En producción"
       },
       {
         "@type": "VideoObject",
         "@id": "https://julisequeira.com/#cdbi-trailer",
         "name": "Crónicas del Barro Infinito — Trailer",
-        "description": "Trailer de la miniserie animada vertical Crónicas del Barro Infinito.",
+        "description": "Trailer de la serie animada Crónicas del Barro Infinito.",
         "thumbnailUrl": "https://julisequeira.com/assets/cdbi/og.jpg",
         "uploadDate": "2026-06-03T08:40:46-07:00",
         "duration": "PT2M6S",
@@ -660,7 +640,7 @@
 
 <!-- ── ENCABEZADO ────────────────────────────────────────────── -->
 <header>
-  <p class="kicker">Miniserie animada · Creador &amp; Director</p>
+  <p class="kicker">Serie animada · Creador &amp; Director</p>
   <h1>Crónicas del Barro Infinito</h1>
   <p class="logline">
     Dos hermanos huérfanos y su tío chanta bajan al fondo del Riachuelo detrás de un mapa
@@ -670,16 +650,10 @@
 
 <!-- ── HERO / TRAILER ────────────────────────────────────────── -->
 <div class="hero">
-  <figure class="hero-lado">
-    <img src="assets/cdbi/hero-izq.webp"
-         alt="El Riachuelo de noche con un tornado sobre el agua y una figura sola en la baranda"
-         width="720" height="1280" decoding="async">
-  </figure>
-
   <button class="trailer" type="button" data-yt="HgpCC7Lzq_Q" aria-label="Reproducir el trailer de Crónicas del Barro Infinito">
-    <img src="assets/cdbi/hero-caratula.webp"
-         alt="Carátula de Crónicas del Barro Infinito: el logo pincelado sobre una vista aérea nocturna de Lanús"
-         width="900" height="1600" fetchpriority="high" decoding="async">
+    <img src="assets/cdbi/loc-estacion.webp"
+         alt="La estación de Lanús de noche bajo la lluvia, con el mural del Sapo sobre una medianera"
+         width="960" height="540" fetchpriority="high" decoding="async">
     <span class="trailer-play">
       <span class="play-aro">
         <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><polygon points="4,2 14,8 4,14"/></svg>
@@ -687,18 +661,12 @@
       <span class="play-lbl">Ver trailer</span>
     </span>
   </button>
-
-  <figure class="hero-lado">
-    <img src="assets/cdbi/hero-der.webp"
-         alt="El Cóndor y Pepe en la pizzería, con el mapa del Riachuelo desplegado sobre la mesa"
-         width="720" height="1280" decoding="async">
-  </figure>
 </div>
 <!-- ── FICHA ─────────────────────────────────────────────────── -->
 <section id="ficha" aria-label="Ficha técnica">
   <div class="ficha-grid">
-    <div><p class="ficha-k">Formato</p><p class="ficha-v">11 episodios + short pieces</p></div>
-    <div><p class="ficha-k">Duración</p><p class="ficha-v">~6 min por episodio · shorts de 90–140 s</p></div>
+    <div><p class="ficha-k">Formato</p><p class="ficha-v">Serie para YouTube · 16:9</p></div>
+    <div><p class="ficha-k">Duración</p><p class="ficha-v">Flexible por episodio</p></div>
     <div><p class="ficha-k">Género</p><p class="ficha-v">Aventura · humor negro · horror de proyección</p></div>
     <div><p class="ficha-k">Locación</p><p class="ficha-v">Lanús, conurbano bonaerense</p></div>
   </div>
@@ -845,17 +813,17 @@
 <!-- ── ESTADO ────────────────────────────────────────────────── -->
 <section class="sec" id="estado">
   <p class="sec-k">Estado de producción</p>
-  <h2 class="reveal">En desarrollo: el piloto del episodio 1</h2>
+  <h2 class="reveal">En desarrollo: el piloto EP00</h2>
 
   <div class="nums">
-    <div class="reveal"><p class="num">11</p><p class="num-l">Episodios escritos</p></div>
+    <div class="reveal"><p class="num">11</p><p class="num-l">Episodios escaletados</p></div>
     <div class="reveal d1"><p class="num">347</p><p class="num-l">Tomas de voz</p></div>
     <div class="reveal d2"><p class="num">269</p><p class="num-l">Música y SFX originales</p></div>
   </div>
 
   <p class="nota-pie reveal d2">
-    La biblia y los storyboards de la temporada están cerrados. Hoy el trabajo está en el piloto
-    del episodio 1.
+    La biblia está cerrada y la escaleta de temporada funciona como mapa de continuidad. Hoy el
+    trabajo está en el piloto EP00 y su storyboard.
   </p>
 </section>
 
