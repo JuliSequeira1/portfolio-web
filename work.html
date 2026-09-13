@@ -9,7 +9,7 @@
   <meta property="og:type"        content="website">
   <meta property="og:url"         content="https://julisequeira.com/work.html">
   <meta property="og:title"       content="Trabajos — Julián Sequeira">
-  <meta property="og:description" content="Trabajo seleccionado — dirección, animación, IA generativa. NBC/Peacock · Konami · Emmy 2024.">
+  <meta property="og:description" content="Trabajo seleccionado — dirección, animación, IA generativa. NBC/Peacock · Konami · Silent Hill: Ascension, Emmy 2024.">
   <meta property="og:image"       content="https://julisequeira.com/assets/julian-og.jpg">
   <meta name="twitter:card"       content="summary_large_image">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%230A0A0A'/%3E%3Ctext x='32' y='45' font-family='Arial,sans-serif' font-size='28' font-weight='900' fill='%23F4F2EE' text-anchor='middle'%3EJS%3C/text%3E%3Ccircle cx='52' cy='14' r='5' fill='%23CC0A2A'/%3E%3C/svg%3E">
@@ -98,7 +98,7 @@
     }
     .page-title {
       font-family: 'Satoshi', sans-serif; font-weight: 900;
-      font-size: clamp(72px, 14vw, 180px); line-height: .88;
+      font-size: clamp(40px, 13vw, 180px); line-height: .88;
       letter-spacing: -.03em; text-transform: uppercase;
     }
     .page-meta { text-align: right; padding-bottom: 10px; }
@@ -126,23 +126,33 @@
       background: var(--ink); color: var(--bg); border-color: var(--ink);
     }
 
-    /* ─── MAIN GRID ──────────────────────────────────────────── */
+    /* ─── CATÁLOGO ───────────────────────────────────────────── */
     #grid-section { padding: 52px 52px 80px; }
 
+    /* Resto del catálogo, con dos formatos. Columnas CSS y no grid: una
+       grilla obliga a compartir alto a todas las tarjetas de una fila,
+       y ahí el 9:16 se pierde. El costo es que el reparto por altura
+       decide qué obra encabeza cada columna: por eso las cinco de la
+       selección no viven acá sino en .sel, con orden explícito. */
     .work-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 24px;
+      column-count: 3;
+      column-gap: 24px;
     }
-    @media (max-width: 1000px) { .work-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-    @media (max-width: 600px)  { .work-grid { grid-template-columns: 1fr; } }
+    @media (max-width: 1000px) { .work-grid { column-count: 2; } }
+    @media (max-width: 600px)  { .work-grid { column-count: 1; } }
 
     .work-item {
       position: relative; display: block; overflow: hidden;
       aspect-ratio: 16/10; background: #e0ddd8;
       cursor: pointer; text-decoration: none;
       transition: opacity .3s;
+      break-inside: avoid;
+      margin-bottom: 24px;
     }
+    /* Reels y piezas verticales. El thumbnail de YouTube trae el frame
+       9:16 centrado dentro de un 16:9 con relleno borroso al costado:
+       recortar a 9:16 se queda justo con el frame y descarta el relleno. */
+    .work-item.vertical { aspect-ratio: 9/16; }
     .work-item.hidden { display: none; }
 
     .work-item img,
@@ -157,7 +167,8 @@
     .work-item-meta {
       position: absolute; bottom: 0; left: 0; right: 0;
       padding: 16px 20px;
-      background: linear-gradient(to top, rgba(10,10,10,.88) 0%, transparent 100%);
+      /* Ver index.html: el degradado tiene que aguantar tres líneas. */
+      background: linear-gradient(to top, rgba(10,10,10,.94) 0%, rgba(10,10,10,.80) 52%, transparent 100%);
       transform: translateY(4px); transition: transform .4s;
     }
     .work-item:hover .work-item-meta { transform: translateY(0); }
@@ -165,6 +176,16 @@
     .item-cat  { font-size: 9px; letter-spacing: .16em; text-transform: uppercase; color: var(--on-dark); margin-bottom: 3px; }
     .item-name { font-family: 'Satoshi', sans-serif; font-size: 16px; font-weight: 800; color: var(--cream); letter-spacing: -.01em; }
     .item-client { font-size: 11px; color: var(--on-dark-soft); margin-top: 2px; }
+
+    /* Los dos proyectos propios en curso: la tarjeta lo dice. */
+    .item-flag {
+      position: absolute; top: 14px; left: 14px; z-index: 3;
+      font-family: 'Satoshi', sans-serif;
+      font-size: 9px; font-weight: 700;
+      letter-spacing: .16em; text-transform: uppercase;
+      color: var(--cream); background: var(--red);
+      padding: 4px 9px;
+    }
 
     .item-ext {
       position: absolute; top: 14px; right: 14px;
@@ -180,68 +201,42 @@
     .work-item:focus-visible .item-ext { opacity: 1; }
     .item-ext:hover { background: var(--cream); color: var(--ink); }
 
-    /* ─── AI VERTICAL SECTION ────────────────────────────────── */
-    #ai-section {
-      padding: 80px 52px;
+    /* ─── SELECCIÓN ─────────────────────────────────────────────
+       Las cinco obras que abren el catálogo, con un orden que no
+       depende de la altura de nadie: grid explícito, no columnas.
+       Dinopops, Silent Hill y La Noche; debajo CDBI y Flama a la par.
+       Son tarjetas del catálogo, no copias, y obedecen los mismos
+       filtros: una fila vacía, o la selección entera, se oculta. */
+    .sel { display: grid; gap: 24px; }
+    .sel-fila { display: grid; gap: 24px; }
+    .sel-principal { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .sel-curso     { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .sel-fila > .work-item { margin-bottom: 0; }
+    /* El par va en 2:1, como en la portada, para que se lea como banda
+       debajo de las tres. Flama tiene las cabezas contra el borde de
+       arriba, así que el recorte sale de abajo. */
+    .sel-curso > .work-item { aspect-ratio: 2 / 1; }
+    .sel .encuadre-arriba > img { object-position: 50% 0%; }
+
+    /* El atributo hidden solo no alcanza: display:grid le gana. */
+    .sel[hidden], .sel-fila[hidden], .work-grid[hidden] { display: none; }
+
+    /* Una línea entre la selección y el resto, sólo si están las dos. */
+    .sel:not([hidden]) + .work-grid:not([hidden]) {
+      margin-top: 48px; padding-top: 48px;
       border-top: 1px solid var(--border);
     }
-    .ai-header { margin-bottom: 52px; }
-    .ai-tag { font-size: 10px; letter-spacing: .22em; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
-    .ai-title {
-      font-family: 'Satoshi', sans-serif; font-weight: 900;
-      font-size: clamp(36px, 5vw, 64px); text-transform: uppercase; line-height: 1;
-      letter-spacing: -.02em;
-    }
-    .ai-desc { margin-top: 16px; font-size: 15px; font-weight: 300; line-height: 1.7; color: var(--dim); max-width: 520px; }
 
-    /* Vertical grid — 9:16 cards */
-    .ai-grid {
-      display: grid;
-      grid-template-columns: repeat(5, minmax(0, 1fr));
-      gap: 16px;
+    @media (max-width: 1000px) {
+      .sel-principal { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      /* Con las tres a la vista, Dinopops toma el ancho y Silent Hill y
+         La Noche quedan a la par: no sobra medio casillero. */
+      .sel-principal[data-visibles="3"] > .work-item:first-child { grid-column: 1 / -1; }
+      .sel-curso > .work-item { aspect-ratio: 16 / 10; }
     }
-    @media (max-width: 1000px) { .ai-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-    @media (max-width: 600px)  { .ai-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-
-    .ai-card {
-      position: relative; display: block; overflow: hidden;
-      aspect-ratio: 9/16; background: #1a1a1a;
-      cursor: pointer; text-decoration: none;
+    @media (max-width: 600px) {
+      .sel-principal, .sel-curso { grid-template-columns: minmax(0, 1fr); }
     }
-    .ai-card img,
-    .ai-card video,
-    .ai-card .ai-grad {
-      width: 100%; height: 100%; object-fit: cover; display: block;
-      transition: transform .7s cubic-bezier(.16,1,.3,1);
-    }
-    .ai-card:hover img,
-    .ai-card:hover video,
-    .ai-card:hover .ai-grad { transform: scale(1.06); }
-
-    .ai-card-meta {
-      position: absolute; bottom: 0; left: 0; right: 0;
-      padding: 14px 16px;
-      background: linear-gradient(to top, rgba(10,10,10,.9) 0%, transparent 100%);
-    }
-    .ai-card-name { font-family: 'Satoshi', sans-serif; font-size: 13px; font-weight: 800; color: var(--cream); letter-spacing: -.01em; }
-    .ai-card-tool { font-size: 9px; letter-spacing: .12em; text-transform: uppercase; color: var(--on-dark-soft); margin-top: 2px; }
-
-    /* YouTube embed on click overlay */
-    .ai-card-play {
-      position: absolute; inset: 0;
-      display: flex; align-items: center; justify-content: center;
-      background: rgba(10,10,10,.3);
-      opacity: 0; transition: opacity .3s;
-    }
-    .ai-card:hover .ai-card-play,
-    .ai-card:focus-visible .ai-card-play { opacity: 1; }
-    .play-icon {
-      width: 52px; height: 52px;
-      border: 1.5px solid rgba(244,242,238,.7); border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      color: var(--cream);
-    }
-    .play-icon svg { margin-left: 3px; }
 
     /* Lightbox for YouTube */
     #lightbox {
@@ -310,11 +305,14 @@
 
     @media (max-width: 700px) {
       :root { --nav-h: 57px; }  /* padding 18+18 + línea 20 + borde 1 */
-      nav, #page-header, #filters, #grid-section, #ai-section, #contact-strip { padding-left: 20px; padding-right: 20px; }
+      nav, #page-header, #filters, #grid-section, #contact-strip { padding-left: 20px; padding-right: 20px; }
       nav { padding-top: 18px; padding-bottom: 18px; }
       .nav-links { gap: 18px; }
       #page-header { flex-direction: column; align-items: flex-start; gap: 20px; padding-top: 120px; }
       .page-meta { text-align: left; }
+      .page-title { word-break: normal; overflow-wrap: anywhere; }
+      #filters { padding-top: 20px; padding-bottom: 20px; gap: 6px; }
+      .filter-btn { padding: 7px 13px; letter-spacing: .06em; }
     }
   </style>
   <!-- ── DATOS ESTRUCTURADOS (generado — no editar a mano) ── -->
@@ -583,7 +581,7 @@
         "@id": "https://julisequeira.com/#flama-squad",
         "name": "Flama Squad",
         "url": "https://julisequeira.com/flama-squad.html",
-        "description": "Serie de comedia dramática urbana. 9 episodios, guiones terminados, piloto filmado. Becas del Fondo Nacional de las Artes y del Fondo Metropolitano de las Artes, 2022.",
+        "description": "Serie de comedia dramática urbana. 9 episodios y biblia escritos y registrados. Opening, trailer y escenas sueltas filmados; proyecto por continuar. Becas del Fondo Nacional de las Artes y del Fondo Metropolitano de las Artes, 2022.",
         "numberOfEpisodes": 9,
         "inLanguage": "es",
         "countryOfOrigin": {
@@ -611,15 +609,13 @@
         "name": "Crónicas del Barro Infinito",
         "alternateName": "CDBI",
         "url": "https://julisequeira.com/cdbi.html",
-        "description": "Miniserie animada vertical de 11 episodios (EP00 doble + 10 de 90 a 140 segundos, 9:16). Aventura conurbana con humor negro y horror de proyección, ambientada en un Lanús de estética Satoshi Kon. Producida con un pipeline de IA generativa dirigido plano por plano: lámina de diseño, blockout 3D de proxies y generación de video.",
+        "description": "Serie animada para YouTube en 16:9, de duración flexible. Aventura conurbana con humor negro y horror de proyección, ambientada en un Lanús de estética Satoshi Kon. Piloto EP00 en desarrollo, producido con un pipeline de IA generativa dirigido plano por plano: lámina de diseño, blockout 3D de proxies y generación de video.",
         "genre": [
           "Animación",
           "Aventura",
           "Comedia negra",
           "Horror psicológico"
         ],
-        "numberOfEpisodes": 11,
-        "numberOfSeasons": 1,
         "inLanguage": "es",
         "countryOfOrigin": {
           "@type": "Country",
@@ -647,7 +643,7 @@
         "trailer": {
           "@id": "https://julisequeira.com/#cdbi-trailer"
         },
-        "keywords": "animación vertical, serie vertical, anime argentino, Lanús, conurbano, Satoshi Kon, IA generativa, Seedance, blockout 3D, previs",
+        "keywords": "animación argentina, anime argentino, Lanús, conurbano, Satoshi Kon, IA generativa, Seedance, blockout 3D, previs",
         "creativeWorkStatus": "En producción"
       },
       {
@@ -760,60 +756,214 @@
   <h1 class="page-title">Trabajos</h1>
   <div class="page-meta">
     <p>Proyectos seleccionados</p>
-    <strong>20+</strong>
+    <strong>30</strong>
   </div>
 </header>
 
 <!-- ── FILTERS ───────────────────────────────────────────────── -->
 <div id="filters">
   <button class="filter-btn active" data-filter="all">Todo</button>
-  <button class="filter-btn" data-filter="realizacion">Realización</button>
+  <button class="filter-btn" data-filter="films">Films</button>
   <button class="filter-btn" data-filter="animacion">Animación</button>
   <button class="filter-btn" data-filter="music">Music Video</button>
-  <button class="filter-btn" data-filter="branded">Branded</button>
-  <button class="filter-btn" data-filter="corto">Cortos</button>
+  <button class="filter-btn" data-filter="ia">IA Video</button>
+  <button class="filter-btn" data-filter="comercial">Comercial</button>
   <p id="filtro-estado" class="u-sr-only" role="status" aria-live="polite"></p>
 </div>
 
-<!-- ── WORK GRID ─────────────────────────────────────────────── -->
+<!-- ── CATÁLOGO ──────────────────────────────────────────────── -->
 <section id="grid-section">
-  <div class="work-grid" id="work-grid">
 
-    <!-- Flama Squad — lleva a la ficha del proyecto, no al lightbox -->
-    <a class="work-item reveal" href="flama-squad.html" data-cat="realizacion"
-       aria-label="Ver la ficha del proyecto Flama Squad">
-      <img src="assets/flama/card.webp" alt="Flama Squad" loading="lazy" decoding="async" width="900" height="562">
-      <div class="work-item-meta">
-        <p class="item-cat">Serie · En desarrollo</p>
-        <p class="item-name">Flama Squad</p>
-        <p class="item-client">Creador, guionista y director · 9 episodios</p>
-      </div>
-    </a>
+  <!-- Selección: orden fijo, que no depende de la altura de ninguna tarjeta. -->
+  <div class="sel" data-zona="seleccion">
+    <div class="sel-fila sel-principal" data-zona="principal" data-visibles="3">
+        <div class="work-item reveal" role="button" tabindex="0" data-cat="animacion" onclick="openDailymotion('x8qp5m7')" style="cursor:pointer" aria-label="Ver el trailer de Dinopops">
+          <img src="assets/dinopops.jpg" alt="Dinopops" loading="lazy" decoding="async" onerror="this.style.display='none'; this.parentNode.style.background='linear-gradient(135deg,#0d1b3e,#1a2d5a)';">
+          <a class="item-ext" aria-label="Abrir en IMDb" href="https://www.imdb.com/es-es/video/vi4132946969/?ref_=ext_shr_lnk" target="_blank" rel="noopener" onclick="event.stopPropagation()">&#8599;</a>
+          <div class="work-item-meta">
+            <p class="item-cat">Serie de animación &#183; NBC / Peacock</p>
+            <p class="item-name">Dinopops — Season 1</p>
+            <p class="item-client">Dirección de arte T1 y dirección de 3 episodios &#183; 2020–2023</p>
+          </div>
+        </div>
 
-    <!-- Dinopops — Trailer (Dailymotion) -->
-    <div class="work-item reveal" role="button" tabindex="0" data-cat="animacion" onclick="openDailymotion('x8qp5m7')" style="cursor:pointer">
-      <img src="assets/dinopops.jpg" alt="Dinopops" loading="lazy" decoding="async" onerror="this.style.display='none'; this.parentNode.style.background='linear-gradient(135deg,#0d1b3e,#1a2d5a)';">
-      <a class="item-ext" aria-label="Abrir en IMDb" href="https://www.imdb.com/es-es/video/vi4132946969/?ref_=ext_shr_lnk" target="_blank" rel="noopener" onclick="event.stopPropagation()">&#8599;</a>
+        <div class="work-item reveal" role="button" tabindex="0" data-cat="animacion" onclick="openVideo('TP6R0bC4LYI')" style="cursor:pointer" aria-label="Ver Silent Hill: Ascension">
+          <img src="https://img.youtube.com/vi/TP6R0bC4LYI/maxresdefault.jpg" alt="Silent Hill Ascension" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/TP6R0bC4LYI/hqdefault.jpg';">
+          <a class="item-ext" aria-label="Abrir en YouTube" href="https://youtu.be/TP6R0bC4LYI" target="_blank" rel="noopener" onclick="event.stopPropagation()">&#8599;</a>
+          <div class="work-item-meta">
+            <p class="item-cat">Media interactiva &#183; Emmy 2024</p>
+            <p class="item-name">Silent Hill: Ascension</p>
+            <p class="item-client">Cinematic Artist &#183; Genvid / Senscape / Konami</p>
+          </div>
+        </div>
+
+        <div class="work-item reveal d1" role="button" tabindex="0" data-cat="films" onclick="openVideo('3pr9iIdRLPI')" style="cursor:pointer" aria-label="Ver el cortometraje La Noche">
+          <img src="assets/la-noche/still.webp" alt="Dos personajes en el baño rojo, del cortometraje La Noche" width="1600" height="1054" loading="lazy" decoding="async">
+          <a class="item-ext" aria-label="Abrir en YouTube" href="https://youtu.be/3pr9iIdRLPI" target="_blank" rel="noopener" onclick="event.stopPropagation()">&#8599;</a>
+          <div class="work-item-meta">
+            <p class="item-cat">Cortometraje &#183; 2020</p>
+            <p class="item-name">La Noche</p>
+            <p class="item-client">Guion y dirección</p>
+          </div>
+        </div>
+    </div>
+    <div class="sel-fila sel-curso" data-zona="en-curso" data-visibles="2">
+        <a class="work-item reveal" href="cdbi.html" data-cat="animacion ia"
+           aria-label="Ver el caso de Crónicas del Barro Infinito">
+          <img src="assets/cdbi/loc-riachuelo.webp"
+               alt="El Sapo emergiendo del Riachuelo bajo un tornado, con Lanús de fondo"
+               width="960" height="540" loading="lazy" decoding="async">
+          <span class="item-flag">En desarrollo</span>
+          <div class="work-item-meta">
+            <p class="item-cat">Serie animada &#183; IA generativa</p>
+            <p class="item-name">Crónicas del Barro Infinito</p>
+            <p class="item-client">Creador y director &#183; Piloto EP00</p>
+          </div>
+        </a>
+
+        <a class="work-item encuadre-arriba reveal" href="flama-squad.html" data-cat="films"
+           aria-label="Ver la ficha del proyecto Flama Squad">
+          <img src="assets/flama/card.webp" alt="Flama Squad" loading="lazy" decoding="async" width="900" height="562">
+          <span class="item-flag">En desarrollo</span>
+          <div class="work-item-meta">
+            <p class="item-cat">Serie &#183; Comedia dramática urbana</p>
+            <p class="item-name">Flama Squad</p>
+            <p class="item-client">Creador, guionista y director &#183; 9 episodios</p>
+          </div>
+        </a>
+    </div>
+  </div>
+
+  <!-- Resto del catálogo: formatos mezclados, las verticales en 9:16. -->
+  <div class="work-grid" id="work-grid" data-zona="galeria" data-visibles="25">
+
+    <!-- ── Films ── -->
+
+    <div class="work-item reveal" role="button" tabindex="0" data-cat="films" onclick="openVideo('uikDazoPnsQ')" style="cursor:pointer" aria-label="Ver el cortometraje Blanco">
+      <img src="https://img.youtube.com/vi/uikDazoPnsQ/maxresdefault.jpg" alt="Blanco" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/uikDazoPnsQ/hqdefault.jpg';">
+      <a class="item-ext" aria-label="Abrir en YouTube" href="https://youtu.be/uikDazoPnsQ" target="_blank" rel="noopener" onclick="event.stopPropagation()">&#8599;</a>
       <div class="work-item-meta">
-        <p class="item-cat">Serie de animación · NBC / Peacock</p>
-        <p class="item-name">Dinopops — Season 1</p>
-        <p class="item-client">Art Director &amp; Episode Director · 2020–2023</p>
+        <p class="item-cat">Cortometraje &#183; 2015</p>
+        <p class="item-name">Blanco</p>
+        <p class="item-client">Cortometraje independiente</p>
       </div>
     </div>
 
-    <!-- Silent Hill: Ascension -->
-    <div class="work-item reveal" role="button" tabindex="0" data-cat="animacion realizacion" onclick="openVideo('TP6R0bC4LYI')" style="cursor:pointer">
-      <img src="https://img.youtube.com/vi/TP6R0bC4LYI/maxresdefault.jpg" alt="Silent Hill Ascension" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/TP6R0bC4LYI/hqdefault.jpg';">
-      <a class="item-ext" aria-label="Abrir en YouTube" href="https://youtu.be/TP6R0bC4LYI" target="_blank" rel="noopener" onclick="event.stopPropagation()">&#8599;</a>
+    <!-- ── IA Video · piezas verticales ── -->
+
+    <div class="work-item vertical reveal" role="button" tabindex="0" data-cat="ia comercial" onclick="openVideo('lBcllgcqayI', true)" style="cursor:pointer" aria-label="Ver DHL Project Reel">
+      <img src="https://img.youtube.com/vi/lBcllgcqayI/maxresdefault.jpg" alt="DHL Project Reel" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/lBcllgcqayI/hqdefault.jpg';">
+      <a class="item-ext" aria-label="Abrir en YouTube" href="https://youtu.be/lBcllgcqayI" target="_blank" rel="noopener" onclick="event.stopPropagation()">&#8599;</a>
       <div class="work-item-meta">
-        <p class="item-cat">Media interactiva &#183; Emmy 2024</p>
-        <p class="item-name">Silent Hill: Ascension</p>
-        <p class="item-client">Cinematic Artist · Genvid / Senscape / Konami</p>
+        <p class="item-cat">IA generativa &#183; Comercial</p>
+        <p class="item-name">DHL Project Reel</p>
+        <p class="item-client">DHL</p>
       </div>
     </div>
 
-    <!-- Orquesta Típica La Vidú — Sos Vos -->
-    <div class="work-item reveal d1" role="button" tabindex="0" data-cat="music realizacion" onclick="openVideo('mYHd8dVEmuU')" style="cursor:pointer">
+    <div class="work-item vertical reveal d1" role="button" tabindex="0" data-cat="ia comercial" onclick="openVideo('jpPh71q5s7Q', true)" style="cursor:pointer" aria-label="Ver Eternity">
+      <img src="https://img.youtube.com/vi/jpPh71q5s7Q/maxresdefault.jpg" alt="Eternity" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/jpPh71q5s7Q/hqdefault.jpg';">
+      <a class="item-ext" aria-label="Abrir en YouTube" href="https://youtu.be/jpPh71q5s7Q" target="_blank" rel="noopener" onclick="event.stopPropagation()">&#8599;</a>
+      <div class="work-item-meta">
+        <p class="item-cat">IA generativa &#183; Comercial</p>
+        <p class="item-name">Eternity</p>
+        <p class="item-client">Achalay</p>
+      </div>
+    </div>
+
+    <div class="work-item vertical reveal" role="button" tabindex="0" data-cat="ia comercial" onclick="openVideo('ASxJ6vqDy7Q', true)" style="cursor:pointer" aria-label="Ver Introducing Percent B">
+      <img src="https://img.youtube.com/vi/ASxJ6vqDy7Q/maxresdefault.jpg" alt="Introducing Percent B" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/ASxJ6vqDy7Q/hqdefault.jpg';">
+      <a class="item-ext" aria-label="Abrir en YouTube" href="https://youtu.be/ASxJ6vqDy7Q" target="_blank" rel="noopener" onclick="event.stopPropagation()">&#8599;</a>
+      <div class="work-item-meta">
+        <p class="item-cat">IA generativa &#183; Comercial</p>
+        <p class="item-name">Introducing Percent B</p>
+        <p class="item-client">Percent</p>
+      </div>
+    </div>
+
+    <div class="work-item vertical reveal d1" role="button" tabindex="0" data-cat="ia comercial" onclick="openVideo('UOStWaDhcik', true)" style="cursor:pointer" aria-label="Ver Introducing Percent — Instituciones">
+      <img src="https://img.youtube.com/vi/UOStWaDhcik/maxresdefault.jpg" alt="Introducing Percent Instituciones" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/UOStWaDhcik/hqdefault.jpg';">
+      <a class="item-ext" aria-label="Abrir en YouTube" href="https://youtu.be/UOStWaDhcik" target="_blank" rel="noopener" onclick="event.stopPropagation()">&#8599;</a>
+      <div class="work-item-meta">
+        <p class="item-cat">IA generativa &#183; Institucional</p>
+        <p class="item-name">Introducing Percent</p>
+        <p class="item-client">Percent &#183; Instituciones</p>
+      </div>
+    </div>
+
+    <div class="work-item vertical reveal" role="button" tabindex="0" data-cat="ia comercial" onclick="openVideo('6KLo_sjpYJ8', true)" style="cursor:pointer" aria-label="Ver Achalay — Tu Imperio">
+      <img src="https://img.youtube.com/vi/6KLo_sjpYJ8/maxresdefault.jpg" alt="Achalay tu imperio" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/6KLo_sjpYJ8/hqdefault.jpg';">
+      <a class="item-ext" aria-label="Abrir en YouTube" href="https://youtu.be/6KLo_sjpYJ8" target="_blank" rel="noopener" onclick="event.stopPropagation()">&#8599;</a>
+      <div class="work-item-meta">
+        <p class="item-cat">IA generativa &#183; Comercial</p>
+        <p class="item-name">Achalay — Tu Imperio</p>
+        <p class="item-client">Mercado Libre</p>
+      </div>
+    </div>
+
+    <div class="work-item vertical reveal d1" role="button" tabindex="0" data-cat="ia comercial" onclick="openVideo('_v_7rTlpJy4', true)" style="cursor:pointer" aria-label="Ver Achalay Labs">
+      <img src="https://img.youtube.com/vi/_v_7rTlpJy4/maxresdefault.jpg" alt="Achalay Labs" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/_v_7rTlpJy4/hqdefault.jpg';">
+      <a class="item-ext" aria-label="Abrir en YouTube" href="https://youtu.be/_v_7rTlpJy4" target="_blank" rel="noopener" onclick="event.stopPropagation()">&#8599;</a>
+      <div class="work-item-meta">
+        <p class="item-cat">IA generativa &#183; Comercial</p>
+        <p class="item-name">Achalay Labs</p>
+        <p class="item-client">Achalay &#183; Serie</p>
+      </div>
+    </div>
+
+    <div class="work-item vertical reveal" role="button" tabindex="0" data-cat="ia comercial" onclick="openVideo('M6V-uaWOLlA', true)" style="cursor:pointer" aria-label="Ver Lumilagro Pampa">
+      <img src="https://img.youtube.com/vi/M6V-uaWOLlA/maxresdefault.jpg" alt="Lumilagro Pampa" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/M6V-uaWOLlA/hqdefault.jpg';">
+      <a class="item-ext" aria-label="Abrir en YouTube" href="https://youtu.be/M6V-uaWOLlA" target="_blank" rel="noopener" onclick="event.stopPropagation()">&#8599;</a>
+      <div class="work-item-meta">
+        <p class="item-cat">IA generativa &#183; Comercial</p>
+        <p class="item-name">Lumilagro Pampa</p>
+        <p class="item-client">Lumilagro</p>
+      </div>
+    </div>
+
+    <div class="work-item vertical reveal d1" role="button" tabindex="0" data-cat="ia comercial" onclick="openVideo('AYmWwgo5JMI', true)" style="cursor:pointer" aria-label="Ver Robin Hood">
+      <img src="https://img.youtube.com/vi/AYmWwgo5JMI/maxresdefault.jpg" alt="Robin Hood Mercado Libre" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/AYmWwgo5JMI/hqdefault.jpg';">
+      <a class="item-ext" aria-label="Abrir en YouTube" href="https://youtu.be/AYmWwgo5JMI" target="_blank" rel="noopener" onclick="event.stopPropagation()">&#8599;</a>
+      <div class="work-item-meta">
+        <p class="item-cat">IA generativa &#183; Comercial</p>
+        <p class="item-name">Robin Hood</p>
+        <p class="item-client">Mercado Libre</p>
+      </div>
+    </div>
+
+    <div class="work-item vertical reveal" role="button" tabindex="0" data-cat="ia comercial" onclick="openVideo('TFvCVGJ1y9Q', true)" style="cursor:pointer" aria-label="Ver Beza Reel">
+      <img src="https://img.youtube.com/vi/TFvCVGJ1y9Q/maxresdefault.jpg" alt="Beza Reel" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/TFvCVGJ1y9Q/hqdefault.jpg';">
+      <a class="item-ext" aria-label="Abrir en YouTube" href="https://youtu.be/TFvCVGJ1y9Q" target="_blank" rel="noopener" onclick="event.stopPropagation()">&#8599;</a>
+      <div class="work-item-meta">
+        <p class="item-cat">IA generativa &#183; Comercial</p>
+        <p class="item-name">Beza Reel</p>
+        <p class="item-client">Beza</p>
+      </div>
+    </div>
+
+    <div class="work-item vertical reveal d1" role="button" tabindex="0" data-cat="ia comercial" onclick="openVideo('DYBKDHaaN6o', true)" style="cursor:pointer" aria-label="Ver Lucky Energy AD#2">
+      <img src="https://img.youtube.com/vi/DYBKDHaaN6o/maxresdefault.jpg" alt="Lucky Energy Drink AD2" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/DYBKDHaaN6o/hqdefault.jpg';">
+      <a class="item-ext" aria-label="Abrir en YouTube" href="https://youtu.be/DYBKDHaaN6o" target="_blank" rel="noopener" onclick="event.stopPropagation()">&#8599;</a>
+      <div class="work-item-meta">
+        <p class="item-cat">IA generativa &#183; Comercial</p>
+        <p class="item-name">Lucky Energy — AD#2</p>
+        <p class="item-client">Lucky Energy</p>
+      </div>
+    </div>
+
+    <div class="work-item vertical reveal" role="button" tabindex="0" data-cat="ia comercial" onclick="openVideo('DsoQZRnMCAk', true)" style="cursor:pointer" aria-label="Ver Lucky Energy AD#1">
+      <img src="https://img.youtube.com/vi/DsoQZRnMCAk/maxresdefault.jpg" alt="Lucky Energy Drink AD1" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/DsoQZRnMCAk/hqdefault.jpg';">
+      <a class="item-ext" aria-label="Abrir en YouTube" href="https://youtu.be/DsoQZRnMCAk" target="_blank" rel="noopener" onclick="event.stopPropagation()">&#8599;</a>
+      <div class="work-item-meta">
+        <p class="item-cat">IA generativa &#183; Comercial</p>
+        <p class="item-name">Lucky Energy — AD#1</p>
+        <p class="item-client">Lucky Energy</p>
+      </div>
+    </div>
+
+    <!-- ── Music Video ── -->
+
+    <div class="work-item reveal d1" role="button" tabindex="0" data-cat="music" onclick="openVideo('mYHd8dVEmuU')" style="cursor:pointer" aria-label="Ver Sos Vos, de Orquesta Típica La Vidú">
       <img src="https://img.youtube.com/vi/mYHd8dVEmuU/maxresdefault.jpg" alt="La Vidú — Sos Vos" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/mYHd8dVEmuU/hqdefault.jpg';">
       <a class="item-ext" aria-label="Abrir en YouTube" href="https://youtu.be/mYHd8dVEmuU" target="_blank" rel="noopener" onclick="event.stopPropagation()">&#8599;</a>
       <div class="work-item-meta">
@@ -823,19 +973,7 @@
       </div>
     </div>
 
-    <!-- Blanco (cortometraje) -->
-    <div class="work-item reveal" role="button" tabindex="0" data-cat="corto realizacion" onclick="openVideo('uikDazoPnsQ')" style="cursor:pointer">
-      <img src="https://img.youtube.com/vi/uikDazoPnsQ/maxresdefault.jpg" alt="Blanco" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/uikDazoPnsQ/hqdefault.jpg';">
-      <a class="item-ext" aria-label="Abrir en YouTube" href="https://youtu.be/uikDazoPnsQ" target="_blank" onclick="event.stopPropagation()">&#8599;</a>
-      <div class="work-item-meta">
-        <p class="item-cat">Cortometraje &#183; 2015</p>
-        <p class="item-name">Blanco</p>
-        <p class="item-client">Cortometraje independiente</p>
-      </div>
-    </div>
-
-    <!-- Tortu aka O.d.d.M — Salgo a Caminar -->
-    <div class="work-item reveal d1" role="button" tabindex="0" data-cat="music realizacion" onclick="openVideo('0dOVfSLxZj8')" style="cursor:pointer">
+    <div class="work-item reveal d1" role="button" tabindex="0" data-cat="music" onclick="openVideo('0dOVfSLxZj8')" style="cursor:pointer" aria-label="Ver Salgo a Caminar, de Tortu aka O.d.d.M">
       <img src="https://img.youtube.com/vi/0dOVfSLxZj8/maxresdefault.jpg" alt="Tortu Salgo a Caminar" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/0dOVfSLxZj8/hqdefault.jpg';">
       <a class="item-ext" aria-label="Abrir en YouTube" href="https://youtu.be/0dOVfSLxZj8" target="_blank" rel="noopener" onclick="event.stopPropagation()">&#8599;</a>
       <div class="work-item-meta">
@@ -845,329 +983,113 @@
       </div>
     </div>
 
-    <!-- La Noche -->
-    <div class="work-item reveal d1" role="button" tabindex="0" data-cat="corto realizacion" onclick="openVideo('3pr9iIdRLPI')" style="cursor:pointer">
-      <img src="https://img.youtube.com/vi/3pr9iIdRLPI/maxresdefault.jpg" alt="La Noche" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/3pr9iIdRLPI/hqdefault.jpg';">
-      <a class="item-ext" aria-label="Abrir en YouTube" href="https://youtu.be/3pr9iIdRLPI" target="_blank" onclick="event.stopPropagation()">↗</a>
-      <div class="work-item-meta">
-        <p class="item-cat">Cortometraje · Dirección &amp; Cinematografía</p>
-        <p class="item-name">La Noche</p>
-        <p class="item-client">Proyecto personal</p>
-      </div>
-    </div>
-
-    <!-- DANEST - Ataraxia -->
-    <div class="work-item reveal d1" role="button" tabindex="0" data-cat="music realizacion" onclick="openVideo('6ePPkhRv6hU')" style="cursor:pointer">
+    <div class="work-item reveal d1" role="button" tabindex="0" data-cat="music" onclick="openVideo('6ePPkhRv6hU')" style="cursor:pointer" aria-label="Ver Ataraxia, de DANEST">
       <img src="https://img.youtube.com/vi/6ePPkhRv6hU/maxresdefault.jpg" alt="DANEST Ataraxia" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/6ePPkhRv6hU/hqdefault.jpg';">
-      <a class="item-ext" aria-label="Abrir en YouTube" href="https://youtu.be/6ePPkhRv6hU" target="_blank" onclick="event.stopPropagation()">↗</a>
+      <a class="item-ext" aria-label="Abrir en YouTube" href="https://youtu.be/6ePPkhRv6hU" target="_blank" rel="noopener" onclick="event.stopPropagation()">&#8599;</a>
       <div class="work-item-meta">
-        <p class="item-cat">Music Video · Dirección</p>
+        <p class="item-cat">Music Video &#183; Dirección</p>
         <p class="item-name">DANEST — Ataraxia</p>
         <p class="item-client">Videoclip oficial</p>
       </div>
     </div>
 
-    <!-- Flama Session #2 -->
-    <div class="work-item reveal" role="button" tabindex="0" data-cat="music realizacion" onclick="openVideo('Geq9oHiW6Ew')" style="cursor:pointer">
-      <img src="https://img.youtube.com/vi/Geq9oHiW6Ew/maxresdefault.jpg" alt="Flama Session 2" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/Geq9oHiW6Ew/hqdefault.jpg';">
-      <a class="item-ext" aria-label="Abrir en YouTube" href="https://youtu.be/Geq9oHiW6Ew" target="_blank" onclick="event.stopPropagation()">↗</a>
-      <div class="work-item-meta">
-        <p class="item-cat">Music Video · Live Session</p>
-        <p class="item-name">Flama Session #2 — El Llamado</p>
-        <p class="item-client">Devak 24</p>
-      </div>
-    </div>
-
-    <!-- El Loco -->
-    <div class="work-item reveal d1" role="button" tabindex="0" data-cat="music realizacion" onclick="openVideo('jPyB0l5RumI')" style="cursor:pointer">
+    <div class="work-item reveal d1" role="button" tabindex="0" data-cat="music" onclick="openVideo('jPyB0l5RumI')" style="cursor:pointer" aria-label="Ver El Loco, de Danest y DLS">
       <img src="https://img.youtube.com/vi/jPyB0l5RumI/maxresdefault.jpg" alt="El Loco" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/jPyB0l5RumI/hqdefault.jpg';">
-      <a class="item-ext" aria-label="Abrir en YouTube" href="https://youtu.be/jPyB0l5RumI" target="_blank" onclick="event.stopPropagation()">↗</a>
+      <a class="item-ext" aria-label="Abrir en YouTube" href="https://youtu.be/jPyB0l5RumI" target="_blank" rel="noopener" onclick="event.stopPropagation()">&#8599;</a>
       <div class="work-item-meta">
-        <p class="item-cat">Music Video · Dirección</p>
+        <p class="item-cat">Music Video &#183; Dirección</p>
         <p class="item-name">El Loco</p>
         <p class="item-client">Danest × DLS</p>
       </div>
     </div>
 
-    <!-- Flama Session #1 -->
-    <div class="work-item reveal" role="button" tabindex="0" data-cat="music realizacion" onclick="openVideo('4-27j0gQU7M')" style="cursor:pointer">
-      <img src="https://img.youtube.com/vi/4-27j0gQU7M/maxresdefault.jpg" alt="Flama Sessions 1" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/4-27j0gQU7M/hqdefault.jpg';">
-      <a class="item-ext" aria-label="Abrir en YouTube" href="https://youtu.be/4-27j0gQU7M" target="_blank" onclick="event.stopPropagation()">↗</a>
-      <div class="work-item-meta">
-        <p class="item-cat">Music Video · Live Session</p>
-        <p class="item-name">Flama Sessions #1 — Luz</p>
-        <p class="item-client">Ekiz Tono × DJ Xolarz</p>
-      </div>
-    </div>
-
-    <!-- Ekiz Tono - Luz (clip) -->
-    <div class="work-item reveal d1" role="button" tabindex="0" data-cat="music realizacion" onclick="openVideo('BVOOO6w-Fd0')" style="cursor:pointer">
-      <img src="https://img.youtube.com/vi/BVOOO6w-Fd0/maxresdefault.jpg" alt="Luz" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/BVOOO6w-Fd0/hqdefault.jpg';">
-      <a class="item-ext" aria-label="Abrir en YouTube" href="https://youtu.be/BVOOO6w-Fd0" target="_blank" onclick="event.stopPropagation()">↗</a>
-      <div class="work-item-meta">
-        <p class="item-cat">Music Video · Dirección</p>
-        <p class="item-name">Luz</p>
-        <p class="item-client">Ekiz Tono × DJ Xolarz</p>
-      </div>
-    </div>
-
-
-    <!-- Argentina Tango Rap - Blin Blin -->
-    <div class="work-item reveal d1" role="button" tabindex="0" data-cat="music realizacion" onclick="openVideo('lkylingO3Zk')" style="cursor:pointer">
-      <img src="https://img.youtube.com/vi/lkylingO3Zk/maxresdefault.jpg" alt="Blin Blin Caja" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/lkylingO3Zk/hqdefault.jpg';">
-      <a class="item-ext" aria-label="Abrir en YouTube" href="https://youtu.be/lkylingO3Zk" target="_blank" onclick="event.stopPropagation()">↗</a>
-      <div class="work-item-meta">
-        <p class="item-cat">Music Video · Dirección</p>
-        <p class="item-name">Blin Blin Caja</p>
-        <p class="item-client">Argentina Tango Rap</p>
-      </div>
-    </div>
-
-    <!-- Atrapado -->
-    <div class="work-item reveal" role="button" tabindex="0" data-cat="music realizacion" onclick="openVideo('YOj04CEXjJI')" style="cursor:pointer">
-      <img src="https://img.youtube.com/vi/YOj04CEXjJI/maxresdefault.jpg" alt="Atrapado" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/YOj04CEXjJI/hqdefault.jpg';">
-      <a class="item-ext" aria-label="Abrir en YouTube" href="https://youtu.be/YOj04CEXjJI" target="_blank" onclick="event.stopPropagation()">↗</a>
-      <div class="work-item-meta">
-        <p class="item-cat">Music Video · Dirección</p>
-        <p class="item-name">Atrapado</p>
-        <p class="item-client">Argentina Tango Rap</p>
-      </div>
-    </div>
-
-    <!-- Linyeras Cru — Cosas del Destino -->
-    <div class="work-item reveal" role="button" tabindex="0" data-cat="music realizacion" onclick="openVideo('5KN3twZjw3w')" style="cursor:pointer">
-      <img src="https://img.youtube.com/vi/5KN3twZjw3w/maxresdefault.jpg" alt="Linyeras Cru Cosas del Destino" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/5KN3twZjw3w/hqdefault.jpg';">
-      <a class="item-ext" aria-label="Abrir en YouTube" href="https://youtu.be/5KN3twZjw3w" target="_blank" rel="noopener" onclick="event.stopPropagation()">↗</a>
-      <div class="work-item-meta">
-        <p class="item-cat">Music Video · Dirección</p>
-        <p class="item-name">Cosas del Destino</p>
-        <p class="item-client">Linyeras Cru</p>
-      </div>
-    </div>
-
-
-
-    <!-- Danest × DLS — Geminis (Episodio 1) -->
-    <div class="work-item reveal d1" role="button" tabindex="0" data-cat="music realizacion" onclick="openVideo('UMC9ClHPBDc')" style="cursor:pointer">
+    <div class="work-item reveal d1" role="button" tabindex="0" data-cat="music" onclick="openVideo('UMC9ClHPBDc')" style="cursor:pointer" aria-label="Ver Géminis, episodio 1, de Danest y DLS">
       <img src="https://img.youtube.com/vi/UMC9ClHPBDc/maxresdefault.jpg" alt="Danest x DLS — Géminis" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/UMC9ClHPBDc/hqdefault.jpg';">
-      <a class="item-ext" aria-label="Abrir en YouTube" href="https://youtu.be/UMC9ClHPBDc" target="_blank" rel="noopener" onclick="event.stopPropagation()">↗</a>
+      <a class="item-ext" aria-label="Abrir en YouTube" href="https://youtu.be/UMC9ClHPBDc" target="_blank" rel="noopener" onclick="event.stopPropagation()">&#8599;</a>
       <div class="work-item-meta">
-        <p class="item-cat">Music Video · Dirección</p>
+        <p class="item-cat">Music Video &#183; Dirección</p>
         <p class="item-name">Géminis — Episodio 1</p>
         <p class="item-client">Danest × DLS</p>
       </div>
     </div>
 
-    <!-- Tortu × Devak 24 — Miran para Arriba -->
-    <div class="work-item reveal" role="button" tabindex="0" data-cat="music realizacion" onclick="openVideo('aY3ymJEwSxk')" style="cursor:pointer">
-      <img src="https://img.youtube.com/vi/aY3ymJEwSxk/maxresdefault.jpg" alt="Miran para Arriba" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/aY3ymJEwSxk/hqdefault.jpg';">
-      <a class="item-ext" aria-label="Abrir en YouTube" href="https://youtu.be/aY3ymJEwSxk" target="_blank" rel="noopener" onclick="event.stopPropagation()">↗</a>
+    <div class="work-item reveal" role="button" tabindex="0" data-cat="music" onclick="openVideo('Geq9oHiW6Ew')" style="cursor:pointer" aria-label="Ver Flama Session número 2, El Llamado">
+      <img src="https://img.youtube.com/vi/Geq9oHiW6Ew/maxresdefault.jpg" alt="Flama Session 2" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/Geq9oHiW6Ew/hqdefault.jpg';">
+      <a class="item-ext" aria-label="Abrir en YouTube" href="https://youtu.be/Geq9oHiW6Ew" target="_blank" rel="noopener" onclick="event.stopPropagation()">&#8599;</a>
       <div class="work-item-meta">
-        <p class="item-cat">Music Video · Dirección &amp; Montaje</p>
+        <p class="item-cat">Music Video &#183; Live Session</p>
+        <p class="item-name">Flama Session #2 — El Llamado</p>
+        <p class="item-client">Devak 24</p>
+      </div>
+    </div>
+
+    <div class="work-item reveal" role="button" tabindex="0" data-cat="music" onclick="openVideo('4-27j0gQU7M')" style="cursor:pointer" aria-label="Ver Flama Sessions número 1, Luz">
+      <img src="https://img.youtube.com/vi/4-27j0gQU7M/maxresdefault.jpg" alt="Flama Sessions 1" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/4-27j0gQU7M/hqdefault.jpg';">
+      <a class="item-ext" aria-label="Abrir en YouTube" href="https://youtu.be/4-27j0gQU7M" target="_blank" rel="noopener" onclick="event.stopPropagation()">&#8599;</a>
+      <div class="work-item-meta">
+        <p class="item-cat">Music Video &#183; Live Session</p>
+        <p class="item-name">Flama Sessions #1 — Luz</p>
+        <p class="item-client">Ekiz Tono × DJ Xolarz</p>
+      </div>
+    </div>
+
+    <div class="work-item reveal d1" role="button" tabindex="0" data-cat="music" onclick="openVideo('BVOOO6w-Fd0')" style="cursor:pointer" aria-label="Ver Luz, de Ekiz Tono y DJ Xolarz">
+      <img src="https://img.youtube.com/vi/BVOOO6w-Fd0/maxresdefault.jpg" alt="Luz" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/BVOOO6w-Fd0/hqdefault.jpg';">
+      <a class="item-ext" aria-label="Abrir en YouTube" href="https://youtu.be/BVOOO6w-Fd0" target="_blank" rel="noopener" onclick="event.stopPropagation()">&#8599;</a>
+      <div class="work-item-meta">
+        <p class="item-cat">Music Video &#183; Dirección</p>
+        <p class="item-name">Luz</p>
+        <p class="item-client">Ekiz Tono × DJ Xolarz</p>
+      </div>
+    </div>
+
+    <div class="work-item reveal d1" role="button" tabindex="0" data-cat="music" onclick="openVideo('lkylingO3Zk')" style="cursor:pointer" aria-label="Ver Blin Blin Caja, de Argentina Tango Rap">
+      <img src="https://img.youtube.com/vi/lkylingO3Zk/maxresdefault.jpg" alt="Blin Blin Caja" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/lkylingO3Zk/hqdefault.jpg';">
+      <a class="item-ext" aria-label="Abrir en YouTube" href="https://youtu.be/lkylingO3Zk" target="_blank" rel="noopener" onclick="event.stopPropagation()">&#8599;</a>
+      <div class="work-item-meta">
+        <p class="item-cat">Music Video &#183; Dirección</p>
+        <p class="item-name">Blin Blin Caja</p>
+        <p class="item-client">Argentina Tango Rap</p>
+      </div>
+    </div>
+
+    <div class="work-item reveal" role="button" tabindex="0" data-cat="music" onclick="openVideo('YOj04CEXjJI')" style="cursor:pointer" aria-label="Ver Atrapado, de Argentina Tango Rap">
+      <img src="https://img.youtube.com/vi/YOj04CEXjJI/maxresdefault.jpg" alt="Atrapado" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/YOj04CEXjJI/hqdefault.jpg';">
+      <a class="item-ext" aria-label="Abrir en YouTube" href="https://youtu.be/YOj04CEXjJI" target="_blank" rel="noopener" onclick="event.stopPropagation()">&#8599;</a>
+      <div class="work-item-meta">
+        <p class="item-cat">Music Video &#183; Dirección</p>
+        <p class="item-name">Atrapado</p>
+        <p class="item-client">Argentina Tango Rap</p>
+      </div>
+    </div>
+
+    <div class="work-item reveal" role="button" tabindex="0" data-cat="music" onclick="openVideo('5KN3twZjw3w')" style="cursor:pointer" aria-label="Ver Cosas del Destino, de Linyeras Cru">
+      <img src="https://img.youtube.com/vi/5KN3twZjw3w/maxresdefault.jpg" alt="Linyeras Cru Cosas del Destino" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/5KN3twZjw3w/hqdefault.jpg';">
+      <a class="item-ext" aria-label="Abrir en YouTube" href="https://youtu.be/5KN3twZjw3w" target="_blank" rel="noopener" onclick="event.stopPropagation()">&#8599;</a>
+      <div class="work-item-meta">
+        <p class="item-cat">Music Video &#183; Dirección</p>
+        <p class="item-name">Cosas del Destino</p>
+        <p class="item-client">Linyeras Cru</p>
+      </div>
+    </div>
+
+    <div class="work-item reveal" role="button" tabindex="0" data-cat="music" onclick="openVideo('aY3ymJEwSxk')" style="cursor:pointer" aria-label="Ver Miran para Arriba, de Tortu y Devak 24">
+      <img src="https://img.youtube.com/vi/aY3ymJEwSxk/maxresdefault.jpg" alt="Miran para Arriba" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/aY3ymJEwSxk/hqdefault.jpg';">
+      <a class="item-ext" aria-label="Abrir en YouTube" href="https://youtu.be/aY3ymJEwSxk" target="_blank" rel="noopener" onclick="event.stopPropagation()">&#8599;</a>
+      <div class="work-item-meta">
+        <p class="item-cat">Music Video &#183; Dirección &amp; Montaje</p>
         <p class="item-name">Miran para Arriba</p>
         <p class="item-client">Tortu aka O.d.d.M × Devak 24</p>
       </div>
     </div>
 
-    <!-- Chaco — Ojo por Ojo -->
-    <div class="work-item reveal d1" role="button" tabindex="0" data-cat="music realizacion" onclick="openVideo('B864iOuEhRY')" style="cursor:pointer">
+    <div class="work-item reveal d1" role="button" tabindex="0" data-cat="music" onclick="openVideo('B864iOuEhRY')" style="cursor:pointer" aria-label="Ver Ojo por Ojo, de Chaco">
       <img src="https://img.youtube.com/vi/B864iOuEhRY/maxresdefault.jpg" alt="Chaco Ojo por Ojo" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/B864iOuEhRY/hqdefault.jpg';">
-      <a class="item-ext" aria-label="Abrir en YouTube" href="https://youtu.be/B864iOuEhRY" target="_blank" rel="noopener" onclick="event.stopPropagation()">↗</a>
+      <a class="item-ext" aria-label="Abrir en YouTube" href="https://youtu.be/B864iOuEhRY" target="_blank" rel="noopener" onclick="event.stopPropagation()">&#8599;</a>
       <div class="work-item-meta">
-        <p class="item-cat">Music Video · Dirección &amp; Montaje</p>
+        <p class="item-cat">Music Video &#183; Dirección &amp; Montaje</p>
         <p class="item-name">Ojo por Ojo</p>
         <p class="item-client">Chaco</p>
-      </div>
-    </div>
-
-
-
-  </div>
-</section>
-
-<!-- ── IA VIDEOS VERTICALES ───────────────────────────────────── -->
-<section id="ai-section">
-  <div class="ai-header">
-    <p class="ai-tag">Flujo de trabajo con IA generativa</p>
-    <h2 class="ai-title reveal">IA<br>Video</h2>
-    <p class="ai-desc reveal d1">
-      Exploración de narrativa visual con inteligencia artificial generativa.
-      Videos en formato vertical — Sora, Runway, Kling, Seedance y más.
-    </p>
-  </div>
-
-  <div class="ai-grid">
-
-    <!-- CRÓNICAS DEL BARRO INFINITO — trailer ↑ primero -->
-    <!-- Única tarjeta que no abre el lightbox: lleva a la página de caso.
-         El thumbnail es local y 9:16 — el de YouTube es 16:9 y la tarjeta,
-         que recorta a vertical, se quedaba con una franja del medio. -->
-    <a class="ai-card reveal" href="cdbi.html" aria-label="Ver el caso de Crónicas del Barro Infinito">
-      <img src="assets/cdbi/hero-play.webp"
-           alt="Joel, Pili y el gato Ranx sobre una fórmula de tiza encendida en el asfalto mojado"
-           width="900" height="1600" loading="lazy" decoding="async">
-      <div class="ai-card-play">
-        <div class="play-icon">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><polygon points="4,2 14,8 4,14"/></svg>
-        </div>
-      </div>
-      <div class="ai-card-meta">
-        <p class="ai-card-name">Crónicas del Barro Infinito</p>
-        <p class="ai-card-tool">IA Generativa · Caso completo</p>
-      </div>
-    </a>
-
-    <!-- ETERNITY ↑ prioritario -->
-    <div class="ai-card reveal" role="button" tabindex="0" data-yt="jpPh71q5s7Q">
-      <img src="https://img.youtube.com/vi/jpPh71q5s7Q/maxresdefault.jpg" alt="Eternity" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/jpPh71q5s7Q/hqdefault.jpg';">
-      <div class="ai-card-play">
-        <div class="play-icon">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><polygon points="4,2 14,8 4,14"/></svg>
-        </div>
-      </div>
-      <div class="ai-card-meta">
-        <p class="ai-card-name">Eternity</p>
-        <p class="ai-card-tool">IA Generativa</p>
-      </div>
-    </div>
-
-    <!-- DHL Project Reel ↑ prioritario -->
-    <div class="ai-card reveal d1" role="button" tabindex="0" data-yt="lBcllgcqayI">
-      <img src="https://img.youtube.com/vi/lBcllgcqayI/maxresdefault.jpg" alt="DHL Project Reel" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/lBcllgcqayI/hqdefault.jpg';">
-      <div class="ai-card-play">
-        <div class="play-icon">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><polygon points="4,2 14,8 4,14"/></svg>
-        </div>
-      </div>
-      <div class="ai-card-meta">
-        <p class="ai-card-name">DHL Project Reel</p>
-        <p class="ai-card-tool">IA Generativa · Branded</p>
-      </div>
-    </div>
-
-    <!-- Introducing Percent B ↑ prioritario -->
-    <div class="ai-card reveal" role="button" tabindex="0" data-yt="ASxJ6vqDy7Q">
-      <img src="https://img.youtube.com/vi/ASxJ6vqDy7Q/maxresdefault.jpg" alt="Introducing Percent B" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/ASxJ6vqDy7Q/hqdefault.jpg';">
-      <div class="ai-card-play">
-        <div class="play-icon">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><polygon points="4,2 14,8 4,14"/></svg>
-        </div>
-      </div>
-      <div class="ai-card-meta">
-        <p class="ai-card-name">Introducing Percent B</p>
-        <p class="ai-card-tool">IA Generativa · Branded</p>
-      </div>
-    </div>
-
-    <!-- Introducing Percent — Instituciones ↑ prioritario -->
-    <div class="ai-card reveal d1" role="button" tabindex="0" data-yt="UOStWaDhcik">
-      <img src="https://img.youtube.com/vi/UOStWaDhcik/maxresdefault.jpg" alt="Introducing Percent Instituciones" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/UOStWaDhcik/hqdefault.jpg';">
-      <div class="ai-card-play">
-        <div class="play-icon">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><polygon points="4,2 14,8 4,14"/></svg>
-        </div>
-      </div>
-      <div class="ai-card-meta">
-        <p class="ai-card-name">Introducing Percent</p>
-        <p class="ai-card-tool">IA Generativa · Institucional</p>
-      </div>
-    </div>
-
-    <!-- Achalay — tu imperio ↑ prioritario -->
-    <div class="ai-card reveal" role="button" tabindex="0" data-yt="6KLo_sjpYJ8">
-      <img src="https://img.youtube.com/vi/6KLo_sjpYJ8/maxresdefault.jpg" alt="Achalay tu imperio" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/6KLo_sjpYJ8/hqdefault.jpg';">
-      <div class="ai-card-play">
-        <div class="play-icon">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><polygon points="4,2 14,8 4,14"/></svg>
-        </div>
-      </div>
-      <div class="ai-card-meta">
-        <p class="ai-card-name">Achalay — Tu Imperio</p>
-        <p class="ai-card-tool">IA Generativa · Mercado Libre</p>
-      </div>
-    </div>
-
-    <!-- Achalay Labs series ↑ prioritario -->
-    <div class="ai-card reveal d1" role="button" tabindex="0" data-yt="_v_7rTlpJy4">
-      <img src="https://img.youtube.com/vi/_v_7rTlpJy4/maxresdefault.jpg" alt="Achalay Labs" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/_v_7rTlpJy4/hqdefault.jpg';">
-      <div class="ai-card-play">
-        <div class="play-icon">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><polygon points="4,2 14,8 4,14"/></svg>
-        </div>
-      </div>
-      <div class="ai-card-meta">
-        <p class="ai-card-name">Achalay Labs</p>
-        <p class="ai-card-tool">IA Generativa · Series</p>
-      </div>
-    </div>
-
-    <!-- Lumilagro Pampa -->
-    <div class="ai-card reveal" role="button" tabindex="0" data-yt="M6V-uaWOLlA">
-      <img src="https://img.youtube.com/vi/M6V-uaWOLlA/maxresdefault.jpg" alt="Lumilagro Pampa" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/M6V-uaWOLlA/hqdefault.jpg';">
-      <div class="ai-card-play">
-        <div class="play-icon">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><polygon points="4,2 14,8 4,14"/></svg>
-        </div>
-      </div>
-      <div class="ai-card-meta">
-        <p class="ai-card-name">Lumilagro Pampa</p>
-        <p class="ai-card-tool">IA Generativa</p>
-      </div>
-    </div>
-
-    <!-- Robin Hood — Mercado Libre -->
-    <div class="ai-card reveal d1" role="button" tabindex="0" data-yt="AYmWwgo5JMI">
-      <img src="https://img.youtube.com/vi/AYmWwgo5JMI/maxresdefault.jpg" alt="Robin Hood Mercado Libre" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/AYmWwgo5JMI/hqdefault.jpg';">
-      <div class="ai-card-play">
-        <div class="play-icon">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><polygon points="4,2 14,8 4,14"/></svg>
-        </div>
-      </div>
-      <div class="ai-card-meta">
-        <p class="ai-card-name">Robin Hood</p>
-        <p class="ai-card-tool">IA Generativa · Mercado Libre</p>
-      </div>
-    </div>
-
-    <!-- Beza Reel -->
-    <div class="ai-card reveal" role="button" tabindex="0" data-yt="TFvCVGJ1y9Q">
-      <img src="https://img.youtube.com/vi/TFvCVGJ1y9Q/maxresdefault.jpg" alt="Beza Reel" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/TFvCVGJ1y9Q/hqdefault.jpg';">
-      <div class="ai-card-play">
-        <div class="play-icon">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><polygon points="4,2 14,8 4,14"/></svg>
-        </div>
-      </div>
-      <div class="ai-card-meta">
-        <p class="ai-card-name">Beza Reel</p>
-        <p class="ai-card-tool">IA Generativa</p>
-      </div>
-    </div>
-
-    <!-- Lucky Energy Drink AD#2 -->
-    <div class="ai-card reveal d1" role="button" tabindex="0" data-yt="DYBKDHaaN6o">
-      <img src="https://img.youtube.com/vi/DYBKDHaaN6o/maxresdefault.jpg" alt="Lucky Energy Drink AD2" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/DYBKDHaaN6o/hqdefault.jpg';">
-      <div class="ai-card-play">
-        <div class="play-icon">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><polygon points="4,2 14,8 4,14"/></svg>
-        </div>
-      </div>
-      <div class="ai-card-meta">
-        <p class="ai-card-name">Lucky Energy — AD#2</p>
-        <p class="ai-card-tool">IA Generativa · Branded</p>
-      </div>
-    </div>
-
-    <!-- Lucky Energy Drink AD#1 -->
-    <div class="ai-card reveal" role="button" tabindex="0" data-yt="DsoQZRnMCAk">
-      <img src="https://img.youtube.com/vi/DsoQZRnMCAk/maxresdefault.jpg" alt="Lucky Energy Drink AD1" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/DsoQZRnMCAk/hqdefault.jpg';">
-      <div class="ai-card-play">
-        <div class="play-icon">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><polygon points="4,2 14,8 4,14"/></svg>
-        </div>
-      </div>
-      <div class="ai-card-meta">
-        <p class="ai-card-name">Lucky Energy — AD#1</p>
-        <p class="ai-card-tool">IA Generativa · Branded</p>
       </div>
     </div>
 
@@ -1258,19 +1180,16 @@
     if (lbClose) lbClose.addEventListener('click', closeVideo);
     if (lightbox) lightbox.addEventListener('click', function (e) { if (e.target === lightbox) closeVideo(); });
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeVideo(); });
-    document.querySelectorAll('.ai-card').forEach(function (card) {
-      card.addEventListener('click', function () {
-        var ytId = card.dataset.yt;
-        if (ytId) openVideo(ytId, true); /* vertical 9:16 */
-      });
-    });
-
     /* Las tarjetas son <div role="button">: el teclado no las activa solo.
        Delegado, así vale para las que se agreguen después. */
     document.addEventListener('keydown', function (e) {
       if (e.key !== 'Enter' && e.key !== ' ' && e.key !== 'Spacebar') return;
-      var el = e.target.closest && e.target.closest('[role="button"][tabindex="0"]');
-      if (!el) return;
+      /* Sólo si la tarjeta misma tiene el foco. Si lo tiene un hijo, como
+         la flecha externa, ese enlace conserva su comportamiento nativo:
+         con closest() el Enter subía hasta la tarjeta y abría el
+         reproductor interno en vez de ir a YouTube. */
+      var el = e.target;
+      if (!el.matches || !el.matches('[role="button"][tabindex="0"]')) return;
       e.preventDefault();
       el.click();
     });
@@ -1298,7 +1217,7 @@
       document.addEventListener('mouseenter', function () { dot.style.opacity = 1; ring.style.opacity = 1; });
       document.addEventListener('mousedown', function () { dot.classList.add('click'); ring.classList.add('grow'); });
       document.addEventListener('mouseup', function () { dot.classList.remove('click'); });
-      var hov = 'a, button, .work-item, .ai-card, .filter-btn, .s-link';
+      var hov = 'a, button, .work-item, .filter-btn, .s-link';
       document.querySelectorAll(hov).forEach(function (el) {
         el.addEventListener('mouseenter', function () { ring.classList.add('grow'); });
         el.addEventListener('mouseleave', function () { ring.classList.remove('grow'); });
@@ -1312,6 +1231,9 @@
   (function () {
     var filterBtns = document.querySelectorAll('.filter-btn');
     var workItems = document.querySelectorAll('.work-item');
+    /* Zonas que se ocultan si el filtro las deja vacías: cada fila de la
+       selección, la selección entera y el resto del catálogo. */
+    var zonas = document.querySelectorAll('[data-zona]');
     filterBtns.forEach(function (btn) {
       btn.setAttribute('aria-pressed', btn.classList.contains('active') ? 'true' : 'false');
       btn.addEventListener('click', function () {
@@ -1324,10 +1246,16 @@
         var f = btn.dataset.filter;
         var visibles = 0;
         workItems.forEach(function (item) {
-          var cats = item.dataset.cat || '';
-          var oculto = f !== 'all' && !cats.includes(f);
+          var cats = (item.dataset.cat || '').split(' ');
+          var oculto = f !== 'all' && cats.indexOf(f) === -1;
           item.classList.toggle('hidden', oculto);
-          if (!oculto) visibles++;
+          /* Lo que aparece por un filtro no espera la animación de entrada. */
+          if (!oculto) { visibles++; item.classList.add('visible'); }
+        });
+        zonas.forEach(function (z) {
+          var n = z.querySelectorAll('.work-item:not(.hidden)').length;
+          z.hidden = n === 0;
+          z.setAttribute('data-visibles', n);
         });
         /* Con display:none el lector de pantalla no anuncia nada por su cuenta. */
         var avisa = document.getElementById('filtro-estado');

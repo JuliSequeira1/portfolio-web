@@ -9,7 +9,7 @@
   <meta property="og:type"        content="website">
   <meta property="og:url"         content="https://julisequeira.com/">
   <meta property="og:title"       content="Julián Sequeira — Director">
-  <meta property="og:description" content="Dirección, cine, animación, 3D e IA generativa. NBC/Peacock · Konami · Emmy 2024.">
+  <meta property="og:description" content="Dirección, cine, animación, 3D e IA generativa. NBC/Peacock · Konami · Silent Hill: Ascension, Emmy 2024.">
   <meta property="og:image"       content="https://julisequeira.com/assets/julian-og.jpg">
   <meta name="twitter:card"       content="summary_large_image">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%230A0A0A'/%3E%3Ctext x='32' y='45' font-family='Arial,sans-serif' font-size='28' font-weight='900' fill='%23F4F2EE' text-anchor='middle'%3EJS%3C/text%3E%3Ccircle cx='52' cy='14' r='5' fill='%23CC0A2A'/%3E%3C/svg%3E">
@@ -354,23 +354,58 @@
     .proj-featured .proj-meta { padding: 32px 32px; }
     .proj-featured .proj-name { font-size: clamp(26px, 4vw, 48px); }
 
-    /* Asymmetric grid */
+    /* ─── SELECCIÓN ───────────────────────────────────────────────
+       Escritorio: Dinopops a la izquierda, Silent Hill y La Noche
+       apilados a la derecha y, debajo, CDBI y Flama iguales entre sí.
+       Veinte columnas: arriba 13/7 y abajo 10/10, con el mismo gap.
+       Silent Hill y La Noche fijan el alto de sus filas con su
+       proporción y Dinopops se estira a las dos, así que no puede
+       quedar franja vacía debajo de ninguna.
+
+       Proporciones medidas contra cada imagen: La Noche conserva a las
+       dos actrices entre 1,30 y 1,70; Silent Hill, el logo desde 1,55;
+       Dinopops aguanta de 1,35 a 1,80 y acá queda cerca de 1,47. Flama
+       no admite recorte lateral: el panorámico se lleva la parte de
+       abajo, nunca las cabezas.
+       ─────────────────────────────────────────────────────────── */
     .work-grid {
       display: grid;
-      grid-template-columns: 3fr 2fr;
-      grid-template-rows: auto auto;
+      grid-template-columns: minmax(0, 1fr);
       gap: 16px;
     }
-    .work-grid .proj-card:nth-child(3) { grid-column: 1; }
-    .work-grid .proj-card:nth-child(4) { grid-column: 2; grid-row: 2; }
+    /* La imagen no aporta alto propio: lo dan la proporción o la grilla. */
+    .work-grid > .proj-card > img { position: absolute; inset: 0; }
+    .work-grid .encuadre-arriba > img { object-position: 50% 0%; }
 
-    /* alt layout: swap big/small every row */
-    @media (min-width: 901px) {
-      .work-grid .proj-card:nth-child(3) { grid-column: 1; }
-      .work-grid .proj-card:nth-child(4) { grid-column: 2; }
+    /* Tablet: Dinopops a lo ancho; debajo Silent Hill | La Noche y
+       CDBI | Flama, todas en 16:10. */
+    @media (min-width: 601px) {
+      .work-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .work-grid .p-lead { grid-column: 1 / -1; }
     }
-    @media (max-width: 900px) {
-      .work-grid { grid-template-columns: 1fr; }
+
+    @media (min-width: 1101px) {
+      .work-grid { grid-template-columns: repeat(20, minmax(0, 1fr)); }
+      .work-grid .p-lead {
+        grid-column: 1 / span 13; grid-row: 1 / span 2;
+        aspect-ratio: auto;
+      }
+      .work-grid .p-lead > img { object-position: 45% 50%; }
+      .work-grid .p-sh    { grid-column: 14 / span 7; grid-row: 1; }
+      .work-grid .p-noche { grid-column: 14 / span 7; grid-row: 2; }
+      /* El par va en 2:1 para que se lea como banda debajo de la
+         selección, más baja que el bloque de arriba. */
+      .work-grid .p-dev   { grid-row: 3; grid-column: span 10; aspect-ratio: 2 / 1; }
+    }
+
+    /* CDBI y Flama Squad no están terminados y la tarjeta lo dice. */
+    .proj-flag {
+      position: absolute; top: 18px; left: 18px; z-index: 3;
+      font-family: 'Satoshi', sans-serif;
+      font-size: 9px; font-weight: 700;
+      letter-spacing: .16em; text-transform: uppercase;
+      color: #F4F2EE; background: var(--red);
+      padding: 5px 10px;
     }
 
     .proj-card {
@@ -405,7 +440,9 @@
     .proj-meta {
       position: absolute; bottom: 0; left: 0; right: 0; z-index: 2;
       padding: 20px 24px;
-      background: linear-gradient(to top, rgba(10,10,10,.9) 0%, transparent 100%);
+      /* Tres líneas de meta no entran en un degradado corto: en tarjeta
+         angosta el crédito se iba sobre la zona clara de la imagen. */
+      background: linear-gradient(to top, rgba(10,10,10,.94) 0%, rgba(10,10,10,.80) 52%, transparent 100%);
     }
     .proj-cat {
       font-size: 9px; font-weight: 500;
@@ -799,7 +836,7 @@
         "@id": "https://julisequeira.com/#flama-squad",
         "name": "Flama Squad",
         "url": "https://julisequeira.com/flama-squad.html",
-        "description": "Serie de comedia dramática urbana. 9 episodios, guiones terminados, piloto filmado. Becas del Fondo Nacional de las Artes y del Fondo Metropolitano de las Artes, 2022.",
+        "description": "Serie de comedia dramática urbana. 9 episodios y biblia escritos y registrados. Opening, trailer y escenas sueltas filmados; proyecto por continuar. Becas del Fondo Nacional de las Artes y del Fondo Metropolitano de las Artes, 2022.",
         "numberOfEpisodes": 9,
         "inLanguage": "es",
         "countryOfOrigin": {
@@ -827,15 +864,13 @@
         "name": "Crónicas del Barro Infinito",
         "alternateName": "CDBI",
         "url": "https://julisequeira.com/cdbi.html",
-        "description": "Miniserie animada vertical de 11 episodios (EP00 doble + 10 de 90 a 140 segundos, 9:16). Aventura conurbana con humor negro y horror de proyección, ambientada en un Lanús de estética Satoshi Kon. Producida con un pipeline de IA generativa dirigido plano por plano: lámina de diseño, blockout 3D de proxies y generación de video.",
+        "description": "Serie animada para YouTube en 16:9, de duración flexible. Aventura conurbana con humor negro y horror de proyección, ambientada en un Lanús de estética Satoshi Kon. Piloto EP00 en desarrollo, producido con un pipeline de IA generativa dirigido plano por plano: lámina de diseño, blockout 3D de proxies y generación de video.",
         "genre": [
           "Animación",
           "Aventura",
           "Comedia negra",
           "Horror psicológico"
         ],
-        "numberOfEpisodes": 11,
-        "numberOfSeasons": 1,
         "inLanguage": "es",
         "countryOfOrigin": {
           "@type": "Country",
@@ -863,7 +898,7 @@
         "trailer": {
           "@id": "https://julisequeira.com/#cdbi-trailer"
         },
-        "keywords": "animación vertical, serie vertical, anime argentino, Lanús, conurbano, Satoshi Kon, IA generativa, Seedance, blockout 3D, previs",
+        "keywords": "animación argentina, anime argentino, Lanús, conurbano, Satoshi Kon, IA generativa, Seedance, blockout 3D, previs",
         "creativeWorkStatus": "En producción"
       }
     ]
@@ -926,21 +961,21 @@
   <div class="press-track">
     <span class="press-item">NBC / Peacock</span><span class="press-dot">·</span>
     <span class="press-item">Konami</span><span class="press-dot">·</span>
-    <span class="press-item">Emmy Award</span><span class="press-dot">·</span>
+    <span class="press-item">Silent Hill · Emmy 2024</span><span class="press-dot">·</span>
     <span class="press-item">DHL</span><span class="press-dot">·</span>
     <span class="press-item">Uber</span><span class="press-dot">·</span>
     <span class="press-item">John Deere</span><span class="press-dot">·</span>
-    <span class="press-item">Silent Hill</span><span class="press-dot">·</span>
+    <span class="press-item">Genvid</span><span class="press-dot">·</span>
     <span class="press-item">Dinopops</span><span class="press-dot">·</span>
     <span class="press-item">Flama Collective</span><span class="press-dot">·</span>
     <!-- copy 2 -->
     <span class="press-item">NBC / Peacock</span><span class="press-dot">·</span>
     <span class="press-item">Konami</span><span class="press-dot">·</span>
-    <span class="press-item">Emmy Award</span><span class="press-dot">·</span>
+    <span class="press-item">Silent Hill · Emmy 2024</span><span class="press-dot">·</span>
     <span class="press-item">DHL</span><span class="press-dot">·</span>
     <span class="press-item">Uber</span><span class="press-dot">·</span>
     <span class="press-item">John Deere</span><span class="press-dot">·</span>
-    <span class="press-item">Silent Hill</span><span class="press-dot">·</span>
+    <span class="press-item">Genvid</span><span class="press-dot">·</span>
     <span class="press-item">Dinopops</span><span class="press-dot">·</span>
     <span class="press-item">Flama Collective</span><span class="press-dot">·</span>
   </div>
@@ -957,38 +992,22 @@
   </div>
 
   <div class="work-grid">
-
-    <!-- Big card: Dinopops (trailer Dailymotion) -->
-    <div class="proj-card reveal" role="button" tabindex="0"
+    <!-- 1 · Dinopops -->
+    <div class="proj-card p-lead reveal" role="button" tabindex="0"
          aria-label="Ver el trailer de Dinopops — Season 1"
          onclick="openDailymotion('x8qp5m7')" style="cursor:pointer">
       <img src="assets/dinopops.jpg" alt="Dinopops" loading="lazy" decoding="async"
            onerror="this.style.display='none'; this.parentNode.style.background='linear-gradient(135deg,#0d1b3e,#1a2d5a)';">
       <a class="proj-ext" href="https://www.imdb.com/es-es/video/vi4132946969/?ref_=ext_shr_lnk" target="_blank" rel="noopener" onclick="event.stopPropagation()">&#8599;</a>
       <div class="proj-meta">
-        <p class="proj-cat">Serie de animación · NBC / Peacock</p>
+        <p class="proj-cat">Serie de animación &#183; NBC / Peacock</p>
         <h3 class="proj-name">Dinopops — Season 1</h3>
-        <p class="proj-client">Art Director &amp; Episode Director · 2020–2023</p>
+        <p class="proj-client">Dirección de arte T1 y dirección de 3 episodios &#183; 2020–2023</p>
       </div>
     </div>
 
-    <!-- Big card: La Noche -->
-    <div class="proj-card reveal" role="button" tabindex="0"
-         aria-label="Ver el cortometraje La Noche"
-         onclick="openVideo('3pr9iIdRLPI')" style="cursor:pointer">
-      <img src="https://img.youtube.com/vi/3pr9iIdRLPI/maxresdefault.jpg" alt="La Noche"
-           loading="lazy" decoding="async"
-           onerror="this.onerror=null;this.src='https://img.youtube.com/vi/3pr9iIdRLPI/hqdefault.jpg';">
-      <a class="proj-ext" href="https://youtu.be/3pr9iIdRLPI" target="_blank" onclick="event.stopPropagation()">↗</a>
-      <div class="proj-meta">
-        <p class="proj-cat">Cortometraje · Dirección &amp; Cinematografía</p>
-        <h3 class="proj-name">La Noche</h3>
-        <p class="proj-client">Proyecto personal</p>
-      </div>
-    </div>
-
-    <!-- Card: Silent Hill -->
-    <div class="proj-card reveal d2" role="button" tabindex="0"
+    <!-- 2 · Silent Hill: Ascension -->
+    <div class="proj-card p-sh reveal d1" role="button" tabindex="0"
          aria-label="Ver Silent Hill: Ascension"
          onclick="openVideo('TP6R0bC4LYI')" style="cursor:pointer">
       <img src="https://img.youtube.com/vi/TP6R0bC4LYI/maxresdefault.jpg" alt="Silent Hill Ascension"
@@ -998,55 +1017,51 @@
       <div class="proj-meta">
         <p class="proj-cat">Media interactiva &#183; Emmy 2024</p>
         <h3 class="proj-name">Silent Hill: Ascension</h3>
-        <p class="proj-client">Cinematic Artist · Genvid / Senscape / Konami</p>
+        <p class="proj-client">Cinematic Artist &#183; Genvid / Senscape / Konami</p>
       </div>
     </div>
 
-    <!-- Small card: Ataraxia -->
-    <div class="proj-card reveal d1" role="button" tabindex="0"
-         aria-label="Ver el videoclip DANEST — Ataraxia"
-         onclick="openVideo('6ePPkhRv6hU')" style="cursor:pointer">
-      <img src="https://img.youtube.com/vi/6ePPkhRv6hU/maxresdefault.jpg" alt="DANEST Ataraxia"
-           loading="lazy" decoding="async"
-           onerror="this.onerror=null;this.src='https://img.youtube.com/vi/6ePPkhRv6hU/hqdefault.jpg';">
-      <a class="proj-ext" href="https://youtu.be/6ePPkhRv6hU" target="_blank" onclick="event.stopPropagation()">↗</a>
+    <!-- 3 · La Noche -->
+    <div class="proj-card p-noche reveal d1" role="button" tabindex="0"
+         aria-label="Ver el cortometraje La Noche"
+         onclick="openVideo('3pr9iIdRLPI')" style="cursor:pointer">
+      <img src="assets/la-noche/still.webp"
+           alt="Dos personajes en el baño rojo, del cortometraje La Noche"
+           width="1600" height="1054" loading="lazy" decoding="async">
+      <a class="proj-ext" href="https://youtu.be/3pr9iIdRLPI" target="_blank" rel="noopener" onclick="event.stopPropagation()">&#8599;</a>
       <div class="proj-meta">
-        <p class="proj-cat">Music Video · Dirección</p>
-        <h3 class="proj-name">DANEST — Ataraxia</h3>
-        <p class="proj-client">Videoclip oficial</p>
+        <p class="proj-cat">Cortometraje &#183; 2020</p>
+        <h3 class="proj-name">La Noche</h3>
+        <p class="proj-client">Guion y dirección</p>
       </div>
     </div>
 
-    <!-- Small card: El Loco -->
-    <div class="proj-card reveal d2" role="button" tabindex="0"
-         aria-label="Ver el videoclip El Loco"
-         onclick="openVideo('jPyB0l5RumI')" style="cursor:pointer">
-      <img src="https://img.youtube.com/vi/jPyB0l5RumI/maxresdefault.jpg" alt="El Loco"
-           loading="lazy" decoding="async"
-           onerror="this.onerror=null;this.src='https://img.youtube.com/vi/jPyB0l5RumI/hqdefault.jpg';">
-      <a class="proj-ext" href="https://youtu.be/jPyB0l5RumI" target="_blank" onclick="event.stopPropagation()">↗</a>
+    <!-- 4 · Crónicas del Barro Infinito — en curso -->
+    <a class="proj-card p-dev reveal" href="cdbi.html"
+       aria-label="Ver el caso de Crónicas del Barro Infinito">
+      <img src="assets/cdbi/loc-riachuelo.webp"
+           alt="El Sapo emergiendo del Riachuelo bajo un tornado, con Lanús de fondo"
+           width="960" height="540" loading="lazy" decoding="async">
+      <span class="proj-flag">En desarrollo</span>
       <div class="proj-meta">
-        <p class="proj-cat">Music Video · Dirección</p>
-        <h3 class="proj-name">El Loco</h3>
-        <p class="proj-client">Danest × DLS</p>
+        <p class="proj-cat">Serie animada &#183; IA generativa</p>
+        <h3 class="proj-name">Crónicas del Barro Infinito</h3>
+        <p class="proj-client">Creador y director &#183; Piloto EP00</p>
       </div>
-    </div>
+    </a>
 
-    <!-- Card: Blanco -->
-    <div class="proj-card reveal d1" role="button" tabindex="0"
-         aria-label="Ver el cortometraje Blanco"
-         onclick="openVideo('uikDazoPnsQ')" style="cursor:pointer">
-      <img src="https://img.youtube.com/vi/uikDazoPnsQ/maxresdefault.jpg" alt="Blanco"
-           loading="lazy" decoding="async"
-           onerror="this.onerror=null;this.src='https://img.youtube.com/vi/uikDazoPnsQ/hqdefault.jpg';">
-      <a class="proj-ext" href="https://youtu.be/uikDazoPnsQ" target="_blank" onclick="event.stopPropagation()">&#8599;</a>
+    <!-- 5 · Flama Squad — en curso -->
+    <a class="proj-card p-dev encuadre-arriba reveal d1" href="flama-squad.html"
+       aria-label="Ver el caso de Flama Squad">
+      <img src="assets/flama/card.webp" alt="Flama Squad"
+           width="900" height="562" loading="lazy" decoding="async">
+      <span class="proj-flag">En desarrollo</span>
       <div class="proj-meta">
-        <p class="proj-cat">Cortometraje &#183; 2015</p>
-        <h3 class="proj-name">Blanco</h3>
-        <p class="proj-client">Cortometraje independiente</p>
+        <p class="proj-cat">Serie &#183; Comedia dramática urbana</p>
+        <h3 class="proj-name">Flama Squad</h3>
+        <p class="proj-client">Creador, guionista y director &#183; 9 episodios</p>
       </div>
-    </div>
-
+    </a>
   </div>
 </section>
 
@@ -1080,7 +1095,7 @@
 
     <p class="about-statement reveal">
       Director y realizador integral. 15 años entre cine, animación, 3D e IA generativa.
-      <em>NBC/Peacock · Konami · Emmy 2024.</em>
+      <em>NBC/Peacock · Konami · Silent Hill: Ascension, Emmy 2024.</em>
     </p>
 
     <div class="reveal d1" style="display:flex; flex-wrap:wrap; gap:14px; margin-top:6px;">
@@ -1170,8 +1185,12 @@
        Delegado, así vale para las que se agreguen después. */
     document.addEventListener('keydown', function (e) {
       if (e.key !== 'Enter' && e.key !== ' ' && e.key !== 'Spacebar') return;
-      var el = e.target.closest && e.target.closest('[role="button"][tabindex="0"]');
-      if (!el) return;
+      /* Sólo si la tarjeta misma tiene el foco. Si lo tiene un hijo, como
+         la flecha externa, ese enlace conserva su comportamiento nativo:
+         con closest() el Enter subía hasta la tarjeta y abría el
+         reproductor interno en vez de ir a YouTube. */
+      var el = e.target;
+      if (!el.matches || !el.matches('[role="button"][tabindex="0"]')) return;
       e.preventDefault();
       el.click();
     });
@@ -1208,7 +1227,8 @@
         el.addEventListener('mouseleave', function () { ring.classList.remove('grow'); });
       });
       if (label) {
-        document.querySelectorAll('.proj-card, .proj-featured').forEach(function (el) {
+        /* «Play» sólo donde la tarjeta abre un video: CDBI y Flama llevan a su ficha. */
+        document.querySelectorAll('.proj-card[role="button"], .proj-featured').forEach(function (el) {
           el.addEventListener('mouseenter', function () { label.classList.add('show'); });
           el.addEventListener('mouseleave', function () { label.classList.remove('show'); });
         });
