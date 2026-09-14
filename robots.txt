@@ -57,4 +57,4 @@ Allow: /
 User-agent: cohere-ai
 Allow: /
 
-Sitemap: https://julisequeira.com/sitemap.xml
+Sitemap: https://juliansequeira.com/sitemap.xml
