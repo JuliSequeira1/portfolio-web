@@ -28,6 +28,15 @@
   <!-- Sistema compartido: color, foco, red de seguridad del cursor -->
   <link rel="stylesheet" href="assets/tokens.css">
 
+  <!-- Navegación compartida: rótulo del menú, continuidad tarjeta ↔ caso y
+       regreso al listado. Sin defer: tiene que escuchar pagereveal antes
+       del primer render. -->
+  <link rel="stylesheet" href="assets/navegacion.css">
+  <script src="assets/navegacion.js"></script>
+  <!-- No pintar hasta tener la página armada: la transición y el regreso
+       necesitan las tarjetas y la cabecera en su lugar. -->
+  <link rel="expect" href="#contact-strip" blocking="render">
+
   <style>
     /* Tokens en assets/tokens.css — esta página no define color propio. */
     :root {
@@ -650,53 +659,7 @@
         "@type": "Movie",
         "@id": "https://julisequeira.com/#la-noche",
         "name": "La Noche",
-        "alternateName": "The Night",
-        "description": "Cortometraje de fantasía rodado en Buenos Aires. Guion y dirección de Julián Sequeira. Seis selecciones oficiales en festivales entre 2020 y 2021.",
-        "genre": [
-          "Cortometraje",
-          "Fantasía"
-        ],
-        "datePublished": "2020-11-20",
-        "inLanguage": "es",
-        "countryOfOrigin": {
-          "@type": "Country",
-          "name": "Argentina"
-        },
-        "director": {
-          "@id": "https://julisequeira.com/#julian"
-        },
-        "author": [
-          {
-            "@id": "https://julisequeira.com/#julian"
-          },
-          {
-            "@type": "Person",
-            "name": "Raúl Ampuero"
-          },
-          {
-            "@type": "Person",
-            "name": "Tania Covelli"
-          }
-        ],
-        "productionCompany": [
-          {
-            "@type": "Organization",
-            "name": "Flama Collective"
-          },
-          {
-            "@type": "Organization",
-            "name": "El Panorama Films"
-          }
-        ],
-        "award": [
-          "Selección Oficial — Buenos Aires Rojo Sangre, 2020",
-          "Selección Oficial — First-Time Filmmaker Sessions, 2020",
-          "Selección Oficial — The Lift-Off Sessions, 2020",
-          "Selección Oficial — Festival del Cinema di Cefalù, 2021",
-          "Selección Oficial — FILMÓPTICO International Art Visual and Film Festival, 2021",
-          "Selección Oficial — IPIFF Independent Producers Indie Film Festival, 2021"
-        ],
-        "sameAs": "https://www.imdb.com/title/tt13969576/"
+        "url": "https://julisequeira.com/la-noche.html"
       },
       {
         "@type": "Movie",
@@ -797,15 +760,15 @@
           </div>
         </div>
 
-        <div class="work-item reveal d1" role="button" tabindex="0" data-cat="films" onclick="openVideo('3pr9iIdRLPI')" style="cursor:pointer" aria-label="Ver el cortometraje La Noche">
+        <a class="work-item reveal d1" href="la-noche.html" data-cat="films"
+           aria-label="Ver el caso de La Noche">
           <img src="assets/la-noche/still.webp" alt="Dos personajes en el baño rojo, del cortometraje La Noche" width="1600" height="1054" loading="lazy" decoding="async">
-          <a class="item-ext" aria-label="Abrir en YouTube" href="https://youtu.be/3pr9iIdRLPI" target="_blank" rel="noopener" onclick="event.stopPropagation()">&#8599;</a>
           <div class="work-item-meta">
             <p class="item-cat">Cortometraje &#183; 2020</p>
             <p class="item-name">La Noche</p>
             <p class="item-client">Guion y dirección</p>
           </div>
-        </div>
+        </a>
     </div>
     <div class="sel-fila sel-curso" data-zona="en-curso" data-visibles="2">
         <a class="work-item reveal" href="cdbi.html" data-cat="animacion ia"
@@ -1096,6 +1059,65 @@
   </div>
 </section>
 
+<!-- ── FILTERS ── -->
+<!-- Va antes del contacto: la página no se pinta hasta leer #contact-strip
+     (rel="expect" en el head). Así el filtro ya está aplicado cuando
+     navegacion.js busca la tarjeta al volver de un caso. -->
+<script>
+  (function () {
+    var filterBtns = document.querySelectorAll('.filter-btn');
+    var workItems = document.querySelectorAll('.work-item');
+    /* Zonas que se ocultan si el filtro las deja vacías: cada fila de la
+       selección, la selección entera y el resto del catálogo. */
+    var zonas = document.querySelectorAll('[data-zona]');
+    var avisa = document.getElementById('filtro-estado');
+
+    function aplicar(f, anunciar) {
+      var visibles = 0;
+      filterBtns.forEach(function (b) {
+        var activo = b.dataset.filter === f;
+        b.classList.toggle('active', activo);
+        b.setAttribute('aria-pressed', activo ? 'true' : 'false');
+      });
+      workItems.forEach(function (item) {
+        var cats = (item.dataset.cat || '').split(' ');
+        var oculto = f !== 'all' && cats.indexOf(f) === -1;
+        item.classList.toggle('hidden', oculto);
+        if (!oculto) {
+          visibles++;
+          /* Lo que aparece por un filtro no espera la animación de entrada. */
+          if (anunciar) item.classList.add('visible');
+        }
+      });
+      zonas.forEach(function (z) {
+        var n = z.querySelectorAll('.work-item:not(.hidden)').length;
+        z.hidden = n === 0;
+        z.setAttribute('data-visibles', n);
+      });
+      /* Con display:none el lector de pantalla no anuncia nada por su cuenta. */
+      if (anunciar && avisa) avisa.textContent = visibles + ' proyectos visibles';
+    }
+
+    /* El filtro activo vive en la URL (?filtro=films): así lo encuentran
+       Atrás, el regreso desde un caso y una pestaña nueva. */
+    var validos = {};
+    filterBtns.forEach(function (b) { validos[b.dataset.filter] = true; });
+    var pedido = new URLSearchParams(location.search).get('filtro');
+    aplicar(pedido && validos[pedido] ? pedido : 'all', false);
+
+    filterBtns.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var f = btn.dataset.filter;
+        aplicar(f, true);
+        var url = new URL(location.href);
+        if (f === 'all') url.searchParams.delete('filtro');
+        else url.searchParams.set('filtro', f);
+        history.replaceState(history.state, '', url.pathname + url.search + url.hash);
+      });
+    });
+  })();
+</script>
+
 <!-- ── CONTACT STRIP ─────────────────────────────────────────── -->
 <section id="contact-strip">
   <div class="strip-left">
@@ -1223,45 +1245,6 @@
         el.addEventListener('mouseleave', function () { ring.classList.remove('grow'); });
       });
     } catch (err) { document.documentElement.classList.remove('js-cursor'); }
-  })();
-</script>
-
-<!-- ── FILTERS ── -->
-<script>
-  (function () {
-    var filterBtns = document.querySelectorAll('.filter-btn');
-    var workItems = document.querySelectorAll('.work-item');
-    /* Zonas que se ocultan si el filtro las deja vacías: cada fila de la
-       selección, la selección entera y el resto del catálogo. */
-    var zonas = document.querySelectorAll('[data-zona]');
-    filterBtns.forEach(function (btn) {
-      btn.setAttribute('aria-pressed', btn.classList.contains('active') ? 'true' : 'false');
-      btn.addEventListener('click', function () {
-        filterBtns.forEach(function (b) {
-          b.classList.remove('active');
-          b.setAttribute('aria-pressed', 'false');
-        });
-        btn.classList.add('active');
-        btn.setAttribute('aria-pressed', 'true');
-        var f = btn.dataset.filter;
-        var visibles = 0;
-        workItems.forEach(function (item) {
-          var cats = (item.dataset.cat || '').split(' ');
-          var oculto = f !== 'all' && cats.indexOf(f) === -1;
-          item.classList.toggle('hidden', oculto);
-          /* Lo que aparece por un filtro no espera la animación de entrada. */
-          if (!oculto) { visibles++; item.classList.add('visible'); }
-        });
-        zonas.forEach(function (z) {
-          var n = z.querySelectorAll('.work-item:not(.hidden)').length;
-          z.hidden = n === 0;
-          z.setAttribute('data-visibles', n);
-        });
-        /* Con display:none el lector de pantalla no anuncia nada por su cuenta. */
-        var avisa = document.getElementById('filtro-estado');
-        if (avisa) avisa.textContent = visibles + ' proyectos visibles';
-      });
-    });
   })();
 </script>
 

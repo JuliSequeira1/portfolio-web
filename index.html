@@ -32,6 +32,15 @@
   <!-- Sistema compartido: color, foco, red de seguridad del cursor -->
   <link rel="stylesheet" href="assets/tokens.css">
 
+  <!-- Navegación compartida: rótulo del menú, continuidad tarjeta ↔ caso y
+       regreso al listado. Sin defer: tiene que escuchar pagereveal antes
+       del primer render. -->
+  <link rel="stylesheet" href="assets/navegacion.css">
+  <script src="assets/navegacion.js"></script>
+  <!-- No pintar hasta tener la página armada: la transición y el regreso
+       necesitan las tarjetas y la cabecera en su lugar. -->
+  <link rel="expect" href="#contact" blocking="render">
+
   <style>
     /* Tokens propios de esta página. El resto vive en assets/tokens.css */
     :root {
@@ -1021,20 +1030,18 @@
       </div>
     </div>
 
-    <!-- 3 · La Noche -->
-    <div class="proj-card p-noche reveal d1" role="button" tabindex="0"
-         aria-label="Ver el cortometraje La Noche"
-         onclick="openVideo('3pr9iIdRLPI')" style="cursor:pointer">
+    <!-- 3 · La Noche: lleva a su caso -->
+    <a class="proj-card p-noche reveal d1" href="la-noche.html"
+       aria-label="Ver el caso de La Noche">
       <img src="assets/la-noche/still.webp"
            alt="Dos personajes en el baño rojo, del cortometraje La Noche"
            width="1600" height="1054" loading="lazy" decoding="async">
-      <a class="proj-ext" href="https://youtu.be/3pr9iIdRLPI" target="_blank" rel="noopener" onclick="event.stopPropagation()">&#8599;</a>
       <div class="proj-meta">
         <p class="proj-cat">Cortometraje &#183; 2020</p>
         <h3 class="proj-name">La Noche</h3>
         <p class="proj-client">Guion y dirección</p>
       </div>
-    </div>
+    </a>
 
     <!-- 4 · Crónicas del Barro Infinito — en curso -->
     <a class="proj-card p-dev reveal" href="cdbi.html"

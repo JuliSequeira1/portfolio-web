@@ -17,7 +17,7 @@
   <!-- Vercel Analytics -->
   <script defer src="/_vercel/insights/script.js"></script>
 
-  <link rel="preload" as="image" href="assets/flama/hero.webp" fetchpriority="high">
+  <link rel="preload" as="image" href="assets/flama/card.webp" fetchpriority="high">
 
   <link rel="preconnect" href="https://api.fontshare.com">
   <link href="https://api.fontshare.com/v2/css?f[]=satoshi@700,800,900&display=swap" rel="stylesheet">
@@ -26,6 +26,15 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="assets/tokens.css">
+
+  <!-- Navegación compartida: rótulo del menú, continuidad tarjeta ↔ caso y
+       regreso al listado. Sin defer: tiene que escuchar pagereveal antes
+       del primer render. -->
+  <link rel="stylesheet" href="assets/navegacion.css">
+  <script src="assets/navegacion.js"></script>
+  <!-- No pintar hasta tener la página armada: la transición y el regreso
+       necesitan las tarjetas y la cabecera en su lugar. -->
+  <link rel="expect" href="#pedido" blocking="render">
 
   <style>
     :root { --nav-h: 77px; }
@@ -96,8 +105,11 @@
     /* ─── IMAGEN PRINCIPAL ───────────────────────────────────── */
     .foto-zona { padding: 0 52px; }
     .foto {
-      width: 100%; display: block;
-      aspect-ratio: 21/9; object-fit: cover; object-position: center 35%;
+      width: 100%; height: auto; display: block;
+      aspect-ratio: 21/9; object-fit: cover;
+      /* Es la misma foto de la tarjeta, con las caras contra el borde de
+         arriba: el recorte panorámico sale de abajo. */
+      object-position: center top;
       background: #d8d4cc;
     }
     @media (max-width: 700px) { .foto { aspect-ratio: 16/10; } }
@@ -263,6 +275,10 @@
       border-top: 1px solid rgba(244,242,238,.12);
     }
     footer span { font-size: 10px; letter-spacing: .1em; color: var(--on-dark); }
+
+    /* ─── SIGUIENTE PROYECTO ─────────────────────────────────── */
+    /* Entre el pedido y el pie, los dos en tinta: la banda sigue en oscuro. */
+    .siguiente { background: var(--ink); color: var(--cream); border-top-color: rgba(244,242,238,.12); }
 
     /* ─── REVEAL ─────────────────────────────────────────────── */
     .reveal { transition: opacity .8s ease, transform .8s ease; }
@@ -483,11 +499,11 @@
   </ul>
 </nav>
 
-<p class="miga"><a href="work.html">Trabajos</a><span>/</span>Flama Squad</p>
+<p class="miga"><a href="work.html" data-volver>← Volver a trabajos</a></p>
 
 <header>
   <p class="kicker">Serie de comedia dramática · En busca de financiación</p>
-  <h1>Flama Squad</h1>
+  <h1 data-vt="titulo" tabindex="-1">Flama Squad</h1>
   <p class="logline">
     Tres treintañeros bonaerenses intentan resucitar su banda de rap adolescente y descubren
     que los sueños que no se cierran bien siempre vuelven, más grandes y más ridículos que antes.
@@ -495,8 +511,9 @@
 </header>
 
 <div class="foto-zona">
-  <img class="foto" src="assets/flama/hero.webp" alt="Salvatore, León y Gaspar, los tres protagonistas de Flama Squad" fetchpriority="high" decoding="async">
-  <p class="pie">Salvatore, León y Gaspar. Fotograma de una de las escenas filmadas.</p>
+  <!-- Misma imagen que su tarjeta: la foto pasa del listado a la cabecera. -->
+  <img class="foto" src="assets/flama/card.webp" data-vt="imagen" alt="Salvatore, León y Gaspar, los tres protagonistas de Flama Squad" width="900" height="562" fetchpriority="high" decoding="async">
+  <p class="pie">Salvatore, León y Gaspar.</p>
 </div>
 
 <!-- ── BECAS: la prueba va arriba ─────────────────────────────── -->
@@ -623,6 +640,16 @@
     <a href="https://www.behance.net/gallery/196026795/Flama-Squad" target="_blank" rel="noopener">Galería en Behance ↗</a>
     <a href="work.html">Más trabajos ↗</a>
   </div>
+</section>
+
+<!-- ── SIGUIENTE PROYECTO ────────────────────────────────────── -->
+<section class="siguiente" aria-labelledby="siguiente-k">
+  <p class="siguiente-k" id="siguiente-k">Siguiente proyecto</p>
+  <a class="siguiente-link" href="la-noche.html">
+    <span class="siguiente-titulo">La Noche</span>
+    <span class="siguiente-flecha" aria-hidden="true">↗</span>
+    <span class="siguiente-ventana"><img src="assets/la-noche/still.webp" alt="" width="1600" height="1054" loading="eager" decoding="async"></span>
+  </a>
 </section>
 
 <footer>
