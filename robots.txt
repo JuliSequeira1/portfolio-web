@@ -1,4 +1,9 @@
-# julisequeira.com
+# juliansequeira.com — dominio principal desde el 14/09/2026
+# julisequeira.com   — dominio anterior, redirige con 301 página por página
+#
+# Los dos dominios sirven este mismo archivo: julisequeira.com/robots.txt
+# redirige acá. El Sitemap va sólo con el principal a propósito: un sitemap
+# del dominio viejo listaría URLs que redirigen, y Google no las toma.
 
 # Buscadores tradicionales
 User-agent: *
