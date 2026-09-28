@@ -6,9 +6,7 @@
    modal que arma este archivo: foco atrapado, Escape, ✕ siempre a la
    vista y el video nunca más alto que la ventana.
      data-video="vertical"  abre en 9:16.
-     data-salida="URL"      cambia el enlace «Ver en…» del reproductor
-                            (Dinopops: el trailer va por Dailymotion y la
-                            salida, a IMDb).
+     data-salida="URL"      cambia el enlace «Ver en…» del reproductor.
    Va con defer: sólo necesita el DOM. El aspecto está en reproductor.css.
    ═══════════════════════════════════════════════════════════════ */
 (function () {
