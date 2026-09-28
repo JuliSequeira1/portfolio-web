@@ -286,6 +286,76 @@
       color: var(--on-dark); margin-top: 9px;
     }
 
+    /* ─── CONTACTOS ────────────────────────────────
+       Las hojas de contactos del opening, rehechas en HTML en vez de
+       pegar el JPG: cada cuadro es 16:9, así que la grilla no recorta.
+       Las marcas rojas son las decisiones reales del 18/09 (ver
+       ASSETS_MASTER_T1_V5 › Opening) y se dibujan al entrar en vista,
+       como lápiz graso sobre la hoja. El texto de la nota es el que
+       dice la decisión; la marca es sólo el gesto.
+       ─────────────────────────────────────────────── */
+    .hoja { margin-top: 46px; background: #141414; padding: 10px; }
+    .hoja + .hoja { margin-top: 22px; }
+    .hoja-k {
+      display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 20px;
+      padding: 4px 2px 12px;
+      font-size: 10px; font-weight: 500;
+      letter-spacing: .16em; text-transform: uppercase;
+      color: var(--on-dark-soft);
+      font-variant-numeric: tabular-nums;
+    }
+    .hoja-k b { color: var(--on-dark-strong); font-weight: 500; }
+    .hoja-grid {
+      display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px 10px; list-style: none;
+    }
+    .hoja-2 .hoja-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    @media (max-width: 900px) { .hoja-grid, .hoja-2 .hoja-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+    .cuadro-img { position: relative; background: #0A0A0A; }
+    .cuadro-img img { width: 100%; aspect-ratio: 16/9; display: block; }
+    .cuadro.fuera .cuadro-img img { opacity: .5; }
+    .marca {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      overflow: visible; pointer-events: none;
+    }
+    .marca path {
+      fill: none; stroke: var(--red); stroke-width: 3;
+      stroke-linecap: round; stroke-linejoin: round;
+      vector-effect: non-scaling-stroke;
+    }
+    /* Se dibuja cuando la hoja entra en vista. Sin JS, ya está dibujada. */
+    html.js-reveal .hoja .marca path {
+      stroke-dasharray: 1; stroke-dashoffset: 1;
+      transition: stroke-dashoffset .7s cubic-bezier(.6, 0, .3, 1);
+      transition-delay: calc(.35s + var(--i, 0) * .12s);
+    }
+    html.js-reveal .hoja.visible .marca path { stroke-dashoffset: 0; }
+
+    .cuadro figcaption {
+      margin-top: 8px;
+      font-size: 11px; line-height: 1.45;
+      color: var(--on-dark-soft);
+      font-variant-numeric: tabular-nums;
+    }
+    /* Dos renglones fijos: rótulo y archivo. En una sola línea, a cuatro
+       columnas el nombre del archivo partía el rótulo. */
+    .cuadro-n { display: block; color: var(--on-dark-strong); }
+    .cuadro-f { display: block; overflow-wrap: anywhere; }
+    .cuadro-nota {
+      display: flex; align-items: center; gap: 7px;
+      margin-top: 4px;
+      font-size: 10px; font-weight: 500;
+      letter-spacing: .12em; text-transform: uppercase;
+      color: var(--on-dark-strong);
+    }
+    .cuadro-nota::before { content: ''; flex: none; width: 10px; height: 2px; background: var(--red); }
+    @media (max-width: 560px) {
+      .hoja { padding: 8px 6px; }
+      .hoja-grid { gap: 12px 6px; }
+      .cuadro figcaption { font-size: 10px; }
+    }
+
     /* ─── FRASE ────────────────────────────────── */
     .frase {
       padding: 120px 52px;
@@ -816,6 +886,206 @@
       <img src="assets/cdbi/per-condor.webp" alt="Plano final de El Cóndor en un pasillo de noche, con anteojos oscuros y cadena de oro" width="560" height="996" loading="lazy" decoding="async">
       <p class="pieza-d">El resultado. Con el diseño como referencia y el layout como guía, el modelo genera encima.</p>
     </figure>
+  </div>
+</section>
+
+<!-- ── CONTACTOS ─────────────────────────────────────────────── -->
+<section class="sec" id="contactos">
+  <p class="sec-k">Hoja de contactos · Opening de temporada</p>
+  <h2 class="reveal">Primero se genera todo. Después se tacha.</h2>
+  <div class="prosa">
+    <p class="reveal d1">
+      La primera tanda de concepts del opening, como salió el 18 de septiembre: doce láminas
+      numeradas por orden de aparición, cada una con el nombre de archivo que usa el pipeline
+      para citarla. Esa tarde se rehicieron cuatro, se descartó una y el sapito cambió de ojos.
+      <strong>Las marcas son las decisiones reales, no decoración.</strong>
+    </p>
+  </div>
+
+  <div class="hoja reveal">
+    <p class="hoja-k"><span><b>Hoja 1</b> · Concepts</span><span>18.09.2026 · 12 cuadros</span></p>
+    <ol class="hoja-grid">
+        <li>
+          <figure class="cuadro">
+            <div class="cuadro-img">
+              <img src="assets/cdbi/contactos/h1-01-640.webp" srcset="assets/cdbi/contactos/h1-01-640.webp 640w, assets/cdbi/contactos/h1-01.webp 960w" sizes="(max-width: 900px) 46vw, 23vw" alt="Hoja maestra del sapito de oro: cuatro vistas, silueta, base y el sapito en mano de adulto y de chico" width="640" height="360" loading="lazy" decoding="async">
+            <svg class="marca" viewBox="0 0 160 90" aria-hidden="true" style="--i:0"><path pathLength="1" d="M34 10C78 1 142 7 151 40C159 73 110 88 68 86C24 84 3 63 9 37C14 18 42 8 66 6"/></svg>
+            </div>
+            <figcaption><span class="cuadro-n">01 sapito</span><span class="cuadro-f">cbi_prop_sapito_v01_ojosnegros.png</span>
+            <span class="cuadro-nota">Elegida · ojos dorados</span></figcaption>
+          </figure>
+        </li>
+        <li>
+          <figure class="cuadro">
+            <div class="cuadro-img">
+              <img src="assets/cdbi/contactos/h1-02-640.webp" srcset="assets/cdbi/contactos/h1-02-640.webp 640w, assets/cdbi/contactos/h1-02.webp 960w" sizes="(max-width: 900px) 46vw, 23vw" alt="Interior de joyería de noche: el Cóndor, Joel, Pili y Beto inclinados sobre el sapito de oro en un pedestal" width="640" height="360" loading="lazy" decoding="async">
+            <svg class="marca" viewBox="0 0 160 90" aria-hidden="true" style="--i:1"><path pathLength="1" d="M116 22C115 8 147 6 148 21C149 33 132 33 131 50M130 62C131 60 133 61 132 63"/></svg>
+            </div>
+            <figcaption><span class="cuadro-n">02 joyería int</span><span class="cuadro-f">cbi_loc_joyeria_int.png</span>
+            <span class="cuadro-nota">Lugar en duda</span></figcaption>
+          </figure>
+        </li>
+        <li>
+          <figure class="cuadro">
+            <div class="cuadro-img">
+              <img src="assets/cdbi/contactos/h1-03-640.webp" srcset="assets/cdbi/contactos/h1-03-640.webp 640w, assets/cdbi/contactos/h1-03.webp 960w" sizes="(max-width: 900px) 46vw, 23vw" alt="Fachada deteriorada de una joyería con rejas, en una vereda mojada de noche" width="640" height="360" loading="lazy" decoding="async">
+            <svg class="marca" viewBox="0 0 160 90" aria-hidden="true" style="--i:2"><path pathLength="1" d="M116 22C115 8 147 6 148 21C149 33 132 33 131 50M130 62C131 60 133 61 132 63"/></svg>
+            </div>
+            <figcaption><span class="cuadro-n">03 joyería ext</span><span class="cuadro-f">cbi_loc_joyeria_ext.png</span>
+            <span class="cuadro-nota">Lugar en duda</span></figcaption>
+          </figure>
+        </li>
+        <li>
+          <figure class="cuadro">
+            <div class="cuadro-img">
+              <img src="assets/cdbi/contactos/h1-04-640.webp" srcset="assets/cdbi/contactos/h1-04-640.webp 640w, assets/cdbi/contactos/h1-04.webp 960w" sizes="(max-width: 900px) 46vw, 23vw" alt="Joel y Pili entran corriendo a un patio con el sapito en brazos; atrás, un patrullero con balizas frente a la joyería" width="640" height="360" loading="lazy" decoding="async">
+            </div>
+            <figcaption><span class="cuadro-n">04 patio entrada</span><span class="cuadro-f">cbi_loc_patio_entrada.png</span></figcaption>
+          </figure>
+        </li>
+        <li>
+          <figure class="cuadro">
+            <div class="cuadro-img">
+              <img src="assets/cdbi/contactos/h1-05-640.webp" srcset="assets/cdbi/contactos/h1-05-640.webp 640w, assets/cdbi/contactos/h1-05.webp 960w" sizes="(max-width: 900px) 46vw, 23vw" alt="Patio de noche con una sábana blanca colgada de las sogas y piso mojado" width="640" height="360" loading="lazy" decoding="async">
+            <svg class="marca" viewBox="0 0 160 90" aria-hidden="true" style="--i:4"><path pathLength="1" d="M20 80C60 56 100 34 142 10"/></svg>
+            </div>
+            <figcaption><span class="cuadro-n">05 patio sábanas</span><span class="cuadro-f">cbi_loc_patio_sabanas_v01.png</span>
+            <span class="cuadro-nota">Rehacer → hoja 2</span></figcaption>
+          </figure>
+        </li>
+        <li>
+          <figure class="cuadro">
+            <div class="cuadro-img">
+              <img src="assets/cdbi/contactos/h1-06-640.webp" srcset="assets/cdbi/contactos/h1-06-640.webp 640w, assets/cdbi/contactos/h1-06.webp 960w" sizes="(max-width: 900px) 46vw, 23vw" alt="Esther saluda desde la puerta de su casa, con algunos gatos en el umbral" width="640" height="360" loading="lazy" decoding="async">
+            <svg class="marca" viewBox="0 0 160 90" aria-hidden="true" style="--i:5"><path pathLength="1" d="M20 80C60 56 100 34 142 10"/></svg>
+            </div>
+            <figcaption><span class="cuadro-n">06 hogar de gatos</span><span class="cuadro-f">cbi_loc_casagatos_ext_v01.png</span>
+            <span class="cuadro-nota">Rehacer → hoja 2</span></figcaption>
+          </figure>
+        </li>
+        <li>
+          <figure class="cuadro">
+            <div class="cuadro-img">
+              <img src="assets/cdbi/contactos/h1-07-640.webp" srcset="assets/cdbi/contactos/h1-07-640.webp 640w, assets/cdbi/contactos/h1-07.webp 960w" sizes="(max-width: 900px) 46vw, 23vw" alt="Peluquería de barrio de frente, con toldo a rayas y cartel fileteado, de noche" width="640" height="360" loading="lazy" decoding="async">
+            <svg class="marca" viewBox="0 0 160 90" aria-hidden="true" style="--i:6"><path pathLength="1" d="M20 80C60 56 100 34 142 10"/></svg>
+            </div>
+            <figcaption><span class="cuadro-n">07 peluquería</span><span class="cuadro-f">cbi_loc_peluqueria_ext_v01_frente.png</span>
+            <span class="cuadro-nota">Rehacer → hoja 2</span></figcaption>
+          </figure>
+        </li>
+        <li>
+          <figure class="cuadro">
+            <div class="cuadro-img">
+              <img src="assets/cdbi/contactos/h1-08-640.webp" srcset="assets/cdbi/contactos/h1-08-640.webp 640w, assets/cdbi/contactos/h1-08.webp 960w" sizes="(max-width: 900px) 46vw, 23vw" alt="Calle de Lanús de noche bajo la lluvia, con la joyería y la peluquería sobre la misma vereda" width="640" height="360" loading="lazy" decoding="async">
+            <svg class="marca" viewBox="0 0 160 90" aria-hidden="true" style="--i:7"><path pathLength="1" d="M20 80C60 56 100 34 142 10"/></svg>
+            </div>
+            <figcaption><span class="cuadro-n">08 calle continua</span><span class="cuadro-f">cbi_loc_calle_opening.png</span>
+            <span class="cuadro-nota">Rehacer al final</span></figcaption>
+          </figure>
+        </li>
+        <li>
+          <figure class="cuadro fuera">
+            <div class="cuadro-img">
+              <img src="assets/cdbi/contactos/h1-09-640.webp" srcset="assets/cdbi/contactos/h1-09-640.webp 640w, assets/cdbi/contactos/h1-09.webp 960w" sizes="(max-width: 900px) 46vw, 23vw" alt="Hoja de vistas de un patrullero todoterreno con Joel a escala" width="640" height="360" loading="lazy" decoding="async">
+            <svg class="marca" viewBox="0 0 160 90" aria-hidden="true" style="--i:8"><path pathLength="1" d="M16 12C60 36 104 60 144 80M146 10C104 34 60 58 14 82"/></svg>
+            </div>
+            <figcaption><span class="cuadro-n">09 patrullero</span><span class="cuadro-f">cbi_prop_patrullero_vistas_DESCARTADA.png</span>
+            <span class="cuadro-nota">Descartada · achatada</span></figcaption>
+          </figure>
+        </li>
+        <li>
+          <figure class="cuadro">
+            <div class="cuadro-img">
+              <img src="assets/cdbi/contactos/h1-10-640.webp" srcset="assets/cdbi/contactos/h1-10-640.webp 640w, assets/cdbi/contactos/h1-10.webp 960w" sizes="(max-width: 900px) 46vw, 23vw" alt="Colectivo 520 retro verde y blanco en tres vistas, con el cartel de línea" width="640" height="360" loading="lazy" decoding="async">
+            <svg class="marca" viewBox="0 0 160 90" aria-hidden="true" style="--i:9"><path pathLength="1" d="M20 80C60 56 100 34 142 10"/></svg>
+            </div>
+            <figcaption><span class="cuadro-n">10 colectivo 520</span><span class="cuadro-f">cbi_prop_colectivo520_v01_retro.png</span>
+            <span class="cuadro-nota">Rehacer → hoja 2</span></figcaption>
+          </figure>
+        </li>
+        <li>
+          <figure class="cuadro">
+            <div class="cuadro-img">
+              <img src="assets/cdbi/contactos/h1-11-640.webp" srcset="assets/cdbi/contactos/h1-11-640.webp 640w, assets/cdbi/contactos/h1-11.webp 960w" sizes="(max-width: 900px) 46vw, 23vw" alt="Repartidor de campera naranja en bicicleta, en dos poses, junto a una silueta de escala" width="640" height="360" loading="lazy" decoding="async">
+            </div>
+            <figcaption><span class="cuadro-n">11 al toque + bici</span><span class="cuadro-f">cbi_ch_altoque_bici.png</span></figcaption>
+          </figure>
+        </li>
+        <li>
+          <figure class="cuadro">
+            <div class="cuadro-img">
+              <img src="assets/cdbi/contactos/h1-12-640.webp" srcset="assets/cdbi/contactos/h1-12-640.webp 640w, assets/cdbi/contactos/h1-12.webp 960w" sizes="(max-width: 900px) 46vw, 23vw" alt="Utilería del opening: pedestal hexagonal de terciopelo, tramo de rejas, puerta, sogas y sábanas" width="640" height="360" loading="lazy" decoding="async">
+            </div>
+            <figcaption><span class="cuadro-n">12 utilería</span><span class="cuadro-f">cbi_prop_utileria_opening.png</span></figcaption>
+          </figure>
+        </li>
+    </ol>
+  </div>
+
+  <div class="hoja hoja-2 reveal">
+    <p class="hoja-k"><span><b>Hoja 2</b> · Ajustes</span><span>18.09.2026, tarde · 6 cuadros</span></p>
+    <ol class="hoja-grid">
+        <li>
+          <figure class="cuadro">
+            <div class="cuadro-img">
+              <img src="assets/cdbi/contactos/h2-10-640.webp" srcset="assets/cdbi/contactos/h2-10-640.webp 640w, assets/cdbi/contactos/h2-10.webp 960w" sizes="(max-width: 900px) 46vw, 23vw" alt="Colectivo 520 actual, azul y blanco, en dos vistas tres cuartos delanteras" width="640" height="360" loading="lazy" decoding="async">
+            <svg class="marca" viewBox="0 0 160 90" aria-hidden="true" style="--i:0"><path pathLength="1" d="M34 10C78 1 142 7 151 40C159 73 110 88 68 86C24 84 3 63 9 37C14 18 42 8 66 6"/></svg>
+            </div>
+            <figcaption><span class="cuadro-n">10 colectivo 520 v02</span><span class="cuadro-f">cbi_prop_colectivo520.png</span>
+            <span class="cuadro-nota">Elegida</span></figcaption>
+          </figure>
+        </li>
+        <li>
+          <figure class="cuadro">
+            <div class="cuadro-img">
+              <img src="assets/cdbi/contactos/h2-07-640.webp" srcset="assets/cdbi/contactos/h2-07-640.webp 640w, assets/cdbi/contactos/h2-07.webp 960w" sizes="(max-width: 900px) 46vw, 23vw" alt="Peluquería en una esquina en ochava con tres toldos rosa y cartel fileteado, de noche" width="640" height="360" loading="lazy" decoding="async">
+            <svg class="marca" viewBox="0 0 160 90" aria-hidden="true" style="--i:1"><path pathLength="1" d="M34 10C78 1 142 7 151 40C159 73 110 88 68 86C24 84 3 63 9 37C14 18 42 8 66 6"/></svg>
+            </div>
+            <figcaption><span class="cuadro-n">07 peluquería en ochava</span><span class="cuadro-f">cbi_loc_peluqueria_ext.png</span>
+            <span class="cuadro-nota">Elegida</span></figcaption>
+          </figure>
+        </li>
+        <li>
+          <figure class="cuadro">
+            <div class="cuadro-img">
+              <img src="assets/cdbi/contactos/h2-06-640.webp" srcset="assets/cdbi/contactos/h2-06-640.webp 640w, assets/cdbi/contactos/h2-06.webp 960w" sizes="(max-width: 900px) 46vw, 23vw" alt="Esther en la puerta de su casa rodeada de más de cuarenta gatos" width="640" height="360" loading="lazy" decoding="async">
+            <svg class="marca" viewBox="0 0 160 90" aria-hidden="true" style="--i:2"><path pathLength="1" d="M34 10C78 1 142 7 151 40C159 73 110 88 68 86C24 84 3 63 9 37C14 18 42 8 66 6"/></svg>
+            </div>
+            <figcaption><span class="cuadro-n">06 hogar de gatos v02</span><span class="cuadro-f">cbi_loc_casagatos_ext.png</span>
+            <span class="cuadro-nota">Elegida</span></figcaption>
+          </figure>
+        </li>
+        <li>
+          <figure class="cuadro">
+            <div class="cuadro-img">
+              <img src="assets/cdbi/contactos/h2-05a-640.webp" srcset="assets/cdbi/contactos/h2-05a-640.webp 640w, assets/cdbi/contactos/h2-05a.webp 960w" sizes="(max-width: 900px) 46vw, 23vw" alt="Patio con sogas cargadas de telas de colores, toallas con tucanes y una sábana blanca al centro" width="640" height="360" loading="lazy" decoding="async">
+            <svg class="marca" viewBox="0 0 160 90" aria-hidden="true" style="--i:3"><path pathLength="1" d="M34 10C78 1 142 7 151 40C159 73 110 88 68 86C24 84 3 63 9 37C14 18 42 8 66 6"/></svg>
+            </div>
+            <figcaption><span class="cuadro-n">05-A patio entrada de telas</span><span class="cuadro-f">cbi_loc_patio_sabanas.png</span>
+            <span class="cuadro-nota">Elegida</span></figcaption>
+          </figure>
+        </li>
+        <li>
+          <figure class="cuadro">
+            <div class="cuadro-img">
+              <img src="assets/cdbi/contactos/h2-05b-640.webp" srcset="assets/cdbi/contactos/h2-05b-640.webp 640w, assets/cdbi/contactos/h2-05b.webp 960w" sizes="(max-width: 900px) 46vw, 23vw" alt="Pasillo angosto entre telas colgadas que forman un laberinto hacia una sábana iluminada" width="640" height="360" loading="lazy" decoding="async">
+            <svg class="marca" viewBox="0 0 160 90" aria-hidden="true" style="--i:4"><path pathLength="1" d="M34 10C78 1 142 7 151 40C159 73 110 88 68 86C24 84 3 63 9 37C14 18 42 8 66 6"/></svg>
+            </div>
+            <figcaption><span class="cuadro-n">05-B patio laberinto</span><span class="cuadro-f">cbi_loc_patio_sabanas_B_laberinto.png</span>
+            <span class="cuadro-nota">Elegida</span></figcaption>
+          </figure>
+        </li>
+        <li>
+          <figure class="cuadro">
+            <div class="cuadro-img">
+              <img src="assets/cdbi/contactos/h2-05c-640.webp" srcset="assets/cdbi/contactos/h2-05c-640.webp 640w, assets/cdbi/contactos/h2-05c.webp 960w" sizes="(max-width: 900px) 46vw, 23vw" alt="Vista abierta de terrazas con sogas y telas de colores hasta el horizonte del barrio" width="640" height="360" loading="lazy" decoding="async">
+            <svg class="marca" viewBox="0 0 160 90" aria-hidden="true" style="--i:5"><path pathLength="1" d="M34 10C78 1 142 7 151 40C159 73 110 88 68 86C24 84 3 63 9 37C14 18 42 8 66 6"/></svg>
+            </div>
+            <figcaption><span class="cuadro-n">05-C patio mundo</span><span class="cuadro-f">cbi_loc_patio_sabanas_C_mundo.png</span>
+            <span class="cuadro-nota">Elegida</span></figcaption>
+          </figure>
+        </li>
+    </ol>
   </div>
 </section>
 
