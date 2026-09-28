@@ -569,6 +569,32 @@
     .c-link:hover { color: var(--red); border-color: var(--red); }
     .c-arrow { font-size: 18px; }
 
+    /* ─── FORMULARIO ─────────────────────────────────────────────
+       Reemplaza al mailto: el mensaje sale desde la página. El envío va
+       al servicio que diga el action del <form>; mientras esté vacío, el
+       botón arma un mail con lo escrito (ver el script del final). */
+    .contacto { margin-top: 44px; max-width: 520px; }
+    .campo {
+      display: flex; flex-direction: column; gap: 8px;
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(244,242,238,.15);
+    }
+    .campo:first-child { border-top: 1px solid rgba(244,242,238,.15); }
+    .campo label {
+      font-size: 10px; font-weight: 500;
+      letter-spacing: .18em; text-transform: uppercase;
+      color: var(--on-dark);
+    }
+    .campo input, .campo textarea {
+      font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 300; line-height: 1.5;
+      color: #F4F2EE; background: none; border: 0; padding: 0; width: 100%;
+      resize: vertical;
+    }
+    .campo input:focus-visible, .campo textarea:focus-visible { outline-offset: 6px; }
+    .contacto-pie { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; margin-top: 26px; }
+    .contacto-estado { font-size: 12px; color: var(--on-dark); }
+    .contacto-alt { font-size: 11px; letter-spacing: .04em; color: var(--on-dark-soft); margin-top: 18px; }
+
     /* ─── FOOTER ─────────────────────────────────────────────── */
     footer {
       padding: 22px 56px;
@@ -1115,16 +1141,40 @@
   <div>
     <p class="contact-eyebrow">¿Trabajamos juntos?</p>
     <div class="contact-big reveal">
-      <a href="mailto:bd.juliansequeira@gmail.com">Hablemos.</a>
+      <a href="#contacto">Hablemos.</a>
     </div>
     <p class="contact-tags">
       Proyectos <span class="sep">·</span> Cine <span class="sep">·</span> 3D
       <span class="sep">·</span> IA <span class="sep">·</span> Dirección
       <span class="sep">·</span> Producción
     </p>
+
+    <!-- Sin action = sin servicio todavía: el botón arma un mail. Con el
+         formulario de Formspree creado, va acá action="https://formspree.io/f/…". -->
+    <form class="contacto reveal d1" id="contacto" method="POST">
+      <div class="campo">
+        <label for="c-nombre">Nombre</label>
+        <input id="c-nombre" name="nombre" type="text" autocomplete="name" required>
+      </div>
+      <div class="campo">
+        <label for="c-email">Email</label>
+        <input id="c-email" name="email" type="email" autocomplete="email" required>
+      </div>
+      <div class="campo">
+        <label for="c-mensaje">Mensaje</label>
+        <textarea id="c-mensaje" name="mensaje" rows="4" required></textarea>
+      </div>
+      <!-- Trampa para bots: un humano no ve este campo ni lo completa. -->
+      <input type="text" name="_gotcha" class="u-sr-only" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <input type="hidden" name="_subject" value="Contacto desde juliansequeira.com">
+      <div class="contacto-pie">
+        <button type="submit" class="btn btn-primary">Enviar</button>
+        <p class="contacto-estado" role="status" aria-live="polite"></p>
+      </div>
+      <p class="contacto-alt">O directo: bd.juliansequeira@gmail.com</p>
+    </form>
   </div>
   <div class="contact-links reveal d1">
-    <a href="mailto:bd.juliansequeira@gmail.com"          class="c-link">Email      <span class="c-arrow">↗</span></a>
     <a href="https://www.youtube.com/@flama.collective"   class="c-link" target="_blank" rel="noopener">YouTube    <span class="c-arrow">↗</span></a>
     <a href="https://www.instagram.com/sequeira_ju/"      class="c-link" target="_blank" rel="noopener">Instagram  <span class="c-arrow">↗</span></a>
     <a href="https://www.linkedin.com/in/sequeirajulian/" class="c-link" target="_blank" rel="noopener">LinkedIn   <span class="c-arrow">↗</span></a>
@@ -1224,6 +1274,53 @@
      movimiento a la vez. Quedan tres — entrada al hacer scroll, marquesinas
      y el hover de las tarjetas. -->
 
+<!-- ── FORMULARIO DE CONTACTO ───────────────────────────────────── -->
+<script>
+  (function () {
+    var form = document.getElementById('contacto');
+    if (!form) return;
+    var estado = form.querySelector('.contacto-estado');
+    var boton = form.querySelector('button[type="submit"]');
+
+    /* Los casos enlazan con ?asunto=…: el mail llega con el proyecto en
+       el asunto. */
+    var asunto = new URLSearchParams(location.search).get('asunto');
+    if (asunto) form.elements._subject.value = asunto + ' · juliansequeira.com';
+
+    /* «Hablemos.» lleva al primer campo. */
+    var grande = document.querySelector('.contact-big a[href="#contacto"]');
+    if (grande) grande.addEventListener('click', function (e) {
+      e.preventDefault();
+      form.elements.nombre.focus();
+    });
+
+    form.addEventListener('submit', function (e) {
+      var endpoint = form.getAttribute('action');
+      if (!endpoint) {
+        /* Sin servicio: se arma el mail con lo escrito. */
+        e.preventDefault();
+        var cuerpo = form.elements.mensaje.value + '\n\n' + form.elements.nombre.value + ' · ' + form.elements.email.value;
+        location.href = 'mailto:bd.juliansequeira@gmail.com?subject=' + encodeURIComponent(form.elements._subject.value) + '&body=' + encodeURIComponent(cuerpo);
+        return;
+      }
+      if (!window.fetch || !window.FormData) return;   /* envío nativo, con la página de respuesta del servicio */
+      e.preventDefault();
+      boton.disabled = true;
+      estado.textContent = 'Enviando…';
+      fetch(endpoint, { method: 'POST', headers: { 'Accept': 'application/json' }, body: new FormData(form) })
+        .then(function (r) {
+          if (!r.ok) throw new Error(r.status);
+          form.reset();
+          estado.textContent = 'Enviado. Te respondo pronto.';
+        })
+        .catch(function () {
+          estado.textContent = 'No salió. Escribime a bd.juliansequeira@gmail.com.';
+        })
+        .then(function () { boton.disabled = false; });
+    });
+  })();
+</script>
+
 <!-- ── HERO: carga condicional del loop ─────────────────────────── -->
 <script>
   (function () {
@@ -1245,8 +1342,9 @@
     if (reduced || isMobile || saveData || slowNet) return;
 
     // Recién acá pedimos los bytes.
-    [['assets/hero.webm', 'video/webm'],
-     ['assets/hero.mp4',  'video/mp4']].forEach(function (s) {
+    // El mp4 va primero: pesa 0,7 MB menos que el webm y lo reproduce todo el mundo.
+    [['assets/hero.mp4',  'video/mp4'],
+     ['assets/hero.webm', 'video/webm']].forEach(function (s) {
       var el = document.createElement('source');
       el.src = s[0]; el.type = s[1];
       v.appendChild(el);
