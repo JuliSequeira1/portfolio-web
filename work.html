@@ -116,7 +116,7 @@
     }
     .page-meta { text-align: right; padding-bottom: 10px; }
     .page-meta p { font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
-    .page-meta strong { font-family: 'Satoshi', sans-serif; font-size: 36px; font-weight: 900; display: block; line-height: 1; color: var(--ink); }
+    .page-meta strong { font-family: 'Satoshi', sans-serif; font-size: 36px; font-weight: 900; display: block; line-height: 1; color: var(--ink); font-variant-numeric: tabular-nums; }
 
     /* ─── FILTERS ────────────────────────────────────────────── */
     #filters {
@@ -142,31 +142,44 @@
     /* ─── CATÁLOGO ───────────────────────────────────────────── */
     #grid-section { padding: 52px 52px 80px; }
 
-    /* Resto del catálogo, con dos formatos. Columnas CSS y no grid: una
-       grilla obliga a compartir alto a todas las tarjetas de una fila,
-       y ahí el 9:16 se pierde. El costo es que el reparto por altura
-       decide qué obra encabeza cada columna: por eso las cinco de la
-       selección no viven acá sino en .sel, con orden explícito. */
+    /* Resto del catálogo, con dos formatos, en una grilla de tres columnas
+       que se lee por filas. Las verticales ocupan tres filas: con las
+       tarjetas en 16:9, tres filas más dos separaciones dan casi exacto
+       9:16, así que el frame vertical no se recorta. dense rellena con
+       apaisadas los huecos que dejan las verticales, y las filas quedan
+       completas mientras la cantidad lo permita. Antes eran columnas
+       CSS: el orden bajaba por columna y una fila empezaba antes de
+       completarse la anterior. Las verticales van primero en el HTML:
+       si una apaisada las precede, el bloque queda escalonado. */
     .work-grid {
-      column-count: 3;
-      column-gap: 24px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-auto-flow: dense;
+      gap: 24px;
     }
-    @media (max-width: 1000px) { .work-grid { column-count: 2; } }
-    @media (max-width: 600px)  { .work-grid { column-count: 1; } }
+    .work-grid > .work-item { aspect-ratio: 16/9; }
+    @media (max-width: 1000px) { .work-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 
     .work-item {
       position: relative; display: block; overflow: hidden;
       aspect-ratio: 16/10; background: #e0ddd8;
       cursor: pointer; text-decoration: none; color: inherit;
       transition: opacity .3s;
-      break-inside: avoid;
-      margin-bottom: 24px;
     }
     /* Reels y piezas verticales. El thumbnail de YouTube trae el frame
        9:16 centrado dentro de un 16:9 con relleno borroso al costado:
        recortar a 9:16 se queda justo con el frame y descarta el relleno. */
-    .work-item.vertical { aspect-ratio: 9/16; }
+    .work-grid > .work-item.vertical { aspect-ratio: 9/16; grid-row: span 3; }
     .work-item.hidden { display: none; }
+
+    /* En el celular, las apaisadas a lo ancho y las verticales de a dos,
+       como una grilla de reels: una vertical sola a todo el ancho ocupaba
+       casi dos pantallas. */
+    @media (max-width: 600px) {
+      .work-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+      .work-grid > .work-item { grid-column: 1 / -1; }
+      .work-grid > .work-item.vertical { grid-column: auto; grid-row: auto; }
+    }
 
     .work-item img,
     .work-item .item-grad {
@@ -210,7 +223,6 @@
     .sel-fila { display: grid; gap: 24px; }
     .sel-principal { grid-template-columns: repeat(3, minmax(0, 1fr)); }
     .sel-curso     { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .sel-fila > .work-item { margin-bottom: 0; }
     /* El par va en 2:1, como en la portada, para que se lea como banda
        debajo de las tres. Flama tiene las cabezas contra el borde de
        arriba, así que el recorte sale de abajo. */
@@ -703,7 +715,7 @@
   <h1 class="page-title">Trabajos</h1>
   <div class="page-meta">
     <p>Proyectos seleccionados</p>
-    <strong>30</strong>
+    <strong id="contador">30</strong>
   </div>
 </header>
 
@@ -781,17 +793,6 @@
 
   <!-- Resto del catálogo: formatos mezclados, las verticales en 9:16. -->
   <div class="work-grid" id="work-grid" data-zona="galeria" data-visibles="25">
-
-    <!-- ── Films ── -->
-
-    <a class="work-item reveal" href="https://youtu.be/uikDazoPnsQ" data-video data-cat="films" aria-label="Ver el cortometraje Blanco">
-      <img src="https://img.youtube.com/vi/uikDazoPnsQ/maxresdefault.jpg" alt="Blanco" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/uikDazoPnsQ/hqdefault.jpg';">
-      <div class="work-item-meta">
-        <p class="item-cat">Cortometraje &#183; 2015</p>
-        <p class="item-name">Blanco</p>
-        <p class="item-client">Cortometraje independiente</p>
-      </div>
-    </a>
 
     <!-- ── IA Video · piezas verticales ── -->
 
@@ -891,6 +892,17 @@
         <p class="item-cat">IA generativa &#183; Comercial</p>
         <p class="item-name">Lucky Energy — AD#1</p>
         <p class="item-client">Lucky Energy</p>
+      </div>
+    </a>
+
+    <!-- ── Films ── -->
+
+    <a class="work-item reveal" href="https://youtu.be/uikDazoPnsQ" data-video data-cat="films" aria-label="Ver el cortometraje Blanco">
+      <img src="https://img.youtube.com/vi/uikDazoPnsQ/maxresdefault.jpg" alt="Blanco" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/uikDazoPnsQ/hqdefault.jpg';">
+      <div class="work-item-meta">
+        <p class="item-cat">Cortometraje &#183; 2015</p>
+        <p class="item-name">Blanco</p>
+        <p class="item-client">Cortometraje independiente</p>
       </div>
     </a>
 
@@ -1028,6 +1040,26 @@
        selección, la selección entera y el resto del catálogo. */
     var zonas = document.querySelectorAll('[data-zona]');
     var avisa = document.getElementById('filtro-estado');
+    var contador = document.getElementById('contador');
+
+    /* El número de la cabecera cuenta lo que se ve con el filtro activo.
+       Al cambiar corre del valor viejo al nuevo en menos de medio segundo;
+       con menos movimiento, o al cargar, salta directo. */
+    var corriendo = null;
+    function contar(n, animar) {
+      if (!contador) return;
+      var desde = parseInt(contador.textContent, 10) || 0;
+      if (corriendo) cancelAnimationFrame(corriendo);
+      var quieto = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (!animar || quieto || desde === n) { contador.textContent = n; return; }
+      var inicio = performance.now(), duracion = 420;
+      (function paso(t) {
+        var p = Math.min(1, (t - inicio) / duracion);
+        p = 1 - Math.pow(1 - p, 3);
+        contador.textContent = Math.round(desde + (n - desde) * p);
+        if (p < 1) corriendo = requestAnimationFrame(paso);
+      })(inicio);
+    }
 
     function aplicar(f, anunciar) {
       var visibles = 0;
@@ -1051,6 +1083,7 @@
         z.hidden = n === 0;
         z.setAttribute('data-visibles', n);
       });
+      contar(visibles, anunciar);
       /* Con display:none el lector de pantalla no anuncia nada por su cuenta. */
       if (anunciar && avisa) avisa.textContent = visibles + ' proyectos visibles';
     }
