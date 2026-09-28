@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════════════
-   julisequeira.com — navegación compartida
+   juliansequeira.com — navegación compartida
    Integración de la prueba de navegación 02 (13/09/2026).
 
    1. Continuidad tarjeta ↔ caso. La foto y el título de la tarjeta pasan
