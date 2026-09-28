@@ -57,13 +57,6 @@
 html.js-cursor:has(:focus-visible),
 html.js-cursor:has(:focus-visible) * { cursor: auto; }
 
-/* ─── AFFORDANCES QUE NO PUEDEN VIVIR SOLO EN HOVER ─────────────
-   En táctil no hay hover, y con teclado el foco sería invisible.
-   ─────────────────────────────────────────────────────────────── */
-@media (hover: none) {
-  .proj-ext, .item-ext { opacity: 1 !important; }
-}
-
 /* ─── UTILIDAD ──────────────────────────────────────────────────*/
 .u-nowrap { white-space: nowrap; }
 

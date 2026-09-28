@@ -65,6 +65,7 @@
   /* ─── QUÉ NAVEGACIÓN ES ─────────────────────────────────────────── */
   var elegida = null;     /* la tarjeta que se tocó en este listado */
   var intencion = null;   /* 'abrir' o 'volver', según el último clic */
+  var porTeclado = false; /* el último clic vino del teclado: Enter sobre el enlace */
 
   function clicSimple(e) {
     return e.button === 0 && !e.metaKey && !e.ctrlKey && !e.shiftKey && !e.altKey;
@@ -83,6 +84,7 @@
   document.addEventListener('click', function (e) {
     elegida = null;
     intencion = null;
+    porTeclado = e.detail === 0;
     var a = e.target.closest ? e.target.closest('a[href]') : null;
     if (!a || !clicSimple(e) || (a.target && a.target !== '_self') || a.hasAttribute('download')) return;
     var destino = ruta(a.href);
@@ -138,6 +140,22 @@
     return r.width > 0 && r.bottom > 0 && r.top < window.innerHeight;
   }
 
+  /* ─── FOCO PUESTO POR SCRIPT ────────────────────────────────────
+     Al llegar a un caso el foco va al título y al volver, a la tarjeta:
+     el lector de pantalla y el próximo Tab arrancan donde corresponde.
+     Pero en un documento nuevo Chrome dibuja el anillo de foco aunque
+     nadie haya tocado el teclado, y quedaba un rectángulo rojo sobre el
+     título o la tarjeta. Si se navegó con el mouse, el anillo se calla
+     hasta que el foco se mueva (navegacion.css). ─────────────────── */
+  function enfocar(el, teclado) {
+    if (!el) return;
+    if (!teclado) {
+      el.setAttribute('data-foco-silencioso', '');
+      el.addEventListener('blur', function () { el.removeAttribute('data-foco-silencioso'); }, { once: true });
+    }
+    el.focus({ preventScroll: true });
+  }
+
   /* Sólo se nombra la pareja elegida: dos elementos con el mismo nombre
      anulan la transición entera. */
   function preparar(caso, llegada) {
@@ -185,7 +203,7 @@
       vt.skipTransition();
       return;
     }
-    guardar('transicion', { hacia: destino, caso: caso });
+    guardar('transicion', { hacia: destino, caso: caso, teclado: motivo ? porTeclado : false });
   });
 
   /* ─── LLEGADA ───────────────────────────────────────────────────── */
@@ -209,7 +227,7 @@
       transitando = false;
       limpiar();
       var titulo = CASOS[aqui] ? document.querySelector('[data-vt="titulo"]') : null;
-      if (titulo) titulo.focus({ preventScroll: true });
+      if (titulo) enfocar(titulo, !!info.teclado);
     });
   });
 
@@ -245,7 +263,7 @@
     if (!tarjeta) return;
     var aparece = tarjeta.closest('.reveal');
     if (aparece) aparece.classList.add('visible');
-    tarjeta.focus({ preventScroll: true });
+    enfocar(tarjeta, !!r.teclado);
   }
 
   function prepararVolver() {
@@ -267,7 +285,7 @@
     if (origen.listado === '/') volver.textContent = '← Volver a proyectos';
     volver.addEventListener('click', function (e) {
       if (!clicSimple(e)) return;
-      guardar('regreso', { listado: origen.listado, caso: aqui, casoOrigen: origen.caso, y: origen.y });
+      guardar('regreso', { listado: origen.listado, caso: aqui, casoOrigen: origen.caso, y: origen.y, teclado: e.detail === 0 });
     });
   }
 

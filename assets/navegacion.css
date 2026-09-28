@@ -47,6 +47,13 @@ html[data-vt-caso="flama-squad"]::view-transition-new(vt-imagen) {
 ::view-transition-old(vt-nav) { display: none; }
 ::view-transition-new(vt-nav) { animation: none; }
 
+/* ─── FOCO PUESTO POR SCRIPT ────────────────────────────────────────
+   navegacion.js enfoca el título al llegar a un caso y la tarjeta al
+   volver. Si se navegó con el mouse, el anillo no se dibuja: en un
+   documento nuevo Chrome lo mostraría igual, y quedaba un rectángulo rojo
+   sobre el título. En cuanto el foco se mueve, el anillo vuelve. */
+[data-foco-silencioso]:focus-visible { outline: none; }
+
 /* ─── MENÚ · RÓTULO ─────────────────────────────────────────────────
    La palabra rueda una vez dentro de su renglón y entra una copia
    idéntica. La copia es aria-hidden: el nombre accesible sigue siendo

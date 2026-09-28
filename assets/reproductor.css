@@ -1,0 +1,57 @@
+/* ═══════════════════════════════════════════════════════════════
+   juliansequeira.com — reproductor de video compartido
+   Un <dialog> modal para los videos de la portada, Trabajos y los
+   casos: el resto de la página queda inerte mientras está abierto,
+   Escape lo cierra y el foco vuelve a quien lo abrió. Lo arma
+   reproductor.js; acá está su aspecto. La Noche reutiliza las
+   clases .visor* para su visor de imágenes.
+   ═══════════════════════════════════════════════════════════════ */
+html.visor-abierto { overflow: hidden; }
+
+.visor {
+  width: 100%; height: 100%; max-width: none; max-height: none;
+  margin: 0; padding: 64px 24px 24px; border: 0;
+  background: transparent; color: var(--cream);
+}
+.visor[open] { display: flex; align-items: center; justify-content: center; }
+.visor::backdrop { background: rgba(10,10,10,.96); }
+.visor-caja {
+  position: relative; max-width: 100%;
+  display: flex; flex-direction: column; align-items: center; gap: 12px;
+}
+
+/* El video nunca es más alto que la ventana: en una laptop de 768 px de
+   alto el 9:16 entraba recortado y la ✕ quedaba fuera de pantalla. */
+.visor-caja-video {
+  width: min(90vw, 960px, calc((100vh - 120px) * 16 / 9));
+  width: min(90vw, 960px, calc((100dvh - 120px) * 16 / 9));
+  aspect-ratio: 16 / 9;
+}
+.visor-caja-video.vertical {
+  width: min(88vw, 420px, calc((100vh - 120px) * 9 / 16));
+  width: min(88vw, 420px, calc((100dvh - 120px) * 9 / 16));
+  aspect-ratio: 9 / 16;
+}
+.visor-caja-video iframe { width: 100%; height: 100%; border: 0; display: block; background: #000; }
+
+/* Controles fijos arriba a la derecha: siempre a la vista, sea cual sea
+   el alto del video. */
+.visor-controles {
+  position: fixed; top: 10px; right: 12px; z-index: 2;
+  display: flex; align-items: center; gap: 4px;
+}
+.visor-boton {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 44px; height: 44px; padding: 0 12px;
+  font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500;
+  letter-spacing: .14em; text-transform: uppercase; white-space: nowrap;
+  color: var(--cream); background: rgba(10,10,10,.72);
+  border: 0; cursor: pointer; text-decoration: none;
+  transition: color var(--dur) var(--ease-out);
+}
+.visor-boton[data-cerrar] { font-size: 22px; letter-spacing: 0; padding: 0; }
+.visor-boton:hover, .visor-boton[aria-pressed="true"] { color: var(--red); }
+
+@media (max-width: 700px) {
+  .visor { padding: 60px 12px 16px; }
+}

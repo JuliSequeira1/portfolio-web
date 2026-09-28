@@ -37,6 +37,10 @@
        del primer render. -->
   <link rel="stylesheet" href="assets/navegacion.css">
   <script src="assets/navegacion.js"></script>
+  <!-- Reproductor de video compartido: los enlaces con data-video abren
+       en un <dialog> sobre la página. Con defer: sólo necesita el DOM. -->
+  <link rel="stylesheet" href="assets/reproductor.css">
+  <script defer src="assets/reproductor.js"></script>
   <!-- No pintar hasta tener la página armada: la transición y el regreso
        necesitan las tarjetas y la cabecera en su lugar. -->
   <link rel="expect" href="#contact" blocking="render">
@@ -420,7 +424,7 @@
     .proj-card {
       position: relative; overflow: hidden;
       aspect-ratio: 16/10; background: #1a1a1a;
-      cursor: pointer;
+      cursor: pointer; text-decoration: none; color: inherit;
     }
     .proj-card.tall { aspect-ratio: 4/3; }
 
@@ -466,22 +470,6 @@
       letter-spacing: -.01em;
     }
     .proj-client { font-size: 11px; color: var(--on-dark-soft); margin-top: 3px; }
-
-    .proj-ext {
-      position: absolute; top: 18px; right: 18px; z-index: 3;
-      width: 36px; height: 36px;
-      border: 1px solid rgba(244,242,238,.2);
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      text-decoration: none; color: #F4F2EE; font-size: 14px;
-      opacity: 0; transition: opacity .3s, background .3s, border-color .3s;
-    }
-    /* No puede vivir sólo en hover: sin :focus-within el foco de teclado
-       queda invisible, y en táctil no aparece nunca. */
-    .proj-card:hover .proj-ext,
-    .proj-card:focus-within .proj-ext,
-    .proj-card:focus-visible .proj-ext { opacity: 1; }
-    .proj-ext:hover { background: var(--red); border-color: var(--red); }
 
     /* ─── ABOUT ──────────────────────────────────────────────── */
     #about {
@@ -927,9 +915,9 @@
 </head>
 <body>
 
-<div id="cursor-ring"></div>
-<div id="cursor-dot"></div>
-<div id="cursor-label">Play ▶</div>
+<div id="cursor-ring" aria-hidden="true"></div>
+<div id="cursor-dot" aria-hidden="true"></div>
+<div id="cursor-label" aria-hidden="true">Play ▶</div>
 
 <!-- ── NAV ───────────────────────────────────────────────────── -->
 <nav id="nav">
@@ -940,6 +928,8 @@
     <li><a href="#contact">Contacto</a></li>
   </ul>
 </nav>
+
+<main>
 
 <!-- ── HERO ──────────────────────────────────────────────────── -->
 <section id="hero">
@@ -966,7 +956,7 @@
     <h1 class="hero-title">Julián<br>Sequeira</h1>
     <p class="hero-tagline">Dirijo historias.<br>Construyo mundos.</p>
     <div class="hero-cta">
-      <a href="javascript:void(0)" onclick="openVideo('MEIpjzwSQsc')" class="btn btn-primary">
+      <a href="https://youtu.be/MEIpjzwSQsc" data-video class="btn btn-primary">
         <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor"><polygon points="4,2 14,8 4,14"/></svg>
         Ver reel
       </a>
@@ -1011,34 +1001,32 @@
   </div>
 
   <div class="work-grid">
-    <!-- 1 · Dinopops -->
-    <div class="proj-card p-lead reveal" role="button" tabindex="0"
-         aria-label="Ver el trailer de Dinopops — Season 1"
-         onclick="openDailymotion('x8qp5m7')" style="cursor:pointer">
+    <!-- 1 · Dinopops: el trailer va por Dailymotion; la salida del
+         reproductor, a la página del trailer en IMDb. -->
+    <a class="proj-card p-lead reveal" href="https://www.dailymotion.com/video/x8qp5m7"
+       data-video data-salida="https://www.imdb.com/es-es/video/vi4132946969/?ref_=ext_shr_lnk"
+       aria-label="Ver el trailer de Dinopops — Season 1">
       <img src="assets/dinopops.jpg" alt="Dinopops" loading="lazy" decoding="async"
            onerror="this.style.display='none'; this.parentNode.style.background='linear-gradient(135deg,#0d1b3e,#1a2d5a)';">
-      <a class="proj-ext" href="https://www.imdb.com/es-es/video/vi4132946969/?ref_=ext_shr_lnk" target="_blank" rel="noopener" onclick="event.stopPropagation()">&#8599;</a>
       <div class="proj-meta">
         <p class="proj-cat">Serie de animación &#183; NBC / Peacock</p>
         <h3 class="proj-name">Dinopops — Season 1</h3>
         <p class="proj-client">Dirección de arte T1 y dirección de 3 episodios &#183; 2020–2023</p>
       </div>
-    </div>
+    </a>
 
     <!-- 2 · Silent Hill: Ascension -->
-    <div class="proj-card p-sh reveal d1" role="button" tabindex="0"
-         aria-label="Ver Silent Hill: Ascension"
-         onclick="openVideo('TP6R0bC4LYI')" style="cursor:pointer">
+    <a class="proj-card p-sh reveal d1" href="https://youtu.be/TP6R0bC4LYI" data-video
+       aria-label="Ver Silent Hill: Ascension">
       <img src="https://img.youtube.com/vi/TP6R0bC4LYI/maxresdefault.jpg" alt="Silent Hill Ascension"
            loading="lazy" decoding="async"
            onerror="this.onerror=null;this.src='https://img.youtube.com/vi/TP6R0bC4LYI/hqdefault.jpg';">
-      <a class="proj-ext" href="https://youtu.be/TP6R0bC4LYI" target="_blank" rel="noopener" onclick="event.stopPropagation()">&#8599;</a>
       <div class="proj-meta">
         <p class="proj-cat">Media interactiva &#183; Emmy 2024</p>
         <h3 class="proj-name">Silent Hill: Ascension</h3>
         <p class="proj-client">Cinematic Artist &#183; Genvid / Senscape / Konami</p>
       </div>
-    </div>
+    </a>
 
     <!-- 3 · La Noche: lleva a su caso -->
     <a class="proj-card p-noche reveal d1" href="la-noche.html"
@@ -1145,74 +1133,13 @@
   </div>
 </section>
 
+</main>
+
 <!-- ── FOOTER ─────────────────────────────────────────────────── -->
 <footer>
   <span>© 2026 Julián Sequeira</span>
   <span>Buenos Aires, Argentina</span>
 </footer>
-
-<!-- ── VIDEO LIGHTBOX ─────────────────────────────────────────── -->
-<div id="lightbox" role="dialog" aria-modal="true" aria-label="Reproductor de video"
-     style="display:none;position:fixed;inset:0;z-index:900;background:rgba(10,10,10,.96);align-items:center;justify-content:center;">
-  <div style="position:relative;width:min(90vw,960px);aspect-ratio:16/9;">
-    <button id="lb-close" onclick="closeVideo()" aria-label="Cerrar el video"
-            style="position:absolute;top:-48px;right:0;font-size:22px;color:#F4F2EE;background:none;border:none;cursor:pointer;">✕</button>
-    <iframe id="lb-iframe" src="" title="Reproductor de video" allow="autoplay; encrypted-media; fullscreen; web-share" allowfullscreen style="width:100%;height:100%;border:none;"></iframe>
-  </div>
-</div>
-
-<!-- ── VIDEO LIGHTBOX (global; debe estar disponible para los onclick) ── -->
-<script>
-  /* Quién tenía el foco antes de abrir: al cerrar hay que devolvérselo. */
-  var lbVuelveEl = null;
-
-  function abrirLightbox(src) {
-    var lb = document.getElementById('lightbox');
-    var lbIframe = document.getElementById('lb-iframe');
-    if (!lb || !lbIframe) return;
-    lbVuelveEl = document.activeElement;
-    lbIframe.src = src;
-    lb.style.display = 'flex';
-    document.body.style.overflow = 'hidden';
-    var cerrar = document.getElementById('lb-close');
-    if (cerrar) cerrar.focus();
-  }
-  function openVideo(id) {
-    abrirLightbox('https://www.youtube.com/embed/' + id + '?autoplay=1&rel=0');
-  }
-  function openDailymotion(id) {
-    abrirLightbox('https://geo.dailymotion.com/player.html?video=' + id + '&autoplay=1');
-  }
-  function closeVideo() {
-    var lb = document.getElementById('lightbox');
-    var lbIframe = document.getElementById('lb-iframe');
-    if (!lb || !lbIframe) return;
-    lb.style.display = 'none';
-    lbIframe.src = '';
-    document.body.style.overflow = '';
-    if (lbVuelveEl && lbVuelveEl.focus) lbVuelveEl.focus();
-    lbVuelveEl = null;
-  }
-  (function () {
-    var lb = document.getElementById('lightbox');
-    if (lb) lb.addEventListener('click', function (e) { if (e.target === lb) closeVideo(); });
-    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeVideo(); });
-
-    /* Las tarjetas son <div role="button">: el teclado no las activa solo.
-       Delegado, así vale para las que se agreguen después. */
-    document.addEventListener('keydown', function (e) {
-      if (e.key !== 'Enter' && e.key !== ' ' && e.key !== 'Spacebar') return;
-      /* Sólo si la tarjeta misma tiene el foco. Si lo tiene un hijo, como
-         la flecha externa, ese enlace conserva su comportamiento nativo:
-         con closest() el Enter subía hasta la tarjeta y abría el
-         reproductor interno en vez de ir a YouTube. */
-      var el = e.target;
-      if (!el.matches || !el.matches('[role="button"][tabindex="0"]')) return;
-      e.preventDefault();
-      el.click();
-    });
-  })();
-</script>
 
 <!-- ── CUSTOM CURSOR (solo en pointer fino; degrada a cursor normal) ── -->
 <script>
@@ -1245,7 +1172,7 @@
       });
       if (label) {
         /* «Play» sólo donde la tarjeta abre un video: CDBI y Flama llevan a su ficha. */
-        document.querySelectorAll('.proj-card[role="button"], .proj-featured').forEach(function (el) {
+        document.querySelectorAll('.proj-card[data-video]').forEach(function (el) {
           el.addEventListener('mouseenter', function () { label.classList.add('show'); });
           el.addEventListener('mouseleave', function () { label.classList.remove('show'); });
         });

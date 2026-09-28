@@ -34,6 +34,10 @@
        del primer render. -->
   <link rel="stylesheet" href="assets/navegacion.css">
   <script src="assets/navegacion.js"></script>
+  <!-- Reproductor de video compartido: los enlaces con data-video abren
+       en un <dialog> sobre la página. Con defer: sólo necesita el DOM. -->
+  <link rel="stylesheet" href="assets/reproductor.css">
+  <script defer src="assets/reproductor.js"></script>
   <!-- No pintar hasta tener la página armada: la transición y el regreso
        necesitan las tarjetas y la cabecera en su lugar. -->
   <link rel="expect" href="#cierre" blocking="render">
@@ -50,7 +54,6 @@
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
-    html.visor-abierto { overflow: hidden; }
     body {
       font-family: 'Inter', sans-serif;
       background: var(--paper);
@@ -127,7 +130,7 @@
       position: relative; overflow: hidden;
       aspect-ratio: 16/10; background: #141414;
       cursor: pointer; width: 100%;
-      border: 0; padding: 0; display: block;
+      border: 0; padding: 0; display: block; text-decoration: none;
     }
     .trailer img {
       width: 100%; height: 100%; object-fit: cover; display: block;
@@ -304,23 +307,11 @@
     }
     footer span { font-size: 10px; letter-spacing: .1em; color: var(--on-dark); }
 
-    /* ─── VISORES: video y ampliación ─────────────────────────────
-       <dialog> modal: el resto de la página queda inerte mientras están
-       abiertos, Escape los cierra y el foco vuelve a quien los abrió.
+    /* ─── VISOR DE IMÁGENES ─────────────────────────────────────
+       Comparte las clases .visor* del reproductor (assets/reproductor.css):
+       <dialog> modal, Escape cierra, el foco vuelve a quien lo abrió.
+       Acá sólo lo propio de la imagen: tamaño, pie y «tamaño real».
        ─────────────────────────────────────────────────────────── */
-    .visor {
-      width: 100%; height: 100%; max-width: none; max-height: none;
-      margin: 0; padding: 64px 24px 24px; border: 0;
-      background: transparent; color: var(--cream);
-    }
-    .visor[open] { display: flex; align-items: center; justify-content: center; }
-    .visor::backdrop { background: rgba(10,10,10,.96); }
-    .visor-caja {
-      position: relative; max-width: 100%;
-      display: flex; flex-direction: column; align-items: center; gap: 12px;
-    }
-    .visor-caja-video { width: min(90vw, 960px); aspect-ratio: 16/9; }
-    .visor-caja-video iframe { width: 100%; height: 100%; border: 0; }
     .visor-caja img {
       display: block; width: auto; height: auto;
       max-width: min(100%, 1600px); max-height: calc(100dvh - 130px);
@@ -330,20 +321,6 @@
        scroll. Es lo que hace legibles los créditos chicos del póster. */
     .visor.zoom { overflow: auto; align-items: flex-start; }
     .visor.zoom .visor-caja img { max-height: none; }
-    .visor-controles {
-      position: fixed; top: 10px; right: 12px; z-index: 2;
-      display: flex; align-items: center; gap: 4px;
-    }
-    .visor-boton {
-      min-width: 44px; height: 44px; padding: 0 12px;
-      font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500;
-      letter-spacing: .14em; text-transform: uppercase;
-      color: var(--cream); background: rgba(10,10,10,.72);
-      border: 0; cursor: pointer;
-      transition: color var(--dur) var(--ease-out);
-    }
-    .visor-boton[data-cerrar] { font-size: 22px; letter-spacing: 0; padding: 0; }
-    .visor-boton:hover, .visor-boton[aria-pressed="true"] { color: var(--red); }
 
     /* ─── REVEAL ─────────────────────────────────────────────── */
     .reveal { transition: opacity .8s ease, transform .8s ease; }
@@ -380,7 +357,6 @@
       .lamina { margin-top: 34px; }
       .creditos > div { grid-template-columns: minmax(0, 1fr); gap: 4px; }
       footer { flex-direction: column; gap: 6px; }
-      .visor { padding: 60px 12px 16px; }
     }
   </style>
   <!-- ── DATOS ESTRUCTURADOS ── -->
@@ -589,6 +565,8 @@
   </ul>
 </nav>
 
+<main>
+
 <p class="miga"><a href="work.html" data-volver>← Volver a trabajos</a></p>
 
 <!-- ── ENCABEZADO ────────────────────────────────────────────── -->
@@ -599,7 +577,7 @@
 
 <!-- ── CABECERA / CORTOMETRAJE ───────────────────────────────── -->
 <div class="hero">
-  <button class="trailer" type="button" data-yt="3pr9iIdRLPI" aria-label="Ver cortometraje: La Noche, en un reproductor sobre la página">
+  <a class="trailer" href="https://www.youtube.com/watch?v=3pr9iIdRLPI" data-video aria-label="Ver cortometraje: La Noche, en un reproductor sobre la página">
     <!-- Misma imagen que su tarjeta: la foto pasa del listado a la cabecera. -->
     <img src="assets/la-noche/still.webp" data-vt="imagen"
          alt="Dos personajes en el baño rojo, del cortometraje La Noche"
@@ -610,7 +588,7 @@
       </span>
       <span class="play-lbl">Ver cortometraje</span>
     </span>
-  </button>
+  </a>
   <p class="salida-yt">
     <a href="https://www.youtube.com/watch?v=3pr9iIdRLPI" target="_blank" rel="noopener">Ver en YouTube <span aria-hidden="true">↗</span></a>
   </p>
@@ -785,21 +763,12 @@
   </a>
 </section>
 
+</main>
+
 <footer>
   <span>© 2026 Julián Sequeira</span>
   <span>Buenos Aires, Argentina</span>
 </footer>
-
-<!-- ── REPRODUCTOR ───────────────────────────────────────────── -->
-<dialog class="visor" id="reproductor" aria-label="Reproductor de video: La Noche">
-  <div class="visor-controles">
-    <button class="visor-boton" type="button" data-cerrar aria-label="Cerrar el video">✕</button>
-  </div>
-  <div class="visor-caja visor-caja-video">
-    <iframe id="reproductor-iframe" title="La Noche, cortometraje completo"
-            allow="autoplay; encrypted-media; fullscreen; web-share" allowfullscreen></iframe>
-  </div>
-</dialog>
 
 <!-- ── IMAGEN AMPLIADA ───────────────────────────────────────── -->
 <dialog class="visor" id="visor" aria-labelledby="visor-pie">
@@ -815,15 +784,14 @@
 
 <script>
   (function () {
-    var reproductor = document.getElementById('reproductor');
-    var iframe = document.getElementById('reproductor-iframe');
     var visor = document.getElementById('visor');
     var visorImg = document.getElementById('visor-img');
     var visorPie = document.getElementById('visor-pie');
     var tamano = document.getElementById('visor-tamano');
     var vuelveA = null;
-    /* Sin <dialog>, el corto se abre en YouTube y las imágenes en su archivo. */
-    var hayDialogo = typeof reproductor.showModal === 'function';
+    /* Sin <dialog>, las imágenes se abren en su archivo. El corto lo maneja
+       assets/reproductor.js, como todos los videos del sitio. */
+    var hayDialogo = typeof visor.showModal === 'function';
 
     function clicSimple(e) {
       return e.button === 0 && !e.metaKey && !e.ctrlKey && !e.shiftKey && !e.altKey;
@@ -840,20 +808,6 @@
       if (vuelveA && vuelveA.focus) vuelveA.focus();
       vuelveA = null;
     }
-
-    document.querySelectorAll('[data-yt]').forEach(function (boton) {
-      boton.addEventListener('click', function () {
-        var id = boton.getAttribute('data-yt');
-        if (!hayDialogo) { window.open('https://www.youtube.com/watch?v=' + id, '_blank', 'noopener'); return; }
-        iframe.src = 'https://www.youtube.com/embed/' + id + '?autoplay=1&rel=0';
-        abrir(reproductor, boton);
-      });
-    });
-    /* Cerrar detiene el video: el iframe se vacía. */
-    reproductor.addEventListener('close', function () {
-      iframe.src = 'about:blank';
-      alCerrar();
-    });
 
     /* «Tamaño real» sólo aparece si la imagen se ve bastante más chica que
        su archivo; en ese modo se recorre con scroll. */
@@ -899,19 +853,15 @@
       alCerrar();
     });
 
-    [reproductor, visor].forEach(function (dialogo) {
-      dialogo.querySelector('[data-cerrar]').addEventListener('click', function () { dialogo.close(); });
-      /* Un clic fuera de la imagen o del video cierra; sobre el contenido, no. */
-      dialogo.addEventListener('click', function (e) { if (e.target === dialogo) dialogo.close(); });
-    });
+    visor.querySelector('[data-cerrar]').addEventListener('click', function () { visor.close(); });
+    /* Un clic fuera de la imagen cierra; sobre la imagen, no. */
+    visor.addEventListener('click', function (e) { if (e.target === visor) visor.close(); });
 
-    /* Escape también por el teclado de la página, como en los otros
-       reproductores del sitio: el cierre nativo del <dialog> no siempre
-       llega, por ejemplo si se abrió sin una interacción previa. */
+    /* Escape también por el teclado de la página, como en el reproductor:
+       el cierre nativo del <dialog> no siempre llega, por ejemplo si se
+       abrió sin una interacción previa. */
     document.addEventListener('keydown', function (e) {
-      if (e.key !== 'Escape') return;
-      if (visor.open) visor.close();
-      if (reproductor.open) reproductor.close();
+      if (e.key === 'Escape' && visor.open) visor.close();
     });
   })();
 </script>

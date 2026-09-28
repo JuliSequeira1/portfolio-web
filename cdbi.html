@@ -34,6 +34,10 @@
        del primer render. -->
   <link rel="stylesheet" href="assets/navegacion.css">
   <script src="assets/navegacion.js"></script>
+  <!-- Reproductor de video compartido: los enlaces con data-video abren
+       en un <dialog> sobre la página. Con defer: sólo necesita el DOM. -->
+  <link rel="stylesheet" href="assets/reproductor.css">
+  <script defer src="assets/reproductor.js"></script>
   <!-- No pintar hasta tener la página armada: la transición y el regreso
        necesitan las tarjetas y la cabecera en su lugar. -->
   <link rel="expect" href="#cierre" blocking="render">
@@ -139,7 +143,7 @@
       position: relative; overflow: hidden;
       aspect-ratio: 16/9; background: #141414;
       cursor: pointer; width: 100%;
-      border: 0; padding: 0; display: block;
+      border: 0; padding: 0; display: block; text-decoration: none;
     }
     .trailer img {
       width: 100%; height: 100%; object-fit: cover; display: block;
@@ -368,21 +372,6 @@
       border-top: 1px solid var(--linea);
     }
     footer span { font-size: 10px; letter-spacing: .1em; color: var(--on-dark); }
-
-    /* ─── LIGHTBOX (9:16 — la serie es vertical) ─────────────── */
-    #lightbox {
-      display: none; position: fixed; inset: 0; z-index: 900;
-      background: rgba(10,10,10,.96);
-      align-items: center; justify-content: center;
-    }
-    #lightbox.open { display: flex; }
-    .lb-inner { position: relative; width: min(88vw, 420px); aspect-ratio: 9/16; }
-    .lb-inner iframe { width: 100%; height: 100%; border: none; }
-    .lb-close {
-      position: absolute; top: -44px; right: 0;
-      font-size: 24px; color: var(--cream); cursor: pointer;
-      background: none; border: none; line-height: 1;
-    }
 
     /* ─── REVEAL ─────────────────────────────────────────────── */
     .reveal { transition: opacity .8s ease, transform .8s ease; }
@@ -652,6 +641,8 @@
   </ul>
 </nav>
 
+<main>
+
 <p class="miga"><a href="work.html" data-volver>← Volver a trabajos</a></p>
 
 <!-- ── ENCABEZADO ────────────────────────────────────────────── -->
@@ -666,7 +657,7 @@
 
 <!-- ── HERO / TRAILER ────────────────────────────────────────── -->
 <div class="hero">
-  <button class="trailer" type="button" data-yt="HgpCC7Lzq_Q" aria-label="Reproducir el trailer de Crónicas del Barro Infinito">
+  <a class="trailer" href="https://youtu.be/HgpCC7Lzq_Q" data-video="vertical" aria-label="Reproducir el trailer de Crónicas del Barro Infinito">
     <!-- Misma imagen que su tarjeta: la foto pasa del listado a la cabecera. -->
     <img src="assets/cdbi/loc-riachuelo.webp" data-vt="imagen"
          alt="El Sapo emergiendo del Riachuelo bajo un tornado, con Lanús de fondo"
@@ -677,7 +668,7 @@
       </span>
       <span class="play-lbl">Ver trailer</span>
     </span>
-  </button>
+  </a>
 </div>
 <!-- ── FICHA ─────────────────────────────────────────────────── -->
 <section id="ficha" aria-label="Ficha técnica">
@@ -867,50 +858,12 @@
   </a>
 </section>
 
+</main>
+
 <footer>
   <span>© 2026 Julián Sequeira</span>
   <span>Buenos Aires, Argentina</span>
 </footer>
-
-<!-- ── LIGHTBOX ──────────────────────────────────────────────── -->
-<div id="lightbox" role="dialog" aria-modal="true" aria-label="Reproductor de video">
-  <div class="lb-inner">
-    <button class="lb-close" id="lb-close" aria-label="Cerrar el video">✕</button>
-    <iframe id="lb-iframe" src="" title="Trailer de Crónicas del Barro Infinito"
-            allow="autoplay; encrypted-media; fullscreen; web-share" allowfullscreen></iframe>
-  </div>
-</div>
-
-<script>
-  (function () {
-    var lb = document.getElementById('lightbox');
-    var ifr = document.getElementById('lb-iframe');
-    var cerrar = document.getElementById('lb-close');
-    var vuelveA = null;
-
-    function abrir(id) {
-      vuelveA = document.activeElement;
-      ifr.src = 'https://www.youtube.com/embed/' + id + '?autoplay=1&rel=0';
-      lb.classList.add('open');
-      document.body.style.overflow = 'hidden';
-      cerrar.focus();
-    }
-    function cerrarLb() {
-      lb.classList.remove('open');
-      ifr.src = '';
-      document.body.style.overflow = '';
-      if (vuelveA && vuelveA.focus) vuelveA.focus();
-      vuelveA = null;
-    }
-
-    document.querySelectorAll('[data-yt]').forEach(function (el) {
-      el.addEventListener('click', function () { abrir(el.dataset.yt); });
-    });
-    cerrar.addEventListener('click', cerrarLb);
-    lb.addEventListener('click', function (e) { if (e.target === lb) cerrarLb(); });
-    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') cerrarLb(); });
-  })();
-</script>
 
 <script>
   (function () {
