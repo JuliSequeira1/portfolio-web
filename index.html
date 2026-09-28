@@ -571,8 +571,8 @@
 
     /* ─── FORMULARIO ─────────────────────────────────────────────
        Reemplaza al mailto: el mensaje sale desde la página. El envío va
-       al servicio que diga el action del <form>; mientras esté vacío, el
-       botón arma un mail con lo escrito (ver el script del final). */
+       al servicio que diga el action del <form> (Formspree); si se vacía,
+       el botón arma un mail con lo escrito (ver el script del final). */
     .contacto { margin-top: 44px; max-width: 520px; }
     .campo {
       display: flex; flex-direction: column; gap: 8px;
@@ -1146,9 +1146,9 @@
       <span class="sep">·</span> Producción
     </p>
 
-    <!-- Sin action = sin servicio todavía: el botón arma un mail. Con el
-         formulario de Formspree creado, va acá action="https://formspree.io/f/…". -->
-    <form class="contacto reveal d1" id="contacto" method="POST">
+    <!-- El envío va a Formspree («Contacto juliansequeira.com», llega al
+         Gmail). Sin action, el botón arma un mail con lo escrito. -->
+    <form class="contacto reveal d1" id="contacto" method="POST" action="https://formspree.io/f/mdekygnq">
       <div class="campo">
         <label for="c-nombre">Nombre</label>
         <input id="c-nombre" name="nombre" type="text" autocomplete="name" required>
