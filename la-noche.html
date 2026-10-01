@@ -241,20 +241,29 @@
     }
     .credito { margin-top: 18px; }
 
-    /* ─── PÓSTER Y RECORRIDO ─────────────────────────────────── */
+    /* ─── PÓSTER, FICHA Y RECORRIDO ──────────────────────────── */
+    /* El póster crece con la ventana, de 440 a 600 px, y lleva los
+       laureles debajo; a la derecha, ficha y selecciones. */
     .recorrido {
-      display: grid; grid-template-columns: minmax(0, 440px) minmax(0, 1fr);
+      display: grid; grid-template-columns: minmax(0, clamp(440px, 40vw, 600px)) minmax(0, 1fr);
       gap: 64px; align-items: start;
     }
     .recorrido-texto h2 ~ h2 { margin-top: 72px; }
-    /* Seis laureles de a dos, en el ancho de la columna del texto. Son los
-       del póster de 2020/21 redibujados en vector (assets/la-noche/laureles);
-       el nombre del festival va en el alt, porque el texto del SVG son
-       trazos. */
+    .selecciones { list-style: none; margin-top: 30px; border-top: 1px solid var(--linea); }
+    .selecciones li {
+      display: flex; justify-content: space-between; align-items: baseline; gap: 18px;
+      padding: 14px 0; border-bottom: 1px solid var(--linea);
+      font-size: 15px; font-weight: 300; line-height: 1.5;
+      color: var(--on-dark-strong);
+    }
+    .sel-a { color: var(--on-dark-soft); font-variant-numeric: tabular-nums; }
+    /* Los seis laureles, de a tres bajo el póster. Son los del póster de
+       2020/21 redibujados en vector (assets/la-noche/laureles). Van de
+       adorno: los nombres ya están en la lista de selecciones. */
     .laureles {
-      list-style: none; margin-top: 30px;
-      display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 22px 28px;
+      margin-top: 36px;
+      display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px 20px;
     }
     .laureles img { width: 100%; height: auto; display: block; opacity: .86; } /* mismo tono que --on-dark-strong */
     .apoyo { margin-top: 22px; font-size: 13px; line-height: 1.6; color: var(--on-dark); }
@@ -339,10 +348,15 @@
       html.js-reveal .reveal { opacity: 1 !important; transform: none !important; }
     }
 
+    /* Por debajo de 1000 px la columna de la ficha queda angosta: el
+       póster con sus laureles va arriba y la ficha abajo. */
+    @media (max-width: 1000px) {
+      .recorrido { grid-template-columns: minmax(0, 1fr); gap: 48px; }
+      .recorrido-poster { max-width: 520px; }
+    }
+
     @media (max-width: 860px) {
       .trailer { aspect-ratio: 4/3; }
-      .recorrido { grid-template-columns: minmax(0, 1fr); gap: 48px; }
-      .poster { max-width: 520px; }
     }
 
     @media (max-width: 700px) {
@@ -624,33 +638,32 @@
   </div>
 </section>
 
-<!-- ── PÓSTER Y RECORRIDO ────────────────────────────────────── -->
-<section class="sec" aria-labelledby="t-selecciones">
+<!-- ── PÓSTER, FICHA Y RECORRIDO ─────────────────────────────── -->
+<section class="sec" aria-labelledby="t-ficha-tecnica">
   <div class="recorrido">
-    <figure class="poster reveal">
-      <a class="ampliable" href="assets/la-noche/poster-v04.webp" data-pie="Póster de La Noche.">
-        <span class="u-sr-only">Ampliar: </span>
-        <img src="assets/la-noche/poster-v04-900.webp"
-             srcset="assets/la-noche/poster-v04-900.webp 900w, assets/la-noche/poster-v04.webp 1600w"
-             sizes="(max-width: 700px) calc(100vw - 44px), (max-width: 860px) 520px, 440px"
-             alt="Póster de La Noche: retratos ilustrados del elenco entre gatos y plantas, sobre un fondo de estrellas, con el título y los créditos al pie."
-             width="1600" height="2285" loading="lazy" decoding="async">
-      </a>
-      <figcaption>Póster. Ampliá la imagen para leer los créditos completos.</figcaption>
-    </figure>
+    <div class="recorrido-poster">
+      <figure class="poster reveal">
+        <a class="ampliable" href="assets/la-noche/poster-v04.webp" data-pie="Póster de La Noche.">
+          <span class="u-sr-only">Ampliar: </span>
+          <img src="assets/la-noche/poster-v04-900.webp"
+               srcset="assets/la-noche/poster-v04-900.webp 900w, assets/la-noche/poster-v04.webp 1600w"
+               sizes="(max-width: 700px) calc(100vw - 44px), (max-width: 1000px) 520px, (max-width: 1100px) 440px, (max-width: 1500px) 40vw, 600px"
+               alt="Póster de La Noche: retratos ilustrados del elenco entre gatos y plantas, sobre un fondo de estrellas, con el título y los créditos al pie."
+               width="1600" height="2285" loading="lazy" decoding="async">
+        </a>
+        <figcaption>Póster. Ampliá la imagen para leer los créditos completos.</figcaption>
+      </figure>
+      <div class="laureles reveal d1" aria-hidden="true">
+        <img src="assets/la-noche/laureles/rojo-sangre-2020.svg" alt="" width="922" height="660" loading="lazy" decoding="async">
+        <img src="assets/la-noche/laureles/first-time-filmmaker-sessions-2020.svg" alt="" width="922" height="660" loading="lazy" decoding="async">
+        <img src="assets/la-noche/laureles/lift-off-sessions-2020.svg" alt="" width="922" height="660" loading="lazy" decoding="async">
+        <img src="assets/la-noche/laureles/cefalu-2021.svg" alt="" width="922" height="660" loading="lazy" decoding="async">
+        <img src="assets/la-noche/laureles/filmoptico-2021.svg" alt="" width="922" height="660" loading="lazy" decoding="async">
+        <img src="assets/la-noche/laureles/ipiff-2021.svg" alt="" width="922" height="660" loading="lazy" decoding="async">
+      </div>
+    </div>
 
     <div class="recorrido-texto">
-      <h2 id="t-selecciones" class="reveal">Selecciones oficiales</h2>
-      <ul class="laureles reveal d1">
-        <li><img src="assets/la-noche/laureles/rojo-sangre-2020.svg" alt="Buenos Aires Rojo Sangre 2020" width="922" height="660" loading="lazy" decoding="async"></li>
-        <li><img src="assets/la-noche/laureles/first-time-filmmaker-sessions-2020.svg" alt="First-Time Filmmaker Sessions 2020" width="922" height="660" loading="lazy" decoding="async"></li>
-        <li><img src="assets/la-noche/laureles/lift-off-sessions-2020.svg" alt="The Lift-Off Sessions 2020" width="922" height="660" loading="lazy" decoding="async"></li>
-        <li><img src="assets/la-noche/laureles/cefalu-2021.svg" alt="Festival del Cinema di Cefalù 2021" width="922" height="660" loading="lazy" decoding="async"></li>
-        <li><img src="assets/la-noche/laureles/filmoptico-2021.svg" alt="FILMÓPTICO — International Art Visual and Film Festival 2021" width="922" height="660" loading="lazy" decoding="async"></li>
-        <li><img src="assets/la-noche/laureles/ipiff-2021.svg" alt="IPIFF — Independent Producers Indie Film Festival 2021" width="922" height="660" loading="lazy" decoding="async"></li>
-      </ul>
-      <p class="apoyo reveal d1">Con el apoyo de Buenos Aires Ciudad · Vivamos Cultura.</p>
-
       <h2 id="t-ficha-tecnica" class="reveal">Ficha técnica</h2>
       <dl class="creditos reveal d1">
         <div><dt>Dirección y montaje</dt><dd>Julián Sequeira</dd></div>
@@ -663,6 +676,17 @@
         <div><dt>Postproducción de sonido</dt><dd>Diego J. Moraiz</dd></div>
         <div><dt>Foto fija</dt><dd>Matias Open</dd></div>
       </dl>
+
+      <h2 id="t-selecciones" class="reveal">Selecciones oficiales</h2>
+      <ul class="selecciones reveal d1">
+        <li><span>Buenos Aires Rojo Sangre</span> <span class="sel-a">2020</span></li>
+        <li><span>First-Time Filmmaker Sessions</span> <span class="sel-a">2020</span></li>
+        <li><span>The Lift-Off Sessions</span> <span class="sel-a">2020</span></li>
+        <li><span>Festival del Cinema di Cefalù</span> <span class="sel-a">2021</span></li>
+        <li><span>FILMÓPTICO</span> <span class="sel-a">2021</span></li>
+        <li><span>IPIFF — Independent Producers Indie Film Festival</span> <span class="sel-a">2021</span></li>
+      </ul>
+      <p class="apoyo reveal d1">Con el apoyo de Buenos Aires Ciudad · Vivamos Cultura.</p>
     </div>
   </div>
 </section>
