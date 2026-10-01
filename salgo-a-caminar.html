@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Salgo a Caminar — Julián Sequeira</title>
+  <meta name="description" content="Salgo a Caminar, videoclip de Tortu aka O.d.d.M (2017). Dirección, storyboard, montaje y VFX: Julián Sequeira.">
+  <link rel="canonical" href="https://juliansequeira.com/salgo-a-caminar.html">
+  <meta property="og:type"        content="video.other">
+  <meta property="og:url"         content="https://juliansequeira.com/salgo-a-caminar.html">
+  <meta property="og:title"       content="Salgo a Caminar">
+  <meta property="og:description" content="Videoclip de Tortu aka O.d.d.M, 2017. Dirección, storyboard, montaje y VFX: Julián Sequeira.">
+  <meta property="og:image"       content="https://img.youtube.com/vi/0dOVfSLxZj8/maxresdefault.jpg">
+  <meta property="og:image:width"  content="1280">
+  <meta property="og:image:height" content="720">
+  <meta property="og:locale"      content="es_AR">
+  <meta name="twitter:card"       content="summary_large_image">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%230A0A0A'/%3E%3Ctext x='32' y='45' font-family='Arial,sans-serif' font-size='28' font-weight='900' fill='%23F4F2EE' text-anchor='middle'%3EJS%3C/text%3E%3Ccircle cx='52' cy='14' r='5' fill='%23CC0A2A'/%3E%3C/svg%3E">
+
+  <!-- Vercel Analytics -->
+  <script defer src="/_vercel/insights/script.js"></script>
+
+  <link rel="preconnect" href="https://api.fontshare.com">
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@700,800,900&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <!-- Sistema compartido: color, foco, red de seguridad del cursor -->
+  <link rel="stylesheet" href="assets/tokens.css">
+
+  <!-- Navegación compartida: rótulo del menú, continuidad tarjeta ↔ caso y
+       regreso al listado. Sin defer: tiene que escuchar pagereveal antes
+       del primer render. -->
+  <link rel="stylesheet" href="assets/navegacion.css">
+  <script src="assets/navegacion.js"></script>
+  <!-- Reproductor de video compartido: los enlaces con data-video abren
+       en un <dialog> sobre la página. Con defer: sólo necesita el DOM. -->
+  <link rel="stylesheet" href="assets/reproductor.css">
+  <script defer src="assets/reproductor.js"></script>
+  <!-- Estilo de las cinco páginas de videoclip: el de La Noche, compartido. -->
+  <link rel="stylesheet" href="assets/videoclip.css">
+  <!-- No pintar hasta tener la página armada: la transición y el regreso
+       necesitan las tarjetas y la cabecera en su lugar. -->
+  <link rel="expect" href="#cierre" blocking="render">
+
+  <!-- ── DATOS ESTRUCTURADOS ── -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Person",
+        "@id": "https://juliansequeira.com/#julian",
+        "name": "Julián Sequeira",
+        "alternateName": [
+          "Julian Sequeira"
+        ],
+        "givenName": "Julián",
+        "familyName": "Sequeira",
+        "url": "https://juliansequeira.com/",
+        "mainEntityOfPage": "https://juliansequeira.com/about.html",
+        "image": "https://juliansequeira.com/assets/julian.webp",
+        "jobTitle": [
+          "Director Creativo",
+          "Director de Animación",
+          "Realizador audiovisual"
+        ],
+        "description": "Director creativo y director de animación con más de 15 años de experiencia, radicado en Buenos Aires, Argentina. Director de arte y director de episodios de Dinopops (NBC/Peacock) y Cinematic Artist en Silent Hill: Ascension, producción ganadora del Emmy 2024. Trabaja entre cine, animación 3D, Unreal Engine y pipelines de IA generativa.",
+        "disambiguatingDescription": "Director de animación y director creativo argentino (Buenos Aires), IMDb nm12285471. No confundir con el director de fotografía homónimo (IMDb nm5121844) ni con el ingeniero de software australiano del mismo nombre.",
+        "gender": "Male",
+        "nationality": {
+          "@type": "Country",
+          "name": "Argentina"
+        },
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Buenos Aires",
+          "addressCountry": "AR"
+        },
+        "email": "mailto:bd.juliansequeira@gmail.com",
+        "worksFor": [
+          {
+            "@type": "Organization",
+            "@id": "https://juliansequeira.com/#achalay",
+            "name": "Achalay Marketing"
+          },
+          {
+            "@type": "Organization",
+            "@id": "https://juliansequeira.com/#studiosoup",
+            "name": "Studio Soup"
+          }
+        ],
+        "alumniOf": [
+          {
+            "@type": "EducationalOrganization",
+            "name": "PCI Cine / Asociación de Directores de Cine (DAC)"
+          },
+          {
+            "@type": "EducationalOrganization",
+            "name": "Laboratorio de Arte y Tecnología (A&T Lab)"
+          },
+          {
+            "@type": "EducationalOrganization",
+            "name": "Escuela Nacional de Bellas Artes Manuel Belgrano"
+          }
+        ],
+        "knowsAbout": [
+          "Dirección de animación",
+          "Dirección de arte",
+          "Unreal Engine",
+          "Producción virtual",
+          "IA generativa aplicada a video",
+          "Cinematografía",
+          "Storyboard",
+          "Postproducción",
+          "Cinema 4D",
+          "ComfyUI",
+          "Branded content"
+        ],
+        "knowsLanguage": [
+          {
+            "@type": "Language",
+            "name": "Español",
+            "alternateName": "es"
+          },
+          {
+            "@type": "Language",
+            "name": "Inglés",
+            "alternateName": "en"
+          }
+        ],
+        "hasOccupation": {
+          "@type": "Occupation",
+          "name": "Director de animación",
+          "occupationLocation": {
+            "@type": "City",
+            "name": "Buenos Aires"
+          }
+        },
+        "sameAs": [
+          "https://www.wikidata.org/wiki/Q141178959",
+          "https://www.imdb.com/name/nm12285471/",
+          "https://www.linkedin.com/in/sequeirajulian/",
+          "https://www.instagram.com/sequeira_ju/",
+          "https://vimeo.com/juliansequeira",
+          "https://www.youtube.com/@flama.collective"
+        ],
+        "identifier": [
+          {
+            "@type": "PropertyValue",
+            "propertyID": "IMDb",
+            "value": "nm12285471",
+            "url": "https://www.imdb.com/name/nm12285471/"
+          },
+          {
+            "@type": "PropertyValue",
+            "propertyID": "Wikidata",
+            "value": "Q141178959",
+            "url": "https://www.wikidata.org/wiki/Q141178959"
+          }
+        ]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://juliansequeira.com/#website",
+        "url": "https://juliansequeira.com/",
+        "name": "Julián Sequeira",
+        "inLanguage": "es-AR",
+        "publisher": {
+          "@id": "https://juliansequeira.com/#julian"
+        },
+        "copyrightHolder": {
+          "@id": "https://juliansequeira.com/#julian"
+        }
+      },
+      {
+        "@type": "ItemPage",
+        "@id": "https://juliansequeira.com/salgo-a-caminar.html#page",
+        "url": "https://juliansequeira.com/salgo-a-caminar.html",
+        "name": "Salgo a Caminar — Julián Sequeira",
+        "description": "Salgo a Caminar, videoclip de Tortu aka O.d.d.M (2017). Dirección, storyboard, montaje y VFX: Julián Sequeira.",
+        "isPartOf": {
+          "@id": "https://juliansequeira.com/#website"
+        },
+        "about": {
+          "@id": "https://juliansequeira.com/#julian"
+        },
+        "inLanguage": "es-AR",
+        "mainEntity": {
+          "@id": "https://juliansequeira.com/#salgo-a-caminar"
+        },
+        "primaryImageOfPage": "https://img.youtube.com/vi/0dOVfSLxZj8/maxresdefault.jpg"
+      },
+      {
+        "@type": "MusicVideoObject",
+        "@id": "https://juliansequeira.com/#salgo-a-caminar",
+        "name": "Salgo a Caminar",
+        "url": "https://juliansequeira.com/salgo-a-caminar.html",
+        "description": "Videoclip de Tortu aka O.d.d.M, 2017. Dirección, storyboard, montaje y VFX: Julián Sequeira.",
+        "datePublished": "2017",
+        "inLanguage": "es",
+        "thumbnailUrl": "https://img.youtube.com/vi/0dOVfSLxZj8/maxresdefault.jpg",
+        "embedUrl": "https://www.youtube.com/embed/0dOVfSLxZj8",
+        "creator": {
+          "@id": "https://juliansequeira.com/#julian"
+        },
+        "sameAs": "https://www.youtube.com/watch?v=0dOVfSLxZj8"
+      }
+    ]
+  }
+  </script>
+  <!-- ── /DATOS ESTRUCTURADOS ── -->
+</head>
+<body>
+
+<!-- ── NAV ───────────────────────────────────────────────────── -->
+<nav>
+  <a href="index.html" class="nav-logo">JS</a>
+  <ul class="nav-links">
+    <li><a href="work.html">Trabajos</a></li>
+    <li><a href="about.html">Sobre mí</a></li>
+    <li><a href="index.html#contact">Contacto</a></li>
+  </ul>
+</nav>
+
+<main>
+<p class="miga"><a href="work.html" data-volver>← Volver a trabajos</a></p>
+
+<!-- ── ENCABEZADO ────────────────────────────────────────────── -->
+<header>
+  <p class="kicker">Videoclip · Dirección y montaje</p>
+  <h1 data-vt="titulo" tabindex="-1">Salgo a Caminar</h1>
+</header>
+
+<!-- ── CABECERA / VIDEOCLIP ──────────────────────────────────── -->
+<div class="hero">
+  <a class="trailer" href="https://www.youtube.com/watch?v=0dOVfSLxZj8" data-video aria-label="Ver el videoclip: Salgo a Caminar, en un reproductor sobre la página">
+    <!-- Misma imagen que su tarjeta: la foto pasa del listado a la cabecera. -->
+    <img src="https://img.youtube.com/vi/0dOVfSLxZj8/maxresdefault.jpg" data-vt="imagen"
+         alt="Salgo a Caminar, videoclip de Tortu aka O.d.d.M"
+         width="1280" height="720" fetchpriority="high" decoding="async"
+         onerror="this.onerror=null;this.src='https://img.youtube.com/vi/0dOVfSLxZj8/hqdefault.jpg';">
+    <span class="trailer-play">
+      <span class="play-aro">
+        <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><polygon points="4,2 14,8 4,14"/></svg>
+      </span>
+      <span class="play-lbl">Ver videoclip</span>
+    </span>
+  </a>
+  <p class="salida-yt">
+    <a href="https://www.youtube.com/watch?v=0dOVfSLxZj8" target="_blank" rel="noopener">Ver en YouTube <span aria-hidden="true">↗</span></a>
+  </p>
+</div>
+
+<!-- ── FICHA ─────────────────────────────────────────────────── -->
+<section id="ficha" aria-label="Ficha">
+  <div class="ficha-grid">
+    <div><p class="ficha-k">Año</p><p class="ficha-v">2017</p></div>
+    <div><p class="ficha-k">Artista</p><p class="ficha-v">Tortu aka O.d.d.M</p></div>
+    <div><p class="ficha-k">Rol</p><p class="ficha-v">Dirección, storyboard, montaje y VFX</p></div>
+  </div>
+</section>
+
+<!-- ── MATERIAL ──────────────────────────────────────────────── -->
+<section class="sec" aria-labelledby="t-storyboard">
+  <h2 id="t-storyboard" class="reveal">Storyboard</h2>
+  <ol class="hoja">
+    <li class="reveal">
+      <figure>
+        <a class="ampliable" href="assets/salgo-a-caminar/story-01.webp" data-pie="Storyboard, cuadro 01: plano general.">
+          <span class="u-sr-only">Ampliar: </span>
+          <img src="assets/salgo-a-caminar/story-01-400.webp"
+               srcset="assets/salgo-a-caminar/story-01-400.webp 400w, assets/salgo-a-caminar/story-01.webp 800w"
+               sizes="(max-width: 700px) calc(50vw - 28px), (max-width: 1000px) calc(33vw - 46px), calc(25vw - 40px)"
+               alt="Un hombre camina hacia la derecha por una avenida llena de taxis."
+               width="800" height="600" loading="lazy" decoding="async">
+        </a>
+        <figcaption><span class="hoja-n">01</span> Plano general</figcaption>
+      </figure>
+    </li>
+    <li class="reveal d1">
+      <figure>
+        <a class="ampliable" href="assets/salgo-a-caminar/story-02.webp" data-pie="Storyboard, cuadro 02: plano medio.">
+          <span class="u-sr-only">Ampliar: </span>
+          <img src="assets/salgo-a-caminar/story-02-400.webp"
+               srcset="assets/salgo-a-caminar/story-02-400.webp 400w, assets/salgo-a-caminar/story-02.webp 800w"
+               sizes="(max-width: 700px) calc(50vw - 28px), (max-width: 1000px) calc(33vw - 46px), calc(25vw - 40px)"
+               alt="El mismo hombre, más cerca, sigue caminando por la avenida."
+               width="800" height="600" loading="lazy" decoding="async">
+        </a>
+        <figcaption><span class="hoja-n">02</span> Plano medio</figcaption>
+      </figure>
+    </li>
+    <li class="reveal">
+      <figure>
+        <a class="ampliable" href="assets/salgo-a-caminar/story-03.webp" data-pie="Storyboard, cuadro 03: plano pecho.">
+          <span class="u-sr-only">Ampliar: </span>
+          <img src="assets/salgo-a-caminar/story-03-400.webp"
+               srcset="assets/salgo-a-caminar/story-03-400.webp 400w, assets/salgo-a-caminar/story-03.webp 800w"
+               sizes="(max-width: 700px) calc(50vw - 28px), (max-width: 1000px) calc(33vw - 46px), calc(25vw - 40px)"
+               alt="El hombre de frente, con la avenida detrás."
+               width="800" height="600" loading="lazy" decoding="async">
+        </a>
+        <figcaption><span class="hoja-n">03</span> Plano pecho</figcaption>
+      </figure>
+    </li>
+    <li class="reveal d1">
+      <figure>
+        <a class="ampliable" href="assets/salgo-a-caminar/story-04.webp" data-pie="Storyboard, cuadro 04: plano detalle.">
+          <span class="u-sr-only">Ampliar: </span>
+          <img src="assets/salgo-a-caminar/story-04-400.webp"
+               srcset="assets/salgo-a-caminar/story-04-400.webp 400w, assets/salgo-a-caminar/story-04.webp 800w"
+               sizes="(max-width: 700px) calc(50vw - 28px), (max-width: 1000px) calc(33vw - 46px), calc(25vw - 40px)"
+               alt="Una muñeca con reloj."
+               width="800" height="600" loading="lazy" decoding="async">
+        </a>
+        <figcaption><span class="hoja-n">04</span> Plano detalle</figcaption>
+      </figure>
+    </li>
+    <li class="reveal">
+      <figure>
+        <a class="ampliable" href="assets/salgo-a-caminar/story-05.webp" data-pie="Storyboard, cuadro 05: plano general.">
+          <span class="u-sr-only">Ampliar: </span>
+          <img src="assets/salgo-a-caminar/story-05-400.webp"
+               srcset="assets/salgo-a-caminar/story-05-400.webp 400w, assets/salgo-a-caminar/story-05.webp 800w"
+               sizes="(max-width: 700px) calc(50vw - 28px), (max-width: 1000px) calc(33vw - 46px), calc(25vw - 40px)"
+               alt="El hombre camina hacia la derecha frente a unas montañas dibujadas."
+               width="800" height="600" loading="lazy" decoding="async">
+        </a>
+        <figcaption><span class="hoja-n">05</span> Plano general</figcaption>
+      </figure>
+    </li>
+    <li class="reveal d1">
+      <figure>
+        <a class="ampliable" href="assets/salgo-a-caminar/story-06.webp" data-pie="Storyboard, cuadro 06: plano general.">
+          <span class="u-sr-only">Ampliar: </span>
+          <img src="assets/salgo-a-caminar/story-06-400.webp"
+               srcset="assets/salgo-a-caminar/story-06-400.webp 400w, assets/salgo-a-caminar/story-06.webp 800w"
+               sizes="(max-width: 700px) calc(50vw - 28px), (max-width: 1000px) calc(33vw - 46px), calc(25vw - 40px)"
+               alt="El hombre vuelve caminando hacia la izquierda entre las montañas."
+               width="800" height="600" loading="lazy" decoding="async">
+        </a>
+        <figcaption><span class="hoja-n">06</span> Plano general</figcaption>
+      </figure>
+    </li>
+    <li class="reveal">
+      <figure>
+        <a class="ampliable" href="assets/salgo-a-caminar/story-07.webp" data-pie="Storyboard, cuadro 07: plano pecho.">
+          <span class="u-sr-only">Ampliar: </span>
+          <img src="assets/salgo-a-caminar/story-07-400.webp"
+               srcset="assets/salgo-a-caminar/story-07-400.webp 400w, assets/salgo-a-caminar/story-07.webp 800w"
+               sizes="(max-width: 700px) calc(50vw - 28px), (max-width: 1000px) calc(33vw - 46px), calc(25vw - 40px)"
+               alt="Un rapero con gorra y la palabra RAP en la remera hace un gesto con las manos, con las montañas detrás."
+               width="800" height="600" loading="lazy" decoding="async">
+        </a>
+        <figcaption><span class="hoja-n">07</span> Plano pecho</figcaption>
+      </figure>
+    </li>
+    <li class="reveal d1">
+      <figure>
+        <a class="ampliable" href="assets/salgo-a-caminar/story-08.webp" data-pie="Storyboard, cuadro 08: plano detalle, mano.">
+          <span class="u-sr-only">Ampliar: </span>
+          <img src="assets/salgo-a-caminar/story-08-400.webp"
+               srcset="assets/salgo-a-caminar/story-08-400.webp 400w, assets/salgo-a-caminar/story-08.webp 800w"
+               sizes="(max-width: 700px) calc(50vw - 28px), (max-width: 1000px) calc(33vw - 46px), calc(25vw - 40px)"
+               alt="Un puño golpea una puerta de madera."
+               width="800" height="600" loading="lazy" decoding="async">
+        </a>
+        <figcaption><span class="hoja-n">08</span> Plano detalle, mano</figcaption>
+      </figure>
+    </li>
+    <li class="reveal">
+      <figure>
+        <a class="ampliable" href="assets/salgo-a-caminar/story-09.webp" data-pie="Storyboard, cuadro 09: plano detalle.">
+          <span class="u-sr-only">Ampliar: </span>
+          <img src="assets/salgo-a-caminar/story-09-400.webp"
+               srcset="assets/salgo-a-caminar/story-09-400.webp 400w, assets/salgo-a-caminar/story-09.webp 800w"
+               sizes="(max-width: 700px) calc(50vw - 28px), (max-width: 1000px) calc(33vw - 46px), calc(25vw - 40px)"
+               alt="Dos manos se saludan dentro de una cabaña."
+               width="800" height="600" loading="lazy" decoding="async">
+        </a>
+        <figcaption><span class="hoja-n">09</span> Plano detalle</figcaption>
+      </figure>
+    </li>
+    <li class="reveal d1">
+      <figure>
+        <a class="ampliable" href="assets/salgo-a-caminar/story-10.webp" data-pie="Storyboard, cuadro 10: plano general, casa.">
+          <span class="u-sr-only">Ampliar: </span>
+          <img src="assets/salgo-a-caminar/story-10-400.webp"
+               srcset="assets/salgo-a-caminar/story-10-400.webp 400w, assets/salgo-a-caminar/story-10.webp 800w"
+               sizes="(max-width: 700px) calc(50vw - 28px), (max-width: 1000px) calc(33vw - 46px), calc(25vw - 40px)"
+               alt="Interior de una cabaña: dos personas sentadas, una de pie y una pava sobre la mesa."
+               width="800" height="600" loading="lazy" decoding="async">
+        </a>
+        <figcaption><span class="hoja-n">10</span> Plano general, casa</figcaption>
+      </figure>
+    </li>
+    <li class="reveal">
+      <figure>
+        <a class="ampliable" href="assets/salgo-a-caminar/story-11.webp" data-pie="Storyboard, cuadro 11: ventana.">
+          <span class="u-sr-only">Ampliar: </span>
+          <img src="assets/salgo-a-caminar/story-11-400.webp"
+               srcset="assets/salgo-a-caminar/story-11-400.webp 400w, assets/salgo-a-caminar/story-11.webp 800w"
+               sizes="(max-width: 700px) calc(50vw - 28px), (max-width: 1000px) calc(33vw - 46px), calc(25vw - 40px)"
+               alt="Una ventana de madera abierta con dos trenes del otro lado."
+               width="800" height="600" loading="lazy" decoding="async">
+        </a>
+        <figcaption><span class="hoja-n">11</span> Ventana</figcaption>
+      </figure>
+    </li>
+    <li class="reveal d1">
+      <figure>
+        <a class="ampliable" href="assets/salgo-a-caminar/story-12.webp" data-pie="Storyboard, cuadro 12: plano pecho.">
+          <span class="u-sr-only">Ampliar: </span>
+          <img src="assets/salgo-a-caminar/story-12-400.webp"
+               srcset="assets/salgo-a-caminar/story-12-400.webp 400w, assets/salgo-a-caminar/story-12.webp 800w"
+               sizes="(max-width: 700px) calc(50vw - 28px), (max-width: 1000px) calc(33vw - 46px), calc(25vw - 40px)"
+               alt="Un rostro sonriente enmarcado en un cuadro sobre una pared de madera."
+               width="800" height="600" loading="lazy" decoding="async">
+        </a>
+        <figcaption><span class="hoja-n">12</span> Plano pecho</figcaption>
+      </figure>
+    </li>
+    <li class="reveal">
+      <figure>
+        <a class="ampliable" href="assets/salgo-a-caminar/story-13.webp" data-pie="Storyboard, cuadro 13: plano general.">
+          <span class="u-sr-only">Ampliar: </span>
+          <img src="assets/salgo-a-caminar/story-13-400.webp"
+               srcset="assets/salgo-a-caminar/story-13-400.webp 400w, assets/salgo-a-caminar/story-13.webp 800w"
+               sizes="(max-width: 700px) calc(50vw - 28px), (max-width: 1000px) calc(33vw - 46px), calc(25vw - 40px)"
+               alt="El hombre camina por un campo verde."
+               width="800" height="600" loading="lazy" decoding="async">
+        </a>
+        <figcaption><span class="hoja-n">13</span> Plano general</figcaption>
+      </figure>
+    </li>
+    <li class="reveal d1">
+      <figure>
+        <a class="ampliable" href="assets/salgo-a-caminar/story-14.webp" data-pie="Storyboard, cuadro 14: plano medio.">
+          <span class="u-sr-only">Ampliar: </span>
+          <img src="assets/salgo-a-caminar/story-14-400.webp"
+               srcset="assets/salgo-a-caminar/story-14-400.webp 400w, assets/salgo-a-caminar/story-14.webp 800w"
+               sizes="(max-width: 700px) calc(50vw - 28px), (max-width: 1000px) calc(33vw - 46px), calc(25vw - 40px)"
+               alt="El hombre en el campo, más cerca, camina hacia la derecha."
+               width="800" height="600" loading="lazy" decoding="async">
+        </a>
+        <figcaption><span class="hoja-n">14</span> Plano medio</figcaption>
+      </figure>
+    </li>
+    <li class="reveal">
+      <figure>
+        <a class="ampliable" href="assets/salgo-a-caminar/story-15.webp" data-pie="Storyboard, cuadro 15: plano medio.">
+          <span class="u-sr-only">Ampliar: </span>
+          <img src="assets/salgo-a-caminar/story-15-400.webp"
+               srcset="assets/salgo-a-caminar/story-15-400.webp 400w, assets/salgo-a-caminar/story-15.webp 800w"
+               sizes="(max-width: 700px) calc(50vw - 28px), (max-width: 1000px) calc(33vw - 46px), calc(25vw - 40px)"
+               alt="El hombre en el campo camina hacia la izquierda."
+               width="800" height="600" loading="lazy" decoding="async">
+        </a>
+        <figcaption><span class="hoja-n">15</span> Plano medio</figcaption>
+      </figure>
+    </li>
+    <li class="reveal d1">
+      <figure>
+        <a class="ampliable" href="assets/salgo-a-caminar/story-16.webp" data-pie="Storyboard, cuadro 16: plano general.">
+          <span class="u-sr-only">Ampliar: </span>
+          <img src="assets/salgo-a-caminar/story-16-400.webp"
+               srcset="assets/salgo-a-caminar/story-16-400.webp 400w, assets/salgo-a-caminar/story-16.webp 800w"
+               sizes="(max-width: 700px) calc(50vw - 28px), (max-width: 1000px) calc(33vw - 46px), calc(25vw - 40px)"
+               alt="Una persona acostada en el pasto."
+               width="800" height="600" loading="lazy" decoding="async">
+        </a>
+        <figcaption><span class="hoja-n">16</span> Plano general</figcaption>
+      </figure>
+    </li>
+    <li class="reveal">
+      <figure>
+        <a class="ampliable" href="assets/salgo-a-caminar/story-17.webp" data-pie="Storyboard, cuadro 17: plano general.">
+          <span class="u-sr-only">Ampliar: </span>
+          <img src="assets/salgo-a-caminar/story-17-400.webp"
+               srcset="assets/salgo-a-caminar/story-17-400.webp 400w, assets/salgo-a-caminar/story-17.webp 800w"
+               sizes="(max-width: 700px) calc(50vw - 28px), (max-width: 1000px) calc(33vw - 46px), calc(25vw - 40px)"
+               alt="Una persona de pie en el pasto, con las manos detrás de la cabeza."
+               width="800" height="600" loading="lazy" decoding="async">
+        </a>
+        <figcaption><span class="hoja-n">17</span> Plano general</figcaption>
+      </figure>
+    </li>
+    <li class="reveal d1">
+      <figure>
+        <a class="ampliable" href="assets/salgo-a-caminar/story-18.webp" data-pie="Storyboard, cuadro 18: primerísimo primer plano.">
+          <span class="u-sr-only">Ampliar: </span>
+          <img src="assets/salgo-a-caminar/story-18-400.webp"
+               srcset="assets/salgo-a-caminar/story-18-400.webp 400w, assets/salgo-a-caminar/story-18.webp 800w"
+               sizes="(max-width: 700px) calc(50vw - 28px), (max-width: 1000px) calc(33vw - 46px), calc(25vw - 40px)"
+               alt="Un perfil muy de cerca, con el campo detrás."
+               width="800" height="600" loading="lazy" decoding="async">
+        </a>
+        <figcaption><span class="hoja-n">18</span> Primerísimo primer plano</figcaption>
+      </figure>
+    </li>
+    <li class="reveal">
+      <figure>
+        <a class="ampliable" href="assets/salgo-a-caminar/story-19.webp" data-pie="Storyboard, cuadro 19: plano general.">
+          <span class="u-sr-only">Ampliar: </span>
+          <img src="assets/salgo-a-caminar/story-19-400.webp"
+               srcset="assets/salgo-a-caminar/story-19-400.webp 400w, assets/salgo-a-caminar/story-19.webp 800w"
+               sizes="(max-width: 700px) calc(50vw - 28px), (max-width: 1000px) calc(33vw - 46px), calc(25vw - 40px)"
+               alt="Una persona sentada en el pasto, con una mano en la cabeza."
+               width="800" height="600" loading="lazy" decoding="async">
+        </a>
+        <figcaption><span class="hoja-n">19</span> Plano general</figcaption>
+      </figure>
+    </li>
+    <li class="reveal d1">
+      <figure>
+        <a class="ampliable" href="assets/salgo-a-caminar/story-20.webp" data-pie="Storyboard, cuadro 20: plano pecho.">
+          <span class="u-sr-only">Ampliar: </span>
+          <img src="assets/salgo-a-caminar/story-20-400.webp"
+               srcset="assets/salgo-a-caminar/story-20-400.webp 400w, assets/salgo-a-caminar/story-20.webp 800w"
+               sizes="(max-width: 700px) calc(50vw - 28px), (max-width: 1000px) calc(33vw - 46px), calc(25vw - 40px)"
+               alt="El rapero de gorra con la palabra RAP en la remera, ahora en el campo."
+               width="800" height="600" loading="lazy" decoding="async">
+        </a>
+        <figcaption><span class="hoja-n">20</span> Plano pecho</figcaption>
+      </figure>
+    </li>
+  </ol>
+</section>
+
+<!-- ── CIERRE ────────────────────────────────────────────────── -->
+<section id="cierre">
+  <p class="cierre-k">¿Trabajamos juntos?</p>
+  <div class="cierre-big reveal">
+    <a href="index.html?asunto=Salgo%20a%20Caminar#contacto">Hablemos.</a>
+  </div>
+  <div class="cierre-row reveal d1">
+    <a href="index.html?asunto=Salgo%20a%20Caminar#contacto">Contacto ↗</a>
+    <a href="work.html">Ver más trabajos ↗</a>
+    <a href="https://www.youtube.com/@flama.collective" target="_blank" rel="noopener">YouTube ↗</a>
+  </div>
+</section>
+
+<!-- ── SIGUIENTE PROYECTO ────────────────────────────────────── -->
+<section class="siguiente" aria-labelledby="siguiente-k">
+  <p class="siguiente-k" id="siguiente-k">Siguiente proyecto</p>
+  <a class="siguiente-link" href="sos-vo.html">
+    <span class="siguiente-titulo">Sos Vo</span>
+    <span class="siguiente-flecha" aria-hidden="true">↗</span>
+    <span class="siguiente-ventana"><img src="assets/sos-vo/fotograma-03-800.webp" alt="" width="800" height="450" loading="eager" decoding="async"></span>
+  </a>
+</section>
+
+</main>
+
+<footer>
+  <span>© 2026 Julián Sequeira</span>
+  <span>Buenos Aires, Argentina</span>
+</footer>
+
+<!-- ── IMAGEN AMPLIADA ───────────────────────────────────────── -->
+<dialog class="visor" id="visor" aria-labelledby="visor-pie">
+  <div class="visor-controles">
+    <button class="visor-boton" type="button" data-cerrar aria-label="Cerrar la imagen">✕</button>
+  </div>
+  <div class="visor-caja">
+    <img id="visor-img" alt="">
+    <p class="visor-pie" id="visor-pie"></p>
+  </div>
+</dialog>
+
+<script src="assets/videoclip.js"></script>
+</body>
+</html>

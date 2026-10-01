@@ -27,7 +27,11 @@
   var raiz = document.documentElement;
   var PREFIJO = 'portfolio-nav:';
   var LISTADOS = { '/': true, '/work': true };
-  var CASOS = { '/cdbi': true, '/flama-squad': true, '/la-noche': true };
+  var CASOS = {
+    '/cdbi': true, '/flama-squad': true, '/la-noche': true,
+    '/el-loco': true, '/blin-blin-caja': true, '/salgo-a-caminar': true,
+    '/sos-vo': true, '/ojo-por-ojo': true
+  };
 
   /* Una sola forma de nombrar páginas: /work, /work.html y /index.html
      llegan distinto según el servidor. */

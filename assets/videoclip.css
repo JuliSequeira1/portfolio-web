@@ -1,0 +1,292 @@
+/* ═══════════════════════════════════════════════════════════════
+   juliansequeira.com — páginas de videoclip
+   Las cinco páginas de videoclip comparten este archivo: misma
+   estructura que La Noche (papel oscuro, cabecera con el video, ficha,
+   material, cierre), sin repetir el estilo en cada una. Los tokens
+   vienen de tokens.css; el reproductor y el visor, de reproductor.css.
+   ═══════════════════════════════════════════════════════════════ */
+:root {
+  --paper: var(--ink);
+  --linea: rgba(244,242,238,.12);
+  --nav-h: 77px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--paper);
+  color: var(--cream);
+  overflow-x: hidden;
+}
+/* height:auto es obligatorio: los <img> llevan width/height como atributo
+   para reservar el espacio, y sin esto el atributo gana sobre aspect-ratio. */
+img { max-width: 100%; height: auto; }
+
+/* ─── NAV ────────────────────────────────────────────────── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 28px 52px;
+  background: rgba(10,10,10,.86);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--linea);
+}
+.nav-logo {
+  font-family: 'Satoshi', sans-serif; font-weight: 900;
+  font-size: 14px; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--cream); text-decoration: none;
+}
+.nav-links { display: flex; gap: 40px; list-style: none; }
+.nav-links a {
+  font-size: 11px; font-weight: 500;
+  letter-spacing: .12em; text-transform: uppercase;
+  color: var(--on-dark); text-decoration: none;
+  transition: color var(--dur) var(--ease-out);
+}
+.nav-links a:hover { color: var(--red); }
+
+/* ─── MIGA ───────────────────────────────────────────────── */
+.miga {
+  padding: calc(var(--nav-h) + 46px) 52px 0;
+  font-size: 11px; font-weight: 500;
+  letter-spacing: .14em; text-transform: uppercase;
+}
+.miga a { color: var(--on-dark); text-decoration: none; }
+.miga a:hover { color: var(--red); }
+
+/* ─── ENCABEZADO ─────────────────────────────────────────── */
+header { padding: 30px 52px 52px; }
+.kicker {
+  display: flex; align-items: flex-start; gap: 12px;
+  font-size: 11px; font-weight: 500; line-height: 1.4;
+  letter-spacing: .2em; text-transform: uppercase;
+  color: var(--on-dark-strong); margin-bottom: 20px;
+}
+.kicker::before {
+  content: ''; flex: none;
+  width: 24px; height: 2px; margin-top: calc(.7em - 1px);
+  background: var(--red);
+}
+h1 {
+  font-family: 'Satoshi', sans-serif; font-weight: 900;
+  font-size: clamp(56px, 13vw, 190px);
+  line-height: .84; letter-spacing: -.045em;
+  text-transform: uppercase;
+  overflow-wrap: anywhere;
+}
+
+/* ─── CABECERA: EL VIDEO ─────────────────────────────────────
+   La imagen es la misma que la de su tarjeta en Trabajos (la miniatura
+   de YouTube), así la foto pasa del listado a la cabecera. Siempre en
+   16:9, como el video: recortarla a 4:3 en celular cortaba los costados.
+   ─────────────────────────────────────────────────────────── */
+.hero { padding: 0 52px 14px; }
+.trailer {
+  position: relative; overflow: hidden;
+  aspect-ratio: 16/9; background: #141414;
+  cursor: pointer; width: 100%;
+  border: 0; padding: 0; display: block; text-decoration: none;
+}
+.trailer img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+  transform: scale(1.02);
+  transition: transform .8s var(--ease-out), filter .4s var(--ease-out);
+}
+.trailer:hover img { transform: scale(1.06); filter: brightness(.82); }
+.trailer::after {
+  content: ''; position: absolute; bottom: 0; left: 0;
+  width: 0; height: 3px; background: var(--red); z-index: 3;
+  transition: width .5s var(--ease-out);
+}
+.trailer:hover::after, .trailer:focus-visible::after { width: 100%; }
+.trailer-play {
+  position: absolute; inset: 0; z-index: 2;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 14px;
+}
+.play-aro {
+  width: 78px; height: 78px; border-radius: 50%;
+  border: 1.5px solid var(--cream);
+  background: rgba(10,10,10,.42);
+  backdrop-filter: blur(2px);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--cream);
+  transition: background var(--dur) var(--ease-out), border-color var(--dur) var(--ease-out);
+}
+.trailer:hover .play-aro { background: var(--red); border-color: var(--red); }
+.play-aro svg { margin-left: 4px; }
+.play-lbl {
+  font-size: 10px; font-weight: 500;
+  letter-spacing: .18em; text-transform: uppercase;
+  color: var(--cream);
+  text-shadow: 0 1px 8px rgba(10,10,10,.9);
+}
+.salida-yt { margin-top: 18px; }
+.salida-yt a {
+  font-size: 11px; font-weight: 500;
+  letter-spacing: .14em; text-transform: uppercase;
+  color: var(--on-dark); text-decoration: none;
+  border-bottom: 1px solid rgba(244,242,238,.28); padding-bottom: 3px;
+  transition: color var(--dur) var(--ease-out), border-color var(--dur) var(--ease-out);
+}
+.salida-yt a:hover { color: var(--red); border-color: var(--red); }
+
+/* ─── FICHA: año, artista y rol ──────────────────────────── */
+#ficha {
+  margin-top: 46px;
+  padding: 60px 52px;
+  border-top: 1px solid var(--linea);
+  border-bottom: 1px solid var(--linea);
+}
+.ficha-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr) minmax(0, 1.6fr);
+  gap: 40px 32px;
+}
+.ficha-k {
+  font-size: 10px; font-weight: 500;
+  letter-spacing: .18em; text-transform: uppercase;
+  color: var(--on-dark-soft); margin-bottom: 9px;
+}
+.ficha-v {
+  font-family: 'Satoshi', sans-serif; font-weight: 700;
+  font-size: 17px; line-height: 1.35;
+  color: var(--cream);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ─── SECCIONES ──────────────────────────────────────────── */
+.sec { padding: 90px 52px; border-bottom: 1px solid var(--linea); }
+.sec h2 {
+  font-family: 'Satoshi', sans-serif; font-weight: 900;
+  font-size: clamp(28px, 4.2vw, 58px);
+  line-height: 1.04; letter-spacing: -.025em;
+  text-transform: uppercase;
+  max-width: 22ch;
+}
+figcaption, .credito {
+  margin-top: 12px;
+  font-size: 11px; letter-spacing: .04em;
+  color: var(--on-dark-soft);
+}
+.credito { margin-top: 18px; }
+
+/* Todo lo ampliable es un enlace a la imagen: sin JS, se abre el archivo. */
+.ampliable { display: block; position: relative; cursor: zoom-in; }
+.ampliable img { display: block; width: 100%; background: #141414; transition: filter .3s var(--ease-out); }
+.ampliable:hover img { filter: brightness(.86); }
+.ampliable:focus-visible { outline-offset: 4px; }
+
+/* ─── FOTOGRAMAS: seis cuadros del video, de a tres ──────── */
+.fotogramas {
+  list-style: none;
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px; margin-top: 46px;
+}
+
+/* ─── STORYBOARD: hoja de contactos, cuadros en orden ────────
+   Cada cuadro lleva su número y el tipo de plano, como en la hoja
+   original. Los dibujos son claros: el borde los separa del fondo.
+   ─────────────────────────────────────────────────────────── */
+.hoja {
+  list-style: none;
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 30px 18px; margin-top: 46px;
+}
+.hoja img { border: 1px solid var(--linea); }
+.hoja figcaption { display: flex; gap: 10px; }
+.hoja-n { color: var(--on-dark-strong); font-variant-numeric: tabular-nums; }
+
+/* ─── EN EL RODAJE: fotos enteras en dos columnas ────────────
+   Mezcla de verticales y horizontales: cada columna apila sus fotos
+   sin recortarlas. En celular, una sola columna en el mismo orden.
+   ─────────────────────────────────────────────────────────── */
+.rodaje-cols {
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px; margin-top: 46px; align-items: start;
+}
+.rodaje-col { display: flex; flex-direction: column; gap: 24px; }
+
+/* ─── CIERRE ─────────────────────────────────────────────── */
+#cierre { padding: 100px 52px; }
+.cierre-k {
+  font-family: 'Satoshi', sans-serif; font-weight: 700;
+  font-size: clamp(13px, 1.3vw, 16px);
+  letter-spacing: .14em; text-transform: uppercase;
+  color: var(--cream); margin-bottom: 26px;
+  display: flex; align-items: center; gap: 12px;
+}
+.cierre-k::before { content: ''; width: 36px; height: 2px; background: var(--red); }
+.cierre-big {
+  font-family: 'Satoshi', sans-serif; font-weight: 900;
+  font-size: clamp(42px, 7.5vw, 104px);
+  text-transform: uppercase; line-height: .85; letter-spacing: -.03em;
+}
+.cierre-big a { color: var(--cream); text-decoration: none; transition: color var(--dur) var(--ease-out); }
+.cierre-big a:hover { color: var(--red); }
+.cierre-row { display: flex; flex-wrap: wrap; gap: 26px; margin-top: 40px; }
+.cierre-row a {
+  font-size: 11px; font-weight: 500;
+  letter-spacing: .14em; text-transform: uppercase;
+  color: var(--on-dark); text-decoration: none;
+  border-bottom: 1px solid rgba(244,242,238,.28); padding-bottom: 3px;
+  white-space: nowrap;
+  transition: color var(--dur) var(--ease-out), border-color var(--dur) var(--ease-out);
+}
+.cierre-row a:hover { color: var(--red); border-color: var(--red); }
+
+footer {
+  padding: 22px 52px;
+  display: flex; align-items: center; justify-content: space-between;
+  border-top: 1px solid var(--linea);
+}
+footer span { font-size: 10px; letter-spacing: .1em; color: var(--on-dark); }
+
+/* ─── VISOR DE IMÁGENES ─────────────────────────────────────
+   Comparte las clases .visor* del reproductor (assets/reproductor.css):
+   <dialog> modal, Escape cierra, el foco vuelve a quien lo abrió.
+   ─────────────────────────────────────────────────────────── */
+.visor-caja img {
+  display: block; width: auto; height: auto;
+  max-width: min(100%, 1600px); max-height: calc(100dvh - 130px);
+}
+.visor-pie { font-size: 11px; letter-spacing: .04em; color: var(--on-dark); text-align: center; }
+
+/* ─── REVEAL ─────────────────────────────────────────────── */
+.reveal { transition: opacity .8s ease, transform .8s ease; }
+html.js-reveal .reveal { opacity: 0; transform: translateY(24px); }
+html.js-reveal .reveal.visible { opacity: 1; transform: none; }
+.reveal.d1 { transition-delay: .1s; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .001ms !important;
+    transition-duration: .001ms !important;
+    scroll-behavior: auto !important;
+  }
+  html.js-reveal .reveal { opacity: 1 !important; transform: none !important; }
+}
+
+@media (max-width: 1000px) {
+  .fotogramas { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .hoja { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+@media (max-width: 700px) {
+  :root { --nav-h: 57px; }
+  nav { padding: 18px 22px; }
+  .nav-links { gap: 18px; }
+  .miga, header, .hero, #ficha, .sec, #cierre, footer {
+    padding-left: 22px; padding-right: 22px;
+  }
+  header { padding-top: 26px; padding-bottom: 36px; }
+  #ficha { margin-top: 32px; }
+  .ficha-grid { grid-template-columns: minmax(0, 1fr); gap: 26px; }
+  .sec { padding-top: 64px; padding-bottom: 64px; }
+  .fotogramas, .rodaje-cols { grid-template-columns: minmax(0, 1fr); gap: 16px; margin-top: 34px; }
+  .rodaje-col { gap: 16px; }
+  .hoja { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px 12px; margin-top: 34px; }
+  footer { flex-direction: column; gap: 6px; }
+}
