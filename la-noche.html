@@ -247,14 +247,16 @@
       gap: 64px; align-items: start;
     }
     .recorrido-texto h2 ~ h2 { margin-top: 72px; }
-    .selecciones { list-style: none; margin-top: 30px; border-top: 1px solid var(--linea); }
-    .selecciones li {
-      display: flex; justify-content: space-between; align-items: baseline; gap: 18px;
-      padding: 14px 0; border-bottom: 1px solid var(--linea);
-      font-size: 15px; font-weight: 300; line-height: 1.5;
-      color: var(--on-dark-strong);
+    /* Seis laureles de a dos, en el ancho de la columna del texto. Son los
+       del póster de 2020/21 redibujados en vector (assets/la-noche/laureles);
+       el nombre del festival va en el alt, porque el texto del SVG son
+       trazos. */
+    .laureles {
+      list-style: none; margin-top: 30px;
+      display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 22px 28px;
     }
-    .sel-a { color: var(--on-dark-soft); font-variant-numeric: tabular-nums; }
+    .laureles img { width: 100%; height: auto; display: block; opacity: .86; } /* mismo tono que --on-dark-strong */
     .apoyo { margin-top: 22px; font-size: 13px; line-height: 1.6; color: var(--on-dark); }
     .creditos { margin-top: 30px; border-top: 1px solid var(--linea); }
     .creditos > div {
@@ -519,7 +521,7 @@
           "Ficción",
           "Fantasía"
         ],
-        "datePublished": "2020",
+        "datePublished": "2020-11-20",
         "inLanguage": "es",
         "countryOfOrigin": {
           "@type": "Country",
@@ -545,6 +547,13 @@
         "producer": {
           "@type": "Person",
           "name": "Sofía Molinari"
+        },
+        "editor": {
+          "@id": "https://juliansequeira.com/#julian"
+        },
+        "productionCompany": {
+          "@type": "Organization",
+          "name": "El Panorama Films"
         },
         "sameAs": "https://www.imdb.com/title/tt13969576/"
       }
@@ -632,24 +641,26 @@
 
     <div class="recorrido-texto">
       <h2 id="t-selecciones" class="reveal">Selecciones oficiales</h2>
-      <ul class="selecciones reveal d1">
-        <li><span>Buenos Aires Rojo Sangre</span> <span class="sel-a">2020</span></li>
-        <li><span>First-Time Filmmaker Sessions</span> <span class="sel-a">2020</span></li>
-        <li><span>The Lift-Off Sessions</span> <span class="sel-a">2020</span></li>
-        <li><span>Festival del Cinema di Cefalù</span> <span class="sel-a">2021</span></li>
-        <li><span>FILMÓPTICO</span> <span class="sel-a">2021</span></li>
-        <li><span>IPIFF — Independent Producers Indie Film Festival</span> <span class="sel-a">2021</span></li>
+      <ul class="laureles reveal d1">
+        <li><img src="assets/la-noche/laureles/rojo-sangre-2020.svg" alt="Buenos Aires Rojo Sangre 2020" width="922" height="660" loading="lazy" decoding="async"></li>
+        <li><img src="assets/la-noche/laureles/first-time-filmmaker-sessions-2020.svg" alt="First-Time Filmmaker Sessions 2020" width="922" height="660" loading="lazy" decoding="async"></li>
+        <li><img src="assets/la-noche/laureles/lift-off-sessions-2020.svg" alt="The Lift-Off Sessions 2020" width="922" height="660" loading="lazy" decoding="async"></li>
+        <li><img src="assets/la-noche/laureles/cefalu-2021.svg" alt="Festival del Cinema di Cefalù 2021" width="922" height="660" loading="lazy" decoding="async"></li>
+        <li><img src="assets/la-noche/laureles/filmoptico-2021.svg" alt="FILMÓPTICO — International Art Visual and Film Festival 2021" width="922" height="660" loading="lazy" decoding="async"></li>
+        <li><img src="assets/la-noche/laureles/ipiff-2021.svg" alt="IPIFF — Independent Producers Indie Film Festival 2021" width="922" height="660" loading="lazy" decoding="async"></li>
       </ul>
       <p class="apoyo reveal d1">Con el apoyo de Buenos Aires Ciudad · Vivamos Cultura.</p>
 
       <h2 id="t-ficha-tecnica" class="reveal">Ficha técnica</h2>
       <dl class="creditos reveal d1">
-        <div><dt>Dirección</dt><dd>Julián Sequeira</dd></div>
+        <div><dt>Dirección y montaje</dt><dd>Julián Sequeira</dd></div>
         <div><dt>Guion</dt><dd>Julián Sequeira · Tania Covelli · Raúl Ampuero</dd></div>
         <div><dt>Producción</dt><dd>Sofía Molinari</dd></div>
+        <div><dt>Coproducción</dt><dd>El Panorama Films</dd></div>
         <div><dt>Dirección de fotografía</dt><dd>Santiago Ipar · Daniel Ring</dd></div>
         <div><dt>Dirección de arte</dt><dd>Tania Covelli</dd></div>
-        <div><dt>Presenta</dt><dd>El Panorama Films</dd></div>
+        <div><dt>Asistencia de dirección</dt><dd>Tom Espinoza</dd></div>
+        <div><dt>Postproducción de sonido</dt><dd>Diego J. Moraiz</dd></div>
         <div><dt>Foto fija</dt><dd>Matias Open</dd></div>
       </dl>
     </div>
