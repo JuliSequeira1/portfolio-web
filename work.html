@@ -142,23 +142,24 @@
     /* ─── CATÁLOGO ───────────────────────────────────────────── */
     #grid-section { padding: 52px 52px 80px; }
 
-    /* Resto del catálogo, con dos formatos, en una grilla de tres columnas
-       que se lee por filas. Las verticales ocupan tres filas: con las
-       tarjetas en 16:9, tres filas más dos separaciones dan casi exacto
-       9:16, así que el frame vertical no se recorta. dense rellena con
-       apaisadas los huecos que dejan las verticales, y las filas quedan
-       completas mientras la cantidad lo permita. Antes eran columnas
-       CSS: el orden bajaba por columna y una fila empezaba antes de
-       completarse la anterior. Las verticales van primero en el HTML:
-       si una apaisada las precede, el bloque queda escalonado. */
+    /* Resto del catálogo, en dos grillas según el formato. Primero las
+       apaisadas (music videos y films) en tres columnas de 16:9, por
+       filas; después las verticales en cinco columnas de 9:16: a un
+       tercio del ancho se veían enormes. Antes compartían una grilla de
+       tres columnas, con las verticales ocupando tres filas y dense
+       rellenando los huecos, y el orden dependía de que las verticales
+       fueran primero en el HTML. */
     .work-grid {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
-      grid-auto-flow: dense;
       gap: 24px;
     }
     .work-grid > .work-item { aspect-ratio: 16/9; }
-    @media (max-width: 1000px) { .work-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    .work-grid.reels { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+    @media (max-width: 1000px) {
+      .work-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .work-grid.reels { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
 
     .work-item {
       position: relative; display: block; overflow: hidden;
@@ -169,16 +170,17 @@
     /* Reels y piezas verticales. El thumbnail de YouTube trae el frame
        9:16 centrado dentro de un 16:9 con relleno borroso al costado:
        recortar a 9:16 se queda justo con el frame y descarta el relleno. */
-    .work-grid > .work-item.vertical { aspect-ratio: 9/16; grid-row: span 3; }
+    .work-grid.reels > .work-item { aspect-ratio: 9/16; }
     .work-item.hidden { display: none; }
+    /* Los Tigres todavía no tiene ficha ni trailer: la tarjeta informa, no enlaza. */
+    .work-item.sin-enlace { cursor: default; }
 
     /* En el celular, las apaisadas a lo ancho y las verticales de a dos,
        como una grilla de reels: una vertical sola a todo el ancho ocupaba
        casi dos pantallas. */
     @media (max-width: 600px) {
-      .work-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
-      .work-grid > .work-item { grid-column: 1 / -1; }
-      .work-grid > .work-item.vertical { grid-column: auto; grid-row: auto; }
+      .work-grid { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+      .work-grid.reels { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
 
     .work-item img,
@@ -216,24 +218,25 @@
     /* ─── SELECCIÓN ─────────────────────────────────────────────
        Las cinco obras que abren el catálogo, con un orden que no
        depende de la altura de nadie: grid explícito, no columnas.
-       Dinopops, Silent Hill y La Noche; debajo CDBI y Flama a la par.
+       Dinopops, Silent Hill y La Noche; debajo CDBI, Flama y Los Tigres.
        Son tarjetas del catálogo, no copias, y obedecen los mismos
        filtros: una fila vacía, o la selección entera, se oculta. */
     .sel { display: grid; gap: 24px; }
     .sel-fila { display: grid; gap: 24px; }
     .sel-principal { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-    .sel-curso     { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    /* El par va en 2:1, como en la portada, para que se lea como banda
-       debajo de las tres. Flama tiene las cabezas contra el borde de
-       arriba, así que el recorte sale de abajo. */
-    .sel-curso > .work-item { aspect-ratio: 2 / 1; }
+    .sel-curso     { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    /* Los tres en curso van a la par y en 16:10, como la fila de arriba
+       y como en la portada. Flama y Los Tigres tienen las cabezas contra
+       el borde de arriba, así que el recorte sale de abajo. */
     .sel .encuadre-arriba > img { object-position: 50% 0%; }
 
     /* El atributo hidden solo no alcanza: display:grid le gana. */
     .sel[hidden], .sel-fila[hidden], .work-grid[hidden] { display: none; }
 
-    /* Una línea entre la selección y el resto, sólo si están las dos. */
-    .sel:not([hidden]) + .work-grid:not([hidden]) {
+    /* Una línea entre bloques visibles (selección, apaisadas, verticales);
+       el primero que se ve no la lleva. */
+    .sel:not([hidden]) ~ .work-grid:not([hidden]),
+    .work-grid:not([hidden]) ~ .work-grid:not([hidden]) {
       margin-top: 48px; padding-top: 48px;
       border-top: 1px solid var(--border);
     }
@@ -243,7 +246,9 @@
       /* Con las tres a la vista, Dinopops toma el ancho y Silent Hill y
          La Noche quedan a la par: no sobra medio casillero. */
       .sel-principal[data-visibles="3"] > .work-item:first-child { grid-column: 1 / -1; }
-      .sel-curso > .work-item { aspect-ratio: 16 / 10; }
+      .sel-curso { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      /* Con los tres en curso a la vista, Los Tigres queda solo: toma el ancho en 2:1. */
+      .sel-curso[data-visibles="3"] > .work-item:last-child { grid-column: 1 / -1; aspect-ratio: 2 / 1; }
     }
     @media (max-width: 600px) {
       .sel-principal, .sel-curso { grid-template-columns: minmax(0, 1fr); }
@@ -712,7 +717,7 @@
   <h1 class="page-title">Trabajos</h1>
   <div class="page-meta">
     <p>Proyectos seleccionados</p>
-    <strong id="contador">30</strong>
+    <strong id="contador">31</strong>
   </div>
 </header>
 
@@ -761,7 +766,7 @@
           </div>
         </a>
     </div>
-    <div class="sel-fila sel-curso" data-zona="en-curso" data-visibles="2">
+    <div class="sel-fila sel-curso" data-zona="en-curso" data-visibles="3">
         <a class="work-item reveal" href="cdbi.html" data-cat="animacion ia"
            aria-label="Ver el caso de Crónicas del Barro Infinito">
           <img src="assets/cdbi/loc-riachuelo.webp"
@@ -785,11 +790,158 @@
             <p class="item-client">Creador, guionista y director &#183; 9 episodios</p>
           </div>
         </a>
+
+        <!-- Los Tigres: en posproducción, sin ficha ni trailer todavía. No enlaza. -->
+        <div class="work-item encuadre-arriba sin-enlace reveal" data-cat="films">
+          <img src="assets/los-tigres/card.webp"
+               alt="Tres jugadores con pecheras rojas en una cancha de básquet con grafitis, del cortometraje Los Tigres"
+               width="1600" height="1000" loading="lazy" decoding="async">
+          <span class="item-flag">En posproducción</span>
+          <div class="work-item-meta">
+            <p class="item-cat">Cortometraje &#183; Mixed media</p>
+            <p class="item-name">Los Tigres</p>
+            <p class="item-client">Dirección &#183; Rodaje con actores, animación e IA</p>
+          </div>
+        </div>
     </div>
   </div>
 
-  <!-- Resto del catálogo: formatos mezclados, las verticales en 9:16. -->
-  <div class="work-grid" id="work-grid" data-zona="galeria" data-visibles="25">
+  <!-- Resto del catálogo: primero las apaisadas (music videos y films),
+       después las verticales en su propia grilla de cinco. -->
+  <div class="work-grid" id="work-grid" data-zona="galeria" data-visibles="14">
+
+    <!-- ── Music Video ── -->
+
+    <a class="work-item reveal d1" href="sos-vo.html" data-cat="music" aria-label="Ver el caso de Sos Vo, de Orquesta Típica La Vidú">
+      <img src="assets/sos-vo/card.webp" alt="Una pareja baila tango frente a la orquesta, en el videoclip Sos Vo" width="1280" height="720" loading="lazy" decoding="async">
+      <div class="work-item-meta">
+        <p class="item-cat">Music Video &#183; Dirección</p>
+        <p class="item-name">Sos Vo</p>
+        <p class="item-client">Orquesta Típica La Vidú</p>
+      </div>
+    </a>
+
+    <a class="work-item reveal d1" href="salgo-a-caminar.html" data-cat="music" aria-label="Ver el caso de Salgo a Caminar, de Tortu aka O.d.d.M">
+      <img src="https://img.youtube.com/vi/0dOVfSLxZj8/maxresdefault.jpg" alt="Tortu Salgo a Caminar" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/0dOVfSLxZj8/hqdefault.jpg';">
+      <div class="work-item-meta">
+        <p class="item-cat">Music Video &#183; Dirección &amp; VFX</p>
+        <p class="item-name">Salgo a Caminar</p>
+        <p class="item-client">Tortu aka O.d.d.M</p>
+      </div>
+    </a>
+
+    <a class="work-item reveal d1" href="https://youtu.be/6ePPkhRv6hU" data-video data-cat="music" aria-label="Ver Ataraxia, de DANEST">
+      <img src="assets/ataraxia/card.webp" alt="La marioneta de Danest señala a cámara con los hilos a la vista, en el videoclip Ataraxia" width="1280" height="720" loading="lazy" decoding="async">
+      <div class="work-item-meta">
+        <p class="item-cat">Music Video &#183; Dirección</p>
+        <p class="item-name">DANEST — Ataraxia</p>
+        <p class="item-client">Videoclip oficial</p>
+      </div>
+    </a>
+
+    <a class="work-item reveal d1" href="el-loco.html" data-cat="music" aria-label="Ver el caso de El Loco, de Danest y DLS">
+      <img src="https://img.youtube.com/vi/jPyB0l5RumI/maxresdefault.jpg" alt="El Loco" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/jPyB0l5RumI/hqdefault.jpg';">
+      <div class="work-item-meta">
+        <p class="item-cat">Music Video &#183; Dirección</p>
+        <p class="item-name">El Loco</p>
+        <p class="item-client">Danest × DLS</p>
+      </div>
+    </a>
+
+    <a class="work-item reveal d1" href="https://youtu.be/UMC9ClHPBDc" data-video data-cat="music" aria-label="Ver Géminis, episodio 1, de Danest y DLS">
+      <img src="https://img.youtube.com/vi/UMC9ClHPBDc/maxresdefault.jpg" alt="Danest x DLS — Géminis" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/UMC9ClHPBDc/hqdefault.jpg';">
+      <div class="work-item-meta">
+        <p class="item-cat">Music Video &#183; Dirección</p>
+        <p class="item-name">Géminis — Episodio 1</p>
+        <p class="item-client">Danest × DLS</p>
+      </div>
+    </a>
+
+    <a class="work-item reveal" href="https://youtu.be/Geq9oHiW6Ew" data-video data-cat="music" aria-label="Ver Flama Session número 2, El Llamado">
+      <img src="https://img.youtube.com/vi/Geq9oHiW6Ew/maxresdefault.jpg" alt="Flama Session 2" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/Geq9oHiW6Ew/hqdefault.jpg';">
+      <div class="work-item-meta">
+        <p class="item-cat">Music Video &#183; Live Session</p>
+        <p class="item-name">Flama Session #2 — El Llamado</p>
+        <p class="item-client">Devak 24</p>
+      </div>
+    </a>
+
+    <a class="work-item reveal" href="https://youtu.be/4-27j0gQU7M" data-video data-cat="music" aria-label="Ver Flama Sessions número 1, Luz">
+      <img src="https://img.youtube.com/vi/4-27j0gQU7M/maxresdefault.jpg" alt="Flama Sessions 1" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/4-27j0gQU7M/hqdefault.jpg';">
+      <div class="work-item-meta">
+        <p class="item-cat">Music Video &#183; Live Session</p>
+        <p class="item-name">Flama Sessions #1 — Luz</p>
+        <p class="item-client">Ekiz Tono × DJ Xolarz</p>
+      </div>
+    </a>
+
+    <a class="work-item reveal d1" href="https://youtu.be/BVOOO6w-Fd0" data-video data-cat="music" aria-label="Ver Luz, de Ekiz Tono y DJ Xolarz">
+      <img src="https://img.youtube.com/vi/BVOOO6w-Fd0/maxresdefault.jpg" alt="Luz" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/BVOOO6w-Fd0/hqdefault.jpg';">
+      <div class="work-item-meta">
+        <p class="item-cat">Music Video &#183; Dirección</p>
+        <p class="item-name">Luz</p>
+        <p class="item-client">Ekiz Tono × DJ Xolarz</p>
+      </div>
+    </a>
+
+    <a class="work-item reveal d1" href="blin-blin-caja.html" data-cat="music" aria-label="Ver el caso de Blin Blin Caja, de Argentina Tango Rap">
+      <img src="https://img.youtube.com/vi/lkylingO3Zk/maxresdefault.jpg" alt="Blin Blin Caja" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/lkylingO3Zk/hqdefault.jpg';">
+      <div class="work-item-meta">
+        <p class="item-cat">Music Video &#183; Dirección</p>
+        <p class="item-name">Blin Blin Caja</p>
+        <p class="item-client">Argentina Tango Rap</p>
+      </div>
+    </a>
+
+    <a class="work-item reveal" href="https://youtu.be/YOj04CEXjJI" data-video data-cat="music" aria-label="Ver Atrapado, de Argentina Tango Rap">
+      <img src="https://img.youtube.com/vi/YOj04CEXjJI/maxresdefault.jpg" alt="Atrapado" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/YOj04CEXjJI/hqdefault.jpg';">
+      <div class="work-item-meta">
+        <p class="item-cat">Music Video &#183; Dirección</p>
+        <p class="item-name">Atrapado</p>
+        <p class="item-client">Argentina Tango Rap</p>
+      </div>
+    </a>
+
+    <a class="work-item reveal" href="https://youtu.be/5KN3twZjw3w" data-video data-cat="music" aria-label="Ver Cosas del Destino, de Linyeras Cru">
+      <img src="https://img.youtube.com/vi/5KN3twZjw3w/maxresdefault.jpg" alt="Linyeras Cru Cosas del Destino" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/5KN3twZjw3w/hqdefault.jpg';">
+      <div class="work-item-meta">
+        <p class="item-cat">Music Video &#183; Dirección</p>
+        <p class="item-name">Cosas del Destino</p>
+        <p class="item-client">Linyeras Cru</p>
+      </div>
+    </a>
+
+    <a class="work-item reveal" href="https://youtu.be/aY3ymJEwSxk" data-video data-cat="music" aria-label="Ver Miran para Arriba, de Tortu y Devak 24">
+      <img src="https://img.youtube.com/vi/aY3ymJEwSxk/maxresdefault.jpg" alt="Miran para Arriba" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/aY3ymJEwSxk/hqdefault.jpg';">
+      <div class="work-item-meta">
+        <p class="item-cat">Music Video &#183; Dirección &amp; Montaje</p>
+        <p class="item-name">Miran para Arriba</p>
+        <p class="item-client">Tortu aka O.d.d.M × Devak 24</p>
+      </div>
+    </a>
+
+    <a class="work-item reveal d1" href="ojo-por-ojo.html" data-cat="music" aria-label="Ver el caso de Ojo por Ojo, de Chaco">
+      <img src="assets/ojo-por-ojo/card.webp" alt="Dos personajes conversan de noche junto al río, en el videoclip Ojo por Ojo" width="1280" height="720" loading="lazy" decoding="async">
+      <div class="work-item-meta">
+        <p class="item-cat">Music Video &#183; Dirección &amp; Montaje</p>
+        <p class="item-name">Ojo por Ojo</p>
+        <p class="item-client">Chaco</p>
+      </div>
+    </a>
+
+    <!-- ── Films ── -->
+
+    <a class="work-item reveal" href="https://youtu.be/uikDazoPnsQ" data-video data-cat="films" aria-label="Ver el cortometraje Blanco">
+      <img src="https://img.youtube.com/vi/uikDazoPnsQ/maxresdefault.jpg" alt="Blanco" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/uikDazoPnsQ/hqdefault.jpg';">
+      <div class="work-item-meta">
+        <p class="item-cat">Cortometraje &#183; 2015</p>
+        <p class="item-name">Blanco</p>
+        <p class="item-client">Cortometraje independiente</p>
+      </div>
+    </a>
+  </div>
+
+  <div class="work-grid reels" data-zona="reels" data-visibles="11">
 
     <!-- ── IA Video · piezas verticales ── -->
 
@@ -891,137 +1043,6 @@
         <p class="item-client">Lucky Energy</p>
       </div>
     </a>
-
-    <!-- ── Films ── -->
-
-    <a class="work-item reveal" href="https://youtu.be/uikDazoPnsQ" data-video data-cat="films" aria-label="Ver el cortometraje Blanco">
-      <img src="https://img.youtube.com/vi/uikDazoPnsQ/maxresdefault.jpg" alt="Blanco" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/uikDazoPnsQ/hqdefault.jpg';">
-      <div class="work-item-meta">
-        <p class="item-cat">Cortometraje &#183; 2015</p>
-        <p class="item-name">Blanco</p>
-        <p class="item-client">Cortometraje independiente</p>
-      </div>
-    </a>
-
-    <!-- ── Music Video ── -->
-
-    <a class="work-item reveal d1" href="sos-vo.html" data-cat="music" aria-label="Ver el caso de Sos Vo, de Orquesta Típica La Vidú">
-      <img src="https://img.youtube.com/vi/mYHd8dVEmuU/maxresdefault.jpg" alt="La Vidú — Sos Vo" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/mYHd8dVEmuU/hqdefault.jpg';">
-      <div class="work-item-meta">
-        <p class="item-cat">Music Video &#183; Dirección</p>
-        <p class="item-name">Sos Vo</p>
-        <p class="item-client">Orquesta Típica La Vidú</p>
-      </div>
-    </a>
-
-    <a class="work-item reveal d1" href="salgo-a-caminar.html" data-cat="music" aria-label="Ver el caso de Salgo a Caminar, de Tortu aka O.d.d.M">
-      <img src="https://img.youtube.com/vi/0dOVfSLxZj8/maxresdefault.jpg" alt="Tortu Salgo a Caminar" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/0dOVfSLxZj8/hqdefault.jpg';">
-      <div class="work-item-meta">
-        <p class="item-cat">Music Video &#183; Dirección &amp; VFX</p>
-        <p class="item-name">Salgo a Caminar</p>
-        <p class="item-client">Tortu aka O.d.d.M</p>
-      </div>
-    </a>
-
-    <a class="work-item reveal d1" href="https://youtu.be/6ePPkhRv6hU" data-video data-cat="music" aria-label="Ver Ataraxia, de DANEST">
-      <img src="https://img.youtube.com/vi/6ePPkhRv6hU/maxresdefault.jpg" alt="DANEST Ataraxia" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/6ePPkhRv6hU/hqdefault.jpg';">
-      <div class="work-item-meta">
-        <p class="item-cat">Music Video &#183; Dirección</p>
-        <p class="item-name">DANEST — Ataraxia</p>
-        <p class="item-client">Videoclip oficial</p>
-      </div>
-    </a>
-
-    <a class="work-item reveal d1" href="el-loco.html" data-cat="music" aria-label="Ver el caso de El Loco, de Danest y DLS">
-      <img src="https://img.youtube.com/vi/jPyB0l5RumI/maxresdefault.jpg" alt="El Loco" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/jPyB0l5RumI/hqdefault.jpg';">
-      <div class="work-item-meta">
-        <p class="item-cat">Music Video &#183; Dirección</p>
-        <p class="item-name">El Loco</p>
-        <p class="item-client">Danest × DLS</p>
-      </div>
-    </a>
-
-    <a class="work-item reveal d1" href="https://youtu.be/UMC9ClHPBDc" data-video data-cat="music" aria-label="Ver Géminis, episodio 1, de Danest y DLS">
-      <img src="https://img.youtube.com/vi/UMC9ClHPBDc/maxresdefault.jpg" alt="Danest x DLS — Géminis" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/UMC9ClHPBDc/hqdefault.jpg';">
-      <div class="work-item-meta">
-        <p class="item-cat">Music Video &#183; Dirección</p>
-        <p class="item-name">Géminis — Episodio 1</p>
-        <p class="item-client">Danest × DLS</p>
-      </div>
-    </a>
-
-    <a class="work-item reveal" href="https://youtu.be/Geq9oHiW6Ew" data-video data-cat="music" aria-label="Ver Flama Session número 2, El Llamado">
-      <img src="https://img.youtube.com/vi/Geq9oHiW6Ew/maxresdefault.jpg" alt="Flama Session 2" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/Geq9oHiW6Ew/hqdefault.jpg';">
-      <div class="work-item-meta">
-        <p class="item-cat">Music Video &#183; Live Session</p>
-        <p class="item-name">Flama Session #2 — El Llamado</p>
-        <p class="item-client">Devak 24</p>
-      </div>
-    </a>
-
-    <a class="work-item reveal" href="https://youtu.be/4-27j0gQU7M" data-video data-cat="music" aria-label="Ver Flama Sessions número 1, Luz">
-      <img src="https://img.youtube.com/vi/4-27j0gQU7M/maxresdefault.jpg" alt="Flama Sessions 1" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/4-27j0gQU7M/hqdefault.jpg';">
-      <div class="work-item-meta">
-        <p class="item-cat">Music Video &#183; Live Session</p>
-        <p class="item-name">Flama Sessions #1 — Luz</p>
-        <p class="item-client">Ekiz Tono × DJ Xolarz</p>
-      </div>
-    </a>
-
-    <a class="work-item reveal d1" href="https://youtu.be/BVOOO6w-Fd0" data-video data-cat="music" aria-label="Ver Luz, de Ekiz Tono y DJ Xolarz">
-      <img src="https://img.youtube.com/vi/BVOOO6w-Fd0/maxresdefault.jpg" alt="Luz" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/BVOOO6w-Fd0/hqdefault.jpg';">
-      <div class="work-item-meta">
-        <p class="item-cat">Music Video &#183; Dirección</p>
-        <p class="item-name">Luz</p>
-        <p class="item-client">Ekiz Tono × DJ Xolarz</p>
-      </div>
-    </a>
-
-    <a class="work-item reveal d1" href="blin-blin-caja.html" data-cat="music" aria-label="Ver el caso de Blin Blin Caja, de Argentina Tango Rap">
-      <img src="https://img.youtube.com/vi/lkylingO3Zk/maxresdefault.jpg" alt="Blin Blin Caja" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/lkylingO3Zk/hqdefault.jpg';">
-      <div class="work-item-meta">
-        <p class="item-cat">Music Video &#183; Dirección</p>
-        <p class="item-name">Blin Blin Caja</p>
-        <p class="item-client">Argentina Tango Rap</p>
-      </div>
-    </a>
-
-    <a class="work-item reveal" href="https://youtu.be/YOj04CEXjJI" data-video data-cat="music" aria-label="Ver Atrapado, de Argentina Tango Rap">
-      <img src="https://img.youtube.com/vi/YOj04CEXjJI/maxresdefault.jpg" alt="Atrapado" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/YOj04CEXjJI/hqdefault.jpg';">
-      <div class="work-item-meta">
-        <p class="item-cat">Music Video &#183; Dirección</p>
-        <p class="item-name">Atrapado</p>
-        <p class="item-client">Argentina Tango Rap</p>
-      </div>
-    </a>
-
-    <a class="work-item reveal" href="https://youtu.be/5KN3twZjw3w" data-video data-cat="music" aria-label="Ver Cosas del Destino, de Linyeras Cru">
-      <img src="https://img.youtube.com/vi/5KN3twZjw3w/maxresdefault.jpg" alt="Linyeras Cru Cosas del Destino" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/5KN3twZjw3w/hqdefault.jpg';">
-      <div class="work-item-meta">
-        <p class="item-cat">Music Video &#183; Dirección</p>
-        <p class="item-name">Cosas del Destino</p>
-        <p class="item-client">Linyeras Cru</p>
-      </div>
-    </a>
-
-    <a class="work-item reveal" href="https://youtu.be/aY3ymJEwSxk" data-video data-cat="music" aria-label="Ver Miran para Arriba, de Tortu y Devak 24">
-      <img src="https://img.youtube.com/vi/aY3ymJEwSxk/maxresdefault.jpg" alt="Miran para Arriba" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/aY3ymJEwSxk/hqdefault.jpg';">
-      <div class="work-item-meta">
-        <p class="item-cat">Music Video &#183; Dirección &amp; Montaje</p>
-        <p class="item-name">Miran para Arriba</p>
-        <p class="item-client">Tortu aka O.d.d.M × Devak 24</p>
-      </div>
-    </a>
-
-    <a class="work-item reveal d1" href="ojo-por-ojo.html" data-cat="music" aria-label="Ver el caso de Ojo por Ojo, de Chaco">
-      <img src="https://img.youtube.com/vi/B864iOuEhRY/maxresdefault.jpg" alt="Chaco Ojo por Ojo" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/B864iOuEhRY/hqdefault.jpg';">
-      <div class="work-item-meta">
-        <p class="item-cat">Music Video &#183; Dirección &amp; Montaje</p>
-        <p class="item-name">Ojo por Ojo</p>
-        <p class="item-client">Chaco</p>
-      </div>
-    </a>
-
   </div>
 </section>
 
