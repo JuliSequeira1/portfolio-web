@@ -202,27 +202,44 @@
     }
     .btn-dossier:hover { background: var(--red); color: var(--cream); border-color: var(--red); }
 
-    /* ─── LISTA SIMPLE (elenco / equipo) ─────────────────────── */
-    .lista { margin-top: 34px; display: flex; flex-direction: column; }
+    /* ─── LISTA SIMPLE (elenco / equipo) ─────────────────────────
+       En dos columnas: nueve filas a lo ancho ocupaban media pantalla. */
+    .lista {
+      margin-top: 34px; display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 48px;
+      border-top: 1px solid var(--border);
+    }
     .li {
       display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
       gap: 24px; padding: 16px 0;
-      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
       align-items: baseline;
     }
-    .lista .li:last-child { border-bottom: 1px solid var(--border); }
+    @media (max-width: 900px) { .lista { grid-template-columns: minmax(0, 1fr); } }
     @media (max-width: 640px) { .li { grid-template-columns: minmax(0, 1fr); gap: 4px; } }
     .li-n { font-family: 'Satoshi', sans-serif; font-weight: 800; font-size: 16px; }
     .li-r { font-size: 14px; font-weight: 300; color: var(--dim); }
 
-    /* ─── FOTO ANCHA ─────────────────────────────────────────── */
-    .banda { padding: 0; }
-    .banda img {
-      width: 100%; display: block;
-      aspect-ratio: 3/1; object-fit: cover;
+    /* ─── FOTOGRAMAS DE LA PRUEBA DE CONCEPTO ────────────────────
+       Seis cuadros del trailer, en 16:9 y a sangre entre sí: es la
+       prueba de que la serie es acción real con actores y locaciones.
+       Antes iba una sola foto ancha de la costanera, sin personajes. */
+    .stills { padding: 0 52px; }
+    .stills-k {
+      font-size: 10px; font-weight: 500;
+      letter-spacing: .22em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 14px;
+    }
+    .stills-grid {
+      display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+    .stills-grid img {
+      width: 100%; height: auto; display: block;
+      aspect-ratio: 16/9; object-fit: cover;
       background: #d8d4cc;
     }
-    @media (max-width: 700px) { .banda img { aspect-ratio: 16/9; } }
+    @media (max-width: 700px) { .stills-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; } }
 
     /* ─── ESTADO / PEDIDO ────────────────────────────────────── */
     /* scroll-margin: si no, el nav fijo tapa el título al saltar desde el botón */
@@ -546,14 +563,14 @@
 <!-- ── FICHA ──────────────────────────────────────────────────── -->
 <section id="ficha" aria-label="Ficha técnica">
   <div class="ficha-grid">
-    <div><p class="ficha-k">Formato</p><p class="ficha-v">9 episodios · temporada 1</p></div>
+    <div><p class="ficha-k">Formato</p><p class="ficha-v">9 episodios · temporada 1 · acción real 4K</p></div>
     <div><p class="ficha-k">Duración</p><p class="ficha-v">25 min · el primero es doble, 50–55</p></div>
     <div><p class="ficha-k">Género</p><p class="ficha-v">Comedia dramática · arte urbano y rap</p></div>
     <div><p class="ficha-k">Rol</p><p class="ficha-v">Creador · Guionista · Director</p></div>
     <div><p class="ficha-k">Origen</p><p class="ficha-v">Buenos Aires, Argentina</p></div>
     <div><p class="ficha-k">Idioma</p><p class="ficha-v">Español · lunfardo porteño</p></div>
     <div><p class="ficha-k">Registro</p><p class="ficha-v">DNDA, 2024</p></div>
-    <div><p class="ficha-k">Música original</p><p class="ficha-v">Smoler Bazz</p></div>
+    <div><p class="ficha-k">Música original</p><p class="ficha-v">Smoler Bazz · DJ Fabri</p></div>
   </div>
 </section>
 
@@ -573,19 +590,28 @@
       Un recital al que ninguno pensaba ir los vuelve a juntar, y esa misma noche deciden revivir la
       banda. Salvatore se anima a una batalla de gallos en la plaza y termina llorando delante de
       todos, con cien celulares filmando. El video se vuelve viral. De pronto son famosos, pero no
-      por lo que querían: <strong>son un meme.</strong>
+      por lo que querían: <strong>son un meme.</strong> Y la fama, aunque llegue por las razones
+      equivocadas, tiene dueño.
     </p>
     <p class="reveal d2">
-      León y Gaspar se obsesionan con los diez mil seguidores que abren la puerta de Rap World,
-      firman sin leer y se encuentran con cuarenta y ocho horas para conseguir productor y grabar
-      un disco entero. Cuando parece que zafan, se muere el Tío Charly y el velorio termina adentro
-      del primer videoclip. De ahí en más, todo lo que hacen para no hundirse los hunde un poco más.
+      El rap argentino ganó el mundo y la ficción todavía no lo tocó; cuando aparece, aparece contada
+      desde el éxito. Por cada uno que llegó hay mil que se quedaron ensayando en un comedor,
+      convencidos de que el año que viene sí. <strong>Flama Squad es la serie de los mil.</strong>
     </p>
   </div>
 </section>
 
-<div class="banda">
-  <img src="assets/flama/costanera.webp" alt="Locación de rodaje sobre la costanera de Buenos Aires" loading="lazy" decoding="async">
+<!-- ── FOTOGRAMAS: la prueba de concepto, a la vista ──────────── -->
+<div class="stills">
+  <p class="stills-k">Prueba de concepto · fotogramas del trailer</p>
+  <div class="stills-grid">
+    <img src="assets/flama/trailer-01-banio.webp" alt="Salvatore de perfil en un baño de azulejos rosas, con cadena de oro" width="1280" height="675" loading="lazy" decoding="async">
+    <img src="assets/flama/trailer-02-esfera.webp" alt="Los tres discuten al pie de una esfera de metal, al sol" width="1280" height="675" loading="lazy" decoding="async">
+    <img src="assets/flama/trailer-03-ring.webp" alt="Dos boxeadores en un ring, uno con guantes rojos" width="1280" height="675" loading="lazy" decoding="async">
+    <img src="assets/flama/trailer-04-maca-gaspar.webp" alt="Maca y Gaspar, de perfil, discuten en un interior empapelado" width="1280" height="675" loading="lazy" decoding="async">
+    <img src="assets/flama/trailer-05-luna-park.webp" alt="Los tres cruzan la calle frente al Luna Park" width="1280" height="675" loading="lazy" decoding="async">
+    <img src="assets/flama/trailer-06-gaspar.webp" alt="Gaspar con lentes naranjas y cadena de oro, sentado en un sillón" width="1280" height="675" loading="lazy" decoding="async">
+  </div>
 </div>
 
 <!-- ── TEMPORADA 1 ────────────────────────────────────────────── -->
@@ -607,16 +633,17 @@
 <!-- ── ELENCO Y EQUIPO ────────────────────────────────────────── -->
 <section class="sec">
   <p class="sec-k">Quiénes</p>
-  <h2 class="reveal">Elenco y equipo</h2>
+  <h2 class="reveal">Elenco de la prueba de concepto y equipo</h2>
   <div class="lista reveal d1">
     <div class="li"><p class="li-n">Ekiz Tono <span style="font-weight:300;color:var(--muted)">(Facundo Iglesias)</span></p><p class="li-r">Actor y músico</p></div>
-    <div class="li"><p class="li-n">Darío Baez</p><p class="li-r">Actor, músico y asistente de dirección</p></div>
-    <div class="li"><p class="li-n">Devak</p><p class="li-r">Actor y productor musical</p></div>
-    <div class="li"><p class="li-n">Leopoldo Davis</p><p class="li-r">Actor</p></div>
-    <div class="li"><p class="li-n">Smoler Bazz</p><p class="li-r">Música original</p></div>
-    <div class="li"><p class="li-n">Lucas Gondolo</p><p class="li-r">Guion</p></div>
-    <div class="li"><p class="li-n">Oscar Gómez Povina</p><p class="li-r">Guion</p></div>
     <div class="li"><p class="li-n">Julián Sequeira</p><p class="li-r">Creador, guionista, director y montajista</p></div>
+    <div class="li"><p class="li-n">Darío Baez</p><p class="li-r">Actor, músico y asistente de dirección</p></div>
+    <div class="li"><p class="li-n">Lucas Gondolo</p><p class="li-r">Guion</p></div>
+    <div class="li"><p class="li-n">Devak</p><p class="li-r">Actor y productor musical</p></div>
+    <div class="li"><p class="li-n">Oscar Gómez Povina</p><p class="li-r">Guion</p></div>
+    <div class="li"><p class="li-n">Leopoldo Davis</p><p class="li-r">Actor</p></div>
+    <div class="li"><p class="li-n">Smoler Bazz</p><p class="li-r">Música original · composición y bases</p></div>
+    <div class="li"><p class="li-n">DJ Fabri</p><p class="li-r">Scratch</p></div>
   </div>
 </section>
 
@@ -629,8 +656,8 @@
       <p class="pedido-t">Lo que ya existe</p>
       <p class="pedido-d">
         Los 9 guiones terminados y registrados en DNDA. Biblia de serie. Opening, trailer y escenas
-        sueltas filmados con fondos propios, como prueba de concepto. Banda sonora original en
-        desarrollo.
+        sueltas filmados con fondos propios y los de las dos becas, como prueba de concepto: material
+        inédito. Banda sonora original en desarrollo.
       </p>
     </div>
     <div class="pedido-item reveal d1">
@@ -643,8 +670,9 @@
     <div class="pedido-item reveal d2">
       <p class="pedido-t">Qué falta</p>
       <p class="pedido-d">
-        Financiación para filmar la temporada completa y cerrar postproducción, música y distribución.
-        Y contactos: productoras, plataformas y distribuidores que puedan llevar la temporada 1 a estreno.
+        Una productora asociada y financiación para filmar la temporada completa y cerrar
+        postproducción, música y distribución. Después, plataformas y distribuidores que lleven la
+        temporada 1 a estreno.
       </p>
     </div>
   </div>
