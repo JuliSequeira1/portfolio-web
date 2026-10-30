@@ -172,9 +172,6 @@
        recortar a 9:16 se queda justo con el frame y descarta el relleno. */
     .work-grid.reels > .work-item { aspect-ratio: 9/16; }
     .work-item.hidden { display: none; }
-    /* Los Tigres todavía no tiene ficha ni trailer: la tarjeta informa, no enlaza. */
-    .work-item.sin-enlace { cursor: default; }
-
     /* En el celular, las apaisadas a lo ancho y las verticales de a dos,
        como una grilla de reels: una vertical sola a todo el ancho ocupaba
        casi dos pantallas. */
@@ -791,18 +788,19 @@
           </div>
         </a>
 
-        <!-- Los Tigres: en posproducción, sin ficha ni trailer todavía. No enlaza. -->
-        <div class="work-item encuadre-arriba sin-enlace reveal" data-cat="films">
+        <!-- Los Tigres: en posproducción, con ficha propia. -->
+        <a class="work-item encuadre-arriba reveal" href="los-tigres.html" data-cat="films"
+           aria-label="Ver la ficha del cortometraje Los Tigres">
           <img src="assets/los-tigres/card.webp"
-               alt="Tres jugadores con pecheras rojas en una cancha de básquet con grafitis, del cortometraje Los Tigres"
+               alt="Felipe avanza con la pelota, con Lucía y Franco a los lados y un tigre de luz detrás, en el póster de Los Tigres"
                width="1600" height="1000" loading="lazy" decoding="async">
           <span class="item-flag">En posproducción</span>
           <div class="work-item-meta">
-            <p class="item-cat">Cortometraje &#183; Mixed media</p>
+            <p class="item-cat">Cortometraje &#183; Comedia fantástica</p>
             <p class="item-name">Los Tigres</p>
-            <p class="item-client">Dirección &#183; Rodaje con actores, animación e IA</p>
+            <p class="item-client">Dirección, guion, montaje y postproducción</p>
           </div>
-        </div>
+        </a>
     </div>
   </div>
 

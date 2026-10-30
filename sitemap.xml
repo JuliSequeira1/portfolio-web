@@ -37,6 +37,12 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://juliansequeira.com/los-tigres.html</loc>
+    <lastmod>2026-10-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://juliansequeira.com/el-loco.html</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>yearly</changefreq>

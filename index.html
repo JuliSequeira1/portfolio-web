@@ -430,10 +430,6 @@
       cursor: pointer; text-decoration: none; color: inherit;
     }
     .proj-card.tall { aspect-ratio: 4/3; }
-    /* Los Tigres todavía no tiene ficha ni trailer: la tarjeta informa, no enlaza. */
-    .proj-card.sin-enlace { cursor: default; }
-    .proj-card.sin-enlace::before { display: none; }
-
     .proj-card img, .proj-card .card-bg {
       width: 100%; height: 100%;
       object-fit: cover; display: block;
@@ -941,22 +937,23 @@
         "@type": "Movie",
         "@id": "https://juliansequeira.com/#los-tigres",
         "name": "Los Tigres",
-        "description": "Cortometraje de ficción mixed media: rodaje real de básquet con actores más intervenciones con IA, animación, composición y reconstrucción sonora. Comedia, acción deportiva y exageración fantástica. En posproducción.",
+        "url": "https://juliansequeira.com/los-tigres.html",
+        "description": "Cortometraje de comedia fantástica. Cada domingo, los Tigres de San Telmo vuelven a la cancha con una larga racha de derrotas y poderes que casi nunca funcionan. Hoy Felipe cumple años y le promete a Lucía que esta vez van a ganar.",
         "genre": [
           "Comedia",
-          "Acción",
-          "Fantástico"
+          "Fantástico",
+          "Deportes"
         ],
         "inLanguage": "es",
         "countryOfOrigin": {
           "@type": "Country",
           "name": "Argentina"
         },
-        "image": "https://juliansequeira.com/assets/los-tigres/card.webp",
+        "image": "https://juliansequeira.com/assets/los-tigres/poster.webp",
         "director": {
           "@id": "https://juliansequeira.com/#julian"
         },
-        "keywords": "cortometraje argentino, básquet, mixed media, IA generativa, animación, comedia de acción",
+        "keywords": "cortometraje argentino, básquet, comedia fantástica, San Telmo, mixed media, IA generativa",
         "creativeWorkStatus": "En posproducción"
       }
     ]
@@ -1119,19 +1116,20 @@
       </div>
     </a>
 
-    <!-- 6 · Los Tigres — en posproducción. Sin ficha ni trailer todavía:
-         la tarjeta no enlaza. Cuando exista, pasa a <a href>. -->
-    <div class="proj-card p-dev p-tigres encuadre-arriba sin-enlace reveal">
+    <!-- 6 · Los Tigres — en posproducción. Tarjeta con la banda apaisada del
+         póster v03; la ficha muestra el póster entero. -->
+    <a class="proj-card p-dev p-tigres encuadre-arriba reveal" href="los-tigres.html"
+       aria-label="Ver la ficha del cortometraje Los Tigres">
       <img src="assets/los-tigres/card.webp"
-           alt="Tres jugadores con pecheras rojas en una cancha de básquet con grafitis, del cortometraje Los Tigres"
+           alt="Felipe avanza con la pelota, con Lucía y Franco a los lados y un tigre de luz detrás, en el póster de Los Tigres"
            width="1600" height="1000" loading="lazy" decoding="async">
       <span class="proj-flag">En posproducción</span>
       <div class="proj-meta">
-        <p class="proj-cat">Cortometraje &#183; Mixed media</p>
+        <p class="proj-cat">Cortometraje &#183; Comedia fantástica</p>
         <h3 class="proj-name">Los Tigres</h3>
-        <p class="proj-client">Dirección &#183; Rodaje con actores, animación e IA</p>
+        <p class="proj-client">Dirección, guion, montaje y postproducción</p>
       </div>
-    </div>
+    </a>
   </div>
 </section>
 

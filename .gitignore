@@ -2,3 +2,6 @@
 # Está dentro del web root, así que sin esto se publicaría en
 # julisequeira.com/assets/hero-candidatas/ al deployar.
 assets/hero-candidatas/
+
+# Config local del preview de Claude, no es parte del sitio.
+.claude/

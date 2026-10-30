@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Los Tigres — Julián Sequeira</title>
+  <meta name="description" content="Los Tigres, un cortometraje de Julián Sequeira: básquet, poderes casi inútiles y una promesa de victoria en una cancha de San Telmo.">
+  <link rel="canonical" href="https://juliansequeira.com/los-tigres.html">
+  <meta property="og:type"        content="video.movie">
+  <meta property="og:url"         content="https://juliansequeira.com/los-tigres.html">
+  <meta property="og:title"       content="Los Tigres">
+  <meta property="og:description" content="Otro domingo. La misma fe. Una comedia fantástica de barrio de Julián Sequeira.">
+  <meta property="og:image"       content="https://juliansequeira.com/assets/los-tigres/og.jpg">
+  <meta property="og:image:width"  content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card"       content="summary_large_image">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%230A0A0A'/%3E%3Ctext x='32' y='45' font-family='Arial,sans-serif' font-size='28' font-weight='900' fill='%23F4F2EE' text-anchor='middle'%3EJS%3C/text%3E%3Ccircle cx='52' cy='14' r='5' fill='%23CC0A2A'/%3E%3C/svg%3E">
+
+  <!-- Medición: Vercel Analytics, sin cookies; ?yo=1 deja fuera las visitas propias -->
+  <script defer src="assets/medicion.js"></script>
+  <script defer src="/_vercel/insights/script.js"></script>
+
+  <link rel="preload" as="image" href="assets/los-tigres/poster.webp" fetchpriority="high">
+
+  <link rel="preconnect" href="https://api.fontshare.com">
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@700,800,900&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="assets/tokens.css">
+
+  <!-- Navegación compartida: rótulo del menú, continuidad tarjeta ↔ caso y
+       regreso al listado. Sin defer: tiene que escuchar pagereveal antes
+       del primer render. -->
+  <link rel="stylesheet" href="assets/navegacion.css">
+  <script src="assets/navegacion.js"></script>
+  <!-- No pintar hasta tener la página armada: la transición y el regreso
+       necesitan las tarjetas y la cabecera en su lugar. -->
+  <link rel="expect" href="#cierre" blocking="render">
+
+  <style>
+    :root { --nav-h: 77px; }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      overflow-x: hidden;
+    }
+
+    /* ─── NAV ────────────────────────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 28px 52px;
+      background: rgba(244,242,238,.92);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: 'Satoshi', sans-serif; font-weight: 900;
+      font-size: 14px; letter-spacing: .12em; text-transform: uppercase;
+      color: var(--ink); text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 40px; list-style: none; }
+    .nav-links a {
+      font-size: 11px; font-weight: 500;
+      letter-spacing: .12em; text-transform: uppercase;
+      color: var(--muted); text-decoration: none;
+      transition: color var(--dur) var(--ease-out);
+    }
+    .nav-links a:hover { color: var(--red); }
+
+    .miga {
+      padding: calc(var(--nav-h) + 40px) 52px 0;
+      font-size: 11px; font-weight: 500;
+      letter-spacing: .14em; text-transform: uppercase;
+      color: var(--muted);
+    }
+    .miga a { color: var(--muted); text-decoration: none; }
+    .miga a:hover { color: var(--red); }
+    .miga span { color: var(--red); padding: 0 8px; }
+
+    /* ─── ENCABEZADO ─────────────────────────────────────────── */
+    header { padding: 26px 52px 40px; }
+    .kicker {
+      font-size: 11px; font-weight: 500;
+      letter-spacing: .2em; text-transform: uppercase;
+      color: var(--red); margin-bottom: 18px;
+    }
+    h1 {
+      font-family: 'Satoshi', sans-serif; font-weight: 900;
+      font-size: clamp(48px, 9.5vw, 136px);
+      line-height: .86; letter-spacing: -.04em;
+      text-transform: uppercase;
+      overflow-wrap: anywhere;
+    }
+
+    /* ─── PÓSTER + SINOPSIS ──────────────────────────────────────
+       El póster es vertical y se muestra entero, con sus textos: no se
+       recorta a apaisado como en las otras fichas. A la derecha, la única
+       sinopsis de la página; en celular, todo apilado y el póster a lo
+       ancho. ──────────────────────────────────────────────────── */
+    .abre {
+      padding: 0 52px;
+      display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+      gap: 56px; align-items: start;
+    }
+    .poster-fig { margin: 0; position: relative; }
+    .poster-fig img {
+      width: 100%; height: auto; display: block;
+      aspect-ratio: 2 / 3; object-fit: cover;
+      background: #141414;
+    }
+    .poster-fig figcaption {
+      font-size: 11px; color: var(--muted);
+      margin-top: 12px; letter-spacing: .02em;
+    }
+    .abre-texto { position: sticky; top: calc(var(--nav-h) + 32px); }
+    .sec-k {
+      font-size: 10px; font-weight: 500;
+      letter-spacing: .22em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 28px;
+    }
+    .abre-texto .sec-k { margin-top: 6px; margin-bottom: 18px; }
+    .prosa { max-width: 60ch; display: flex; flex-direction: column; gap: 19px; }
+    .prosa p {
+      font-size: clamp(15px, 1.45vw, 18px);
+      font-weight: 300; line-height: 1.78; color: var(--dim);
+    }
+    .prosa strong { color: var(--ink); font-weight: 500; }
+
+    @media (max-width: 900px) {
+      .abre { grid-template-columns: minmax(0, 1fr); gap: 36px; }
+      .abre-texto { position: static; }
+    }
+
+    /* ─── FICHA ──────────────────────────────────────────────── */
+    #ficha { margin-top: 76px; padding: 60px 52px; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .ficha-grid {
+      display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 36px 30px;
+    }
+    @media (max-width: 900px) { .ficha-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (max-width: 460px) { .ficha-grid { grid-template-columns: minmax(0, 1fr); } }
+    .ficha-k {
+      font-size: 10px; font-weight: 500;
+      letter-spacing: .18em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 8px;
+    }
+    .ficha-v {
+      font-family: 'Satoshi', sans-serif; font-weight: 700;
+      font-size: 17px; line-height: 1.34;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* ─── FOTOGRAMAS ─────────────────────────────────────────────
+       Seis cuadros del corto en 16:9: tres por fila en escritorio, dos en
+       celular. Cada uno es un botón que abre el cuadro grande en un
+       <dialog>; sin JavaScript, el botón no hace nada y la grilla igual
+       se ve. ──────────────────────────────────────────────────── */
+    .stills { padding: 84px 52px 0; }
+    .stills-k {
+      font-size: 10px; font-weight: 500;
+      letter-spacing: .22em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 14px;
+    }
+    .stills-grid {
+      display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px; list-style: none;
+    }
+    .still {
+      display: block; width: 100%; padding: 0; border: 0;
+      background: #d8d4cc; cursor: zoom-in;
+      position: relative; overflow: hidden;
+    }
+    .still img {
+      width: 100%; height: auto; display: block;
+      aspect-ratio: 16/9; object-fit: cover;
+      transition: transform .7s var(--ease-out), filter .4s var(--ease-out);
+    }
+    .still:hover img, .still:focus-visible img { transform: scale(1.04); filter: brightness(.86); }
+    .still:focus-visible { outline-offset: -3px; }
+    @media (max-width: 700px) { .stills { padding-top: 60px; } .stills-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; } }
+
+    /* El visor: el cuadro grande sobre tinta, con su pie. */
+    #visor {
+      border: 0; padding: 0; margin: auto;
+      width: min(96vw, 1600px); max-width: none; max-height: none;
+      background: transparent; color: var(--cream);
+    }
+    #visor::backdrop { background: rgba(10,10,10,.94); }
+    #visor img { width: 100%; height: auto; display: block; aspect-ratio: 16/9; background: #141414; }
+    .visor-pie {
+      display: flex; justify-content: space-between; align-items: center; gap: 20px;
+      margin-top: 14px;
+      font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--on-dark);
+    }
+    .visor-pie button {
+      font: inherit; letter-spacing: inherit; text-transform: inherit;
+      color: var(--cream); background: transparent; border: 1px solid rgba(244,242,238,.4);
+      padding: 10px 16px; cursor: pointer;
+      transition: border-color var(--dur) var(--ease-out), color var(--dur) var(--ease-out);
+    }
+    .visor-pie button:hover { border-color: var(--red); color: var(--red); }
+
+    /* ─── SECCIONES ──────────────────────────────────────────── */
+    .sec { padding: 84px 52px; border-bottom: 1px solid var(--border); }
+    .sec h2 {
+      font-family: 'Satoshi', sans-serif; font-weight: 900;
+      font-size: clamp(28px, 4.2vw, 56px);
+      line-height: 1.04; letter-spacing: -.028em;
+      text-transform: uppercase; max-width: 22ch;
+    }
+    .sec .prosa { margin-top: 32px; max-width: 64ch; }
+
+    /* ─── CRÉDITOS ───────────────────────────────────────────────
+       Título chico (no es una sección de prosa) y dos bloques: equipo y
+       elenco. Cada fila: nombre y rol. ───────────────────────────── */
+    .sec h2.chico {
+      font-size: clamp(20px, 2.2vw, 28px);
+      line-height: 1.1; letter-spacing: -.02em;
+    }
+    .lista-k {
+      margin-top: 44px; margin-bottom: 0;
+      font-size: 10px; font-weight: 500;
+      letter-spacing: .22em; text-transform: uppercase;
+      color: var(--muted);
+    }
+    .lista-k + .lista { margin-top: 14px; }
+    .lista {
+      margin-top: 34px; display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 48px;
+      border-top: 1px solid var(--border);
+    }
+    .li {
+      display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
+      gap: 24px; padding: 16px 0;
+      border-bottom: 1px solid var(--border);
+      align-items: baseline;
+    }
+    @media (max-width: 900px) { .lista { grid-template-columns: minmax(0, 1fr); } }
+    @media (max-width: 640px) { .li { grid-template-columns: minmax(0, 1fr); gap: 4px; } }
+    .li-n { font-family: 'Satoshi', sans-serif; font-weight: 800; font-size: 16px; }
+    .li-r { font-size: 14px; font-weight: 300; color: var(--dim); }
+
+    /* ─── TRÁILER (preparado, todavía sin video) ──────────────────
+       Cuando exista el tráiler, la sección #trailer de abajo pierde el
+       atributo hidden y recibe el <video> o el iframe. Mientras tanto no
+       hay reproductor vacío ni botón que prometa un video. */
+    #trailer { padding: 84px 52px; border-bottom: 1px solid var(--border); }
+    #trailer[hidden] { display: none; }
+    .trailer {
+      position: relative; overflow: hidden; margin-top: 28px;
+      aspect-ratio: 16/9; background: #141414; width: 100%;
+    }
+    .trailer video, .trailer iframe {
+      position: absolute; inset: 0; width: 100%; height: 100%; border: 0; display: block;
+    }
+
+    /* ─── CIERRE ─────────────────────────────────────────────── */
+    #cierre {
+      background: var(--ink); color: var(--cream); padding: 90px 52px;
+      scroll-margin-top: var(--nav-h);
+    }
+    #cierre .sec-k { color: var(--on-dark-soft); }
+    .cierre-big {
+      font-family: 'Satoshi', sans-serif; font-weight: 900;
+      font-size: clamp(42px, 7.5vw, 100px);
+      text-transform: uppercase; line-height: .86; letter-spacing: -.035em;
+    }
+    .cierre-big a { color: var(--cream); text-decoration: none; transition: color var(--dur) var(--ease-out); }
+    .cierre-big a:hover { color: var(--red); }
+    .cierre-row { display: flex; flex-wrap: wrap; gap: 26px; margin-top: 34px; }
+    .cierre-row a {
+      font-size: 11px; font-weight: 500;
+      letter-spacing: .14em; text-transform: uppercase;
+      color: var(--on-dark); text-decoration: none;
+      border-bottom: 1px solid rgba(244,242,238,.28); padding-bottom: 3px;
+      white-space: nowrap;
+      transition: color var(--dur) var(--ease-out), border-color var(--dur) var(--ease-out);
+    }
+    .cierre-row a:hover { color: var(--red); border-color: var(--red); }
+
+    footer {
+      padding: 22px 52px; background: var(--ink);
+      display: flex; align-items: center; justify-content: space-between;
+      border-top: 1px solid rgba(244,242,238,.12);
+    }
+    footer span { font-size: 10px; letter-spacing: .1em; color: var(--on-dark); }
+
+    /* ─── SIGUIENTE PROYECTO ─────────────────────────────────── */
+    .siguiente { background: var(--ink); color: var(--cream); border-top-color: rgba(244,242,238,.12); }
+
+    /* ─── REVEAL ─────────────────────────────────────────────── */
+    .reveal { transition: opacity .8s ease, transform .8s ease; }
+    html.js-reveal .reveal { opacity: 0; transform: translateY(24px); }
+    html.js-reveal .reveal.visible { opacity: 1; transform: none; }
+    .reveal.d1 { transition-delay: .1s; }
+    .reveal.d2 { transition-delay: .2s; }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .001ms !important;
+        transition-duration: .001ms !important;
+        scroll-behavior: auto !important;
+      }
+      html.js-reveal .reveal { opacity: 1 !important; transform: none !important; }
+    }
+
+    @media (max-width: 700px) {
+      :root { --nav-h: 57px; }
+      nav { padding: 18px 22px; }
+      .nav-links { gap: 18px; }
+      .miga, header, .abre, .stills, #ficha, .sec, #trailer, #cierre, footer {
+        padding-left: 22px; padding-right: 22px;
+      }
+      header { padding-top: 24px; padding-bottom: 34px; }
+      .sec { padding-top: 60px; padding-bottom: 60px; }
+      #ficha { margin-top: 56px; }
+      footer { flex-direction: column; gap: 6px; }
+    }
+  </style>
+  <!-- ── DATOS ESTRUCTURADOS ── -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Person",
+        "@id": "https://juliansequeira.com/#julian",
+        "name": "Julián Sequeira",
+        "url": "https://juliansequeira.com/",
+        "mainEntityOfPage": "https://juliansequeira.com/about.html",
+        "image": "https://juliansequeira.com/assets/julian.webp",
+        "jobTitle": [
+          "Director Creativo",
+          "Director de Animación",
+          "Realizador audiovisual"
+        ],
+        "sameAs": [
+          "https://www.wikidata.org/wiki/Q141178959",
+          "https://www.imdb.com/name/nm12285471/",
+          "https://www.linkedin.com/in/sequeirajulian/",
+          "https://www.instagram.com/sequeira_ju/",
+          "https://vimeo.com/juliansequeira",
+          "https://www.youtube.com/@flama.collective"
+        ]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://juliansequeira.com/#website",
+        "url": "https://juliansequeira.com/",
+        "name": "Julián Sequeira",
+        "inLanguage": "es-AR",
+        "publisher": {
+          "@id": "https://juliansequeira.com/#julian"
+        }
+      },
+      {
+        "@type": "ItemPage",
+        "@id": "https://juliansequeira.com/los-tigres.html#page",
+        "url": "https://juliansequeira.com/los-tigres.html",
+        "name": "Los Tigres — Julián Sequeira",
+        "description": "Los Tigres, un cortometraje de Julián Sequeira: básquet, poderes casi inútiles y una promesa de victoria en una cancha de San Telmo.",
+        "isPartOf": {
+          "@id": "https://juliansequeira.com/#website"
+        },
+        "about": {
+          "@id": "https://juliansequeira.com/#julian"
+        },
+        "inLanguage": "es-AR",
+        "mainEntity": {
+          "@id": "https://juliansequeira.com/#los-tigres"
+        }
+      },
+      {
+        "@type": "Movie",
+        "@id": "https://juliansequeira.com/#los-tigres",
+        "name": "Los Tigres",
+        "url": "https://juliansequeira.com/los-tigres.html",
+        "description": "Cortometraje de comedia fantástica. Cada domingo, los Tigres de San Telmo vuelven a la cancha con una larga racha de derrotas y poderes que casi nunca funcionan. Hoy Felipe cumple años y le promete a Lucía que esta vez van a ganar.",
+        "genre": [
+          "Comedia",
+          "Fantástico",
+          "Deportes"
+        ],
+        "inLanguage": "es",
+        "countryOfOrigin": {
+          "@type": "Country",
+          "name": "Argentina"
+        },
+        "image": "https://juliansequeira.com/assets/los-tigres/poster.webp",
+        "director": {
+          "@id": "https://juliansequeira.com/#julian"
+        },
+        "author": {
+          "@id": "https://juliansequeira.com/#julian"
+        },
+        "editor": {
+          "@id": "https://juliansequeira.com/#julian"
+        },
+        "productionCompany": [
+          { "@type": "Organization", "name": "Flama Collective" },
+          { "@type": "Organization", "name": "Bird Making Machine" }
+        ],
+        "actor": [
+          { "@type": "Person", "name": "Felipe Rodriguez Kees" },
+          { "@type": "Person", "name": "Franco Freijomil" },
+          { "@type": "Person", "name": "Franco Miranda" },
+          { "@type": "Person", "name": "Leopoldo Davis" },
+          { "@type": "Person", "name": "Lucía Ayoroa" },
+          { "@type": "Person", "name": "Ekiz Tono" },
+          { "@type": "Person", "name": "Seba Raffa" },
+          { "@type": "Person", "name": "Darío Baez" },
+          { "@type": "Person", "name": "Paulo da Silva" },
+          { "@type": "Person", "name": "Oliver Carl" },
+          { "@type": "Person", "name": "Pía Fonseca" }
+        ],
+        "musicBy": { "@type": "Person", "name": "Devak24" },
+        "keywords": "cortometraje argentino, básquet, comedia fantástica, San Telmo, mixed media, IA generativa",
+        "creativeWorkStatus": "En posproducción"
+      }
+    ]
+  }
+  </script>
+  <!-- ── /DATOS ESTRUCTURADOS ── -->
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">JS</a>
+  <ul class="nav-links">
+    <li><a href="work.html">Trabajos</a></li>
+    <li><a href="about.html">Sobre mí</a></li>
+    <li><a href="index.html#contact">Contacto</a></li>
+  </ul>
+</nav>
+
+<main>
+
+<p class="miga"><a href="work.html" data-volver>← Volver a trabajos</a></p>
+
+<header>
+  <p class="kicker">Cortometraje · Comedia fantástica · En posproducción</p>
+  <h1 data-vt="titulo" tabindex="-1">Los Tigres</h1>
+</header>
+
+<!-- ── PÓSTER + SINOPSIS ──────────────────────────────────────── -->
+<div class="abre">
+  <figure class="poster-fig">
+    <!-- La tarjeta usa una banda apaisada de este mismo póster: la transición
+         la lleva hasta acá y el póster se abre entero. -->
+    <img src="assets/los-tigres/poster.webp"
+         srcset="assets/los-tigres/poster-800.webp 800w, assets/los-tigres/poster.webp 1200w, assets/los-tigres/poster-1600.webp 1600w"
+         sizes="(max-width: 900px) 92vw, 52vw"
+         data-vt="imagen"
+         alt="Póster de Los Tigres: Felipe avanza con una pelota de básquet, acompañado por Lucía y Franco; un tigre de luz ámbar cruza la cancha detrás de ellos."
+         width="1200" height="1800" fetchpriority="high" decoding="async">
+    <figcaption>Póster del cortometraje.</figcaption>
+  </figure>
+
+  <div class="abre-texto">
+    <p class="sec-k reveal">Sinopsis</p>
+    <div class="prosa">
+      <p class="reveal">
+        Los Tigres de San Telmo tienen poderes, una larga racha de derrotas y una promesa por
+        cumplir: ganar el partido del cumpleaños de <strong>Felipe</strong>.
+      </p>
+      <p class="reveal d1">
+        Cada domingo vuelven a la cancha con los mismos amigos y unos poderes que casi nunca
+        funcionan. Hoy Felipe le promete a <strong>Lucía</strong> que esta vez van a ganar. Entre
+        golpes, milagros dudosos y jugadas imposibles, las Águilas de Almagro pondrán a prueba esa
+        promesa.
+      </p>
+      <p class="reveal d2">
+        Una comedia fantástica de barrio: humor físico, poderes y épica deportiva nacidos de un
+        partido entre amigos. La nueva versión parte del montaje y el sonido directo del
+        cortometraje rodado, y le suma un prólogo de infancia y acciones imposibles con VFX e IA,
+        conservando el elenco, el vestuario y la cancha del original.
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- ── FICHA ──────────────────────────────────────────────────── -->
+<!-- Sin duración, estreno, premios ni selecciones: no hay datos confirmados. -->
+<section id="ficha" aria-label="Ficha técnica">
+  <div class="ficha-grid">
+    <div><p class="ficha-k">Formato</p><p class="ficha-v">Cortometraje · comedia fantástica</p></div>
+    <div><p class="ficha-k">Rol</p><p class="ficha-v">Dirección, guion, montaje y postproducción</p></div>
+    <div><p class="ficha-k">Productora</p><p class="ficha-v">Flama Collective y Bird Making Machine</p></div>
+    <div><p class="ficha-k">Estado</p><p class="ficha-v">En posproducción</p></div>
+    <div><p class="ficha-k">Origen</p><p class="ficha-v">San Telmo, Buenos Aires</p></div>
+    <div><p class="ficha-k">Técnica</p><p class="ficha-v">Mixed media</p></div>
+  </div>
+</section>
+
+<!-- ── FOTOGRAMAS ─────────────────────────────────────────────── -->
+<div class="stills">
+  <p class="stills-k">Fotogramas del cortometraje</p>
+  <ul class="stills-grid">
+    <li><button class="still reveal" type="button" data-grande="assets/los-tigres/still-01-full.webp" aria-label="Ampliar: los Tigres de chicos">
+      <img src="assets/los-tigres/still-01.webp" alt="Cuatro chicos sentados en un escalón, riéndose, en blanco y negro con textura de VHS" width="1600" height="900" loading="lazy" decoding="async"></button></li>
+    <li><button class="still reveal d1" type="button" data-grande="assets/los-tigres/still-02-full.webp" aria-label="Ampliar: las Águilas de Almagro en formación">
+      <img src="assets/los-tigres/still-02.webp" alt="Las Águilas de Almagro avanzan en formación por la cancha de noche, bajo un águila gigante de luz roja" width="1600" height="900" loading="lazy" decoding="async"></button></li>
+    <li><button class="still reveal d2" type="button" data-grande="assets/los-tigres/still-03-full.webp" aria-label="Ampliar: dos de los Tigres entre los globos">
+      <img src="assets/los-tigres/still-03.webp" alt="Dos jugadores de remera negra miran hacia abajo bajo las luces de la cancha, con globos celestes detrás" width="1600" height="900" loading="lazy" decoding="async"></button></li>
+    <li><button class="still reveal" type="button" data-grande="assets/los-tigres/still-04-full.webp" aria-label="Ampliar: la caída de Felipe">
+      <img src="assets/los-tigres/still-04.webp" alt="Felipe cae de panza sobre la cancha entre una nube de polvo, con la pelota en primer plano" width="1600" height="900" loading="lazy" decoding="async"></button></li>
+    <li><button class="still reveal d1" type="button" data-grande="assets/los-tigres/still-05-full.webp" aria-label="Ampliar: Felipe, golpeado">
+      <img src="assets/los-tigres/still-05.webp" alt="Primer plano de Felipe con la vincha azul y la nariz vendada; a su lado, un rival desenfocado" width="1600" height="900" loading="lazy" decoding="async"></button></li>
+    <li><button class="still reveal d2" type="button" data-grande="assets/los-tigres/still-06-full.webp" aria-label="Ampliar: una jugada en la cancha">
+      <img src="assets/los-tigres/still-06.webp" alt="Un jugador de camiseta roja dribla agachado entre dos rivales de remera negra, frente a una pared con grafitis" width="1600" height="900" loading="lazy" decoding="async"></button></li>
+  </ul>
+</div>
+
+<dialog id="visor" aria-label="Fotograma ampliado">
+  <img src="" alt="" width="1920" height="1080" decoding="async">
+  <div class="visor-pie">
+    <span id="visor-pie-texto"></span>
+    <button type="button" id="visor-cerrar">Cerrar ×</button>
+  </div>
+</dialog>
+
+<!-- ── TRÁILER: preparado, sin video todavía ───────────────────
+     Para activarlo: quitar `hidden` a la sección y reemplazar el comentario
+     de adentro de .trailer por el <video> (MP4 + póster del primer cuadro)
+     o el iframe de YouTube/Vimeo. Ver también la nota en el cierre. -->
+<section id="trailer" hidden aria-label="Tráiler">
+  <p class="sec-k">Tráiler</p>
+  <div class="trailer">
+    <!-- <video controls preload="metadata" poster="assets/los-tigres/trailer-poster.webp" playsinline>
+           <source src="assets/los-tigres/trailer.mp4" type="video/mp4">
+         </video> -->
+  </div>
+</section>
+
+<!-- ── CRÉDITOS ───────────────────────────────────────────────── -->
+<!-- Fuente: CREDITS _Los tigres_.docx (material de Drive, enero de 2024). -->
+<section class="sec" aria-labelledby="creditos-h">
+  <p class="sec-k">Créditos</p>
+  <h2 class="chico reveal" id="creditos-h">Equipo y elenco del cortometraje</h2>
+  <p class="lista-k reveal d1">Equipo</p>
+  <div class="lista reveal d1">
+    <div class="li"><p class="li-n">Julián Sequeira</p><p class="li-r">Dirección y guion</p></div>
+    <div class="li"><p class="li-n">Julián Sequeira</p><p class="li-r">Producción ejecutiva</p></div>
+    <div class="li"><p class="li-n">Sofía Molinari</p><p class="li-r">Producción general</p></div>
+    <div class="li"><p class="li-n">Matías Open</p><p class="li-r">Asistente de dirección</p></div>
+    <div class="li"><p class="li-n">Daniel Ring</p><p class="li-r">Dirección de fotografía</p></div>
+    <div class="li"><p class="li-n">Valentín Rougier</p><p class="li-r">Foquista</p></div>
+    <div class="li"><p class="li-n">Diego Colombo</p><p class="li-r">Sonido directo</p></div>
+    <div class="li"><p class="li-n">Juan Ceruse</p><p class="li-r">Productor locador</p></div>
+    <div class="li"><p class="li-n">Sofía Molinari</p><p class="li-r">Arte y vestuario</p></div>
+    <div class="li"><p class="li-n">Trinidad Himitian</p><p class="li-r">Maquillaje FX</p></div>
+    <div class="li"><p class="li-n">Priscila Perez / Octavio Zambianchi</p><p class="li-r">Foto fija</p></div>
+    <div class="li"><p class="li-n">Devak24</p><p class="li-r">Música original</p></div>
+    <div class="li"><p class="li-n">Julián Sequeira</p><p class="li-r">Montaje y postproducción</p></div>
+    <div class="li"><p class="li-n">Flama Collective</p><p class="li-r">Productora</p></div>
+    <div class="li"><p class="li-n">Bird Making Machine</p><p class="li-r">Productora</p></div>
+  </div>
+  <p class="lista-k reveal">Elenco · Los Tigres</p>
+  <div class="lista reveal d1">
+    <div class="li"><p class="li-n">Felipe Rodriguez Kees</p><p class="li-r">Felipe</p></div>
+    <div class="li"><p class="li-n">Franco Freijomil</p><p class="li-r">Freijo</p></div>
+    <div class="li"><p class="li-n">Franco Miranda</p><p class="li-r">Franco</p></div>
+    <div class="li"><p class="li-n">Leopoldo Davis</p><p class="li-r">Leo</p></div>
+    <div class="li"><p class="li-n">Lucía Ayoroa</p><p class="li-r">Lu</p></div>
+    <div class="li"><p class="li-n">Ekiz Tono</p><p class="li-r">Facu</p></div>
+  </div>
+  <p class="lista-k reveal">Elenco · Las Águilas</p>
+  <div class="lista reveal d1">
+    <div class="li"><p class="li-n">Seba Raffa</p><p class="li-r">Seba</p></div>
+    <div class="li"><p class="li-n">Darío Baez</p><p class="li-r">Daro</p></div>
+    <div class="li"><p class="li-n">Paulo da Silva</p><p class="li-r">Paulo</p></div>
+    <div class="li"><p class="li-n">Oliver Carl</p><p class="li-r">Oliver</p></div>
+    <div class="li"><p class="li-n">Pía Fonseca</p><p class="li-r">Pía</p></div>
+  </div>
+</section>
+
+<!-- ── CIERRE ─────────────────────────────────────────────────── -->
+<section id="cierre">
+  <p class="sec-k">Contacto</p>
+  <div class="cierre-big reveal">
+    <a href="index.html?asunto=Los%20Tigres#contacto">Hablemos.</a>
+  </div>
+  <div class="cierre-row reveal d1">
+    <a href="index.html?asunto=Los%20Tigres#contacto">Contacto ↗</a>
+    <a href="work.html">Más trabajos ↗</a>
+    <!-- Cuando exista el tráiler público, acá va el enlace: <a href="#trailer">Ver el tráiler ↓</a> -->
+  </div>
+</section>
+
+<!-- ── SIGUIENTE PROYECTO ────────────────────────────────────── -->
+<section class="siguiente" aria-labelledby="siguiente-k">
+  <p class="siguiente-k" id="siguiente-k">Siguiente proyecto</p>
+  <a class="siguiente-link" href="la-noche.html">
+    <span class="siguiente-titulo">La Noche</span>
+    <span class="siguiente-flecha" aria-hidden="true">↗</span>
+    <span class="siguiente-ventana"><img src="assets/la-noche/still.webp" alt="" width="1600" height="1054" loading="eager" decoding="async"></span>
+  </a>
+</section>
+
+</main>
+
+<footer>
+  <span>© 2026 Julián Sequeira</span>
+  <span>Buenos Aires, Argentina</span>
+</footer>
+
+<script>
+  (function () {
+    document.documentElement.classList.add('js-reveal');
+    var els = document.querySelectorAll('.reveal');
+    function mostrar(el) { el.classList.add('visible'); }
+    function enVista() {
+      for (var i = 0; i < els.length; i++) {
+        var el = els[i];
+        if (!el.classList.contains('visible') && el.getBoundingClientRect().top < innerHeight * 0.95) mostrar(el);
+      }
+    }
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) { if (e.isIntersecting) mostrar(e.target); });
+      }, { threshold: 0.08, rootMargin: '0px 0px -5% 0px' });
+      els.forEach(function (el) { io.observe(el); });
+    } else {
+      els.forEach(mostrar);
+    }
+    window.addEventListener('scroll', enVista, { passive: true });
+    window.addEventListener('resize', enVista, { passive: true });
+    window.addEventListener('load', function () { setTimeout(enVista, 200); });
+    enVista();
+  })();
+
+  /* Visor de fotogramas: cada botón de la grilla abre su cuadro grande en el
+     <dialog>. Esc, el botón Cerrar o un clic fuera del cuadro lo cierran y el
+     foco vuelve al botón de origen. */
+  (function () {
+    var visor = document.getElementById('visor');
+    if (!visor || typeof visor.showModal !== 'function') return;
+    var img = visor.querySelector('img');
+    var pie = document.getElementById('visor-pie-texto');
+    var cerrar = document.getElementById('visor-cerrar');
+    var origen = null;
+    var botones = document.querySelectorAll('.still');
+    botones.forEach(function (b, i) {
+      b.addEventListener('click', function () {
+        var chica = b.querySelector('img');
+        img.src = b.getAttribute('data-grande');
+        img.alt = chica ? chica.alt : '';
+        pie.textContent = (i + 1) + ' / ' + botones.length;
+        origen = b;
+        visor.showModal();
+      });
+    });
+    cerrar.addEventListener('click', function () { visor.close(); });
+    visor.addEventListener('click', function (e) { if (e.target === visor) visor.close(); });
+    visor.addEventListener('close', function () {
+      img.removeAttribute('src');
+      if (origen) origen.focus();
+    });
+  })();
+</script>
+</body>
+</html>
