@@ -27,7 +27,8 @@
 
   <!-- El hero es el LCP y vive en un background CSS: sin preload el navegador
        lo descubre tarde. -->
-  <link rel="preload" as="image" href="assets/hero-poster.webp" fetchpriority="high">
+  <link rel="preload" as="image" href="assets/hero-poster.webp" fetchpriority="high" media="(min-width: 761px)">
+  <link rel="preload" as="image" href="assets/hero-poster-movil.webp" fetchpriority="high" media="(max-width: 760px)">
 
   <!-- Sistema compartido: color, foco, red de seguridad del cursor -->
   <link rel="stylesheet" href="assets/tokens.css">
@@ -53,6 +54,13 @@
          carga, y queda de fondo si el video no carga nunca (móvil,
          reduced-motion, Save-Data, red lenta). Se cambia SOLO acá. */
       --hero-poster: url('assets/hero-poster.webp');
+    }
+    /* En el celular el video no se pide nunca y el poster es todo el hero.
+       El primer frame apaisado, recortado en vertical, quedaba ilegible:
+       acá va un cuadro del reel elegido para 9:16. Mismo corte (760px)
+       que usa el loader del video y los dos preload de arriba. */
+    @media (max-width: 760px) {
+      :root { --hero-poster: url('assets/hero-poster-movil.webp'); }
     }
 
     /* ─── RESET ──────────────────────────────────────────────── */
@@ -309,7 +317,7 @@
     .disc-track {
       display: flex;
       white-space: nowrap;
-      animation: marquee 26s linear infinite;
+      animation: marquee 30s linear infinite;
     }
     .disc-track:hover { animation-play-state: paused; }
     .disc-item {
@@ -544,8 +552,11 @@
       font-size: clamp(44px, 7.5vw, 104px);
       font-weight: 900;
       text-transform: uppercase;
-      line-height: .85;
+      /* Ahora son tres líneas con tildes en mayúscula (QUÉ, ESTÁS): con .85
+         el acento pisaba la línea de arriba. */
+      line-height: .98;
       letter-spacing: -.03em;
+      text-wrap: balance;
     }
     .contact-big a {
       color: #F4F2EE; text-decoration: none;
@@ -1000,15 +1011,15 @@
   </div>
 
   <div class="hero-content">
-    <p class="hero-eyebrow">Buenos Aires · Director Creativo</p>
+    <p class="hero-eyebrow">Realizador</p>
     <h1 class="hero-title">Julián<br>Sequeira</h1>
-    <p class="hero-tagline">Dirijo historias.<br>Construyo mundos.</p>
+    <p class="hero-tagline">Cine y animación<br>desde Buenos Aires.</p>
     <div class="hero-cta">
       <a href="https://youtu.be/MEIpjzwSQsc" data-video class="btn btn-primary">
         <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor"><polygon points="4,2 14,8 4,14"/></svg>
         Ver reel
       </a>
-      <a href="#contact" class="btn btn-ghost">Hablemos</a>
+      <a href="#contact" class="btn btn-ghost">Contacto</a>
     </div>
   </div>
 </section>
@@ -1137,33 +1148,37 @@
 <section id="disciplines" aria-label="Disciplinas">
   <div class="disc-track">
     <span class="disc-item red">Dirección</span><span class="disc-dot">·</span>
-    <span class="disc-item">Cinematografía</span><span class="disc-dot">·</span>
-    <span class="disc-item solid">3D &amp; 2D</span><span class="disc-dot">·</span>
-    <span class="disc-item">Post Producción</span><span class="disc-dot">·</span>
-    <span class="disc-item red">IA Generativa</span><span class="disc-dot">·</span>
-    <span class="disc-item">Fotografía</span><span class="disc-dot">·</span>
-    <span class="disc-item solid">Dir. de Arte</span><span class="disc-dot">·</span>
-    <span class="disc-item">Music Video</span><span class="disc-dot">·</span>
+    <span class="disc-item">Guion</span><span class="disc-dot">·</span>
+    <span class="disc-item solid">Storyboard</span><span class="disc-dot">·</span>
+    <span class="disc-item">Animación 2D y 3D</span><span class="disc-dot">·</span>
+    <span class="disc-item solid">Unreal Engine</span><span class="disc-dot">·</span>
+    <span class="disc-item red">IA generativa</span><span class="disc-dot">·</span>
+    <span class="disc-item">Dirección de arte</span><span class="disc-dot">·</span>
+    <span class="disc-item solid">Postproducción</span><span class="disc-dot">·</span>
+    <span class="disc-item">Videoclips</span><span class="disc-dot">·</span>
     <!-- copy 2 -->
     <span class="disc-item red">Dirección</span><span class="disc-dot">·</span>
-    <span class="disc-item">Cinematografía</span><span class="disc-dot">·</span>
-    <span class="disc-item solid">3D &amp; 2D</span><span class="disc-dot">·</span>
-    <span class="disc-item">Post Producción</span><span class="disc-dot">·</span>
-    <span class="disc-item red">IA Generativa</span><span class="disc-dot">·</span>
-    <span class="disc-item">Fotografía</span><span class="disc-dot">·</span>
-    <span class="disc-item solid">Dir. de Arte</span><span class="disc-dot">·</span>
-    <span class="disc-item">Music Video</span><span class="disc-dot">·</span>
+    <span class="disc-item">Guion</span><span class="disc-dot">·</span>
+    <span class="disc-item solid">Storyboard</span><span class="disc-dot">·</span>
+    <span class="disc-item">Animación 2D y 3D</span><span class="disc-dot">·</span>
+    <span class="disc-item solid">Unreal Engine</span><span class="disc-dot">·</span>
+    <span class="disc-item red">IA generativa</span><span class="disc-dot">·</span>
+    <span class="disc-item">Dirección de arte</span><span class="disc-dot">·</span>
+    <span class="disc-item solid">Postproducción</span><span class="disc-dot">·</span>
+    <span class="disc-item">Videoclips</span><span class="disc-dot">·</span>
   </div>
 </section>
 
 <!-- ── MINI BIO ───────────────────────────────────────────────── -->
 <section id="about">
   <div class="about-copy">
-    <p class="about-lbl">Director · Buenos Aires</p>
+    <p class="about-lbl">Realizador · Buenos Aires</p>
 
     <p class="about-statement reveal">
-      Director y realizador integral. 15 años entre cine, animación, 3D e IA generativa.
-      <em>NBC/Peacock · Konami · Silent Hill: Ascension, Emmy 2024.</em>
+      Vengo del dibujo y el storyboard. Llevo 15 años haciendo cine y animación, y uso
+      todas las herramientas que existen: cámara, 3D, Unreal, IA.
+      <em>Director de arte y de episodios en Dinopops (NBC/Peacock). Cinematic Artist en
+      Silent Hill: Ascension, producción ganadora del Emmy 2024.</em>
     </p>
 
     <div class="reveal d1" style="display:flex; flex-wrap:wrap; gap:14px; margin-top:6px;">
@@ -1176,14 +1191,13 @@
 <!-- ── CONTACT ────────────────────────────────────────────────── -->
 <section id="contact">
   <div>
-    <p class="contact-eyebrow">¿Trabajamos juntos?</p>
+    <p class="contact-eyebrow">¿Tenés un proyecto?</p>
     <div class="contact-big reveal">
-      <a href="#contacto">Hablemos.</a>
+      <a href="#contacto">Contame qué estás armando.</a>
     </div>
     <p class="contact-tags">
-      Proyectos <span class="sep">·</span> Cine <span class="sep">·</span> 3D
-      <span class="sep">·</span> IA <span class="sep">·</span> Dirección
-      <span class="sep">·</span> Producción
+      Dirección <span class="sep">·</span> Animación <span class="sep">·</span> Cinemáticas
+      <span class="sep">·</span> Videoclips <span class="sep">·</span> Publicidad con IA
     </p>
 
     <!-- El envío va a Formspree («Contacto juliansequeira.com», llega al
@@ -1324,7 +1338,7 @@
     var asunto = new URLSearchParams(location.search).get('asunto');
     if (asunto) form.elements._subject.value = asunto + ' · juliansequeira.com';
 
-    /* «Hablemos.» lleva al primer campo. */
+    /* El titular grande de contacto lleva al primer campo. */
     var grande = document.querySelector('.contact-big a[href="#contacto"]');
     if (grande) grande.addEventListener('click', function (e) {
       e.preventDefault();
@@ -1379,9 +1393,9 @@
     if (reduced || isMobile || saveData || slowNet) return;
 
     // Recién acá pedimos los bytes.
-    // El mp4 va primero: pesa 0,7 MB menos que el webm y lo reproduce todo el mundo.
-    [['assets/hero.mp4',  'video/mp4'],
-     ['assets/hero.webm', 'video/webm']].forEach(function (s) {
+    // Solo mp4: lo reproduce todo el mundo y el webm pesaba más, así que
+    // ningún navegador llegaba a pedirlo. Corte de 13 s del reel 2026.
+    [['assets/hero.mp4',  'video/mp4']].forEach(function (s) {
       var el = document.createElement('source');
       el.src = s[0]; el.type = s[1];
       v.appendChild(el);

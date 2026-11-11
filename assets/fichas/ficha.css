@@ -1,0 +1,438 @@
+/* ═══════════════════════════════════════════════════════════════
+   Fichas de proyecto compartidas · Blanco y Salgo a Caminar
+   La misma página en los dos sitios: tinta en birdmakingmachine.com
+   (.ficha--dark) y papel en juliansequeira.com (.ficha--light).
+   Cambian sólo las variables de abajo: colores, familias y márgenes
+   del sitio. Estructura, orden, proporciones y pies son los mismos.
+
+   Fuente: Proyectos creativos/_CASOS WEB/_FICHAS-COMPARTIDAS/ficha.css
+   generar.py copia este archivo a assets/fichas/ de cada sitio.
+   No editar la copia del repo: se pisa al regenerar.
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ─── TEMAS ──────────────────────────────────────────────────── */
+/* Bird Making Machine: tinta, hueso y canario de acento; Bricolage
+   e IBM Plex Mono (las @font-face vienen de styles.css). */
+.ficha--dark {
+  --fx-bg: #0B0B0B;
+  --fx-fg: #F8F7F2;
+  --fx-fg2: #A8A7A4;      /* 8,2:1 sobre tinta */
+  --fx-fg3: #848481;      /* 5,3:1 sobre tinta */
+  --fx-rule: #323131;
+  --fx-plate: #161616;
+  --fx-kicker: #848481;
+  --fx-btn-bg: #F6D236;
+  --fx-btn-fg: #0B0B0B;
+  --fx-btn-hover-bg: #F8F7F2;
+  --fx-btn-hover-fg: #0B0B0B;
+  --fx-hover: #F6D236;
+  --fx-underline: #F6D236;
+  --fx-focus: #F6D236;
+  --fx-display: "Bricolage Grotesque", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --fx-body: "Bricolage Grotesque", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --fx-label: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --fx-label-size: 12px;
+  --fx-label-track: .06em;
+  --fx-title-weight: 800;
+  --fx-title-case: none;
+  --fx-title-track: -.05em;
+  --fx-value-font: var(--fx-body);
+  --fx-value-weight: 500;
+  --fx-radius: 3px;
+  --fx-gutter: clamp(16px, 3.6vw, 56px);
+  --fx-top: clamp(24px, 3.4vw, 48px);
+  --fx-sticky: 92px;      /* encabezado de 64 px + aire */
+}
+/* juliansequeira.com: papel, tinta y carmesí; Satoshi e Inter. */
+.ficha--light {
+  --fx-bg: #F4F2EE;
+  --fx-fg: #0A0A0A;
+  --fx-fg2: rgba(10, 10, 10, .66);   /* 5,9:1 sobre papel */
+  --fx-fg3: #6B6B6B;                  /* 4,8:1 sobre papel */
+  --fx-rule: rgba(10, 10, 10, .12);
+  --fx-plate: #DDD9D1;
+  --fx-kicker: #CC0A2A;               /* 5,2:1 sobre papel */
+  --fx-btn-bg: #0A0A0A;
+  --fx-btn-fg: #F4F2EE;
+  --fx-btn-hover-bg: #CC0A2A;         /* papel sobre carmesí: 5,2:1 */
+  --fx-btn-hover-fg: #F4F2EE;
+  --fx-hover: #CC0A2A;
+  --fx-underline: #CC0A2A;
+  --fx-focus: #CC0A2A;
+  --fx-display: "Satoshi", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --fx-body: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --fx-label: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --fx-label-size: 11px;
+  --fx-label-track: .16em;
+  --fx-title-weight: 900;
+  --fx-title-case: uppercase;
+  --fx-title-track: -.04em;
+  --fx-value-font: var(--fx-display);
+  --fx-value-weight: 700;
+  --fx-radius: 0;
+  --fx-gutter: 52px;
+  --fx-top: 117px;        /* menú fijo de 77 px + 40 */
+  --fx-sticky: 109px;
+}
+@media (max-width: 700px) {
+  .ficha--light { --fx-gutter: 22px; --fx-top: 85px; --fx-sticky: 81px; }
+}
+
+/* ─── BASE ───────────────────────────────────────────────────── */
+body.ficha {
+  margin: 0;
+  background: var(--fx-bg);
+  color: var(--fx-fg);
+  font-family: var(--fx-body);
+  overflow-x: hidden;
+}
+.fx, .fx *, .fx *::before, .fx *::after { box-sizing: border-box; }
+.fx :where(h1, h2, h3, p, ul, ol, dl, dd, dt, figure) { margin: 0; padding: 0; }
+.fx :where(ul, ol) { list-style: none; }
+.fx img { display: block; max-width: 100%; height: auto; }
+.fx a { color: inherit; }
+.fx :focus-visible { outline: 3px solid var(--fx-focus); outline-offset: 3px; }
+.fx-sr {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.fx {
+  padding-block: var(--fx-top) clamp(64px, 8vw, 128px);
+  font-size: 17px;
+  line-height: 1.5;
+}
+.fx-wrap {
+  width: 100%;
+  max-width: 1600px;
+  margin-inline: auto;
+  padding-inline: var(--fx-gutter);
+}
+
+/* Rótulos: mono en BMM, Inter espaciada en la web personal. */
+.fx-back,
+.fx-kicker,
+.fx-k,
+.fx-meta dt,
+.fx-credits-list dt,
+.fx-btn,
+.fx-link,
+.fx-n {
+  font-family: var(--fx-label);
+  font-size: var(--fx-label-size);
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: var(--fx-label-track);
+  text-transform: uppercase;
+}
+
+/* ─── APERTURA ───────────────────────────────────────────────── */
+.fx-back a {
+  display: inline-flex; align-items: center;
+  min-height: 44px;
+  color: var(--fx-fg2);
+  text-decoration: none;
+}
+.fx-back a:hover { color: var(--fx-hover); }
+
+.fx-head { margin: 12px 0 clamp(28px, 4vw, 56px); }
+.fx-kicker { color: var(--fx-kicker); margin-bottom: 14px; }
+.fx-title {
+  font-family: var(--fx-display);
+  font-weight: var(--fx-title-weight);
+  font-size: clamp(48px, 9.5vw, 156px);
+  line-height: .86;
+  letter-spacing: var(--fx-title-track);
+  text-transform: var(--fx-title-case);
+  overflow-wrap: anywhere;
+  text-wrap: balance;
+}
+.ficha--dark .fx-title { font-variation-settings: "opsz" 96; margin-left: -.03em; }
+.fx-title:focus { outline: none; }
+.fx-role {
+  max-width: 44ch;
+  margin-top: clamp(16px, 2vw, 26px);
+  font-size: clamp(18px, 1rem + .45vw, 23px);
+  font-weight: 500;
+  line-height: 1.3;
+  text-wrap: pretty;
+}
+
+/* ─── MATERIAL PRINCIPAL + RESUMEN ───────────────────────────────
+   El póster vertical va entero, nunca recortado a apaisado; el video
+   va con su fotograma 16:9. A la derecha, el resumen fijo. */
+.fx-open { display: grid; gap: clamp(28px, 3.4vw, 56px); }
+@media (min-width: 900px) {
+  .fx-open { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); align-items: start; }
+  .fx-aside { position: sticky; top: var(--fx-sticky); }
+}
+.fx-main img { width: 100%; background: var(--fx-plate); }
+.fx-main--poster img { aspect-ratio: 2 / 3; object-fit: contain; }
+.fx-main--video img { aspect-ratio: 16 / 9; object-fit: cover; }
+.fx-main figcaption,
+.fx-cap {
+  margin-top: 10px;
+  color: var(--fx-fg3);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+/* Fachada del video: el fotograma con un rótulo de play. Abre el mismo
+   reproductor que el botón «Watch»; el control accesible es el botón. */
+.fx-facade {
+  position: relative;
+  display: block;
+  overflow: hidden;
+}
+.js-fx .fx-facade { cursor: pointer; }
+.fx-facade img { transition: transform 900ms cubic-bezier(.22, 1, .36, 1); }
+.js-fx .fx-facade:hover img { transform: scale(1.03); }
+/* Sin JavaScript la fachada no abre nada: el rótulo no promete. */
+html:not(.js-fx) .fx-cue { display: none; }
+.fx-cue {
+  position: absolute;
+  left: clamp(12px, 1.6vw, 24px); bottom: clamp(12px, 1.6vw, 24px);
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 11px 15px 10px;
+  border-radius: var(--fx-radius);
+  background: var(--fx-btn-bg);
+  color: var(--fx-btn-fg);
+  font-family: var(--fx-label);
+  font-size: var(--fx-label-size);
+  font-weight: 500;
+  letter-spacing: var(--fx-label-track);
+  text-transform: uppercase;
+}
+.fx-cue svg { width: 12px; height: 12px; flex: none; }
+
+/* El póster también se puede ampliar con un clic (en celular el pie
+   del póster queda chico). El control accesible es «View full poster». */
+.js-fx .fx-main img[data-fx-zoom] { cursor: zoom-in; }
+
+.fx-k { color: var(--fx-fg3); margin-bottom: 16px; }
+.fx-intro {
+  max-width: 46ch;
+  color: var(--fx-fg2);
+  font-size: clamp(18px, 1rem + .4vw, 22px);
+  line-height: 1.5;
+  text-wrap: pretty;
+}
+.fx-actions {
+  display: flex; flex-wrap: wrap; align-items: center;
+  gap: 12px 24px;
+  margin-top: 28px;
+}
+.fx-btn {
+  display: inline-flex; align-items: center; gap: 10px;
+  min-height: 46px;
+  padding: 14px 18px 13px;
+  border-radius: var(--fx-radius);
+  background: var(--fx-btn-bg);
+  color: var(--fx-btn-fg);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.fx .fx-btn { color: var(--fx-btn-fg); }
+.fx-btn svg { width: 12px; height: 12px; flex: none; }
+.fx-btn:hover { background: var(--fx-btn-hover-bg); color: var(--fx-btn-hover-fg); }
+.fx-link {
+  display: inline-flex; align-items: center; gap: 6px;
+  min-height: 44px;
+  color: var(--fx-fg);
+  text-decoration: underline;
+  text-decoration-color: var(--fx-underline);
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: .3em;
+}
+.fx-link:hover { color: var(--fx-hover); }
+.fx-actions .fx-link--quiet { color: var(--fx-fg2); text-decoration-color: currentColor; }
+
+/* ─── FICHA ──────────────────────────────────────────────────── */
+.fx-meta {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 24px 32px;
+  margin-top: clamp(44px, 6vw, 88px);
+  padding-top: 28px;
+  border-top: 1px solid var(--fx-rule);
+}
+.fx-meta > div { min-width: 0; }
+.fx-meta dt { color: var(--fx-fg3); }
+.fx-meta dd {
+  margin-top: 6px;
+  font-family: var(--fx-value-font);
+  font-weight: var(--fx-value-weight);
+  font-size: 17px;
+  line-height: 1.35;
+}
+
+/* ─── MATERIAL: FOTOGRAMAS O STORYBOARD ──────────────────────── */
+.fx-gallery,
+.fx-credits {
+  margin-top: clamp(56px, 7vw, 104px);
+  padding-top: 28px;
+  border-top: 1px solid var(--fx-rule);
+}
+.fx-h2 {
+  margin-bottom: clamp(18px, 2vw, 28px);
+  font-family: var(--fx-display);
+  font-weight: var(--fx-title-weight);
+  font-size: clamp(26px, 1.2rem + 1.4vw, 40px);
+  line-height: 1.04;
+  letter-spacing: -.03em;
+  text-transform: var(--fx-title-case);
+}
+.fx-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(20px, 2vw, 28px) clamp(6px, .7vw, 12px);
+}
+@media (min-width: 600px) {
+  .fx-grid--fotogramas { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+/* Fotos de rodaje (3:2): dos por fila en celular, tres desde 600 px. */
+.fx-grid--rodaje { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (min-width: 600px) { .fx-grid--rodaje { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.fx-grid--storyboard { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (min-width: 700px) { .fx-grid--storyboard { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (min-width: 1000px) { .fx-grid--storyboard { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+
+.fx-zoom {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  background: var(--fx-plate);
+  cursor: zoom-in;
+}
+.fx-zoom img { width: 100%; transition: transform 900ms cubic-bezier(.22, 1, .36, 1); }
+.fx-grid--fotogramas .fx-zoom img { aspect-ratio: 16 / 9; object-fit: cover; }
+.fx-grid--storyboard .fx-zoom img { aspect-ratio: 4 / 3; object-fit: cover; }
+.fx-grid--rodaje .fx-zoom img { aspect-ratio: 3 / 2; object-fit: cover; }
+.fx-zoom:hover img,
+.fx-zoom:focus-visible img { transform: scale(1.04); }
+.fx-zoom:focus-visible { outline-offset: -3px; }
+.fx-n { margin-right: .6em; color: var(--fx-fg); }
+
+/* ─── CRÉDITOS ───────────────────────────────────────────────── */
+.fx-credits-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
+  column-gap: 48px;
+  border-top: 1px solid var(--fx-rule);
+}
+.fx-credits-list > div {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
+  gap: 6px 24px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--fx-rule);
+  align-items: baseline;
+}
+.fx-credits-list dt { color: var(--fx-fg3); }
+.fx-credits-list dd { font-size: 16px; line-height: 1.45; }
+@media (max-width: 599.98px) {
+  .fx-credits-list > div { grid-template-columns: minmax(0, 1fr); }
+}
+
+.fx-end { margin-top: clamp(40px, 5vw, 64px); }
+.fx-end a {
+  font-size: clamp(18px, 1rem + .3vw, 21px);
+  font-weight: 500;
+  text-decoration: underline;
+  text-decoration-color: var(--fx-underline);
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: .22em;
+}
+.fx-end a:hover { color: var(--fx-hover); }
+
+/* ─── REPRODUCTOR Y VISOR ────────────────────────────────────────
+   Un solo <dialog> modal (ficha.js): video o imagen ampliada. Sobre
+   tinta en los dos temas, como una sala. Esc cierra y el foco vuelve
+   al control que lo abrió. */
+.fx-dialog {
+  width: min(100% - 32px, 1400px);
+  max-width: none; max-height: none;
+  margin: auto;
+  padding: 0; border: 0;
+  background: transparent;
+  color: #F8F7F2;
+  overflow: visible;
+}
+.fx-dialog::backdrop { background: rgba(10, 10, 10, .94); }
+.fx-dialog-bar {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 12px;
+}
+.fx-dialog-title,
+.fx-dialog-close {
+  font-family: var(--fx-label);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+.fx-dialog-title { margin: 0; color: #F8F7F2; }
+.fx-dialog-close {
+  min-height: 44px;
+  padding: 10px 16px;
+  border: 1px solid rgba(248, 247, 242, .45);
+  border-radius: var(--fx-radius);
+  background: transparent;
+  color: #F8F7F2;
+  cursor: pointer;
+}
+.fx-dialog-close:hover { background: #F8F7F2; color: #0B0B0B; }
+.fx-dialog-close:focus-visible { outline: 3px solid var(--fx-focus); outline-offset: 3px; }
+.fx-dialog-video {
+  position: relative;
+  width: min(100%, calc((100svh - 120px) * 16 / 9));
+  aspect-ratio: 16 / 9;
+  margin-inline: auto;
+  background: #000;
+}
+.fx-dialog-video iframe {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  border: 0;
+}
+.fx-dialog-figure { margin: 0; }
+.fx-dialog-figure img {
+  display: block;
+  width: auto; height: auto;
+  max-width: 100%;
+  max-height: calc(100svh - 150px);
+  margin-inline: auto;
+  background: #161616;
+}
+.fx-dialog-figure figcaption {
+  margin-top: 10px;
+  text-align: center;
+  color: rgba(248, 247, 242, .78);
+  font-size: 13px;
+  line-height: 1.45;
+}
+html:has(.fx-dialog[open]) { overflow: hidden; }
+@keyframes fx-in {
+  from { opacity: 0; transform: translate3d(0, 12px, 0); }
+  to   { opacity: 1; transform: none; }
+}
+.fx-dialog[open] { animation: fx-in 320ms cubic-bezier(.22, 1, .36, 1); }
+
+/* ─── MENOS MOVIMIENTO ───────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .fx-dialog[open] { animation: none; }
+  .fx-facade img, .fx-zoom img { transition: none; }
+  .fx-facade:hover img, .fx-zoom:hover img, .fx-zoom:focus-visible img { transform: none; }
+}
+
+/* ─── IMPRESIÓN ──────────────────────────────────────────────── */
+@media print {
+  .fx-dialog, .fx-cue, .fx-actions { display: none; }
+  .fx-aside { position: static; }
+}

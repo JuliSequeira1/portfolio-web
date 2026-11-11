@@ -30,7 +30,8 @@
   var CASOS = {
     '/cdbi': true, '/flama-squad': true, '/la-noche': true,
     '/el-loco': true, '/blin-blin-caja': true, '/salgo-a-caminar': true,
-    '/sos-vo': true, '/ojo-por-ojo': true, '/los-tigres': true
+    '/sos-vo': true, '/ojo-por-ojo': true, '/los-tigres': true,
+    '/blanco': true
   };
 
   /* Una sola forma de nombrar páginas: /work, /work.html y /index.html

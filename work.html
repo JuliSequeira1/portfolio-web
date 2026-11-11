@@ -270,8 +270,10 @@
     }
     .strip-left h2 {
       font-family: 'Satoshi', sans-serif; font-weight: 900;
-      font-size: clamp(36px, 6vw, 80px); text-transform: uppercase; line-height: .9;
+      font-size: clamp(36px, 6vw, 80px); text-transform: uppercase; line-height: .98; text-wrap: balance;
       letter-spacing: -.03em;
+      /* El titular largo va en dos líneas, para que los enlaces sigan a su derecha. */
+      max-width: 9em;
     }
     .strip-left h2 a { color: var(--cream); text-decoration: none; transition: color var(--dur) var(--ease-out); }
     .strip-left h2 a:hover { color: var(--red); }
@@ -658,10 +660,19 @@
         "@type": "Movie",
         "@id": "https://juliansequeira.com/#blanco",
         "name": "Blanco",
-        "description": "Cortometraje independiente.",
+        "url": "https://juliansequeira.com/blanco.html",
+        "description": "Cortometraje independiente dirigido por Federico Font. Fotografía, edición y postproducción de Julián Sequeira.",
         "datePublished": "2015",
         "director": {
-          "@id": "https://juliansequeira.com/#julian"
+          "@type": "Person",
+          "name": "Federico Font"
+        },
+        "contributor": {
+          "@type": "Role",
+          "roleName": "Fotografía, edición y postproducción",
+          "contributor": {
+            "@id": "https://juliansequeira.com/#julian"
+          }
         },
         "countryOfOrigin": {
           "@type": "Country",
@@ -819,8 +830,10 @@
       </div>
     </a>
 
+    <!-- Misma imagen que la cabecera de la ficha (still de VFX, 02:20):
+         la transición la lleva de la tarjeta al caso. 01/11/2026. -->
     <a class="work-item reveal d1" href="salgo-a-caminar.html" data-cat="music" aria-label="Ver el caso de Salgo a Caminar, de Tortu aka O.d.d.M">
-      <img src="https://img.youtube.com/vi/0dOVfSLxZj8/maxresdefault.jpg" alt="Tortu Salgo a Caminar" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/0dOVfSLxZj8/hqdefault.jpg';">
+      <img src="assets/salgo-a-caminar/vfx-960.webp" srcset="assets/salgo-a-caminar/vfx-960.webp 960w, assets/salgo-a-caminar/vfx-1920.webp 1920w" sizes="(max-width: 700px) 100vw, 34vw" alt="Tortu Salgo a Caminar" width="1920" height="1080" loading="lazy" decoding="async">
       <div class="work-item-meta">
         <p class="item-cat">Music Video &#183; Dirección &amp; VFX</p>
         <p class="item-name">Salgo a Caminar</p>
@@ -929,12 +942,15 @@
 
     <!-- ── Films ── -->
 
-    <a class="work-item reveal" href="https://youtu.be/uikDazoPnsQ" data-video data-cat="films" aria-label="Ver el cortometraje Blanco">
+    <!-- Blanco · 01/11/2026: abre su ficha (blanco.html, compartida con
+         birdmakingmachine.com) y el video se ve adentro. Dirección de
+         Federico Font; Julián firma fotografía, edición y postproducción. -->
+    <a class="work-item reveal" href="blanco.html" data-cat="films" aria-label="Ver el caso de Blanco, cortometraje de Federico Font">
       <img src="https://img.youtube.com/vi/uikDazoPnsQ/maxresdefault.jpg" alt="Blanco" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/uikDazoPnsQ/hqdefault.jpg';">
       <div class="work-item-meta">
         <p class="item-cat">Cortometraje &#183; 2015</p>
         <p class="item-name">Blanco</p>
-        <p class="item-client">Cortometraje independiente</p>
+        <p class="item-client">Fotografía, edición y postproducción</p>
       </div>
     </a>
   </div>
@@ -1127,8 +1143,8 @@
 <!-- ── CONTACT STRIP ─────────────────────────────────────────── -->
 <section id="contact-strip">
   <div class="strip-left">
-    <p class="strip-eyebrow">¿Trabajamos juntos?</p>
-    <h2><a href="index.html#contacto">Hablemos.</a></h2>
+    <p class="strip-eyebrow">¿Tenés un proyecto?</p>
+    <h2><a href="index.html#contacto">Contame qué estás armando.</a></h2>
   </div>
   <div class="strip-right">
     <a href="index.html#contacto"                          class="s-link">Contacto</a>

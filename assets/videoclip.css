@@ -222,7 +222,7 @@ figcaption, .credito {
 .cierre-big {
   font-family: 'Satoshi', sans-serif; font-weight: 900;
   font-size: clamp(42px, 7.5vw, 104px);
-  text-transform: uppercase; line-height: .85; letter-spacing: -.03em;
+  text-transform: uppercase; line-height: .98; text-wrap: balance; letter-spacing: -.03em;
 }
 .cierre-big a { color: var(--cream); text-decoration: none; transition: color var(--dur) var(--ease-out); }
 .cierre-big a:hover { color: var(--red); }

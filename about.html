@@ -261,7 +261,7 @@
       font-family: 'Satoshi', sans-serif;
       font-size: clamp(44px, 8vw, 100px);
       font-weight: 900; text-transform: uppercase;
-      line-height: .85; letter-spacing: -.03em;
+      line-height: .98; text-wrap: balance; letter-spacing: -.03em;
     }
     .contact-big a { color: #F4F2EE; text-decoration: none; transition: color var(--dur) var(--ease-out); }
     .contact-big a:hover { color: var(--red); }
@@ -606,10 +606,19 @@
         "@type": "Movie",
         "@id": "https://juliansequeira.com/#blanco",
         "name": "Blanco",
-        "description": "Cortometraje independiente.",
+        "url": "https://juliansequeira.com/blanco.html",
+        "description": "Cortometraje independiente dirigido por Federico Font. Fotografía, edición y postproducción de Julián Sequeira.",
         "datePublished": "2015",
         "director": {
-          "@id": "https://juliansequeira.com/#julian"
+          "@type": "Person",
+          "name": "Federico Font"
+        },
+        "contributor": {
+          "@type": "Role",
+          "roleName": "Fotografía, edición y postproducción",
+          "contributor": {
+            "@id": "https://juliansequeira.com/#julian"
+          }
         },
         "countryOfOrigin": {
           "@type": "Country",
@@ -834,8 +843,8 @@
         </li>
         <li>
           <span class="cred-year">2015</span>
-          <span class="cred-title">Blanco<span class="cred-org">Cortometraje independiente</span></span>
-          <span class="cred-role">Dirección.</span>
+          <span class="cred-title">Blanco<span class="cred-org">Cortometraje de Federico Font</span></span>
+          <span class="cred-role">Fotografía, edición y postproducción.</span>
         </li>
     </ul>
   </div>
@@ -884,7 +893,7 @@
 <!-- ── CONTACT ── -->
 <section id="contact">
   <div class="contact-big reveal">
-    <a href="index.html#contacto">Hablemos.</a>
+    <a href="index.html#contacto">Contame qué estás armando.</a>
   </div>
   <div class="contact-row reveal d1">
     <a href="index.html#contacto">Contacto ↗</a>
