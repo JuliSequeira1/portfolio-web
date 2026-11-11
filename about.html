@@ -4,12 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sobre mí — Julián Sequeira</title>
-  <meta name="description" content="Director creativo. 15 años entre cine, animación, 3D e IA generativa. NBC/Peacock · Konami · Silent Hill: Ascension, Emmy 2024. Buenos Aires.">
+  <meta name="description" content="Sobre Julián Sequeira, realizador de Buenos Aires. Cine y animación con cámara, 3D, Unreal e IA. Dinopops (NBC/Peacock) y Silent Hill: Ascension, producción ganadora del Emmy 2024.">
   <link rel="canonical" href="https://juliansequeira.com/about.html">
   <meta property="og:type"        content="profile">
   <meta property="og:url"         content="https://juliansequeira.com/about.html">
   <meta property="og:title"       content="Sobre mí — Julián Sequeira">
-  <meta property="og:description" content="Director creativo. NBC/Peacock · Konami · Silent Hill: Ascension, Emmy 2024. Buenos Aires.">
+  <meta property="og:description" content="Sobre Julián Sequeira, realizador de Buenos Aires. Cine y animación con cámara, 3D, Unreal e IA. Dinopops (NBC/Peacock) y Silent Hill: Ascension, producción ganadora del Emmy 2024.">
   <meta property="og:image"       content="https://juliansequeira.com/assets/julian-og.jpg">
   <meta name="twitter:card"       content="summary_large_image">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%230A0A0A'/%3E%3Ctext x='32' y='45' font-family='Arial,sans-serif' font-size='28' font-weight='900' fill='%23F4F2EE' text-anchor='middle'%3EJS%3C/text%3E%3Ccircle cx='52' cy='14' r='5' fill='%23CC0A2A'/%3E%3C/svg%3E">
@@ -113,6 +113,14 @@
       margin-bottom: 18px;
     }
     .bio-body strong { color: var(--ink); font-weight: 500; }
+    /* Los proyectos con ficha propia se enlazan desde la bio. */
+    .bio-body a {
+      color: var(--ink); font-weight: 500;
+      text-decoration: underline; text-decoration-color: var(--red);
+      text-decoration-thickness: 1px; text-underline-offset: 4px;
+      transition: color var(--dur) var(--ease-out);
+    }
+    .bio-body a:hover { color: var(--red); }
     .bio-cv {
       display: inline-flex; align-items: center; gap: 10px;
       margin-top: 22px;
@@ -137,24 +145,6 @@
     }
     .emmy-text { font-size: 13px; line-height: 1.65; }
     .emmy-text strong { font-weight: 600; }
-
-    /* Tres columnas desde que se quitó la métrica "∞": eran cuatro y la cuarta
-       era decorativa, lo que le bajaba el precio a las tres que son reales. */
-    .stats-grid {
-      display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 24px 32px; margin-top: 48px;
-    }
-    @media (max-width: 560px) { .stats-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-    .stat-n {
-      font-family: 'Satoshi', sans-serif;
-      font-size: 52px; font-weight: 900; line-height: 1;
-      letter-spacing: -.02em;
-    }
-    .stat-l {
-      font-size: 10px; font-weight: 500;
-      letter-spacing: .14em; text-transform: uppercase;
-      color: var(--muted); margin-top: 4px;
-    }
 
     .bio-portrait {
       position: relative; aspect-ratio: 3/4;
@@ -226,33 +216,6 @@
       .cred-role { grid-column: 2; }
     }
 
-    /* ─── MANIFIESTO ─── */
-    #manifiesto { padding: 110px 56px; border-bottom: 1px solid var(--border); }
-    .mani-label {
-      font-size: 10px; font-weight: 500;
-      letter-spacing: .22em; text-transform: uppercase;
-      color: var(--muted); margin-bottom: 44px;
-    }
-    .mani-body {
-      font-family: 'Satoshi', sans-serif;
-      font-size: clamp(28px, 3.8vw, 58px);
-      font-weight: 700;
-      line-height: 1.12;
-      max-width: 960px;
-      letter-spacing: -.01em;
-    }
-    .mani-body em { font-style: normal; font-weight: 900; color: var(--red); }
-    .mani-text {
-      margin-top: 40px; max-width: 760px;
-      display: flex; flex-direction: column; gap: 20px;
-    }
-    .mani-text p {
-      font-size: clamp(15px, 1.5vw, 18px);
-      font-weight: 300; line-height: 1.75;
-      color: var(--dim);
-    }
-    .mani-text p strong { color: var(--ink); font-weight: 600; }
-
     /* ─── CONTACT MINI ─── */
     #contact {
       padding: 90px 56px;
@@ -307,7 +270,7 @@
       nav { padding: 20px 24px; }
       .nav-links { gap: 20px; }
       header { padding: 130px 24px 50px; }
-      #bio, #manifiesto, #contact { padding-left: 24px; padding-right: 24px; }
+      #bio, #contact { padding-left: 24px; padding-right: 24px; }
       footer { padding: 20px 24px; flex-direction: column; gap: 6px; }
     }
   </style>
@@ -347,11 +310,6 @@
         },
         "email": "mailto:bd.juliansequeira@gmail.com",
         "worksFor": [
-          {
-            "@type": "Organization",
-            "@id": "https://juliansequeira.com/#achalay",
-            "name": "Achalay Marketing"
-          },
           {
             "@type": "Organization",
             "@id": "https://juliansequeira.com/#studiosoup",
@@ -666,7 +624,7 @@
 
 <!-- ── HEADER ── -->
 <header>
-  <p class="head-label">Director Creativo</p>
+  <p class="head-label">Realizador</p>
   <h1>Sobre mí</h1>
 </header>
 
@@ -674,24 +632,22 @@
 <section id="bio">
   <div>
     <p class="bio-statement reveal">
-      Soy director, artista visual y realizador integral. Durante más de 15 años trabajé en la
-      intersección entre cine, animación, 3D, postproducción e inteligencia artificial, siempre con
-      una idea central: <em>la tecnología solo importa cuando ayuda a contar mejor una historia.</em>
+      Soy Julián Sequeira, realizador de Buenos Aires. Vengo de Bellas Artes, del storyboard y de
+      dirigir videoclips. Después llegaron los cortos, la animación y el 3D.
     </p>
 
     <p class="bio-body reveal d1">
-      He dirigido y desarrollado proyectos para <strong>NBC/Peacock</strong>, <strong>Konami</strong>,
-      marcas globales, videoclips, cortometrajes, animación infantil, branded content y experiencias
-      interactivas. También lideré equipos internacionales de más de <strong>80 artistas</strong> y
-      participé en <strong>Silent Hill: Ascension</strong>, producción ganadora del Emmy 2024 a
-      Outstanding Innovation in Emerging Media Programming.
+      Fui director de arte de la primera temporada de <strong>Dinopops</strong> (NBC/Peacock) y
+      dirigí tres episodios, con un equipo de más de 80 artistas. Trabajé como Cinematic Artist en
+      <strong>Silent Hill: Ascension</strong>, producción ganadora del Emmy 2024. También escribí y
+      dirigí <a href="la-noche.html">La Noche</a>, mi primer cortometraje de ficción.
     </p>
 
     <p class="bio-body reveal d2">
-      Mi trabajo se mueve entre el oficio clásico y las herramientas nuevas: concept art, dirección,
-      cinematografía, mundos virtuales, IA generativa y pipelines de producción. Pero el objetivo sigue
-      siendo el mismo: <strong>crear imágenes con intención, construir mundos con alma y contar historias
-      que no se sientan generadas, sino vividas.</strong>
+      Hoy reparto el tiempo entre mis series, <a href="cdbi.html">Crónicas del Barro Infinito</a> y
+      <a href="flama-squad.html">Flama Squad</a>, y trabajos para estudios y marcas. Uso todas las
+      herramientas que existen: cámara, animación, 3D, Unreal, IA. La que haga falta para contar lo
+      que quiero contar.
     </p>
 
     <a href="assets/cv-julian-sequeira.pdf" target="_blank" rel="noopener" class="bio-cv reveal d2">
@@ -705,12 +661,6 @@
         Silent Hill: Ascension (Genvid / Senscape / Konami).
         300+ episodios, más de 10 horas de contenido animado interactivo.
       </div>
-    </div>
-
-    <div class="stats-grid">
-      <div class="reveal"><div class="stat-n">15+</div><div class="stat-l">Años de experiencia</div></div>
-      <div class="reveal d1"><div class="stat-n">80+</div><div class="stat-l">Artistas liderados</div></div>
-      <div class="reveal d2"><div class="stat-n">Emmy 2024</div><div class="stat-l">Silent Hill: Ascension</div></div>
     </div>
   </div>
 
@@ -727,13 +677,13 @@
     <h2 class="cred-h">Trayectoria</h2>
     <ul class="cred-list">
         <li>
-          <span class="cred-year">2024 — hoy</span>
+          <span class="cred-year">2024 — 2026</span>
           <span class="cred-title">Achalay Marketing</span>
           <span class="cred-role">Director Creativo — dirección audiovisual con IA generativa. DHL, Percent, Lumilagro, Eternity.</span>
         </li>
         <li>
           <span class="cred-year">2024 — hoy</span>
-          <span class="cred-title">Studio Soup</span>
+          <span class="cred-title">Studio Soup<span class="cred-org">Freelance</span></span>
           <span class="cred-role">Productor / Coordinador Creativo — experiencias AR y VR para John Deere, animación para Uber.</span>
         </li>
         <li>
@@ -771,11 +721,6 @@
           <span class="cred-year">2023 — 2024</span>
           <span class="cred-title">Silent Hill: Ascension<span class="cred-org">Genvid / Senscape / Konami</span></span>
           <span class="cred-role">Cinematic Artist. 300+ episodios, 10+ horas de contenido animado interactivo.<span class="cred-award">Emmy 2024 — Outstanding Innovation in Emerging Media Programming</span></span>
-        </li>
-        <li>
-          <span class="cred-year">2023</span>
-          <span class="cred-title">Los Tigres</span>
-          <span class="cred-role">Dirección.</span>
         </li>
         <li>
           <span class="cred-year">2020 — 2023</span>
@@ -854,6 +799,11 @@
     <h2 class="cred-h">En desarrollo</h2>
     <ul class="cred-list">
         <li>
+          <span class="cred-year">En posproducción</span>
+          <span class="cred-title">Los Tigres<span class="cred-org">Cortometraje</span></span>
+          <span class="cred-role">Dirección y guion.</span>
+        </li>
+        <li>
           <span class="cred-year">En desarrollo</span>
           <span class="cred-title">Flama Squad<span class="cred-org">Serie · 9 episodios</span></span>
           <span class="cred-role">Creador, guionista y director. Guiones terminados; opening, trailer y escenas sueltas filmados.<span class="cred-award">Beca Creación, Fondo Nacional de las Artes (2022) · Fondo Metropolitano de las Artes (2022)</span></span>
@@ -867,29 +817,6 @@
   </div>
 </section>
 <!-- ── /CRÉDITOS ── -->
-
-<!-- ── MANIFIESTO ── -->
-<section id="manifiesto">
-  <p class="mani-label">Manifiesto</p>
-  <h2 class="mani-body reveal">
-    Las herramientas cambian. <em>La emoción no.</em>
-  </h2>
-  <div class="mani-text">
-    <p class="reveal d1">
-      Del storyboard en papel al render en tiempo real. De dirigir actores en set
-      a diseñar pipelines con IA generativa. La tecnología transforma la manera de producir,
-      pero no cambia la pregunta esencial: qué siente el espectador cuando aparece la imagen.
-    </p>
-    <p class="reveal d2">
-      Trabajo con cine, animación, 3D, postproducción e inteligencia artificial porque cada
-      herramienta abre una posibilidad distinta. Pero ninguna reemplaza la mirada, el ritmo,
-      la tensión dramática ni la intuición narrativa.
-    </p>
-    <p class="reveal d3">
-      No dirijo para las máquinas. <strong>Dirijo para las personas.</strong>
-    </p>
-  </div>
-</section>
 
 <!-- ── CONTACT ── -->
 <section id="contact">
