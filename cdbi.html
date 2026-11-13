@@ -9,7 +9,7 @@
   <meta property="og:type"        content="video.tv_show">
   <meta property="og:url"         content="https://juliansequeira.com/cdbi.html">
   <meta property="og:title"       content="Crónicas del Barro Infinito">
-  <meta property="og:description" content="El Cóndor tiene un dato: una caja china con partes de oro. La roba con Pepe, Joel y Pili y dejan Lanús a oscuras. Mientras buscan quién se la compre, el barrio se les viene encima y el supuesto tesoro empieza a parecer un peligro.">
+  <meta property="og:description" content="Joel y Pili andan con su tío, el Cóndor, que siempre tiene un dato. Pepe, su amigo de toda la vida, carga las herramientas. Los cuatro, y un gato que solo responde a Pili, persiguen negocios que salen mal por un Lanús donde lo raro es parte del paisaje: robos fallidos, lugares imposibles y la versión de que en el fondo del Riachuelo vive un sapo del tamaño de una casa.">
   <meta property="og:image"       content="https://juliansequeira.com/assets/cdbi/og.jpg">
   <meta property="og:image:width"  content="1200">
   <meta property="og:image:height" content="630">
@@ -197,11 +197,13 @@
       text-shadow: 0 1px 8px rgba(10,10,10,.9);
     }
     /* ─── FICHA ──────────────────────────────────────────────── */
+    /* Va después de la sinopsis, que ya cierra con su línea. */
     #ficha {
       padding: 60px 52px;
-      border-top: 1px solid var(--linea);
       border-bottom: 1px solid var(--linea);
     }
+    /* La logline abre la sinopsis, debajo de la carátula. */
+    #sinopsis .logline { margin-top: 0; max-width: 34ch; }
     .ficha-grid {
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -260,19 +262,17 @@
     }
 
     /* ─── PERSONAJES ─────────────────────────────────────────── */
+    .elenco { margin: 46px 0 0; }
+    .elenco img {
+      width: 100%; height: auto; display: block;
+      aspect-ratio: 1800/1221; background: #141414;
+    }
+    /* Cuatro columnas iguales: cada ficha cae debajo de su personaje. */
     .per-grid {
       display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 30px 22px; margin-top: 46px;
+      gap: 26px 22px; margin-top: 6px;
     }
-    @media (max-width: 900px) { .per-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-    /* Recortes 4:5 de cuadros del opening: una fila, cuatro caras. Antes
-       eran renders 9:16 de la etapa vertical, con la Pili de pelo largo
-       que ya no rige. */
-    .per img {
-      width: 100%; display: block;
-      aspect-ratio: 4/5; object-fit: cover;
-      background: #141414;
-    }
+    @media (max-width: 900px) { .per-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 14px; } }
     .per-n {
       font-family: 'Satoshi', sans-serif; font-weight: 800;
       font-size: 15px; letter-spacing: .02em; text-transform: uppercase;
@@ -290,24 +290,33 @@
        para emparejarlas arruinaría justo lo que hay que mostrar. Así
        fluyen y conservan su forma.
        ───────────────────────────────────────────── */
-    .piezas { columns: 3; column-gap: 20px; margin-top: 46px; }
-    @media (max-width: 900px) { .piezas { columns: 2; } }
-    @media (max-width: 560px) { .piezas { columns: 1; } }
-    .pieza {
-      break-inside: avoid; -webkit-column-break-inside: avoid;
-      margin: 0 0 30px;
+    .piezas {
+      display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 28px 20px; margin-top: 46px;
     }
-    .pieza img { width: 100%; display: block; background: #141414; }
-    .pieza-k {
+    @media (max-width: 900px) { .piezas { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (max-width: 560px) { .piezas { grid-template-columns: minmax(0, 1fr); } }
+    .pieza { margin: 0; }
+    .pieza img {
+      width: 100%; display: block;
+      aspect-ratio: 16/9; object-fit: cover; background: #141414;
+    }
+    .pieza figcaption {
       font-size: 10px; font-weight: 500;
       letter-spacing: .18em; text-transform: uppercase;
-      color: var(--on-dark-soft); margin-bottom: 10px;
+      color: var(--on-dark-soft); margin-top: 10px;
     }
-    .pieza-k b { color: var(--red); font-weight: 500; margin-right: 8px; }
-    .pieza-d {
-      font-size: 12.5px; font-weight: 300; line-height: 1.6;
-      color: var(--on-dark); margin-top: 9px;
+    /* Todo lo ampliable es un enlace a la imagen: sin JS, se abre el archivo. */
+    .ampliable { display: block; position: relative; cursor: zoom-in; }
+    .ampliable:focus-visible { outline-offset: 4px; }
+    /* Visor de imágenes: mismas clases .visor* del reproductor; ver la-noche.html. */
+    .visor-caja img {
+      display: block; width: auto; height: auto;
+      max-width: min(100%, 1600px); max-height: calc(100dvh - 130px);
     }
+    .visor-pie { font-size: 11px; letter-spacing: .04em; color: var(--on-dark); text-align: center; }
+    .visor.zoom { overflow: auto; align-items: flex-start; }
+    .visor.zoom .visor-caja img { max-height: none; }
 
     /* ─── FRASE ────────────────────────────────── */
     .frase {
@@ -367,8 +376,8 @@
     footer span { font-size: 10px; letter-spacing: .1em; color: var(--on-dark); }
 
     /* ─── REVEAL ─────────────────────────────────────────────── */
-    .reveal { transition: opacity .8s ease, transform .8s ease; }
-    html.js-reveal .reveal { opacity: 0; transform: translateY(24px); }
+    .reveal { transition: opacity .45s var(--ease-out, ease-out), transform .45s var(--ease-out, ease-out); }
+    html.js-reveal .reveal { opacity: 0; transform: translateY(12px); }
     html.js-reveal .reveal.visible { opacity: 1; transform: none; }
     .reveal.d1 { transition-delay: .1s; }
     .reveal.d2 { transition-delay: .2s; }
@@ -637,11 +646,6 @@
 <header>
   <p class="kicker">Serie animada 2D · Creador y director · Piloto en producción</p>
   <h1 data-vt="titulo" tabindex="-1">Crónicas del Barro Infinito</h1>
-  <p class="logline">
-    El Cóndor tiene un dato: una caja china con partes de oro. La roba con Pepe, Joel y Pili
-    y dejan Lanús a oscuras. Mientras buscan quién se la compre, el barrio se les viene encima
-    y el supuesto tesoro empieza a parecer un peligro.
-  </p>
 </header>
 
 <!-- ── HERO / TRAILER ────────────────────────────────────────── -->
@@ -654,6 +658,27 @@
     <figcaption>Arte del póster · piloto EP00 en producción</figcaption>
   </figure>
 </div>
+
+<!-- ── SINOPSIS ────────────────────────────────────────────────
+     Orden pedido por Julián (13/11/2026): título, carátula y, debajo,
+     la sinopsis. Texto de la SERIE, elegido por Julián el 13/11/2026
+     («usemos la tuya por ahora»); el canon todavía no tiene una
+     sinopsis de serie aprobada. -->
+<section class="sec" id="sinopsis">
+  <p class="sec-k">Sinopsis</p>
+  <p class="logline">
+    Joel y Pili andan con su tío, el Cóndor, que siempre tiene un dato.
+    Pepe, su amigo de toda la vida, carga las herramientas.
+  </p>
+  <div class="prosa">
+    <p>
+      Los cuatro, y un gato que solo responde a Pili, persiguen negocios que salen mal por un
+      Lanús donde lo raro es parte del paisaje: robos fallidos, lugares imposibles y la versión de
+      que en el fondo del Riachuelo vive un sapo del tamaño de una casa.
+    </p>
+  </div>
+</section>
+
 <!-- ── FICHA ─────────────────────────────────────────────────── -->
 <section id="ficha" aria-label="Ficha técnica">
   <div class="ficha-grid">
@@ -668,29 +693,9 @@
   </div>
 </section>
 
-<!-- ── SINOPSIS ──────────────────────────────────────────────── -->
-<section class="sec">
-  <p class="sec-k">Sinopsis</p>
-  <h2 class="reveal">Un dato, una caja, un apagón</h2>
-  <div class="prosa">
-    <p class="reveal d1">
-      Lanús, de noche. <strong>El Cóndor</strong> asegura que sabe dónde hay cobre del bueno y
-      partes de oro. Pepe, Joel y Pili ya conocen sus versos, pero lo acompañan igual. Sacan una
-      caja de un gabinete municipal y el barrio entero se queda sin luz.
-    </p>
-    <p class="reveal d1">
-      Con el aparato bajo el brazo y Ranx, el gato, dando vueltas, buscan dónde venderlo: una
-      peluquera que no piensa cerrar, dos policías rodeados de vecinos furiosos y un bazar donde el
-      comprador quiere otra cosa. Dicen que en el fondo del Riachuelo vive un sapo del tamaño de
-      una casa. <strong>La caja quiere que se la lleven bien lejos.</strong>
-    </p>
-  </div>
-</section>
-
 <!-- ── FRASE ─────────────────────────────────────── -->
 <section class="frase">
   <p class="reveal">El conurbano es<br>un <span>estado mental</span>.</p>
-  <cite class="reveal d1">Tagline de la serie</cite>
 </section>
 
 <!-- ── BANDA ─────────────────────────────────────────────────── -->
@@ -701,91 +706,132 @@
   <figcaption>El fogón, entre los bondis muertos</figcaption>
 </figure>
 
-<!-- ── PERSONAJES ────────────────────────────────────────────── -->
+<!-- ── PERSONAJES ──────────────────────────────────────────────
+     Imagen a medida (Seedream 5.5, 13/11/2026) con las láminas vigentes
+     como referencia. Orden pedido por Julián: Pepe último, Pili con Ranx.
+     Cada ficha queda debajo de su personaje. -->
 <section class="sec">
   <p class="sec-k">Personajes</p>
+  <figure class="elenco reveal">
+    <a class="ampliable" href="assets/cdbi/elenco.webp" data-pie="El Cóndor, Joel, Pili con Ranx y Pepe">
+      <img src="assets/cdbi/elenco-900.webp"
+           srcset="assets/cdbi/elenco-900.webp 900w, assets/cdbi/elenco.webp 1800w"
+           sizes="(max-width: 700px) 100vw, 92vw"
+           alt="El Cóndor de brazos cruzados, Joel contando con los dedos, Pili con el gato Ranx en brazos y Pepe con su bolso de herramientas, parados en una calle de Lanús de noche"
+           width="1800" height="1221" loading="lazy" decoding="async">
+    </a>
+  </figure>
   <div class="per-grid">
-    <figure class="per reveal">
-      <img src="assets/cdbi/per-condor-op.webp" alt="El Cóndor, de conjunto Adidas azul y anteojos oscuros, con un sapo dorado entre las manos" width="720" height="900" loading="lazy" decoding="async">
-      <figcaption>
-        <p class="per-n">El Cóndor</p>
-        <p class="per-d">El del dato. Adidas azul, cadena de oro y datos que siempre son truchos.</p>
-      </figcaption>
-    </figure>
-
-    <figure class="per reveal d1">
-      <img src="assets/cdbi/per-pepe-op.webp" alt="Pepe, corpulento y asustado, sostiene el sapo dorado en una calle mojada de noche" width="720" height="900" loading="lazy" decoding="async">
-      <figcaption>
-        <p class="per-n">Pepe</p>
-        <p class="per-d">El amigo del Cóndor desde la barrita del 94. Lleva las herramientas y parece más viejo de lo que es.</p>
-      </figcaption>
-    </figure>
-
-    <figure class="per reveal d2">
-      <img src="assets/cdbi/per-joel-op.webp" alt="Joel, con la camiseta de Boca, se tira en el aire para agarrar el sapo dorado" width="720" height="900" loading="lazy" decoding="async">
-      <figcaption>
-        <p class="per-n">Joel, 12</p>
-        <p class="per-d">El auditor. Cuenta faltas con los dedos y se tira de cabeza cuando hay algo que agarrar.</p>
-      </figcaption>
-    </figure>
-
-    <figure class="per reveal d2">
-      <img src="assets/cdbi/per-pili-op.webp" alt="Pili, de pelo corto y buzo azul, se tapa la boca con las dos manos" width="720" height="900" loading="lazy" decoding="async">
-      <figcaption>
-        <p class="per-n">Pili, 13</p>
-        <p class="per-d">La que se niega. Cuando todos corren, ella se queda quieta. Ranx, el gato, no se le despega.</p>
-      </figcaption>
-    </figure>
+    <div class="per">
+      <p class="per-n">El Cóndor</p>
+      <p class="per-d">El del dato. Adidas azul, cadena de oro y datos que siempre son truchos.</p>
+    </div>
+    <div class="per">
+      <p class="per-n">Joel</p>
+      <p class="per-d">El auditor. Cuenta faltas con los dedos y se tira de cabeza cuando hay algo que agarrar.</p>
+    </div>
+    <div class="per">
+      <p class="per-n">Pili</p>
+      <p class="per-d">La que se niega. Cuando todos corren, ella se queda quieta. Ranx, el gato, no se le despega.</p>
+    </div>
+    <div class="per">
+      <p class="per-n">Pepe</p>
+      <p class="per-d">El amigo del Cóndor desde la barrita del 94. Lleva las herramientas y parece más viejo de lo que es.</p>
+    </div>
   </div>
 </section>
 
-<!-- ── PROCESO ───────────────────────────────────────────────── -->
+<!-- ── PROCESO ─────────────────────────────────────────────────
+     Rehecha el 13/11/2026 a pedido de Julián: la escena 4.2 del piloto
+     (el patrullero) con sus personajes, el vehículo, los props, el
+     barrio, el storyboard y el keyframe. Los rótulos nombran la pieza y
+     nada más: sin pies que describan lo que ya se ve. -->
 <section class="sec" id="proceso">
   <p class="sec-k">Proceso</p>
-  <h2 class="reveal">Láminas, layout y una toma por plano</h2>
-  <div class="prosa">
-    <p class="reveal d1">
-      Cada plano del opening se generó en una sola toma con Seedance 2.5, con las láminas de
-      personaje y el layout 3D como referencia. Lo que no cerró se parchó con keyframes de imagen y
-      se terminó en Premiere.
-    </p>
-  </div>
-
+  <h2>Detrás de una escena</h2>
   <div class="piezas">
     <figure class="pieza reveal">
-      <p class="pieza-k"><b>01</b>Diseño de personaje</p>
-      <img src="assets/cdbi/pro-condor-lamina.webp" alt="Lámina de diseño de El Cóndor: vistas de frente, perfil y espalda, paleta, expresiones y desglose de vestuario" width="1040" height="585" loading="lazy" decoding="async">
-      <p class="pieza-d">Turnaround, paleta, prendas y expresiones. Es la referencia que después entra a generación.</p>
+      <a class="ampliable" href="assets/cdbi/escena-42/01-coco.webp">
+        <img src="assets/cdbi/escena-42/01-coco-800.webp" alt="Lámina de personaje de Coco: policía de chaleco naranja, en vistas de frente, perfil y espalda" width="800" height="450" loading="lazy" decoding="async">
+      </a>
+      <figcaption>Coco</figcaption>
     </figure>
 
     <figure class="pieza reveal d1">
-      <p class="pieza-k"><b>02</b>Diseño de prop</p>
-      <img src="assets/cdbi/proc-prop.webp" alt="Lámina de diseño de la caja del robo, en varias vistas y con desglose de materiales" width="900" height="506" loading="lazy" decoding="async">
-      <p class="pieza-d">La caja del robo, la que arranca el piloto. Los objetos que vuelven tienen su lámina igual que los personajes.</p>
+      <a class="ampliable" href="assets/cdbi/escena-42/02-beto.webp">
+        <img src="assets/cdbi/escena-42/02-beto-800.webp" alt="Lámina de personaje de Beto: comisario de bigote y uniforme oscuro, en tres vistas, con su celular" width="800" height="450" loading="lazy" decoding="async">
+      </a>
+      <figcaption>Beto</figcaption>
     </figure>
 
     <figure class="pieza reveal d2">
-      <p class="pieza-k"><b>03</b>Locación</p>
-      <img src="assets/cdbi/loc-pizzeria.webp" alt="Exterior de la pizzería de esquina con cartel de neón rojo, en una calle mojada de noche" width="960" height="540" loading="lazy" decoding="async">
-      <p class="pieza-d">La pizzería. Veinte locaciones con lámina propia sostienen la continuidad del barrio.</p>
+      <a class="ampliable" href="assets/cdbi/escena-42/03-patrullero.webp">
+        <img src="assets/cdbi/escena-42/03-patrullero-800.webp" alt="El patrullero: una camioneta policial elevada y blindada, con rejas en los vidrios" width="800" height="450" loading="lazy" decoding="async">
+      </a>
+      <figcaption>Patrullero</figcaption>
     </figure>
 
     <figure class="pieza reveal">
-      <p class="pieza-k"><b>04</b>Blockout 3D</p>
-      <img src="assets/cdbi/proc-3d.webp" alt="Turnaround 3D de Joel en A-pose con vistas de frente, izquierda, derecha y espalda, más estudios de cabeza" width="900" height="502" loading="lazy" decoding="async">
-      <p class="pieza-d">A-pose y cuatro vistas. Sirve para fijar altura y cámara antes de generar: la escala deja de discutirse.</p>
+      <a class="ampliable" href="assets/cdbi/escena-42/04-interior.webp">
+        <img src="assets/cdbi/escena-42/04-interior-800.webp" alt="Interior del patrullero visto desde atrás: rejas en el parabrisas, bola de espejos y estampitas en el tablero" width="800" height="450" loading="lazy" decoding="async">
+      </a>
+      <figcaption>Interior</figcaption>
     </figure>
 
     <figure class="pieza reveal d1">
-      <p class="pieza-k"><b>05</b>Keyframe de look</p>
-      <img src="assets/cdbi/proc-keyframe-42.webp" alt="Keyframe de la escena 4.2: dos policías dentro del patrullero, con una bola de espejos y una virgencita en el tablero" width="1280" height="720" loading="lazy" decoding="async">
-      <p class="pieza-d">La escena 4.2 del piloto fijada en un cuadro: paleta, luz y puesta, antes de generar el plano.</p>
+      <a class="ampliable" href="assets/cdbi/escena-42/05-celular.webp">
+        <img src="assets/cdbi/escena-42/05-celular-800.webp" alt="El celular de Beto, con la pantalla rajada y una grabación de audio en curso" width="800" height="450" loading="lazy" decoding="async">
+      </a>
+      <figcaption>Celular de Beto</figcaption>
     </figure>
 
     <figure class="pieza reveal d2">
-      <p class="pieza-k"><b>06</b>Plano generado</p>
-      <img src="assets/cdbi/proc-plano-42.webp" alt="Plano generado del opening: los dos policías en el patrullero, uno señala hacia adelante" width="1280" height="720" loading="lazy" decoding="async">
-      <p class="pieza-d">Los mismos policías en el opening, generados en una toma con el keyframe y las láminas como referencia.</p>
+      <a class="ampliable" href="assets/cdbi/escena-42/06-vecinos-a.webp">
+        <img src="assets/cdbi/escena-42/06-vecinos-a-800.webp" alt="Cuatro vecinos de la turba: uno levanta una piedra, otro lleva una cadena, otro una horquilla y una mujer una escoba" width="800" height="450" loading="lazy" decoding="async">
+      </a>
+      <figcaption>Vecinos</figcaption>
+    </figure>
+
+    <figure class="pieza reveal">
+      <a class="ampliable" href="assets/cdbi/escena-42/07-vecinos-b.webp">
+        <img src="assets/cdbi/escena-42/07-vecinos-b-800.webp" alt="Otros cuatro vecinos: una chica con el celular, una mujer con velas, un hombre con una cadena y otro que apunta con un control remoto" width="800" height="450" loading="lazy" decoding="async">
+      </a>
+      <figcaption>Vecinos</figcaption>
+    </figure>
+
+    <figure class="pieza reveal d1">
+      <a class="ampliable" href="assets/cdbi/escena-42/08-calle.webp">
+        <img src="assets/cdbi/escena-42/08-calle-800.webp" alt="Calle del barrio de noche, mojada, con un solo farol encendido" width="800" height="450" loading="lazy" decoding="async">
+      </a>
+      <figcaption>Calle</figcaption>
+    </figure>
+
+    <figure class="pieza reveal d2">
+      <a class="ampliable" href="assets/cdbi/escena-42/09-storyboard-000.webp">
+        <img src="assets/cdbi/escena-42/09-storyboard-000-800.webp" alt="Panel de storyboard: el patrullero avanza de noche por una calle de tierra" width="800" height="450" loading="lazy" decoding="async">
+      </a>
+      <figcaption>Storyboard</figcaption>
+    </figure>
+
+    <figure class="pieza reveal">
+      <a class="ampliable" href="assets/cdbi/escena-42/10-storyboard-270.webp">
+        <img src="assets/cdbi/escena-42/10-storyboard-270-800.webp" alt="Panel de storyboard: un vecino amenaza con una horquilla junto a la ventanilla del patrullero" width="800" height="450" loading="lazy" decoding="async">
+      </a>
+      <figcaption>Storyboard</figcaption>
+    </figure>
+
+    <figure class="pieza reveal d1">
+      <a class="ampliable" href="assets/cdbi/escena-42/11-storyboard-330.webp">
+        <img src="assets/cdbi/escena-42/11-storyboard-330-800.webp" alt="Panel de storyboard: Beto mira el celular mientras los vecinos rodean el patrullero con antorchas" width="800" height="450" loading="lazy" decoding="async">
+      </a>
+      <figcaption>Storyboard</figcaption>
+    </figure>
+
+    <figure class="pieza reveal d2">
+      <a class="ampliable" href="assets/cdbi/escena-42/12-keyframe.webp">
+        <img src="assets/cdbi/escena-42/12-keyframe-800.webp" alt="Keyframe de look: Coco y Beto dentro del patrullero, detrás de la reja, con la bola de espejos entre los dos" width="800" height="450" loading="lazy" decoding="async">
+      </a>
+      <figcaption>Keyframe de look</figcaption>
     </figure>
   </div>
 </section>
@@ -821,6 +867,102 @@
     <span class="siguiente-ventana"><img src="assets/flama/card.webp" alt="" width="900" height="562" loading="eager" decoding="async"></span>
   </a>
 </section>
+
+<!-- ── IMAGEN AMPLIADA ───────────────────────────────────────── -->
+<dialog class="visor" id="visor" aria-labelledby="visor-pie">
+  <div class="visor-controles">
+    <button class="visor-boton" type="button" id="visor-tamano" aria-pressed="false" hidden>Tamaño real</button>
+    <button class="visor-boton" type="button" data-cerrar aria-label="Cerrar la imagen">✕</button>
+  </div>
+  <div class="visor-caja">
+    <img id="visor-img" alt="">
+    <p class="visor-pie" id="visor-pie"></p>
+  </div>
+</dialog>
+
+<script>
+  (function () {
+    var visor = document.getElementById('visor');
+    var visorImg = document.getElementById('visor-img');
+    var visorPie = document.getElementById('visor-pie');
+    var tamano = document.getElementById('visor-tamano');
+    var vuelveA = null;
+    /* Sin <dialog>, las imágenes se abren en su archivo. El corto lo maneja
+       assets/reproductor.js, como todos los videos del sitio. */
+    var hayDialogo = typeof visor.showModal === 'function';
+
+    function clicSimple(e) {
+      return e.button === 0 && !e.metaKey && !e.ctrlKey && !e.shiftKey && !e.altKey;
+    }
+    function abrir(dialogo, desde) {
+      vuelveA = desde;
+      dialogo.showModal();
+      document.documentElement.classList.add('visor-abierto');
+      var cerrar = dialogo.querySelector('[data-cerrar]');
+      if (cerrar) cerrar.focus();
+    }
+    function alCerrar() {
+      document.documentElement.classList.remove('visor-abierto');
+      if (vuelveA && vuelveA.focus) vuelveA.focus();
+      vuelveA = null;
+    }
+
+    /* «Tamaño real» sólo aparece si la imagen se ve bastante más chica que
+       su archivo; en ese modo se recorre con scroll. */
+    function ponerTamano(real) {
+      visor.classList.toggle('zoom', real);
+      tamano.setAttribute('aria-pressed', real ? 'true' : 'false');
+    }
+    function evaluarTamano() {
+      if (!visor.open || visor.classList.contains('zoom') || !visorImg.naturalWidth) return;
+      tamano.hidden = !(visorImg.naturalWidth > visorImg.clientWidth * 1.25);
+    }
+    visorImg.addEventListener('load', evaluarTamano);
+    window.addEventListener('resize', evaluarTamano);
+    tamano.addEventListener('click', function () {
+      ponerTamano(!visor.classList.contains('zoom'));
+    });
+
+    document.querySelectorAll('a.ampliable').forEach(function (enlace) {
+      enlace.addEventListener('click', function (e) {
+        if (!hayDialogo || !clicSimple(e)) return;
+        e.preventDefault();
+        var img = enlace.querySelector('img');
+        var figura = enlace.closest('figure');
+        var leyenda = figura ? figura.querySelector('figcaption') : null;
+        ponerTamano(false);
+        tamano.hidden = true;
+        visorImg.src = enlace.href;
+        visorImg.alt = img ? img.alt : '';
+        if (img) {
+          visorImg.setAttribute('width', img.getAttribute('width'));
+          visorImg.setAttribute('height', img.getAttribute('height'));
+        }
+        visorPie.textContent = enlace.getAttribute('data-pie') || (leyenda ? leyenda.textContent.trim() : '');
+        abrir(visor, enlace);
+        visor.scrollTop = 0;
+        requestAnimationFrame(evaluarTamano);
+      });
+    });
+    visor.addEventListener('close', function () {
+      visorImg.removeAttribute('src');
+      ponerTamano(false);
+      tamano.hidden = true;
+      alCerrar();
+    });
+
+    visor.querySelector('[data-cerrar]').addEventListener('click', function () { visor.close(); });
+    /* Un clic fuera de la imagen cierra; sobre la imagen, no. */
+    visor.addEventListener('click', function (e) { if (e.target === visor) visor.close(); });
+
+    /* Escape también por el teclado de la página, como en el reproductor:
+       el cierre nativo del <dialog> no siempre llega, por ejemplo si se
+       abrió sin una interacción previa. */
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && visor.open) visor.close();
+    });
+  })();
+</script>
 
 </main>
 

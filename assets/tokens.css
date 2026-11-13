@@ -43,20 +43,6 @@
   outline-offset: -3px;
 }
 
-/* ─── CURSOR CUSTOM: red de seguridad ───────────────────────────
-   El cursor dibujado es decorativo. Si el usuario pidió menos
-   movimiento, o el puntero es grueso, vuelve el del sistema.
-   ─────────────────────────────────────────────────────────────── */
-@media (prefers-reduced-motion: reduce), (pointer: coarse) {
-  html.js-cursor,
-  html.js-cursor * { cursor: auto !important; }
-  #cursor-dot, #cursor-ring, #cursor-label { display: none !important; }
-}
-
-/* Con el teclado no hay puntero que mirar: el cursor dibujado estorba. */
-html.js-cursor:has(:focus-visible),
-html.js-cursor:has(:focus-visible) * { cursor: auto; }
-
 /* ─── UTILIDAD ──────────────────────────────────────────────────*/
 .u-nowrap { white-space: nowrap; }
 

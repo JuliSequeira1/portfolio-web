@@ -296,8 +296,8 @@
     .siguiente { background: var(--ink); color: var(--cream); border-top-color: rgba(244,242,238,.12); }
 
     /* ─── REVEAL ─────────────────────────────────────────────── */
-    .reveal { transition: opacity .8s ease, transform .8s ease; }
-    html.js-reveal .reveal { opacity: 0; transform: translateY(24px); }
+    .reveal { transition: opacity .45s var(--ease-out, ease-out), transform .45s var(--ease-out, ease-out); }
+    html.js-reveal .reveal { opacity: 0; transform: translateY(12px); }
     html.js-reveal .reveal.visible { opacity: 1; transform: none; }
     .reveal.d1 { transition-delay: .1s; }
     .reveal.d2 { transition-delay: .2s; }

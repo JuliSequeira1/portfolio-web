@@ -31,7 +31,7 @@
   <link rel="preload" as="image" href="assets/hero-poster.webp" fetchpriority="high" media="(min-width: 761px)">
   <link rel="preload" as="image" href="assets/hero-poster-movil.webp" fetchpriority="high" media="(max-width: 760px)">
 
-  <!-- Sistema compartido: color, foco, red de seguridad del cursor -->
+  <!-- Sistema compartido: color y foco -->
   <link rel="stylesheet" href="assets/tokens.css">
 
   <!-- Navegación compartida: rótulo del menú, continuidad tarjeta ↔ caso y
@@ -73,43 +73,6 @@
       color: var(--ink);
       overflow-x: hidden;
     }
-
-    /* ─── CURSOR (custom; solo activo si el JS corre) ─────────── */
-    html.js-cursor, html.js-cursor * { cursor: none; }
-    #cursor-dot, #cursor-ring {
-      position: fixed; top: 0; left: 0;
-      pointer-events: none; z-index: 9999;
-      transform: translate(-50%, -50%);
-      border-radius: 50%;
-      opacity: 0;
-    }
-    #cursor-dot {
-      width: 7px; height: 7px;
-      background: var(--red);
-      transition: opacity .3s, transform .15s;
-    }
-    #cursor-ring {
-      width: 34px; height: 34px;
-      border: 1.5px solid rgba(204,10,42,.55);
-      transition: width .25s ease, height .25s ease,
-                  background .25s ease, border-color .25s ease, opacity .3s;
-    }
-    #cursor-ring.grow {
-      width: 62px; height: 62px;
-      background: rgba(204,10,42,.10);
-      border-color: var(--red);
-    }
-    #cursor-dot.click { transform: translate(-50%,-50%) scale(.6); }
-    #cursor-label {
-      position: fixed; top: 0; left: 0;
-      pointer-events: none; z-index: 9999;
-      transform: translate(-50%, -50%) scale(.6);
-      font-family: 'Satoshi', sans-serif;
-      font-size: 10px; font-weight: 800; letter-spacing: .14em;
-      text-transform: uppercase; color: #F4F2EE;
-      opacity: 0; transition: opacity .25s, transform .25s;
-    }
-    #cursor-label.show { opacity: 1; transform: translate(-50%, -50%) scale(1); }
 
     /* ─── NAV ────────────────────────────────────────────────── */
     nav {
@@ -203,7 +166,7 @@
     .hero-eyebrow {
       font-size: 11px; font-weight: 500;
       letter-spacing: .2em; text-transform: uppercase;
-      color: var(--red);
+      color: var(--on-dark-strong);
       margin-bottom: 12px;
       opacity: 0; animation: fadeUp .7s .2s forwards;
     }
@@ -315,13 +278,14 @@
       padding: 18px 0;
       background: #1a1a1a;
     }
+    /* Quieta: la única cinta en movimiento es la de clientes. */
     .disc-track {
-      display: flex;
-      white-space: nowrap;
-      animation: marquee 30s linear infinite;
+      /* Renglones parejos: sin esto quedaba una sola palabra colgando abajo. */
+      text-align: center; text-wrap: balance;
+      line-height: 2.2; padding: 0 24px;
     }
-    .disc-track:hover { animation-play-state: paused; }
     .disc-item {
+      display: inline-block; white-space: nowrap;
       font-family: 'Satoshi', sans-serif;
       font-size: 12px;
       font-weight: 700;
@@ -329,14 +293,12 @@
       letter-spacing: .18em;
       padding: 0 24px;
       color: var(--on-dark-soft);
-      user-select: none;
     }
-    .disc-item.solid { color: #F4F2EE; }
-    .disc-item.red { color: var(--red); }
-    .disc-dot {
-      font-size: 12px; color: var(--red);
-      align-self: center; padding: 0 4px;
-      user-select: none; line-height: 1;
+    .disc-item.solid { color: var(--cream); }
+    /* En el celular entraba una palabra por renglón y la franja medía 320 px. */
+    @media (max-width: 700px) {
+      .disc-track { line-height: 2; padding: 0 14px; }
+      .disc-item { font-size: 10px; letter-spacing: .12em; padding: 0 9px; }
     }
 
     /* ─── WORK PREVIEW ───────────────────────────────────────── */
@@ -439,27 +401,39 @@
       cursor: pointer; text-decoration: none; color: inherit;
     }
     .proj-card.tall { aspect-ratio: 4/3; }
+    /* Las miniaturas van a color pleno: el degradado de .proj-meta ya
+       sostiene el texto. Al señalar, un zoom leve y la línea roja. */
     .proj-card img, .proj-card .card-bg {
       width: 100%; height: 100%;
       object-fit: cover; display: block;
-      transform: scale(1.02);
-      transition: transform .7s cubic-bezier(.16,1,.3,1), filter .4s;
-      filter: brightness(.8) saturate(.9);
+      transition: transform .7s var(--ease-out);
     }
     .proj-card:hover img,
-    .proj-card:hover .card-bg { transform: scale(1.06); filter: brightness(.6) saturate(1); }
+    .proj-card:hover .card-bg { transform: scale(1.04); }
 
-    /* Red line reveal on hover */
     .proj-card::before {
       content: '';
       position: absolute;
       bottom: 0; left: 0;
-      width: 0; height: 2px;
+      width: 100%; height: 2px;
       background: var(--red);
       z-index: 3;
-      transition: width .4s cubic-bezier(.16,1,.3,1);
+      transform: scaleX(0); transform-origin: left;
+      transition: transform .4s var(--ease-out);
     }
-    .proj-card:hover::before { width: 100%; }
+    .proj-card:hover::before,
+    .proj-card:focus-visible::before { transform: scaleX(1); }
+
+    /* La tarjeta que abre un video lo dice siempre, también en pantalla táctil. */
+    .proj-card[data-video]::after {
+      content: 'Play ▶';
+      position: absolute; top: 18px; right: 18px; z-index: 3;
+      font-family: 'Satoshi', sans-serif;
+      font-size: 9px; font-weight: 700;
+      letter-spacing: .16em; text-transform: uppercase;
+      color: var(--cream); background: rgba(10,10,10,.62);
+      padding: 5px 10px;
+    }
 
     .proj-meta {
       position: absolute; bottom: 0; left: 0; right: 0; z-index: 2;
@@ -644,8 +618,8 @@
     }
 
     /* Scroll reveal — visible por defecto; solo se esconde/anima si el JS corre */
-    .reveal { transition: opacity .8s ease, transform .8s ease; }
-    html.js-reveal .reveal { opacity: 0; transform: translateY(28px); }
+    .reveal { transition: opacity .45s var(--ease-out, ease-out), transform .45s var(--ease-out, ease-out); }
+    html.js-reveal .reveal { opacity: 0; transform: translateY(12px); }
     html.js-reveal .reveal.visible { opacity: 1; transform: none; }
     .reveal.d1 { transition-delay: .1s; }
     .reveal.d2 { transition-delay: .2s; }
@@ -970,9 +944,6 @@
 </head>
 <body>
 
-<div id="cursor-ring" aria-hidden="true"></div>
-<div id="cursor-dot" aria-hidden="true"></div>
-<div id="cursor-label" aria-hidden="true">Play ▶</div>
 
 <!-- ── NAV ───────────────────────────────────────────────────── -->
 <nav id="nav">
@@ -1050,7 +1021,7 @@
   <div class="sec-head">
     <div>
       <p class="sec-label">Trabajo seleccionado</p>
-      <h2 class="sec-title reveal">Proyectos</h2>
+      <h2 class="sec-title">Proyectos</h2>
     </div>
     <a href="work.html" class="view-all">Ver todo ↗</a>
   </div>
@@ -1143,25 +1114,15 @@
 <!-- ── DISCIPLINES MARQUEE ───────────────────────────────────── -->
 <section id="disciplines" aria-label="Disciplinas">
   <div class="disc-track">
-    <span class="disc-item red">Dirección</span><span class="disc-dot">·</span>
-    <span class="disc-item">Guion</span><span class="disc-dot">·</span>
-    <span class="disc-item solid">Storyboard</span><span class="disc-dot">·</span>
-    <span class="disc-item">Animación 2D y 3D</span><span class="disc-dot">·</span>
-    <span class="disc-item solid">Unreal Engine</span><span class="disc-dot">·</span>
-    <span class="disc-item red">IA generativa</span><span class="disc-dot">·</span>
-    <span class="disc-item">Dirección de arte</span><span class="disc-dot">·</span>
-    <span class="disc-item solid">Postproducción</span><span class="disc-dot">·</span>
-    <span class="disc-item">Videoclips</span><span class="disc-dot">·</span>
-    <!-- copy 2 -->
-    <span class="disc-item red">Dirección</span><span class="disc-dot">·</span>
-    <span class="disc-item">Guion</span><span class="disc-dot">·</span>
-    <span class="disc-item solid">Storyboard</span><span class="disc-dot">·</span>
-    <span class="disc-item">Animación 2D y 3D</span><span class="disc-dot">·</span>
-    <span class="disc-item solid">Unreal Engine</span><span class="disc-dot">·</span>
-    <span class="disc-item red">IA generativa</span><span class="disc-dot">·</span>
-    <span class="disc-item">Dirección de arte</span><span class="disc-dot">·</span>
-    <span class="disc-item solid">Postproducción</span><span class="disc-dot">·</span>
-    <span class="disc-item">Videoclips</span><span class="disc-dot">·</span>
+    <span class="disc-item solid">Dirección</span>
+    <span class="disc-item">Guion</span>
+    <span class="disc-item solid">Storyboard</span>
+    <span class="disc-item">Animación 2D y 3D</span>
+    <span class="disc-item solid">Unreal Engine</span>
+    <span class="disc-item">IA generativa</span>
+    <span class="disc-item solid">Dirección de arte</span>
+    <span class="disc-item">Postproducción</span>
+    <span class="disc-item solid">Videoclips</span>
   </div>
 </section>
 
@@ -1170,14 +1131,14 @@
   <div class="about-copy">
     <p class="about-lbl">Realizador · Buenos Aires</p>
 
-    <p class="about-statement reveal">
+    <p class="about-statement">
       Vengo del dibujo y el storyboard. Llevo 15 años haciendo cine y animación, y uso
       todas las herramientas que existen: cámara, 3D, Unreal, IA.
       <em>Director de arte y de episodios en Dinopops (NBC/Peacock). Cinematic Artist en
       Silent Hill: Ascension, producción ganadora del Emmy 2024.</em>
     </p>
 
-    <div class="reveal d1" style="display:flex; flex-wrap:wrap; gap:14px; margin-top:6px;">
+    <div style="display:flex; flex-wrap:wrap; gap:14px; margin-top:6px;">
       <a href="about.html" class="about-cv">Sobre mí <span style="font-size:14px;">&#8599;</span></a>
       <a href="assets/cv-julian-sequeira.pdf" target="_blank" rel="noopener" class="about-cv">CV (PDF) <span style="font-size:14px;">&#8599;</span></a>
     </div>
@@ -1188,7 +1149,7 @@
 <section id="contact">
   <div>
     <p class="contact-eyebrow">¿Tenés un proyecto?</p>
-    <div class="contact-big reveal">
+    <div class="contact-big">
       <a href="#contacto">Contame qué estás armando.</a>
     </div>
     <p class="contact-tags">
@@ -1198,7 +1159,7 @@
 
     <!-- El envío va a Formspree («Contacto juliansequeira.com», llega al
          Gmail). Sin action, el botón arma un mail con lo escrito. -->
-    <form class="contacto reveal d1" id="contacto" method="POST" action="https://formspree.io/f/mdekygnq">
+    <form class="contacto" id="contacto" method="POST" action="https://formspree.io/f/mdekygnq">
       <div class="campo">
         <label for="c-nombre">Nombre</label>
         <input id="c-nombre" name="nombre" type="text" autocomplete="name" required>
@@ -1221,7 +1182,7 @@
       <p class="contacto-alt">O directo: bd.juliansequeira@gmail.com</p>
     </form>
   </div>
-  <div class="contact-links reveal d1">
+  <div class="contact-links">
     <a href="https://www.youtube.com/@flama.collective"   class="c-link" target="_blank" rel="noopener">YouTube    <span class="c-arrow">↗</span></a>
     <a href="https://www.instagram.com/sequeira_ju/"      class="c-link" target="_blank" rel="noopener">Instagram  <span class="c-arrow">↗</span></a>
     <a href="https://www.linkedin.com/in/sequeirajulian/" class="c-link" target="_blank" rel="noopener">LinkedIn   <span class="c-arrow">↗</span></a>
@@ -1237,46 +1198,6 @@
   <span>© 2026 Julián Sequeira</span>
   <span>Buenos Aires, Argentina</span>
 </footer>
-
-<!-- ── CUSTOM CURSOR (solo en pointer fino; degrada a cursor normal) ── -->
-<script>
-  (function () {
-    try {
-      if (!window.matchMedia || !matchMedia('(pointer:fine)').matches) return;
-      var dot = document.getElementById('cursor-dot');
-      var ring = document.getElementById('cursor-ring');
-      var label = document.getElementById('cursor-label');
-      if (!dot || !ring) return;
-      document.documentElement.classList.add('js-cursor');
-      var shown = false;
-      /* El anillo sigue al puntero sin retraso. El "cursor que persigue" con
-         lerp es de los tells más reconocibles; el aro sin lag no lo es. */
-      document.addEventListener('mousemove', function (e) {
-        var mx = e.clientX, my = e.clientY;
-        dot.style.left = mx + 'px';  dot.style.top = my + 'px';
-        ring.style.left = mx + 'px'; ring.style.top = my + 'px';
-        if (label) { label.style.left = mx + 'px'; label.style.top = my + 'px'; }
-        if (!shown) { dot.style.opacity = 1; ring.style.opacity = 1; shown = true; }
-      });
-      document.addEventListener('mouseleave', function () { dot.style.opacity = 0; ring.style.opacity = 0; });
-      document.addEventListener('mouseenter', function () { dot.style.opacity = 1; ring.style.opacity = 1; });
-      document.addEventListener('mousedown', function () { dot.classList.add('click'); ring.classList.add('grow'); });
-      document.addEventListener('mouseup', function () { dot.classList.remove('click'); });
-      var hov = 'a, button, .proj-card, .proj-featured, .btn, .c-link, .view-all, .about-cv';
-      document.querySelectorAll(hov).forEach(function (el) {
-        el.addEventListener('mouseenter', function () { ring.classList.add('grow'); });
-        el.addEventListener('mouseleave', function () { ring.classList.remove('grow'); });
-      });
-      if (label) {
-        /* «Play» sólo donde la tarjeta abre un video: CDBI y Flama llevan a su ficha. */
-        document.querySelectorAll('.proj-card[data-video]').forEach(function (el) {
-          el.addEventListener('mouseenter', function () { label.classList.add('show'); });
-          el.addEventListener('mouseleave', function () { label.classList.remove('show'); });
-        });
-      }
-    } catch (err) { document.documentElement.classList.remove('js-cursor'); }
-  })();
-</script>
 
 <!-- ── NAV ON SCROLL ── -->
 <script>

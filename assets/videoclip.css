@@ -255,8 +255,8 @@ footer span { font-size: 10px; letter-spacing: .1em; color: var(--on-dark); }
 .visor-pie { font-size: 11px; letter-spacing: .04em; color: var(--on-dark); text-align: center; }
 
 /* ─── REVEAL ─────────────────────────────────────────────── */
-.reveal { transition: opacity .8s ease, transform .8s ease; }
-html.js-reveal .reveal { opacity: 0; transform: translateY(24px); }
+.reveal { transition: opacity .45s var(--ease-out, ease-out), transform .45s var(--ease-out, ease-out); }
+html.js-reveal .reveal { opacity: 0; transform: translateY(12px); }
 html.js-reveal .reveal.visible { opacity: 1; transform: none; }
 .reveal.d1 { transition-delay: .1s; }
 

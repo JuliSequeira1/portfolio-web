@@ -26,7 +26,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 
-  <!-- Sistema compartido: color, foco, red de seguridad del cursor -->
+  <!-- Sistema compartido: color y foco -->
   <link rel="stylesheet" href="assets/tokens.css">
 
   <!-- Navegación compartida: rótulo del menú, continuidad tarjeta ↔ caso y
@@ -58,28 +58,6 @@
       color: var(--ink);
       overflow-x: hidden;
     }
-
-    /* ─── CURSOR (custom; solo activo si el JS corre) ─────────── */
-    html.js-cursor, html.js-cursor * { cursor: none; }
-    #cursor-dot, #cursor-ring {
-      position: fixed; top: 0; left: 0;
-      pointer-events: none; z-index: 9999;
-      transform: translate(-50%,-50%);
-      border-radius: 50%;
-      opacity: 0;
-      mix-blend-mode: difference;
-    }
-    #cursor-dot {
-      width: 7px; height: 7px; background: #fff;
-      transition: opacity .3s, transform .15s;
-    }
-    #cursor-ring {
-      width: 34px; height: 34px;
-      border: 1.5px solid #fff;
-      transition: width .25s ease, height .25s ease, opacity .3s;
-    }
-    #cursor-ring.grow { width: 58px; height: 58px; }
-    #cursor-dot.click { transform: translate(-50%,-50%) scale(.6); }
 
     /* ─── NAV ────────────────────────────────────────────────── */
     nav {
@@ -184,20 +162,17 @@
     .work-item img,
     .work-item .item-grad {
       width: 100%; height: 100%; object-fit: cover; display: block;
-      transition: transform .7s cubic-bezier(.16,1,.3,1);
-      filter: brightness(.88);
+      transition: transform .7s var(--ease-out);
     }
     .work-item:hover img,
-    .work-item:hover .item-grad { transform: scale(1.06); }
+    .work-item:hover .item-grad { transform: scale(1.04); }
 
     .work-item-meta {
       position: absolute; bottom: 0; left: 0; right: 0;
       padding: 16px 20px;
       /* Ver index.html: el degradado tiene que aguantar tres líneas. */
       background: linear-gradient(to top, rgba(10,10,10,.94) 0%, rgba(10,10,10,.80) 52%, transparent 100%);
-      transform: translateY(4px); transition: transform .4s;
     }
-    .work-item:hover .work-item-meta { transform: translateY(0); }
 
     .item-cat  { font-size: 9px; letter-spacing: .16em; text-transform: uppercase; color: var(--on-dark); margin-bottom: 3px; }
     .item-name { font-family: 'Satoshi', sans-serif; font-size: 16px; font-weight: 800; color: var(--cream); letter-spacing: -.01em; }
@@ -296,8 +271,8 @@
     footer span { font-size: 10px; letter-spacing: .1em; color: var(--on-dark); }
 
     /* ─── UTILS ──────────────────────────────────────────────── */
-    .reveal { transition: opacity .8s ease, transform .8s ease; }
-    html.js-reveal .reveal { opacity: 0; transform: translateY(24px); }
+    .reveal { transition: opacity .45s var(--ease-out, ease-out), transform .45s var(--ease-out, ease-out); }
+    html.js-reveal .reveal { opacity: 0; transform: translateY(12px); }
     html.js-reveal .reveal.visible { opacity: 1; transform: none; }
     .reveal.d1 { transition-delay: .1s; }
 
@@ -701,8 +676,6 @@
 </head>
 <body>
 
-<div id="cursor-ring" aria-hidden="true"></div>
-<div id="cursor-dot" aria-hidden="true"></div>
 
 <!-- ── NAV ───────────────────────────────────────────────────── -->
 <nav>
@@ -1159,36 +1132,6 @@
   <span>© 2026 Julián Sequeira</span>
   <span>Buenos Aires, Argentina</span>
 </footer>
-
-<!-- ── CUSTOM CURSOR (solo en pointer fino; degrada a cursor normal) ── -->
-<script>
-  (function () {
-    try {
-      if (!window.matchMedia || !matchMedia('(pointer:fine)').matches) return;
-      var dot = document.getElementById('cursor-dot');
-      var ring = document.getElementById('cursor-ring');
-      if (!dot || !ring) return;
-      document.documentElement.classList.add('js-cursor');
-      var shown = false;
-      /* El aro sigue al puntero sin retraso — ver index.html. */
-      document.addEventListener('mousemove', function (e) {
-        var mx = e.clientX, my = e.clientY;
-        dot.style.left = mx + 'px';  dot.style.top = my + 'px';
-        ring.style.left = mx + 'px'; ring.style.top = my + 'px';
-        if (!shown) { dot.style.opacity = 1; ring.style.opacity = 1; shown = true; }
-      });
-      document.addEventListener('mouseleave', function () { dot.style.opacity = 0; ring.style.opacity = 0; });
-      document.addEventListener('mouseenter', function () { dot.style.opacity = 1; ring.style.opacity = 1; });
-      document.addEventListener('mousedown', function () { dot.classList.add('click'); ring.classList.add('grow'); });
-      document.addEventListener('mouseup', function () { dot.classList.remove('click'); });
-      var hov = 'a, button, .work-item, .filter-btn, .s-link';
-      document.querySelectorAll(hov).forEach(function (el) {
-        el.addEventListener('mouseenter', function () { ring.classList.add('grow'); });
-        el.addEventListener('mouseleave', function () { ring.classList.remove('grow'); });
-      });
-    } catch (err) { document.documentElement.classList.remove('js-cursor'); }
-  })();
-</script>
 
 <!-- ── SCROLL REVEAL (triple-redundante: IO + scroll + load) ── -->
 <script>
