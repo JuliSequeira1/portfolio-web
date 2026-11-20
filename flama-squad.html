@@ -37,6 +37,8 @@
        necesitan las tarjetas y la cabecera en su lugar. -->
   <link rel="expect" href="#pedido" blocking="render">
 
+  <link rel="stylesheet" href="assets/fichas/ficha.css">
+  <script defer src="assets/fichas/ficha.js"></script>
   <style>
     :root { --nav-h: 77px; }
 
@@ -225,7 +227,8 @@
        Seis cuadros del trailer, en 16:9 y a sangre entre sí: es la
        prueba de que la serie es acción real con actores y locaciones.
        Antes iba una sola foto ancha de la costanera, sin personajes. */
-    .stills { padding: 0 52px; }
+    .stills { padding: 0 52px; scroll-margin-top: calc(var(--nav-h) + 12px); }
+    .btn-trailer { margin: 0 0 16px; }
     .stills-k {
       font-size: 10px; font-weight: 500;
       letter-spacing: .22em; text-transform: uppercase;
@@ -511,7 +514,7 @@
   </script>
   <!-- ── /DATOS ESTRUCTURADOS ── -->
 </head>
-<body>
+<body class="ficha--light">
 
 <nav>
   <a href="index.html" class="nav-logo">JS</a>
@@ -598,8 +601,9 @@
 </section>
 
 <!-- ── FOTOGRAMAS: la prueba de concepto, a la vista ──────────── -->
-<div class="stills">
+<div class="stills" id="trailer">
   <p class="stills-k">Prueba de concepto · fotogramas del trailer</p>
+  <a class="btn-dossier btn-trailer" href="https://www.youtube.com/watch?v=N2EROjo7-a4" data-fx-video="youtube:N2EROjo7-a4" data-fx-title="Flama Squad · Tráiler">Ver el tráiler</a>
   <div class="stills-grid">
     <img src="assets/flama/trailer-01-banio.webp" alt="Salvatore de perfil en un baño de azulejos rosas, con cadena de oro" width="1280" height="675" loading="lazy" decoding="async">
     <img src="assets/flama/trailer-02-esfera.webp" alt="Los tres discuten al pie de una esfera de metal, al sol" width="1280" height="675" loading="lazy" decoding="async">
