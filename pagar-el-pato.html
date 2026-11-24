@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pagar el pato — Julián Sequeira</title>
+  <meta name="description" content="Pagar el pato, un cortometraje de Julián Sequeira. Policial negro porteño: en Malos Aires, una coneja contrata al detective Pino para encontrar a su marido.">
+  <link rel="canonical" href="https://juliansequeira.com/pagar-el-pato.html">
+  <meta property="og:type"        content="video.movie">
+  <meta property="og:url"         content="https://juliansequeira.com/pagar-el-pato.html">
+  <meta property="og:title"       content="Pagar el pato">
+  <meta property="og:description" content="Policial negro porteño de Julián Sequeira. En Malos Aires, una coneja contrata al detective Pino para encontrar a su marido.">
+  <meta property="og:image"       content="https://juliansequeira.com/assets/pagar-el-pato/og.jpg">
+  <meta property="og:image:width"  content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale"      content="es_AR">
+  <meta name="twitter:card"       content="summary_large_image">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%230A0A0A'/%3E%3Ctext x='32' y='45' font-family='Arial,sans-serif' font-size='28' font-weight='900' fill='%23F4F2EE' text-anchor='middle'%3EJS%3C/text%3E%3Ccircle cx='52' cy='14' r='5' fill='%23CC0A2A'/%3E%3C/svg%3E">
+
+  <!-- Medición: Vercel Analytics, sin cookies; ?yo=1 deja fuera las visitas propias -->
+  <script defer src="assets/medicion.js"></script>
+  <script defer src="/_vercel/insights/script.js"></script>
+
+  <link rel="preload" as="image" href="assets/pagar-el-pato/hero.webp" fetchpriority="high">
+
+  <link rel="preconnect" href="https://api.fontshare.com">
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@700,800,900&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="assets/tokens.css">
+
+  <!-- Navegación compartida: rótulo del menú, continuidad tarjeta ↔ caso y
+       regreso al listado. Sin defer: tiene que escuchar pagereveal antes
+       del primer render. -->
+  <link rel="stylesheet" href="assets/navegacion.css">
+  <script src="assets/navegacion.js"></script>
+  <!-- Reproductor de video compartido: el enlace con data-video de la
+       cabecera abre el tráiler en un <dialog> sobre la página. -->
+  <link rel="stylesheet" href="assets/reproductor.css">
+  <script defer src="assets/reproductor.js"></script>
+  <!-- No pintar hasta tener la página armada: la transición y el regreso
+       necesitan las tarjetas y la cabecera en su lugar. -->
+  <link rel="expect" href="#cierre" blocking="render">
+
+  <style>
+    /* Misma base que Los Tigres (papel claro, navegación, tipografías y
+       anchos). La cabecera con el video viene de las páginas de videoclip;
+       el visor de imágenes ampliables, de assets/videoclip.js. */
+    :root { --nav-h: 77px; }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      overflow-x: hidden;
+    }
+    img { max-width: 100%; height: auto; }
+
+    /* ─── NAV ────────────────────────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 28px 52px;
+      background: rgba(244,242,238,.92);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: 'Satoshi', sans-serif; font-weight: 900;
+      font-size: 14px; letter-spacing: .12em; text-transform: uppercase;
+      color: var(--ink); text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 40px; list-style: none; }
+    .nav-links a {
+      font-size: 11px; font-weight: 500;
+      letter-spacing: .12em; text-transform: uppercase;
+      color: var(--muted); text-decoration: none;
+      transition: color var(--dur) var(--ease-out);
+    }
+    .nav-links a:hover { color: var(--red); }
+
+    .miga {
+      padding: calc(var(--nav-h) + 40px) 52px 0;
+      font-size: 11px; font-weight: 500;
+      letter-spacing: .14em; text-transform: uppercase;
+      color: var(--muted);
+    }
+    .miga a { color: var(--muted); text-decoration: none; }
+    .miga a:hover { color: var(--red); }
+
+    /* ─── ENCABEZADO ─────────────────────────────────────────── */
+    header { padding: 26px 52px 40px; }
+    .kicker {
+      font-size: 11px; font-weight: 500;
+      letter-spacing: .2em; text-transform: uppercase;
+      color: var(--red); margin-bottom: 18px;
+    }
+    h1 {
+      font-family: 'Satoshi', sans-serif; font-weight: 900;
+      font-size: clamp(48px, 9.5vw, 136px);
+      line-height: .86; letter-spacing: -.04em;
+      text-transform: uppercase;
+      overflow-wrap: anywhere;
+    }
+    .bajada {
+      margin-top: 28px; max-width: 46ch;
+      font-size: clamp(16px, 1.6vw, 20px);
+      font-weight: 300; line-height: 1.6; color: var(--dim);
+    }
+
+    /* ─── CABECERA: EL VIDEO ─────────────────────────────────────
+       El prontuario de Pino a los 0,5 s del plano: entero, con las líneas
+       de altura. La tarjeta de Trabajos usa un recorte más cerrado del
+       mismo cuadro, así la transición lo abre. Siempre en 16:9. */
+    .hero { padding: 0 52px; }
+    .trailer {
+      position: relative; overflow: hidden;
+      aspect-ratio: 16/9; background: #141414;
+      cursor: pointer; width: 100%;
+      border: 0; padding: 0; display: block; text-decoration: none;
+    }
+    .trailer img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+      transform: scale(1.02);
+      transition: transform .8s var(--ease-out), filter .4s var(--ease-out);
+    }
+    .trailer:hover img { transform: scale(1.06); filter: brightness(.82); }
+    .trailer::after {
+      content: ''; position: absolute; bottom: 0; left: 0;
+      width: 0; height: 3px; background: var(--red); z-index: 3;
+      transition: width .5s var(--ease-out);
+    }
+    .trailer:hover::after, .trailer:focus-visible::after { width: 100%; }
+    .trailer:focus-visible { outline-offset: 4px; }
+    /* El control va abajo a la izquierda, sobre el piso: centrado tapaba
+       la placa y las esposas, que son el centro del prontuario. */
+    .trailer-play {
+      position: absolute; left: 0; right: 0; bottom: 0; z-index: 2;
+      display: flex; flex-direction: row;
+      align-items: center; justify-content: flex-start;
+      gap: 16px; padding: 56px 28px 24px;
+      background: linear-gradient(to top, rgba(10,10,10,.62), rgba(10,10,10,0));
+    }
+    .play-aro {
+      width: 78px; height: 78px; border-radius: 50%;
+      border: 1.5px solid var(--cream);
+      background: rgba(10,10,10,.42);
+      backdrop-filter: blur(2px);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--cream);
+      transition: background var(--dur) var(--ease-out), border-color var(--dur) var(--ease-out);
+    }
+    .trailer:hover .play-aro { background: var(--red); border-color: var(--red); }
+    .play-aro svg { margin-left: 4px; }
+    .play-lbl {
+      font-size: 10px; font-weight: 500;
+      letter-spacing: .18em; text-transform: uppercase;
+      color: var(--cream);
+      text-shadow: 0 1px 8px rgba(10,10,10,.9);
+    }
+    .enlaces { display: flex; flex-wrap: wrap; gap: 26px; margin-top: 18px; }
+    .enlaces a {
+      font-size: 11px; font-weight: 500;
+      letter-spacing: .14em; text-transform: uppercase;
+      color: var(--muted); text-decoration: none;
+      border-bottom: 1px solid rgba(10,10,10,.28); padding-bottom: 3px;
+      white-space: nowrap;
+      transition: color var(--dur) var(--ease-out), border-color var(--dur) var(--ease-out);
+    }
+    .enlaces a:hover { color: var(--red); border-color: var(--red); }
+
+    /* ─── SECCIONES ──────────────────────────────────────────── */
+    .sec { padding: 84px 52px; border-bottom: 1px solid var(--border); }
+    .sec-k {
+      font-size: 10px; font-weight: 500;
+      letter-spacing: .22em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 28px;
+    }
+    .sec h2 {
+      font-family: 'Satoshi', sans-serif; font-weight: 900;
+      font-size: clamp(28px, 4.2vw, 56px);
+      line-height: 1.04; letter-spacing: -.028em;
+      text-transform: uppercase; max-width: 22ch;
+    }
+    .sec h3 {
+      font-family: 'Satoshi', sans-serif; font-weight: 800;
+      font-size: clamp(20px, 2.2vw, 28px);
+      line-height: 1.1; letter-spacing: -.02em;
+      text-transform: uppercase;
+    }
+    .epigrafe {
+      margin-top: 22px; max-width: 64ch;
+      font-size: clamp(15px, 1.45vw, 18px);
+      font-weight: 300; line-height: 1.78; color: var(--dim);
+    }
+    figure { margin: 0; }
+    figcaption {
+      margin-top: 12px;
+      font-size: 11px; letter-spacing: .04em; color: var(--muted);
+    }
+
+    /* Todo lo ampliable es un enlace a la imagen: sin JS, se abre el archivo. */
+    .ampliable { display: block; position: relative; cursor: zoom-in; }
+    .ampliable img { display: block; width: 100%; background: #d8d4cc; transition: filter .3s var(--ease-out); }
+    .ampliable:hover img { filter: brightness(.9); }
+    .ampliable:focus-visible { outline-offset: 4px; }
+
+    /* ─── EL OFRECIMIENTO ────────────────────────────────────────
+       La planta grande y, debajo, el mismo gesto en el animático y en la
+       película. En celular se apilan en ese orden de lectura. */
+    .galpon-planta { margin-top: 46px; }
+    .par {
+      display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 24px; margin-top: 24px; align-items: start;
+    }
+
+    /* ─── DOS ESCENAS EN 3D ──────────────────────────────────────
+       Cada escena es un par de láminas ampliables con su epígrafe: el
+       visor las abre a pantalla completa para poder leerlas. */
+    .escena { margin-top: 64px; }
+    .escena:first-of-type { margin-top: 46px; }
+    .escena .par { margin-top: 26px; }
+
+    /* ─── AFICHE Y FICHA ─────────────────────────────────────────
+       El afiche R06 entero, vertical, junto a los datos del corto. */
+    .cierra {
+      display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      gap: 56px; align-items: start; margin-top: 46px;
+    }
+    .cierra-datos { position: sticky; top: calc(var(--nav-h) + 32px); }
+    .ficha-grid {
+      display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 36px 30px;
+    }
+    .ficha-k {
+      font-size: 10px; font-weight: 500;
+      letter-spacing: .18em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 8px;
+    }
+    .ficha-v {
+      font-family: 'Satoshi', sans-serif; font-weight: 700;
+      font-size: 17px; line-height: 1.34;
+      font-variant-numeric: tabular-nums;
+    }
+    .creditos {
+      margin-top: 44px; padding-top: 28px;
+      border-top: 1px solid var(--border);
+      font-size: clamp(15px, 1.45vw, 18px);
+      font-weight: 300; line-height: 1.7; color: var(--dim);
+    }
+    .creditos strong { color: var(--ink); font-weight: 500; }
+    .cierra .enlaces { margin-top: 30px; }
+
+    /* ─── CIERRE ─────────────────────────────────────────────── */
+    #cierre {
+      background: var(--ink); color: var(--cream); padding: 90px 52px;
+      scroll-margin-top: var(--nav-h);
+    }
+    #cierre .sec-k { color: var(--on-dark-soft); }
+    .cierre-big {
+      font-family: 'Satoshi', sans-serif; font-weight: 900;
+      font-size: clamp(42px, 7.5vw, 100px);
+      text-transform: uppercase; line-height: .98; text-wrap: balance; letter-spacing: -.035em;
+    }
+    .cierre-big a { color: var(--cream); text-decoration: none; transition: color var(--dur) var(--ease-out); }
+    .cierre-big a:hover { color: var(--red); }
+    .cierre-row { display: flex; flex-wrap: wrap; gap: 26px; margin-top: 34px; }
+    .cierre-row a {
+      font-size: 11px; font-weight: 500;
+      letter-spacing: .14em; text-transform: uppercase;
+      color: var(--on-dark); text-decoration: none;
+      border-bottom: 1px solid rgba(244,242,238,.28); padding-bottom: 3px;
+      white-space: nowrap;
+      transition: color var(--dur) var(--ease-out), border-color var(--dur) var(--ease-out);
+    }
+    .cierre-row a:hover { color: var(--red); border-color: var(--red); }
+
+    footer {
+      padding: 22px 52px; background: var(--ink);
+      display: flex; align-items: center; justify-content: space-between;
+      border-top: 1px solid rgba(244,242,238,.12);
+    }
+    footer span { font-size: 10px; letter-spacing: .1em; color: var(--on-dark); }
+
+    /* ─── SIGUIENTE PROYECTO ─────────────────────────────────── */
+    .siguiente { background: var(--ink); color: var(--cream); border-top-color: rgba(244,242,238,.12); }
+
+    /* ─── VISOR DE IMÁGENES (clases .visor* de reproductor.css) ──
+       A diferencia de los videoclips, acá hay plantas con texto chico:
+       el visor las lleva al ancho de la pantalla (hasta 1600 px) para
+       que se lean, y object-fit las mantiene enteras si el alto no da. */
+    .visor-caja img {
+      display: block; width: min(92vw, 1600px); height: auto;
+      max-height: calc(100dvh - 130px); object-fit: contain;
+    }
+    .visor-pie { max-width: 72ch; font-size: 11px; line-height: 1.6; letter-spacing: .04em; color: var(--on-dark); text-align: center; }
+
+    /* ─── REVEAL ─────────────────────────────────────────────── */
+    .reveal { transition: opacity .45s var(--ease-out, ease-out), transform .45s var(--ease-out, ease-out); }
+    html.js-reveal .reveal { opacity: 0; transform: translateY(12px); }
+    html.js-reveal .reveal.visible { opacity: 1; transform: none; }
+    .reveal.d1 { transition-delay: .1s; }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .001ms !important;
+        transition-duration: .001ms !important;
+        scroll-behavior: auto !important;
+      }
+      html.js-reveal .reveal { opacity: 1 !important; transform: none !important; }
+    }
+
+    @media (max-width: 900px) {
+      .cierra { grid-template-columns: minmax(0, 1fr); gap: 40px; }
+      .cierra-datos { position: static; }
+    }
+    @media (max-width: 700px) {
+      :root { --nav-h: 57px; }
+      nav { padding: 18px 22px; }
+      .nav-links { gap: 18px; }
+      .miga, header, .hero, .sec, #cierre, footer {
+        padding-left: 22px; padding-right: 22px;
+      }
+      header { padding-top: 24px; padding-bottom: 30px; }
+      .bajada { margin-top: 20px; }
+      .play-aro { width: 52px; height: 52px; }
+      .trailer-play { padding: 40px 16px 14px; gap: 12px; }
+      .sec { padding-top: 60px; padding-bottom: 60px; }
+      .par { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+      .galpon-planta, .escena:first-of-type, .cierra { margin-top: 34px; }
+      .escena { margin-top: 48px; }
+      .ficha-grid { grid-template-columns: minmax(0, 1fr); gap: 26px; }
+      footer { flex-direction: column; gap: 6px; }
+    }
+  </style>
+  <!-- ── DATOS ESTRUCTURADOS ── -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Person",
+        "@id": "https://juliansequeira.com/#julian",
+        "name": "Julián Sequeira",
+        "url": "https://juliansequeira.com/",
+        "mainEntityOfPage": "https://juliansequeira.com/about.html",
+        "image": "https://juliansequeira.com/assets/julian.webp",
+        "jobTitle": [
+          "Director Creativo",
+          "Director de Animación",
+          "Realizador audiovisual"
+        ],
+        "sameAs": [
+          "https://www.wikidata.org/wiki/Q141178959",
+          "https://www.imdb.com/name/nm12285471/",
+          "https://www.linkedin.com/in/sequeirajulian/",
+          "https://www.instagram.com/sequeira_ju/",
+          "https://vimeo.com/juliansequeira",
+          "https://www.youtube.com/@flama.collective"
+        ]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://juliansequeira.com/#website",
+        "url": "https://juliansequeira.com/",
+        "name": "Julián Sequeira",
+        "inLanguage": "es-AR",
+        "publisher": {
+          "@id": "https://juliansequeira.com/#julian"
+        }
+      },
+      {
+        "@type": "ItemPage",
+        "@id": "https://juliansequeira.com/pagar-el-pato.html#page",
+        "url": "https://juliansequeira.com/pagar-el-pato.html",
+        "name": "Pagar el pato — Julián Sequeira",
+        "description": "Pagar el pato, un cortometraje de Julián Sequeira. Policial negro porteño: en Malos Aires, una coneja contrata al detective Pino para encontrar a su marido.",
+        "isPartOf": {
+          "@id": "https://juliansequeira.com/#website"
+        },
+        "about": {
+          "@id": "https://juliansequeira.com/#julian"
+        },
+        "inLanguage": "es-AR",
+        "mainEntity": {
+          "@id": "https://juliansequeira.com/#pagar-el-pato"
+        },
+        "primaryImageOfPage": "https://juliansequeira.com/assets/pagar-el-pato/hero.webp"
+      },
+      {
+        "@type": "Movie",
+        "@id": "https://juliansequeira.com/#pagar-el-pato",
+        "name": "Pagar el pato",
+        "url": "https://juliansequeira.com/pagar-el-pato.html",
+        "description": "Cortometraje de policial negro porteño. En Malos Aires, una Buenos Aires donde los animales se visten, trabajan y mienten como personas, una coneja contrata al detective Pino para encontrar a su marido. Lleva tres días desaparecido. Ella paga por adelantado.",
+        "genre": [
+          "Policial negro",
+          "Comedia"
+        ],
+        "inLanguage": "es",
+        "countryOfOrigin": {
+          "@type": "Country",
+          "name": "Argentina"
+        },
+        "image": "https://juliansequeira.com/assets/pagar-el-pato/afiche.webp",
+        "director": {
+          "@id": "https://juliansequeira.com/#julian"
+        },
+        "author": {
+          "@id": "https://juliansequeira.com/#julian"
+        },
+        "editor": {
+          "@id": "https://juliansequeira.com/#julian"
+        },
+        "keywords": "cortometraje argentino, policial negro, Buenos Aires, animales, IA generativa, Seedance, Blender, blockout 3D, Higgsfield Talent Contest",
+        "creativeWorkStatus": "En posproducción"
+      }
+    ]
+  }
+  </script>
+  <!-- ── /DATOS ESTRUCTURADOS ── -->
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">JS</a>
+  <ul class="nav-links">
+    <li><a href="work.html">Trabajos</a></li>
+    <li><a href="about.html">Sobre mí</a></li>
+    <li><a href="index.html#contact">Contacto</a></li>
+  </ul>
+</nav>
+
+<main>
+
+<p class="miga"><a href="work.html" data-volver>← Volver a trabajos</a></p>
+
+<header>
+  <p class="kicker">Cortometraje · Policial negro porteño</p>
+  <h1 data-vt="titulo" tabindex="-1">Pagar el pato</h1>
+  <p class="bajada">En Malos Aires, una coneja contrata al detective Pino para encontrar a su marido. Lleva tres días desaparecido. Ella paga por adelantado.</p>
+</header>
+
+<!-- ── CABECERA / TRÁILER ─────────────────────────────────────────
+     Preview: el tráiler oficial. Para el estreno, la etiqueta pasa a
+     «Ver el corto», el enlace (y el de abajo) va al máster aprobado y el
+     aria-label se corrige. Si el destino no es YouTube ni Dailymotion,
+     probar la reproducción real con ese proveedor. -->
+<div class="hero">
+  <a class="trailer" href="https://youtu.be/VQ2VFrQeFIs" data-video aria-label="Ver el tráiler de Pagar el pato, en un reproductor sobre la página">
+    <img src="assets/pagar-el-pato/hero.webp"
+         srcset="assets/pagar-el-pato/hero-800.webp 800w, assets/pagar-el-pato/hero.webp 1280w"
+         sizes="(max-width: 700px) calc(100vw - 44px), calc(100vw - 104px)"
+         data-vt="imagen"
+         alt="Prontuario de Pino: un pato con sombrero y saco de cuero, esposado, sostiene la placa de identificación frente a la pared con las líneas de altura."
+         width="1280" height="720" fetchpriority="high" decoding="async">
+    <span class="trailer-play">
+      <span class="play-aro">
+        <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><polygon points="4,2 14,8 4,14"/></svg>
+      </span>
+      <span class="play-lbl">Ver tráiler</span>
+    </span>
+  </a>
+  <p class="enlaces">
+    <a href="https://youtu.be/VQ2VFrQeFIs" target="_blank" rel="noopener">Ver en YouTube <span aria-hidden="true">↗</span></a>
+  </p>
+</div>
+
+<!-- ── FOTOGRAMAS: pendientes del máster ─────────────────────────
+     Tres cuadros ampliables, con el visor de Los Tigres: la negociación
+     con la Coneja, un exterior de La Boca donde se lea el puente y el
+     detalle de la tinta con el corcho. Se eligen en el montaje final. -->
+
+<!-- ── EL OFRECIMIENTO ─────────────────────────────────────────── -->
+<section class="sec" aria-labelledby="t-ofrecimiento">
+  <p class="sec-k">Detrás de escena · El galpón de La Boca</p>
+  <h2 id="t-ofrecimiento" class="reveal">Cómo se filmó el ofrecimiento</h2>
+  <p class="epigrafe reveal d1">El Perro le ofrece un pucho a Pino. Pino ya tiene uno encendido. Pasé de la cámara del Perro a la de Pino para que entraran la mano y la reacción en el mismo cuadro.</p>
+
+  <figure class="galpon-planta reveal">
+    <a class="ampliable" href="assets/pagar-el-pato/galpon-planta.webp">
+      <span class="u-sr-only">Ampliar: </span>
+      <img src="assets/pagar-el-pato/galpon-planta-800.webp"
+           srcset="assets/pagar-el-pato/galpon-planta-800.webp 800w, assets/pagar-el-pato/galpon-planta.webp 1600w"
+           sizes="(max-width: 700px) calc(100vw - 44px), calc(100vw - 104px)"
+           alt="Planta del galpón de La Boca: posiciones del Perro, Pino y el Chivo, con las cámaras D y E, y dos vistas del blockout 3D desde cada una."
+           width="1600" height="1060" loading="lazy" decoding="async">
+    </a>
+    <figcaption>La planta del galpón y las cámaras D y E.</figcaption>
+  </figure>
+
+  <!-- Cuando esté el máster, este par puede ser un solo clip breve que
+       pase de la maqueta a la toma terminada, con audio continuo. -->
+  <div class="par">
+    <figure class="reveal">
+      <a class="ampliable" href="assets/pagar-el-pato/galpon-animatico.webp">
+        <span class="u-sr-only">Ampliar: </span>
+        <img src="assets/pagar-el-pato/galpon-animatico.webp"
+             alt="Cuadro del animático en 3D: el Perro ofrece un cigarrillo a Pino, que ya tiene uno encendido."
+             width="960" height="604" loading="lazy" decoding="async">
+      </a>
+      <figcaption>El animático en 3D, con voces guía.</figcaption>
+    </figure>
+    <figure class="reveal d1">
+      <a class="ampliable" href="assets/pagar-el-pato/galpon-toma.webp">
+        <span class="u-sr-only">Ampliar: </span>
+        <img src="assets/pagar-el-pato/galpon-toma-800.webp"
+             srcset="assets/pagar-el-pato/galpon-toma-800.webp 800w, assets/pagar-el-pato/galpon-toma.webp 1280w"
+             sizes="(max-width: 700px) calc(100vw - 44px), calc(50vw - 64px)"
+             alt="El mismo momento en la película: la mano del Perro, de espaldas, con el cigarrillo frente a Pino, que fuma."
+             width="1280" height="720" loading="lazy" decoding="async">
+      </a>
+      <figcaption>El mismo gesto en la película.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ── DOS ESCENAS EN 3D ───────────────────────────────────────── -->
+<section class="sec" aria-labelledby="t-escenas">
+  <p class="sec-k">Detrás de escena · Puesta en 3D</p>
+  <h2 id="t-escenas" class="reveal">Dos escenas en 3D</h2>
+
+  <div class="escena">
+    <h3 class="reveal">La oficina</h3>
+    <p class="epigrafe reveal d1">La planta fija el eje entre Pino y la Coneja. Desde los dos lados del escritorio comprobé dónde quedaban el teléfono y el velador en cada contraplano.</p>
+    <div class="par">
+      <figure class="reveal">
+        <a class="ampliable" href="assets/pagar-el-pato/oficina-planta.webp">
+          <span class="u-sr-only">Ampliar: </span>
+          <img src="assets/pagar-el-pato/oficina-planta.webp"
+               alt="Planta de la oficina de Pino: puerta, silla de la Coneja, escritorio y pileta alineados sobre el eje de la entrevista, con dos posiciones de cámara."
+               width="768" height="432" loading="lazy" decoding="async">
+        </a>
+        <figcaption>El eje de la entrevista.</figcaption>
+      </figure>
+      <figure class="reveal d1">
+        <a class="ampliable" href="assets/pagar-el-pato/oficina-escritorio.webp">
+          <span class="u-sr-only">Ampliar: </span>
+          <img src="assets/pagar-el-pato/oficina-escritorio-800.webp"
+               srcset="assets/pagar-el-pato/oficina-escritorio-800.webp 800w, assets/pagar-el-pato/oficina-escritorio.webp 1536w"
+               sizes="(max-width: 700px) calc(100vw - 44px), calc(50vw - 64px)"
+               alt="Lámina de continuidad del escritorio: vista desde la Coneja, vista cenital y vista desde Pino, con la notebook, el teléfono y el velador numerados."
+               width="1536" height="864" loading="lazy" decoding="async">
+        </a>
+        <figcaption>El mismo escritorio en cada plano.</figcaption>
+      </figure>
+    </div>
+  </div>
+
+  <div class="escena">
+    <h3 class="reveal">Plaza Lavalle</h3>
+    <p class="epigrafe reveal d1">Marqué dónde frenaban Pino y el Buchón. Con los dos sobrehombros probé qué se veía del otro personaje al cortar.</p>
+    <div class="par">
+      <figure class="reveal">
+        <a class="ampliable" href="assets/pagar-el-pato/plaza-planta.webp">
+          <span class="u-sr-only">Ampliar: </span>
+          <img src="assets/pagar-el-pato/plaza-planta-800.webp"
+               srcset="assets/pagar-el-pato/plaza-planta-800.webp 800w, assets/pagar-el-pato/plaza-planta.webp 1180w"
+               sizes="(max-width: 700px) calc(100vw - 44px), calc(50vw - 64px)"
+               alt="Planta de cámaras de Plaza Lavalle, frente a Tribunales: los recorridos de Pino y del Buchón, el punto donde se detienen y los dos sobrehombros."
+               width="1180" height="660" loading="lazy" decoding="async">
+        </a>
+        <figcaption>La caminata y el alto.</figcaption>
+      </figure>
+      <figure class="reveal d1">
+        <a class="ampliable" href="assets/pagar-el-pato/plaza-camaras.webp">
+          <span class="u-sr-only">Ampliar: </span>
+          <img src="assets/pagar-el-pato/plaza-camaras-800.webp"
+               srcset="assets/pagar-el-pato/plaza-camaras-800.webp 800w, assets/pagar-el-pato/plaza-camaras.webp 1525w"
+               sizes="(max-width: 700px) calc(100vw - 44px), calc(50vw - 64px)"
+               alt="Hoja de cámaras de la plaza en el blockout 3D: ocho cuadros de Pino y el Buchón, del general aéreo a Pino encendiendo el pucho."
+               width="1525" height="551" loading="lazy" decoding="async">
+        </a>
+        <figcaption>Las cámaras en el blockout.</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ── AFICHE Y FICHA ──────────────────────────────────────────────
+     Duración y créditos completos: según la placa final del máster. -->
+<section class="sec" aria-labelledby="t-ficha">
+  <p class="sec-k">Afiche y ficha</p>
+  <h2 id="t-ficha" class="u-sr-only">Afiche y ficha técnica</h2>
+  <div class="cierra">
+    <figure class="reveal">
+      <a class="ampliable" href="assets/pagar-el-pato/afiche-1664.webp">
+        <span class="u-sr-only">Ampliar: </span>
+        <img src="assets/pagar-el-pato/afiche.webp"
+             srcset="assets/pagar-el-pato/afiche-800.webp 800w, assets/pagar-el-pato/afiche.webp 1200w, assets/pagar-el-pato/afiche-1664.webp 1664w"
+             sizes="(max-width: 900px) calc(100vw - 44px), 38vw"
+             alt="Afiche de Pagar el pato: Pino salta sobre el escritorio con el revólver, la Coneja y el Buchón se cubren, un corcho vuela hacia la pileta; abajo, el título en amarillo y los créditos."
+             width="1200" height="1800" loading="lazy" decoding="async">
+      </a>
+      <figcaption>Afiche del cortometraje.</figcaption>
+    </figure>
+
+    <div class="cierra-datos">
+      <div class="ficha-grid">
+        <div><p class="ficha-k">Formato</p><p class="ficha-v">Cortometraje · policial negro porteño</p></div>
+        <div><p class="ficha-k">Rol</p><p class="ficha-v">Guion, dirección y montaje</p></div>
+        <div><p class="ficha-k">Origen</p><p class="ficha-v">Buenos Aires, 2026</p></div>
+        <div><p class="ficha-k">Estado</p><p class="ficha-v">En posproducción</p></div>
+        <div><p class="ficha-k">Técnica</p><p class="ficha-v">Blender, Seedream 5.5 y Seedance 2.5</p></div>
+        <div><p class="ficha-k">Concurso</p><p class="ficha-v">Higgsfield Talent Contest</p></div>
+      </div>
+      <p class="creditos"><strong>Guion, dirección y montaje · Julián Sequeira.</strong> Buenos Aires, 2026.</p>
+      <p class="enlaces">
+        <a href="https://higgsfield.ai/@julian_sequeira/projects/malos-aires" target="_blank" rel="noopener">Ver el proceso en Higgsfield <span aria-hidden="true">↗</span></a>
+        <a href="https://higgsfield.ai/@julian_sequeira/blogs/antes-de-generar-como-encontre-el-ritmo-de-pagar-el-pato" target="_blank" rel="noopener">Leer el detrás de escena <span aria-hidden="true">↗</span></a>
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ── CIERRE ─────────────────────────────────────────────────── -->
+<section id="cierre">
+  <p class="sec-k">Contacto</p>
+  <div class="cierre-big reveal">
+    <a href="index.html?asunto=Pagar%20el%20pato#contacto">Contame qué estás armando.</a>
+  </div>
+  <div class="cierre-row reveal d1">
+    <a href="index.html?asunto=Pagar%20el%20pato#contacto">Contacto ↗</a>
+    <a href="work.html">Más trabajos ↗</a>
+  </div>
+</section>
+
+<!-- ── SIGUIENTE PROYECTO ────────────────────────────────────── -->
+<section class="siguiente" aria-labelledby="siguiente-k">
+  <p class="siguiente-k" id="siguiente-k">Siguiente proyecto</p>
+  <a class="siguiente-link" href="los-tigres.html">
+    <span class="siguiente-titulo">Los Tigres</span>
+    <span class="siguiente-flecha" aria-hidden="true">↗</span>
+    <span class="siguiente-ventana"><img src="assets/los-tigres/card.webp" alt="" width="1600" height="1000" loading="eager" decoding="async"></span>
+  </a>
+</section>
+
+</main>
+
+<footer>
+  <span>© 2026 Julián Sequeira</span>
+  <span>Buenos Aires, Argentina</span>
+</footer>
+
+<!-- ── IMAGEN AMPLIADA ───────────────────────────────────────── -->
+<dialog class="visor" id="visor" aria-labelledby="visor-pie">
+  <div class="visor-controles">
+    <button class="visor-boton" type="button" data-cerrar aria-label="Cerrar la imagen">✕</button>
+  </div>
+  <div class="visor-caja">
+    <img id="visor-img" alt="">
+    <p class="visor-pie" id="visor-pie"></p>
+  </div>
+</dialog>
+
+<!-- Visor de las imágenes .ampliable y aparición al scrollear: el mismo
+     script de las páginas de videoclip. -->
+<script src="assets/videoclip.js"></script>
+</body>
+</html>
