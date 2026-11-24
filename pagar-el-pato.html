@@ -209,6 +209,10 @@
     .ampliable:hover img { filter: brightness(.9); }
     .ampliable:focus-visible { outline-offset: 4px; }
 
+    /* ─── MALOS AIRES: reparto y decorados, a la par ──────────── */
+    .par.mundo { margin-top: 46px; }
+    .mundo figcaption { max-width: 62ch; line-height: 1.6; }
+
     /* ─── EL OFRECIMIENTO ────────────────────────────────────────
        La planta grande y, debajo, el mismo gesto en el animático y en la
        película. En celular se apilan en ese orden de lectura. */
@@ -331,7 +335,7 @@
       .trailer-play { padding: 40px 16px 14px; gap: 12px; }
       .sec { padding-top: 60px; padding-bottom: 60px; }
       .par { grid-template-columns: minmax(0, 1fr); gap: 16px; }
-      .galpon-planta, .escena:first-of-type, .cierra { margin-top: 34px; }
+      .par.mundo, .galpon-planta, .escena:first-of-type, .cierra { margin-top: 34px; }
       .escena { margin-top: 48px; }
       .ficha-grid { grid-template-columns: minmax(0, 1fr); gap: 26px; }
       footer { flex-direction: column; gap: 6px; }
@@ -474,6 +478,37 @@
      Tres cuadros ampliables, con el visor de Los Tigres: la negociación
      con la Coneja, un exterior de La Boca donde se lea el puente y el
      detalle de la tinta con el corcho. Se eligen en el montaje final. -->
+
+<!-- ── MALOS AIRES: REPARTO Y DECORADOS ────────────────────────────
+     Las dos hojas del blog, con sus pies publicados. -->
+<section class="sec" aria-labelledby="t-mundo">
+  <p class="sec-k">Reparto y decorados</p>
+  <h2 id="t-mundo" class="reveal">Malos Aires</h2>
+  <div class="par mundo">
+    <figure class="reveal">
+      <a class="ampliable" href="assets/pagar-el-pato/reparto.webp">
+        <span class="u-sr-only">Ampliar: </span>
+        <img src="assets/pagar-el-pato/reparto-800.webp"
+             srcset="assets/pagar-el-pato/reparto-800.webp 800w, assets/pagar-el-pato/reparto.webp 1600w"
+             sizes="(max-width: 700px) calc(100vw - 44px), calc(50vw - 64px)"
+             alt="Hoja de personajes: Pino, la Coneja, el Buchón, el Perro, el Chivo y el Pez Gordo, cada uno de cuerpo entero y en primer plano."
+             width="1600" height="1524" loading="lazy" decoding="async">
+      </a>
+      <figcaption>Pino, la Coneja, el Buchón, el Perro, el Chivo y el Pez Gordo. En Pino me importaba la silueta de perfil. En la Coneja, cuánto rosa se alcanzaba a ver alrededor de la nariz.</figcaption>
+    </figure>
+    <figure class="reveal d1">
+      <a class="ampliable" href="assets/pagar-el-pato/decorados.webp">
+        <span class="u-sr-only">Ampliar: </span>
+        <img src="assets/pagar-el-pato/decorados-800.webp"
+             srcset="assets/pagar-el-pato/decorados-800.webp 800w, assets/pagar-el-pato/decorados.webp 1600w"
+             sizes="(max-width: 700px) calc(100vw - 44px), calc(50vw - 64px)"
+             alt="Hoja de decorados: la oficina de Pino, Tribunales, el galpón de La Boca y el Palacio de Aguas, en blanco y negro."
+             width="1600" height="1016" loading="lazy" decoding="async">
+      </a>
+      <figcaption>La oficina, Tribunales, el galpón y el Palacio de Aguas. El Obelisco detrás de la persiana ubica el despacho de Pino. En el galpón, la puerta del fondo marca por dónde entra la gente.</figcaption>
+    </figure>
+  </div>
+</section>
 
 <!-- ── EL OFRECIMIENTO ─────────────────────────────────────────── -->
 <section class="sec" aria-labelledby="t-ofrecimiento">
