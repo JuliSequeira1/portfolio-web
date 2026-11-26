@@ -44,9 +44,15 @@
   </url>
   <url>
     <loc>https://juliansequeira.com/pagar-el-pato.html</loc>
-    <lastmod>2026-11-24</lastmod>
+    <lastmod>2026-11-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://juliansequeira.com/pagar-el-pato-detras-de-escena.html</loc>
+    <lastmod>2026-11-26</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
   </url>
   <url>
     <loc>https://juliansequeira.com/blanco.html</loc>
